@@ -1,19 +1,98 @@
+<style lang="stylus" scoped>
+#app
+  flex 1
+  min-height 100vh
+  display flex
+
+.titlebar
+  -webkit-user-select none
+  -webkit-app-region drag
+  width 100%
+  height 20px
+  position absolute
+  left 0
+  right 0
+  top 0
+
+</style>
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <el-container
+      id="app"
+      :class="{
+        'sidebar-open': isSidebarOpen
+      }"
+    >
+      <div class="titlebar" />
+
+      <app-sidebar
+        :open.sync="isSidebarOpen"
+      />
+
+      <router-view />
+    </el-container>
   </div>
 </template>
 
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>
+<script lang="ts">
+// import config from "@/app.config"
+import AppSidebar from "@/components/AppSidebar.vue"
+
+export default {
+  name: "Nsu",
+
+  components: {
+    AppSidebar
+  },
+
+  data: () => ({
+    isSidebarOpen: true
+  }),
+
+  watch: {
+    isSidebarOpen() {
+      localStorage.setItem("isSidebarOpen", this.isSidebarOpen)
+    },
+    appOnboardingShowDialog() {
+      localStorage.setItem("appOnboardingShowDialog", this.appOnboardingShowDialog)
+    }
+  },
+
+  created() {
+    if(localStorage.isSidebarOpen !== undefined) {
+      this.isSidebarOpen = localStorage.isSidebarOpen === "true"
+    }
+
+    // if(config.runtime === "web") return
+
+    // console.log(window.ipc)
+
+    // window.ipc.send("APP_STARTED")
+    // window.ipc.on("SET_UPDATE_STATUS", (e, status) => {
+    //   let title = "Oppdatering"
+    //   let message
+
+    //   switch(status.type) {
+    //     case "UPDATE_CHECKING":
+    //       message = "Ser etter oppdateringer"
+    //       break
+    //     case "UPDATE_AVAILABLE":
+    //       message = "En ny oppdatering er tilgjengelig!"
+    //       break
+    //     case "UPDATE_NOT_AVAILABLE":
+    //       message = "Du har den nyeste versjonen"
+    //       break
+    //     case "UPDATE_ERROR":
+    //       message = "En feil oppstod under oppdatering"
+    //       break
+    //     case "UPDATE_DOWNLOADED":
+    //       message = "En oppdatering ble lastet ned. Installerer og restarter om 5 sekunder."
+    //       break
+    //   }
+
+    //   this.$notify.info({ title, message })
+    // })
+  }
+}
+</script>

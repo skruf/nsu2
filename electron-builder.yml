@@ -1,0 +1,34 @@
+appId: com.laaver.nsu
+productName: Stevnebehandler
+artifactName: Stevnebehandler-${version}.${ext}
+copyright: Copyright © Thomas Laaver
+directories:
+  buildResources: icons
+  output: build
+files:
+  - main.js
+  - sentry.js
+  - preload.js
+  - bundle/**/*
+mac:
+  icon: "./icons/icon.icns"
+dmg:
+  contents:
+  - x: 110
+    y: 150
+  - x: 440
+    y: 150
+    type: link
+    path: "/Applications"
+  artifactName: Stevnebehandler-${version}.${ext}
+win:
+  icon: "./icons/icon.ico"
+  target:
+    target: nsis
+nsis:
+  artifactName: Stevnebehandler-${version}.${ext}
+publish:
+  provider: github
+  owner: skruf
+  repo: nsu
+  releaseType: release

@@ -1,0 +1,15 @@
+[{
+  "id" : "",
+  "name": "Day 1",
+  "day": "2019-03-15",
+  "time": "10:00",
+  "distance": 25,
+  "standsCount": 9
+}, {
+  "id" : "",
+  "name": "Day 2",
+  "day": "2019-03-16",
+  "time": "10:00",
+  "distance": 50,
+  "standsCount": 5
+}]

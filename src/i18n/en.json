@@ -1,0 +1,9 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "close": "Close",
+  "success": "Success!",
+  "warning": "Warning!",
+  "confirmButtonText": "Ja, jeg er sikker",
+  "validationError": "Please fill in all required fields before saving"
+}

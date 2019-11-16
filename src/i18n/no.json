@@ -1,0 +1,9 @@
+{
+  "save": "Lagre",
+  "cancel": "Avbryt",
+  "close": "Lukk",
+  "success": "Suksess!",
+  "warning": "Advarsel!",
+  "confirmButtonText": "Ja, jeg er sikker",
+  "validationError": "Vennligst fyll inn alle påkrevde felt før du fortsetter"
+}

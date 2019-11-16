@@ -1,0 +1,26 @@
+[{
+  "id" : "",
+  "name": "Løvenskioldbanen",
+  "streetAddress": "Dælimosen 50",
+  "area": "1359 Eiksmarka",
+  "country": "Norge",
+  "type": "Innebane",
+  "lat": "59.9608354",
+  "lng": "10.5821424"
+}, {
+  "id" : "",
+  "name": "Korpåsen",
+  "streetAddress": "Flaenveien 85",
+  "area": "2015, Leirsund",
+  "country": "Norge",
+  "type": "Utebane",
+  "lat": "59.975744",
+  "lng": "11.111534"
+}, {
+  "id" : "",
+  "name": "Ulvdalen",
+  "streetAddress": "Ulvedalsvegen 1",
+  "area": "2022, Gjerdrum",
+  "country": "Norge",
+  "type": "Utebane"
+}]

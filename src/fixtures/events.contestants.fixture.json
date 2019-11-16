@@ -1,0 +1,50 @@
+[{
+  "id" : "",
+  "number": 1,
+  "stand": 1,
+  "calibre": 30,
+  "total": 45,
+  "hits": [
+    { "hit": 1, "sum": 1 },
+    { "hit": 2, "sum": 1 },
+    { "hit": 3, "sum": 1 },
+    { "hit": 4, "sum": 1 },
+    { "hit": 5, "sum": 1 },
+    { "hit": 6, "sum": 1 },
+    { "hit": 7, "sum": 1 },
+    { "hit": 8, "sum": 1 },
+    { "hit": 9, "sum": 1 },
+    { "hit": 10, "sum": 1 },
+    { "hit": 11, "sum": 1 },
+    { "hit": 12, "sum": 1 },
+    { "hit": 13, "sum": 1 }
+  ],
+  "notes": [
+    "Test notat"
+  ]
+}, {
+  "id" : "",
+  "number": 2,
+  "stand": 2,
+  "calibre": 45,
+  "total": 98,
+  "hits": [
+    { "hit": 1, "sum": 1 },
+    { "hit": 2, "sum": 2 },
+    { "hit": 3, "sum": 3 },
+    { "hit": 4, "sum": 4 },
+    { "hit": 5, "sum": 5 },
+    { "hit": 6, "sum": 1 },
+    { "hit": 7, "sum": 3 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 5 },
+    { "hit": 10, "sum": 10 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ],
+  "notes": [
+    "Test notat 1",
+    "Test notat 2"
+  ]
+}]

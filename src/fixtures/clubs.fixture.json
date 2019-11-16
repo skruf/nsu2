@@ -1,0 +1,93 @@
+[{
+  "id" : "",
+  "name": "Norske Officerers Pistolklubb",
+  "shortName": "NOP",
+  "leaderFullName": "Jens Berentzen",
+  "emailAddress": "svartkrutt@nop.no",
+  "phoneNumber": "404 22 404",
+  "streetAddress": "Postboks 92 Sentrum",
+  "area": "0101, Oslo",
+  "country": "Norge",
+  "websiteUrl": "https://www.nop.no"
+}, {
+  "id" : "",
+  "name": "Schedmoe Civile Skydeselskab",
+  "shortName": "SCS",
+  "leaderFullName": "Frode Høybråten",
+  "emailAddress": "frode.hoybraten@lilleborg.no",
+  "streetAddress": "",
+  "area": "1903, Gan",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Christiania Skydeselskab",
+  "shortName": "CKS",
+  "leaderFullName": "Per Erik Andersson",
+  "emailAddress": "pererikandersson51@gmail.com",
+  "streetAddress": "",
+  "area": "Oslo",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Oslo Vestre Sportsskyttere",
+  "shortName": "OVS",
+  "leaderFullName": "Asle G. Resi",
+  "emailAddress": "",
+  "streetAddress": "Olav Aukrustsvei 58 a",
+  "area": "0785 Oslo",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "OKTS Svartkruttgruppa",
+  "shortName": "OKT",
+  "leaderFullName": "Odd Flomark",
+  "emailAddress": "",
+  "streetAddress": "Munkerudåsen 22G",
+  "area": "1165 Oslo",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "ZERO Pistolklubb",
+  "shortName": "ZPK",
+  "leaderFullName": "",
+  "emailAddress": "post@zeropk.com",
+  "streetAddress": "Postboks 79",
+  "area": "1338 Sandvika",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Bærum Pistolklubb",
+  "shortName": "BPK",
+  "leaderFullName": "Tor Ryden",
+  "emailAddress": "",
+  "streetAddress": "Rødskrubbgrenda 5",
+  "area": "1352 Kolsås",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Oslo Sportsskyttere",
+  "shortName": "OSK",
+  "leaderFullName": "",
+  "emailAddress": "",
+  "streetAddress": "Markalleen 68 A",
+  "area": "1368 Stabekk",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Asker Skyteklubb Svartkruttgruppa",
+  "shortName": "ASS",
+  "leaderFullName": "Per Erik Andersson",
+  "emailAddress": "pererikandersson51@gmail.com",
+  "streetAddress": "Gamle Drammensvei 357",
+  "area": "1383 Asker",
+  "country": "Norge"
+}, {
+  "id" : "",
+  "name": "Tordenskiolds Soldater Stavern",
+  "shortName": "TSS",
+  "leaderFullName": "Tor Otto Madsen",
+  "emailAddress": "post@sandefjordpaintball.no",
+  "streetAddress": "Postboks 31",
+  "area": "3290 Stavern",
+  "country": "Norge"
+}]
