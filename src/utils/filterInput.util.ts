@@ -1,8 +1,8 @@
-type mockObject = {
+interface MockObject {
   [key: string]: any
 }
 
-const filter = (item: mockObject, stub: mockObject): mockObject => {
+const filter = (item: MockObject, stub: MockObject): MockObject => {
   const data: any = {}
 
   for(let key in item) {
@@ -10,7 +10,7 @@ const filter = (item: mockObject, stub: mockObject): mockObject => {
       let value = item[key]
       if(Array.isArray(value)) {
         data[key] = value.map(
-          (v) => typeof v === "object" ? filter(v, stub[key]) : v
+          (v: any) => typeof v === "object" ? filter(v, stub[key]) : v
         )
       } else if(typeof value === "object") {
         data[key] = value = filter(value, stub[key])
@@ -23,11 +23,11 @@ const filter = (item: mockObject, stub: mockObject): mockObject => {
   return data
 }
 
-export default (item: (mockObject | mockObject[]), stub: mockObject): mockObject => {
-  let data: mockObject
+export default (item: (MockObject | MockObject[]), stub: MockObject): MockObject => {
+  let data: MockObject
 
   if(Array.isArray(item)) {
-    data = item.map((i) => filter(i, stub))
+    data = item.map((i: any) => filter(i, stub))
   } else {
     data = filter(item, stub)
   }

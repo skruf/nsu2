@@ -90,14 +90,6 @@ export default Vue.extend({
       clubsActionsCreate: "create"
     }),
 
-    ...mapActions("ranges", {
-      rangesActionsList: "list"
-    }),
-
-    async open() {
-      await this.rangesActionsList()
-    },
-
     async submit() {
       this.$refs.clubsForm.validate(async (isValid) => {
         if(!isValid) {

@@ -9,11 +9,7 @@
     "editMember": "Edit member",
     "removeMember": "Remove member",
     "tablePlaceholderText": "No members yet.",
-    "tablePlaceholderButton": "Create new?",
-    "clubsMembersRemoveOneConfirmation": "This will remove %{fullName} from the club. Continue?",
-    "clubsMembersActionsRemoveOne": "%{fullName} has been removed from the clubs database",
-    "clubsMembersRemoveManyConfirmation": "This will remove %{count} members from the club. Continue?",
-    "clubsMembersActionsRemoveManySuccess": "%{count} members has been removed from the clubs database"
+    "tablePlaceholderButton": "Create new?"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter medlemmer med fornavn eller etternavn",
@@ -24,12 +20,7 @@
     "editMember": "Rediger medlem",
     "removeMember": "Slett medlem",
     "tablePlaceholderText": "Ingen medlemmer enda.",
-    "tablePlaceholderButton": "Opprett ny?",
-    "clubsMembersRemoveOneConfirmation": "Dette vil fjerne %{fullName} fra klubben. Fortsette?",
-    "clubsMembersActionsRemoveOne": "%{fullName} ble fjernet fra klubbens database",
-    "clubsMembersRemoveManyConfirmation": "Dette vil fjerne %{count} medlemmer fra klubben. Fortsette?",
-    "clubsMembersActionsRemoveManySuccess": "%{count} medlemmer ble fjernet fra klubbens database"
-
+    "tablePlaceholderButton": "Opprett ny?"
   }
 }
 </i18n>
@@ -43,7 +34,7 @@
       @submit="clubsMembersActionsSetSearchFilter"
     />
 
-    <div v-loading="clubsMembersIsLoading">
+    <div v-loading="clubsMembersListIsLoading">
       <el-table
         :data="clubsMembersList"
         :sort-by="clubsMembersSortBy"
@@ -135,7 +126,8 @@
                     data-testid="clubsMembersListTableRowDropdownRemoveMany"
                     class="dropdown-menu-delete"
                     :command="{
-                      handler: 'clubsMembersRemoveMany'
+                      handler: 'clubsMembersRemoveMany',
+                      payload: clubsMembersSelection
                     }"
                   >
                     <i class="el-icon-delete el-icon--left" />
@@ -240,9 +232,7 @@ export default Vue.extend({
       clubsMembersPageSize: "pageSize",
       clubsMembersPageCurrent: "pageCurrent",
       clubsMembersSortBy: "sortBy",
-      clubsMembersListIsLoading: "listIsLoading",
-      clubsMembersRemoveOneIsLoading: "removeOneIsLoading",
-      clubsMembersRemoveManyIsLoading: "removeManyIsLoading"
+      clubsMembersListIsLoading: "listIsLoading"
     }),
     clubsMembersHasSelection() {
       return this.clubsMembersSelection.length > 0
@@ -250,13 +240,6 @@ export default Vue.extend({
     clubsMembersSearchFilter: {
       get() { return this.$store.state.clubs.searchFilterValue },
       set(search) { this.clubsMembersMutationsSetSearchFilter(search) }
-    },
-    clubsMembersIsLoading() {
-      return (
-        this.clubsMembersListIsLoading ||
-        this.clubsMembersRemoveOneIsLoading ||
-        this.clubsMembersRemoveManyIsLoading
-      )
     }
   },
 
@@ -275,9 +258,7 @@ export default Vue.extend({
       clubsMembersActionsSetPageSize: "setPageSize",
       clubsMembersActionsSetPageCurrent: "setPageCurrent",
       clubsMembersActionsSetSorting: "setSorting",
-      clubsMembersActionsSetSearchFilter: "setSearchFilter",
-      clubsMembersActionsRemoveOne: "removeOne",
-      clubsMembersActionsRemoveMany: "removeMany"
+      clubsMembersActionsSetSearchFilter: "setSearchFilter"
     }),
     clubsMembersOpenCreateDialog() {
       this.$emit("clubsMembersOpenCreateDialog")
@@ -294,74 +275,12 @@ export default Vue.extend({
       this[handler](payload)
     },
 
-    async clubsMembersRemoveOne(clubMember) {
-      const fullName = `${clubMember.firstName} ${clubMember.lastName}`
-
-      try {
-        await this.$confirm(
-          this.$t("clubsMembersRemoveOneConfirmation", { fullName: fullName }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.clubsMembersActionsRemoveOne(clubMember)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("clubsMembersActionsRemoveOne", { fullName })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    clubsMembersRemoveOne(clubMember) {
+      this.$emit("clubsMembersRemoveOne", clubMember)
     },
 
-    async clubsMembersRemoveMany() {
-      const count = this.clubsMembersSelection.length
-
-      try {
-        await this.$confirm(
-          this.$t("clubsMembersRemoveManyConfirmation", {
-            count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.clubsMembersActionsRemoveMany(this.clubsMembersSelection)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("clubsMembersActionsRemoveManySuccess", {
-            count
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    clubsMembersRemoveMany(clubMembers) {
+      this.$emit("clubsMembersRemoveMany", clubMembers)
     }
   }
 })

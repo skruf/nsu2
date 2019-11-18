@@ -2,10 +2,10 @@
 {
   "en": {
     "searchFormPlaceholder": "Search for a club by name",
-    "column1Label": "Name",
-    "column2Label": "Area/Address",
-    "column3Label": "Leader/Email",
-    "column4Label": "Members",
+    "columnNameLabel": "Name",
+    "columnAreaStreetAddressLabel": "Area/Address",
+    "columnLeaderFullNameEmailLabel": "Leader/Email",
+    "columnMembersCountLabel": "Members",
     "removeSelected": "Remove selected",
     "editClub": "Edit club",
     "removeClub": "Remove club",
@@ -14,10 +14,10 @@
   },
   "no": {
     "searchFormPlaceholder": "Søk etter en klubb med navn",
-    "column1Label": "Navn",
-    "column2Label": "Område/Adresse",
-    "column3Label": "Leder/Epost",
-    "column4Label": "Medlemmer",
+    "columnNameLabel": "Navn",
+    "columnAreaStreetAddressLabel": "Område/Adresse",
+    "columnLeaderFullNameEmailLabel": "Leder/Epost",
+    "columnMembersCountLabel": "Medlemmer",
     "removeSelected": "Slett valgte",
     "editClub": "Rediger klubb",
     "removeClub": "Slett klubb",
@@ -57,7 +57,7 @@
         <el-table-column
           prop="name"
           sortable="custom"
-          :label="$t('column1Label')"
+          :label="$t('columnNameLabel')"
           :sort-orders="clubsSortOrders"
         >
           <template slot-scope="scope">
@@ -76,7 +76,7 @@
         <el-table-column
           prop="area"
           sortable="custom"
-          :label="$t('column2Label')"
+          :label="$t('columnAreaStreetAddressLabel')"
           :sort-orders="clubsSortOrders"
         >
           <template slot-scope="scope">
@@ -84,7 +84,7 @@
               {{ scope.row.area }}
             </h6>
             <small class="small">
-              {{ scope.row.address }}
+              {{ scope.row.streetAddress }}
             </small>
           </template>
         </el-table-column>
@@ -92,7 +92,7 @@
         <el-table-column
           prop="leader"
           sortable="custom"
-          :label="$t('column3Label')"
+          :label="$t('columnLeaderFullNameEmailLabel')"
           :sort-orders="clubsSortOrders"
         >
           <template slot-scope="scope">
@@ -108,7 +108,7 @@
         <el-table-column
           prop="membersCount"
           width="115px"
-          :label="$t('column4Label')"
+          :label="$t('columnMembersCountLabel')"
           :sort-orders="clubsSortOrders"
         />
 

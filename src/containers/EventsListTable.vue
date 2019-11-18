@@ -12,11 +12,7 @@
     "editEvent": "Edit event",
     "removeEvent": "Remove event",
     "tablePlaceholderText": "No events yet.",
-    "tablePlaceholderButton": "Create new?",
-    "eventsRemoveOneConfirmation": "This will remove %{event} permanently. Continue?",
-    "eventsActionsRemoveOneSuccess": "%{event} was removed from the database",
-    "eventsRemoveManyConfirmation": "This will remove %{events} events permanently. Continue?",
-    "eventsActionsRemoveManySuccess": "%{events} events were removed from the database"
+    "tablePlaceholderButton": "Create new?"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter et stevne med tittel eller klubb",
@@ -30,11 +26,7 @@
     "editEvent": "Rediger stevne",
     "removeEvent": "Slett stevne",
     "tablePlaceholderText": "Ingen stevner enda.",
-    "tablePlaceholderButton": "Opprett ny?",
-    "eventsRemoveOneConfirmation": "Dette vil fjerne %{event} permanent. Fortsette?",
-    "eventsActionsRemoveOneSuccess": "%{event} ble fjernet fra databasen",
-    "eventsRemoveManyConfirmation": "Dette vil fjerne %{events} stevner permanent. Fortsette?",
-    "eventsActionsRemoveManySuccess": "%{events} stevner ble fjernet fra databasen"
+    "tablePlaceholderButton": "Opprett ny?"
   }
 }
 </i18n>
@@ -48,7 +40,7 @@
       @submit="eventsActionsSetSearchFilter"
     />
 
-    <div v-loading="eventsIsLoading">
+    <div v-loading="eventsStateListIsLoading">
       <el-table
         :data="eventsStateList"
         :sort-by="eventsStateSortBy"
@@ -253,8 +245,6 @@ export default Vue.extend({
   computed: {
     ...mapState("events", {
       eventsStateListIsLoading: "listIsLoading",
-      eventsStateRemoveOneIsLoading: "removeOneIsLoading",
-      eventsStateRemoveManyIsLoading: "removeManyIsLoading",
       eventsStateSortBy: "sortBy",
       eventsStatePageSize: "pageSize",
       eventsStatePageCurrent: "pageCurrent",
@@ -269,14 +259,6 @@ export default Vue.extend({
     eventsSearchFilter: {
       get() { return this.$store.state.events.searchFilterValue },
       set(search) { this.eventsMutationsSetSearchFilter(search) }
-    },
-
-    eventsIsLoading() {
-      return (
-        this.eventsStateListIsLoading ||
-        this.eventsStateRemoveOneIsLoading ||
-        this.eventsStateRemoveManyIsLoading
-      )
     }
   },
 
@@ -286,8 +268,6 @@ export default Vue.extend({
     }),
     ...mapActions("events", {
       eventsActionsList: "list",
-      eventsActionsRemoveOne: "removeOne",
-      eventsActionsRemoveMany: "removeMany",
       eventsActionsSetSorting: "setSorting",
       eventsActionsSetPageSize: "setPageSize",
       eventsActionsSetPageCurrent: "setPageCurrent",
@@ -314,71 +294,12 @@ export default Vue.extend({
       this[handler](payload)
     },
 
-    async eventsRemoveOne(event) {
-      try {
-        await this.$confirm(
-          this.$t("eventsRemoveOneConfirmation", { event: event.title }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.eventsActionsRemoveOne(event)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsActionsRemoveOneSuccess", {
-            event: event.title
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    eventsRemoveOne(event) {
+      this.$emit("eventsRemoveOne", event)
     },
 
-    async eventsRemoveMany() {
-      const count = this.eventsSelection.length
-      try {
-        await this.$confirm(
-          this.$t("eventsRemoveManyConfirmation", { events: count }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.eventsActionsRemoveMany(this.eventsSelection)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsActionsRemoveManySuccess", {
-            events: count
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    eventsRemoveMany(events) {
+      this.$emit("eventsRemoveMany", events)
     }
   }
 })

@@ -12,8 +12,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
+    "test:unit": "cross-env NODE_ENV=test vue-cli-service test:unit",
+    "test:e2e": "cross-env NODE_ENV=test vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "dev": "cross-env NODE_ENV=development RUN_ENV=app concurrently 'npm run serve' 'electron .'",
     "dev:web": "cross-env NODE_ENV=development RUN_ENV=web npm run serve",
@@ -52,6 +52,7 @@
     "vue-moment": "^4.0.0"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
     "@fullhuman/postcss-purgecss": "^1.3.0",
     "@kazupon/vue-i18n-loader": "^0.3.0",
     "@types/jest": "^24.0.11",
@@ -76,6 +77,7 @@
     "electron-reload": "^1.5.0",
     "element-ui": "^2.12.0",
     "eslint": "^5.16.0",
+    "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-vue": "^5.0.0",
     "flush-promises": "^1.0.2",
     "pouchdb-adapter-memory": "^7.1.1",

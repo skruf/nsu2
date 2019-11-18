@@ -1,4 +1,4 @@
-type QueryState = {
+interface QueryState {
   limit?: number,
   skip?: number,
   sort?: string,

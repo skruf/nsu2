@@ -7,7 +7,11 @@
     "eventsOpenCreateDialogButton": "Create event",
     "past": "Past",
     "upcoming": "Upcoming",
-    "all": "All"
+    "all": "All",
+    "eventsRemoveOneConfirmation": "This will remove %{eventTitle} permanently. Continue?",
+    "eventsActionsRemoveOneSuccess": "%{eventTitle} was removed from the database",
+    "eventsRemoveManyConfirmation": "This will remove %{eventsCount} events permanently. Continue?",
+    "eventsActionsRemoveManySuccess": "%{eventsCount} events were removed from the database"
   },
   "no": {
     "breadcrumb1Label": "Stevner",
@@ -16,7 +20,11 @@
     "eventsOpenCreateDialogButton": "Opprett stevne",
     "past": "Avsluttet",
     "upcoming": "Kommende",
-    "all": "Alle"
+    "all": "Alle",
+    "eventsRemoveOneConfirmation": "Dette vil fjerne %{eventTitle} permanent. Fortsette?",
+    "eventsActionsRemoveOneSuccess": "%{eventTitle} ble fjernet fra databasen",
+    "eventsRemoveManyConfirmation": "Dette vil fjerne %{eventsCount} stevner permanent. Fortsette?",
+    "eventsActionsRemoveManySuccess": "%{eventsCount} stevner ble fjernet fra databasen"
   }
 }
 </i18n>
@@ -44,10 +52,15 @@
       </div>
     </el-header>
 
-    <el-main class="content">
+    <el-main
+      v-loading="eventsRemoveIsLoading"
+      class="content"
+    >
       <events-list-table
         @eventsOpenCreateDialog="eventsOpenCreateDialog"
         @eventsOpenEditDialog="eventsOpenEditDialog"
+        @eventsRemoveOne="eventsRemoveOne"
+        @eventsRemoveMany="eventsRemoveMany"
       />
     </el-main>
 
@@ -99,8 +112,17 @@ export default Vue.extend({
 
   computed: {
     ...mapState("events", {
-      eventsStateFetchMode: "fetchMode"
+      eventsStateFetchMode: "fetchMode",
+      eventsStateRemoveOneIsLoading: "removeOneIsLoading",
+      eventsStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
+
+    eventsRemoveIsLoading() {
+      return (
+        this.eventsStateRemoveOneIsLoading ||
+        this.eventsStateRemoveManyIsLoading
+      )
+    },
 
     breadcrumbLabel() {
       if(this.eventsStateFetchMode === "history") {
@@ -129,7 +151,9 @@ export default Vue.extend({
     }),
 
     ...mapActions("events", {
-      eventsActionsList: "list"
+      eventsActionsList: "list",
+      eventsActionsRemoveOne: "removeOne",
+      eventsActionsRemoveMany: "removeMany"
     }),
 
     eventsOpenCreateDialog() {
@@ -139,6 +163,77 @@ export default Vue.extend({
     eventsOpenEditDialog(item) {
       this.eventsShowEditDialog = true
       this.eventsEditItem = item
+    },
+
+    async eventsRemoveOne(event) {
+      try {
+        await this.$confirm(
+          this.$t("eventsRemoveOneConfirmation", {
+            eventTitle: event.title
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsActionsRemoveOne(event)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsActionsRemoveOneSuccess", {
+            eventTitle: event.title
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    async eventsRemoveMany(events) {
+      const count = events.length
+      try {
+        await this.$confirm(
+          this.$t("eventsRemoveManyConfirmation", {
+            eventsCount: count
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsActionsRemoveMany(events)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsActionsRemoveManySuccess", {
+            eventsCount: count
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
     }
   }
 })

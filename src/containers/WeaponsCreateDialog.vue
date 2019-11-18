@@ -40,7 +40,7 @@
       <el-button
         class="block"
         type="primary"
-        data-testid="weaponsCreateDialogFormButtonSubmit"
+        data-testid="weaponsCreateDialogButtonSubmit"
         @click="submit"
       >
         {{ $t("save") }}

@@ -1,7 +1,7 @@
 <i18n>
 {
   "en": {
-    "title": "Clubs",
+    "screenTitle": "Clubs",
     "breadcrumbLabel1": "Clubs",
     "breadcrumbLabel2": "All",
     "createClubButton": "Create club",
@@ -11,7 +11,7 @@
     "clubsActionsRemoveManySuccess": "%{clubsCount} clubs and its %{clubMemberCount} were removed from the database"
   },
   "no": {
-    "title": "Klubber",
+    "screenTitle": "Klubber",
     "breadcrumbLabel1": "Klubber",
     "breadcrumbLabel2": "Alle",
     "createClubButton": "Opprett klubb",
@@ -38,20 +38,21 @@
 
       <div class="page-titles">
         <h1 class="h1">
-          {{ $t("title") }}
+          {{ $t("screenTitle") }}
         </h1>
       </div>
     </el-header>
 
-    <el-main class="content">
-      <div v-loading="clubsRemoveIsLoading">
-        <clubs-list-table
-          @clubsOpenCreateDialog="clubsOpenCreateDialog"
-          @clubsOpenEditDialog="clubsOpenEditDialog"
-          @clubsRemoveOne="clubsRemoveOne"
-          @clubsRemoveMany="clubsRemoveMany"
-        />
-      </div>
+    <el-main
+      class="content"
+      v-loading="clubsRemoveIsLoading"
+    >
+      <clubs-list-table
+        @clubsOpenCreateDialog="clubsOpenCreateDialog"
+        @clubsOpenEditDialog="clubsOpenEditDialog"
+        @clubsRemoveOne="clubsRemoveOne"
+        @clubsRemoveMany="clubsRemoveMany"
+      />
     </el-main>
 
     <el-footer height="auto">
@@ -203,7 +204,6 @@ export default Vue.extend({
         })
       }
     }
-
   }
 })
 </script>

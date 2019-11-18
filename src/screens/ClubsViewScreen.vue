@@ -10,8 +10,12 @@
     "phoneNumber": "Phone",
     "clubsOpenWebsite": "Open website",
     "clubsMembersOpenCreateDialog": "Create member",
-    "clubsRemoveOneConfirmation": "This will remove %{club} and its %{members} members permanently. Continue?",
-    "classesActionsRemoveOneSuccess": "%{club} was removed from the database"
+    "clubsRemoveOneConfirmation": "This will remove %{clubName} and its %{memberCount} members permanently. Continue?",
+    "clubsActionsRemoveOneSuccess": "%{clubName} was removed from the database",
+    "clubsMembersRemoveOneConfirmation": "This will remove %{fullName} from the club. Continue?",
+    "clubsMembersActionsRemoveOne": "%{fullName} has been removed from the clubs database",
+    "clubsMembersRemoveManyConfirmation": "This will remove %{clubMembersCount} members from the club. Continue?",
+    "clubsMembersActionsRemoveManySuccess": "%{clubMembersCount} members has been removed from the clubs database"
   },
   "no": {
     "breadcrumb1Label": "Klubber",
@@ -23,8 +27,12 @@
     "phoneNumber": "Telefon",
     "clubsOpenWebsite": "Åpne nettside",
     "clubsMembersOpenCreateDialog": "Opprett medlem",
-    "clubsRemoveOneConfirmation": "Dette vil fjerne %{club} og deres %{members} medlemmer permanent. Fortsette?",
-    "classesActionsRemoveOneSuccess": "%{club} og deres %{members} ble fjernet fra databasen"
+    "clubsRemoveOneConfirmation": "Dette vil fjerne %{clubName} og deres %{memberCount} medlemmer permanent. Fortsette?",
+    "clubsActionsRemoveOneSuccess": "%{clubName} og deres %{members} ble fjernet fra databasen",
+    "clubsMembersRemoveOneConfirmation": "Dette vil fjerne %{fullName} fra klubben. Fortsette?",
+    "clubsMembersActionsRemoveOne": "%{fullName} ble fjernet fra klubbens database",
+    "clubsMembersRemoveManyConfirmation": "Dette vil fjerne %{clubMembersCount} medlemmer fra klubben. Fortsette?",
+    "clubsMembersActionsRemoveManySuccess": "%{clubMembersCount} medlemmer ble fjernet fra klubbens database"
   }
 }
 </i18n>
@@ -112,7 +120,8 @@
                   divided
                   class="dropdown-menu-delete"
                   :command="{
-                    handler: 'clubsRemoveOne'
+                    handler: 'clubsRemoveOne',
+                    payload: clubsStateSelected
                   }"
                 >
                   <i class="el-icon-delete el-icon--left" />
@@ -176,15 +185,18 @@
       </div>
     </el-header>
 
-    <el-main>
-      <div class="content">
-        <clubs-members-list-table
-          v-if="!clubsStateSelectedIsLoading"
-          :club-id="clubsStateSelected.id"
-          @clubsMembersOpenCreateDialog="clubsMembersOpenCreateDialog"
-          @clubsMembersOpenEditDialog="clubsMembersOpenEditDialog"
-        />
-      </div>
+    <el-main
+      v-loading="clubsMembersRemoveIsLoading"
+      class="content"
+    >
+      <clubs-members-list-table
+        v-if="!clubsStateSelectedIsLoading"
+        :club-id="clubsStateSelected.id"
+        @clubsMembersOpenCreateDialog="clubsMembersOpenCreateDialog"
+        @clubsMembersOpenEditDialog="clubsMembersOpenEditDialog"
+        @clubsMembersRemoveOne="clubsMembersRemoveOne"
+        @clubsMembersRemoveMany="clubsMembersRemoveMany"
+      />
     </el-main>
 
     <el-footer height="auto">
@@ -248,12 +260,20 @@ export default Vue.extend({
     ...mapState("clubs", {
       clubsStateSelectedIsLoading: "selectedIsLoading",
       clubsStateRemoveOneIsLoading: "removeOneIsLoading",
-      clubsStateSelected: "selected"
+      clubsStateSelected: "selected",
+      clubsMembersRemoveOneIsLoading: "removeOneIsLoading",
+      clubsMembersRemoveManyIsLoading: "removeManyIsLoading"
     }),
     clubsIsLoading() {
       return (
         this.clubsStateSelectedIsLoading ||
         this.clubsStateRemoveOneIsLoading
+      )
+    },
+    clubsMembersRemoveIsLoading() {
+      return (
+        this.clubsMembersRemoveOneIsLoading ||
+        this.clubsMembersRemoveManyIsLoading
       )
     }
   },
@@ -265,7 +285,12 @@ export default Vue.extend({
   methods: {
     ...mapActions("clubs", {
       clubsActionsSelect: "select",
-      classesActionsRemoveOne: "removeOne"
+      clubsActionsRemoveOne: "removeOne"
+    }),
+
+    ...mapActions("clubs/members", {
+      clubsMembersActionsRemoveOne: "removeOne",
+      clubsMembersActionsRemoveMany: "removeMany"
     }),
 
     dispatchActions({ handler, payload }) {
@@ -289,13 +314,12 @@ export default Vue.extend({
       openExternalUrlUtil(url)
     },
 
-    async clubsRemoveOne() {
-      const club = this.clubsStateSelected
+    async clubsRemoveOne(club) {
       try {
         await this.$confirm(
           this.$t("clubsRemoveOneConfirmation", {
-            club: club.name,
-            members: club.membersCount
+            clubName: club.name,
+            memberCount: club.membersCount
           }),
           this.$t("warning"), {
             confirmButtonText: this.$t("confirmButtonText"),
@@ -309,16 +333,86 @@ export default Vue.extend({
       }
 
       try {
-        await this.classesActionsRemoveOne(club)
+        await this.clubsActionsRemoveOne(club)
         this.$notify({
           type: "success",
           title: this.$t("success"),
-          message: this.$t("classesActionsRemoveOneSuccess", {
-            club: club.name,
-            members: club.membersCount
+          message: this.$t("clubsActionsRemoveOneSuccess", {
+            clubName: club.name,
+            memberCount: club.membersCount
           })
         })
         this.$router.push("/clubs")
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    async clubsMembersRemoveOne(clubMember) {
+      const fullName = `${clubMember.firstName} ${clubMember.lastName}`
+
+      try {
+        await this.$confirm(
+          this.$t("clubsMembersRemoveOneConfirmation", { fullName: fullName }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.clubsMembersActionsRemoveOne(clubMember)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("clubsMembersActionsRemoveOne", { fullName })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    async clubsMembersRemoveMany(clubMembers) {
+      const clubMembersCount = clubMembers.length
+
+      try {
+        await this.$confirm(
+          this.$t("clubsMembersRemoveManyConfirmation", {
+            clubMembersCount
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.clubsMembersActionsRemoveMany(clubMembers)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("clubsMembersActionsRemoveManySuccess", {
+            clubMembersCount
+          })
+        })
       } catch(e) {
         this.$notify({
           type: "error",

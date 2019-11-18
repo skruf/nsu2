@@ -12,14 +12,30 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./state"
 
+import { dbTestUtil } from "@/utils"
+
 declare global {
-  interface Window { ipc: any }
+  interface Window {
+    ipc: any
+    // seedDb: () => Promise<void>,
+    // resetDb: () => Promise<void>
+  }
 }
 
 Vue.config.productionTip = false
 
 ;(async () => {
-  await init()
+  const db = await init()
+
+  if(process.env.NODE_ENV === "test") {
+    // window.seedDb = async () => {
+    await dbTestUtil.seed(db)
+    // }
+    // window.resetDb = async () => {
+    //   await dbTestUtil.reset(db)
+    // }
+  }
+
   new Vue({
     i18n,
     router,

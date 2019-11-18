@@ -177,7 +177,7 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapState } from "vuex"
+import { mapState, mapActions } from "vuex"
 import { clubsStub } from "@/stubs"
 
 export default Vue.extend({
@@ -219,11 +219,16 @@ export default Vue.extend({
     }
   },
 
-  created() {
+  async created() {
     this.localForm = this.form
+    await this.rangesActionsList()
   },
 
   methods: {
+    ...mapActions("ranges", {
+      rangesActionsList: "list"
+    }),
+
     validate(cb) {
       this.$refs.localForm.validate(cb)
     },

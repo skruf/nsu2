@@ -41,7 +41,7 @@
       <el-button
         class="block"
         type="primary"
-        data-testid="weaponsEditDialogFormButtonSubmit"
+        data-testid="weaponsEditDialogButtonSubmit"
         @click="submit"
       >
         {{ $t("save") }}
@@ -96,7 +96,7 @@ export default Vue.extend({
     },
 
     submit() {
-      this.$refs.form.validate(async (isValid) => {
+      this.$refs.weaponsForm.validate(async (isValid) => {
         if(!isValid) {
           return this.$notify({
             type: "error",

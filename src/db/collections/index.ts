@@ -39,7 +39,7 @@ import eventsContestantsCollection, {
   EventsContestantsProperties
 } from "./events.contestants.collection"
 
-export type DatabaseCollectionsNames = (
+export declare type DatabaseCollectionsNames = (
   "ranges" |
   "weapons" |
   "clubs" |
@@ -50,18 +50,18 @@ export type DatabaseCollectionsNames = (
   "events_contestants"
 )
 
-export type DatabaseCollections = {
-  ranges: RangesCollection
-  weapons: WeaponsCollection
-  clubs: ClubsCollection
-  clubs_members: ClubsMembersCollection
-  events: EventsCollection
-  events_categories: EventsCategoriesCollection
-  events_divisions: EventsDivisionsCollection
-  events_contestants: EventsContestantsCollection
+export declare interface DatabaseCollections {
+  "ranges": RangesCollection
+  "weapons": WeaponsCollection
+  "clubs": ClubsCollection
+  "clubs_members": ClubsMembersCollection
+  "events": EventsCollection
+  "events_categories": EventsCategoriesCollection
+  "events_divisions": EventsDivisionsCollection
+  "events_contestants": EventsContestantsCollection
 }
 
-export type DatabaseDocument = (
+export declare type DatabaseDocument = (
   RangesDocument |
   WeaponsDocument |
   ClubsDocument |
@@ -72,7 +72,7 @@ export type DatabaseDocument = (
   EventsContestantsDocument
 )
 
-export type DatabaseDocumentsProperties = (
+export declare type DatabaseDocumentsProperties = (
   RangesProperties |
   WeaponsProperties |
   ClubsProperties |

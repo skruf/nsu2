@@ -1,10 +1,17 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    // "jest/globals": true,
+    "cypress/globals": true
   },
+  plugins: [
+    "cypress"
+  ],
   extends: [
     "plugin:@typescript-eslint/recommended",
+    "plugin:cypress/recommended",
+    // "plugin:jest/recommended",
     "plugin:vue/recommended",
     "@vue/standard",
     "@vue/typescript"

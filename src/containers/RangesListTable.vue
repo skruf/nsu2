@@ -2,35 +2,27 @@
 {
   "en": {
     "searchFormPlaceholder": "Search for a range by name or area",
-    "column1Label": "Name/Type",
-    "column2Label": "Area/Address",
-    "column3Label": "Country",
+    "columnNameTypeLabel": "Name/Type",
+    "columnAreaAddressLabel": "Area/Address",
+    "columnCountryLabel": "Country",
     "removeSelected": "Remove selected",
     "editRange": "Edit range",
     "removeRange": "Remove range",
     "showRangeMap": "Show on map",
     "tablePlaceholderText": "No ranges yet.",
-    "tablePlaceholderButton": "Create new?",
-    "rangesRemoveOneConfirmation": "This will remove %{range} permanently. Continue?",
-    "rangesActionsRemoveOneSuccess": "%{range} was removed from the database",
-    "rangesRemoveManyConfirmation": "This will remove %{ranges} ranges permanently. Continue?",
-    "rangesActionsRemoveManySuccess": "%{ranges} ranges were removed from the database"
+    "tablePlaceholderButton": "Create new?"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter en skyttebane med navn eller område",
-    "column1Label": "Navn/Type",
-    "column2Label": "Område/Adresse",
-    "column3Label": "Land",
+    "columnNameTypeLabel": "Navn/Type",
+    "columnAreaAddressLabel": "Område/Adresse",
+    "columnCountryLabel": "Land",
     "removeSelected": "Slett valgte",
     "editRange": "Rediger skyttebane",
     "removeRange": "Slett skyttebane",
     "showRangeMap": "Vis på kart",
     "tablePlaceholderText": "Ingen skyttebaner enda.",
-    "tablePlaceholderButton": "Opprett ny?",
-    "rangesRemoveOneConfirmation": "Dette vil fjerne %{range} permanent. Fortsette?",
-    "rangesActionsRemoveOneSuccess": "%{range} ble fjernet fra databasen",
-    "rangesRemoveManyConfirmation": "Dette vil fjerne %{ranges} skyttebaner permanent. Fortsette?",
-    "rangesActionsRemoveManySuccess": "%{ranges} skyttebaner ble fjernet fra databasen"
+    "tablePlaceholderButton": "Opprett ny?"
   }
 }
 </i18n>
@@ -64,7 +56,7 @@
         <el-table-column
           prop="name"
           sortable="custom"
-          :label="$t('column1Label')"
+          :label="$t('columnNameTypeLabel')"
           :sort-orders="rangesSortOrders"
         >
           <template slot-scope="scope">
@@ -80,7 +72,7 @@
         <el-table-column
           prop="area"
           sortable="custom"
-          :label="$t('column2Label')"
+          :label="$t('columnAreaAddressLabel')"
           :sort-orders="rangesSortOrders"
         >
           <template slot-scope="scope">
@@ -88,7 +80,7 @@
               {{ scope.row.area }}
             </h6>
             <small class="small">
-              {{ scope.row.address || "N/A" }}
+              {{ scope.row.streetAddress || "N/A" }}
             </small>
           </template>
         </el-table-column>
@@ -96,7 +88,7 @@
         <el-table-column
           prop="country"
           sortable="custom"
-          :label="$t('column3Label')"
+          :label="$t('columnCountryLabel')"
           :sort-orders="rangesSortOrders"
         />
 
@@ -260,21 +252,11 @@ export default Vue.extend({
 
     ...mapActions("ranges", {
       rangesActionsList: "list",
-      rangesActionsRemoveOne: "removeOne",
       rangesActionsSetSorting: "setSorting",
       rangesActionsSetPageSize: "setPageSize",
       rangesActionsSetPageCurrent: "setPageCurrent",
-      rangesActionsSetSearchFilter: "setSearchFilter",
-      rangesActionsRemoveMany: "removeMany"
+      rangesActionsSetSearchFilter: "setSearchFilter"
     }),
-
-    rangesOpenCreateDialog() {
-      this.$emit("rangesOpenCreateDialog")
-    },
-
-    rangesOpenEditDialog(range) {
-      this.$emit("rangesOpenEditDialog", range)
-    },
 
     rangesSelectionChange(ranges) {
       this.rangesSelection = ranges
@@ -288,74 +270,20 @@ export default Vue.extend({
       this[handler](payload)
     },
 
-    async rangesRemoveOne(range) {
-      try {
-        await this.$confirm(
-          this.$t("rangesRemoveOneConfirmation", { range: range.name }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.rangesActionsRemoveOne(range)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("rangesActionsRemoveOneSuccess", {
-            range: range.name
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    rangesOpenCreateDialog() {
+      this.$emit("rangesOpenCreateDialog")
     },
 
-    async rangesRemoveMany() {
-      const count = this.rangesSelection.length
+    rangesOpenEditDialog(range) {
+      this.$emit("rangesOpenEditDialog", range)
+    },
 
-      try {
-        await this.$confirm(
-          this.$t("rangesRemoveManyConfirmation", {
-            ranges: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+    rangesRemoveOne(range) {
+      this.$emit("rangesRemoveOne", range)
+    },
 
-      try {
-        await this.rangesActionsRemoveMany(this.rangesSelection)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("rangesActionsRemoveManySuccess", {
-            ranges: count
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    rangesRemoveMany(ranges) {
+      this.$emit("rangesRemoveMany", ranges)
     }
   }
 })

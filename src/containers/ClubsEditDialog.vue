@@ -16,7 +16,6 @@
     custom-class="edit-dialog"
     :title="$t('title')"
     :visible.sync="visible"
-    @open="open"
     @close="close"
   >
     <div
@@ -90,15 +89,6 @@ export default Vue.extend({
     ...mapActions("clubs", {
       clubsActionsEditOne: "editOne"
     }),
-
-    ...mapActions("ranges", {
-      rangesActionsList: "list"
-    }),
-
-    async open() {
-      this.form = { ...this.club }
-      await this.rangesActionsList()
-    },
 
     submit() {
       this.$refs.clubsForm.validate(async (isValid) => {

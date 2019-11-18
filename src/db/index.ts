@@ -79,8 +79,14 @@ export const init = async (): Promise<Database> => {
   return db
 }
 
-export default {
-  get(): Database {
-    return db
-  }
+export const reset = async (): Promise<void> => {
+  await db.remove()
+  db = null
+  await init()
 }
+
+// export default {
+//   get(): Database {
+//     return db
+//   }
+// }

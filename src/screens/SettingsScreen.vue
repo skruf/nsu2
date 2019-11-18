@@ -1,18 +1,26 @@
 <i18n>
 {
   "en": {
-    "title": "Your current settings",
-    "breadcrumbLabel1": "Settings",
-    "breadcrumbLabel2": "Current",
-    "formItem1Label": "Language",
-    "formItem1Placeholder": "Choose language"
+    "screenTitle": "Your current settings",
+    "breadcrumbSettingsLabel": "Settings",
+    "breadcrumbCurrentLabel": "Current",
+    "formItemLanguageLabel": "Language",
+    "formItemLanguagePlaceholder": "Choose language",
+    "appResetConfirmation": "This will reset the app and delete all data. Are you sure?",
+    "appResetButton": "Delete all data",
+    "appCheckForUpdatesButton": "Check for updates",
+    "appVersionLabel": "Version"
   },
   "no": {
-    "title": "Dine innstillinger",
-    "breadcrumbLabel1": "Innstillinger",
-    "breadcrumbLabel2": "Nåværende",
-    "formItem1Label": "Språk",
-    "formItem1Placeholder": "Velg språk"
+    "screenTitle": "Dine innstillinger",
+    "breadcrumbSettingsLabel": "Innstillinger",
+    "breadcrumbCurrentLabel": "Nåværende",
+    "formItemLanguageLabel": "Språk",
+    "formItemLanguagePlaceholder": "Velg språk",
+    "appResetConfirmation": "Dette vil resette appen og slette all data. Er du sikker?",
+    "appResetButton": "Slett all data",
+    "appCheckForUpdatesButton": "Se etter oppdateringer",
+    "appVersionLabel": "Versjon"
   }
 }
 </i18n>
@@ -25,14 +33,14 @@
     <el-header height="auto">
       <breadcrumb-bar
         :paths="[
-          { to: '/settings', label: $t('breadcrumbLabel1') },
-          { to: '', label: $t('breadcrumbLabel2') }
+          { to: '/settings', label: $t('breadcrumbSettingsLabel') },
+          { to: '', label: $t('breadcrumbCurrentLabel') }
         ]"
       />
 
       <div class="page-titles">
         <h1 class="h1">
-          {{ $t("title") }}
+          {{ $t("screenTitle") }}
         </h1>
       </div>
     </el-header>
@@ -46,12 +54,12 @@
         class="max-w-xs"
       >
         <el-form-item
-          :label="$t('formItem1Label')"
+          :label="$t('formItemLanguageLabel')"
           prop="locale"
         >
           <el-select
             v-model="form.locale"
-            :placeholder="$t('formItem1Placeholder')"
+            :placeholder="$t('formItemLanguagePlaceholder')"
           >
             <el-option
               v-for="language in languages"
@@ -64,7 +72,7 @@
       </el-form>
 
       <template v-if="config.runtime === 'app'">
-        Versjon: {{ appVersion }}
+        {{ $t("appVersionLabel") }}: {{ appVersion }}
       </template>
     </el-main>
 
@@ -72,13 +80,21 @@
       height="auto"
       class="flex justify-between"
     >
-      <el-button
-        v-if="config.runtime === 'app'"
-        type="text"
-        @click="checkForUpdates"
-      >
-        Se etter oppdateringer
-      </el-button>
+      <div>
+        <el-button
+          v-if="config.runtime === 'app'"
+          type="text"
+          @click="checkForUpdates"
+        >
+          {{ $t("appCheckForUpdatesButton") }}
+        </el-button>
+        <el-button
+          type="danger"
+          @click="resetApp"
+        >
+          {{ $t("appResetButton") }}
+        </el-button>
+      </div>
 
       <div className="self-end">
         <el-button
@@ -99,11 +115,13 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue"
 import config from "@/app.config"
 import i18n from "@/i18n"
 import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
+import { reset } from "@/db"
 
-export default {
+export default Vue.extend({
   name: "SettingsScreen",
 
   components: {
@@ -151,7 +169,21 @@ export default {
     },
     cancel() {
       this.$router.push("/")
+    },
+    async resetApp() {
+      try {
+        await this.$confirm(
+          this.$t("appResetConfirmation"),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+        await reset()
+      } catch(e) {}
     }
   }
-}
+})
 </script>

@@ -10,11 +10,7 @@
     "editWeapon": "Edit weapon",
     "removeWeapon": "Remove weapon",
     "tablePlaceholderText": "No weapons yet.",
-    "tablePlaceholderButton": "Create new?",
-    "weaponsRemoveOneConfirmation": "This will remove %{weaponsName} and participants who used this weapon permanently. Continue?",
-    "weaponsActionsRemoveOneSuccess": "%{weaponsName} was removed from the database",
-    "weaponsRemoveManyConfirmation": "This will remove %{weaponsCount} weapons and participants who used these weapons permanently. Continue?",
-    "weaponsActionsRemoveManySuccess": "%{weaponsCount} weapons has been removed from the database"
+    "tablePlaceholderButton": "Create new?"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter våpen med navn",
@@ -26,11 +22,7 @@
     "editWeapon": "Rediger klasse",
     "removeWeapon": "Slett klasse",
     "tablePlaceholderText": "Ingen våpen enda.",
-    "tablePlaceholderButton": "Opprett ny?",
-    "weaponsRemoveOneConfirmation": "Dette vil fjerne %{weaponsName} og deltakere som brukte denne klassen permanent. Fortsette?",
-    "weaponsActionsRemoveOneSuccess": "%{weaponsName} ble fjernet fra databasen",
-    "weaponsRemoveManyConfirmation": "Dette vil fjerne %{weaponsCount} våpen og deltakere som brukte denne klassen permanent. Fortsette?",
-    "weaponsActionsRemoveManySuccess": "%{weaponsCount} våpen ble fjernet fra databasen"
+    "tablePlaceholderButton": "Opprett ny?"
   }
 }
 </i18n>
@@ -44,7 +36,7 @@
       @submit="weaponsActionsSetSearchFilter"
     />
 
-    <div v-loading="weaponsIsLoading">
+    <div v-loading="weaponsStateListIsLoading">
       <el-table
         empty-text
         row-key="id"
@@ -229,8 +221,6 @@ export default Vue.extend({
   computed: {
     ...mapState("weapons", {
       weaponsStateListIsLoading: "listIsLoading",
-      weaponsStateRemoveOneIsLoading: "removeOneIsLoading",
-      weaponsStateRemoveManyIsLoading: "removeManyIsLoading",
       weaponsStateSortBy: "sortBy",
       weaponsStatePageSize: "pageSize",
       weaponsStatePageCurrent: "pageCurrent",
@@ -243,13 +233,6 @@ export default Vue.extend({
     weaponsSearchFilter: {
       get() { return this.$store.state.weapons.searchFilterValue },
       set(search) { this.weaponsMutationsSetSearchFilter(search) }
-    },
-    weaponsIsLoading() {
-      return (
-        this.weaponsStateListIsLoading ||
-        this.weaponsStateRemoveOneIsLoading ||
-        this.weaponsStateRemoveManyIsLoading
-      )
     }
   },
 
@@ -264,8 +247,6 @@ export default Vue.extend({
 
     ...mapActions("weapons", {
       weaponsActionsList: "list",
-      weaponsActionsRemoveOne: "removeOne",
-      weaponsActionsRemoveMany: "removeMany",
       weaponsActionsSetSorting: "setSorting",
       weaponsActionsSetPageSize: "setPageSize",
       weaponsActionsSetPageCurrent: "setPageCurrent",
@@ -288,77 +269,13 @@ export default Vue.extend({
       this[handler](payload)
     },
 
-    async weaponsRemoveOne(weapon) {
-      try {
-        await this.$confirm(
-          this.$t("weaponsRemoveOneConfirmation", {
-            weaponsName: weapon.name
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.weaponsActionsRemoveOne(weapon)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("weaponsActionsRemoveOneSuccess", {
-            weaponsName: weapon.name
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
+    weaponsRemoveOne(weapon) {
+      this.$emit("weaponsRemoveOne", weapon)
     },
 
-    async weaponsRemoveMany() {
-      const count = this.weaponsSelection.length
-
-      try {
-        await this.$confirm(
-          this.$t("weaponsRemoveManyConfirmation", {
-            weaponsCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
-
-      try {
-        await this.weaponsActionsRemoveMany(this.weaponsSelection)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("weaponsActionsRemoveManySuccess", {
-            weaponsCount: count
-          })
-        })
-      } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
-      }
-    }
+    weaponsRemoveMany(weapons) {
+      this.$emit("weaponsRemoveMany", weapons)
+    },
   }
 })
 </script>

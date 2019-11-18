@@ -15,8 +15,8 @@ const clubsFixture = [{
 }]
 
 describe("clubs.view.screen", () => {
-  it("Navigate to clubs", () => {
-    cy.visit("/clubs")
+  beforeEach(() => {
+    cy.visit("/#clubs")
   })
 
   it("Create a club", () => {
