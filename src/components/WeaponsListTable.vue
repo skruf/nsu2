@@ -10,7 +10,8 @@
     "editWeapon": "Edit weapon",
     "removeWeapon": "Remove weapon",
     "tablePlaceholderText": "No weapons yet.",
-    "tablePlaceholderButton": "Create new?"
+    "tablePlaceholderButton": "Create new?",
+    "weaponsCreateDialogOpen": "Create weapon"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter våpen med navn",
@@ -22,7 +23,8 @@
     "editWeapon": "Rediger klasse",
     "removeWeapon": "Slett klasse",
     "tablePlaceholderText": "Ingen våpen enda.",
-    "tablePlaceholderButton": "Opprett ny?"
+    "tablePlaceholderButton": "Opprett ny?",
+    "weaponsCreateDialogOpen": "Opprett våpen"
   }
 }
 </i18n>
@@ -50,7 +52,7 @@
         data-testid="weaponsCreateDialogOpenButton"
         @click.stop="weaponsCreateDialogOpen"
       >
-        Create weapon
+        {{ $t("weaponsCreateDialogOpen") }}
       </v-btn>
     </div>
 

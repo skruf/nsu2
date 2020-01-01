@@ -63,31 +63,29 @@
         :items="languages"
         :label="$t('formItemLanguageLabel')"
         :placeholder="$t('formItemLanguagePlaceholder')"
-        class="max-w-md"
+        class="max-w-md mb-10"
         data-testid="settingsLanguageSelect"
         item-text="label"
         item-value="locale"
         outlined
         required
       />
+
+      <v-btn
+        v-if="config.runtime === 'app'"
+        text
+        @click="checkForUpdates"
+      >
+        {{ $t("appCheckForUpdatesButton") }}
+      </v-btn>
+
+      <v-btn
+        color="error"
+        @click="resetApp"
+      >
+        {{ $t("appResetButton") }}
+      </v-btn>
     </div>
-
-    <!-- <v-spacer /> -->
-
-    <v-btn
-      v-if="config.runtime === 'app'"
-      text
-      @click="checkForUpdates"
-    >
-      {{ $t("appCheckForUpdatesButton") }}
-    </v-btn>
-
-    <v-btn
-      color="error"
-      @click="resetApp"
-    >
-      {{ $t("appResetButton") }}
-    </v-btn>
   </div>
 </template>
 

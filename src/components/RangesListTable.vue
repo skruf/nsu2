@@ -11,7 +11,8 @@
     "editRange": "Edit range",
     "removeRange": "Remove range",
     "tablePlaceholderText": "No ranges yet.",
-    "tablePlaceholderButton": "Create new?"
+    "tablePlaceholderButton": "Create new?",
+    "rangesCreateDialogOpen": "Create range"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter skyttebane med navn",
@@ -24,7 +25,8 @@
     "editRange": "Rediger klasse",
     "removeRange": "Slett klasse",
     "tablePlaceholderText": "Ingen skyttebane enda.",
-    "tablePlaceholderButton": "Opprett ny?"
+    "tablePlaceholderButton": "Opprett ny?",
+    "rangesCreateDialogOpen": "Opprett skyttebane"
   }
 }
 </i18n>
@@ -52,7 +54,7 @@
         data-testid="rangesCreateDialogOpenButton"
         @click.stop="rangesCreateDialogOpen"
       >
-        Create range
+        {{ $t("rangesCreateDialogOpen") }}
       </v-btn>
     </div>
 

@@ -1,11 +1,11 @@
 <i18n>
 {
   "en": {
-    "dialogTitle": "Create weapon",
+    "dialogTitle": "Create event",
     "eventsActionsCreateSuccess": "%{eventTitle} was successfully added to the database"
   },
   "no": {
-    "dialogTitle": "Opprett våpen",
+    "dialogTitle": "Opprett stevne",
     "eventsActionsCreateSuccess": "%{eventTitle} ble lagt til i databasen"
   }
 }

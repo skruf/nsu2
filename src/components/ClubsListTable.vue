@@ -10,7 +10,8 @@
     "editClub": "Edit club",
     "removeClub": "Remove club",
     "tablePlaceholderButton": "Create new?",
-    "tablePlaceholderText": "No clubs yet."
+    "tablePlaceholderText": "No clubs yet.",
+    "clubsCreateDialogOpen": "Create club"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter en klubb med navn",
@@ -22,7 +23,8 @@
     "editClub": "Rediger klubb",
     "removeClub": "Slett klubb",
     "tablePlaceholderButton": "Opprett ny?",
-    "tablePlaceholderText": "Ingen klubber enda."
+    "tablePlaceholderText": "Ingen klubber enda.",
+    "clubsCreateDialogOpen": "Opprett klubb"
   }
 }
 </i18n>
@@ -50,7 +52,7 @@
         data-testid="clubsCreateDialogOpenButton"
         @click.stop="clubsCreateDialogOpen"
       >
-        Create club
+        {{ $t("clubsCreateDialogOpen") }}
       </v-btn>
     </div>
 

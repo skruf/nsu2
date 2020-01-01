@@ -20,7 +20,7 @@
         </v-icon>
       </v-btn>
 
-      <v-toolbar-title>
+      <v-toolbar-title class="pl-0">
         <slot name="title" />
       </v-toolbar-title>
 
