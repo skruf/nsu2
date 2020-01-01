@@ -5,5 +5,14 @@
       { "targets": { "node": "current" } }
     ]
   ],
-  "retainLines": true
+  "retainLines": true,
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
 }

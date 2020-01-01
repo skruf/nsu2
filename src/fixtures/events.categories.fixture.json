@@ -1,7 +1,22 @@
 [
-  { "name": "Lokalt stevne" },
-  { "name": "Norgesmesterskap" },
-  { "name": "Nordisk mesterskap" },
-  { "name": "Europeisk mesterskap" },
-  { "name": "Verdensmesterskap" }
+  {
+    "id": "1",
+    "name": "Lokalt stevne"
+  },
+  {
+    "id": "2",
+    "name": "Norgesmesterskap"
+  },
+  {
+    "id": "3",
+    "name": "Nordisk mesterskap"
+  },
+  {
+    "id": "4",
+    "name": "Europeisk mesterskap"
+  },
+  {
+    "id": "5",
+    "name": "Verdensmesterskap"
+  }
 ]

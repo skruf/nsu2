@@ -5,13 +5,15 @@ interface MockObject {
 const filter = (item: MockObject, stub: MockObject): MockObject => {
   const data: any = {}
 
-  for(let key in item) {
-    if(stub.hasOwnProperty(key)) {
+  for(const key in item) {
+    if(Object.hasOwnProperty.call(stub, key)) {
       let value = item[key]
       if(Array.isArray(value)) {
-        data[key] = value.map(
-          (v: any) => typeof v === "object" ? filter(v, stub[key]) : v
-        )
+        data[key] = value
+        // console.log(value)
+        // data[key] = value.map(
+        //   (v: any) => typeof v === "object" ? filter(v, stub[key]) : v
+        // )
       } else if(typeof value === "object") {
         data[key] = value = filter(value, stub[key])
       } else {
@@ -23,7 +25,9 @@ const filter = (item: MockObject, stub: MockObject): MockObject => {
   return data
 }
 
-export default (item: (MockObject | MockObject[]), stub: MockObject): MockObject => {
+export default (
+  item: (MockObject | MockObject[]), stub: MockObject
+): MockObject => {
   let data: MockObject
 
   if(Array.isArray(item)) {

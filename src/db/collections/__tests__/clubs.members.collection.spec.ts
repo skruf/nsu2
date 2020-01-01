@@ -27,28 +27,27 @@ describe("clubs.members.collection", () => {
     expect(club.id).not.toBeFalsy()
   })
 
-  it("should be able to find a club member's participants", async () => {
-    const member = await db.clubs_members.findOne().exec()
-    const participants = await db.events_participants.find({
-      memberId: member.id
+  it("should be able to find a club member's contestants", async () => {
+    const clubMember = await db.clubs_members.findOne().exec()
+    const contestants = await db.events_contestants.find({
+      clubMemberId: clubMember.id
     }).exec()
-
-    expect(participants.length).toBeGreaterThan(0)
+    expect(contestants.length).toBeGreaterThan(0)
   })
 
-  it("removing a club member should also remove its participants", async () => {
-    const member = await db.clubs_members.findOne().exec()
+  it("removing a club member should also remove its contestants", async () => {
+    const clubMember = await db.clubs_members.findOne().exec()
 
-    const participants1 = await db.events_participants.find({
-      memberId: member.id
+    const contestants1 = await db.events_contestants.find({
+      clubMemberId: clubMember.id
     }).exec()
-    expect(participants1).not.toHaveLength(0)
+    expect(contestants1).not.toHaveLength(0)
 
-    await member.remove()
+    await clubMember.remove()
 
-    const participants2 = await db.events_participants.find({
-      memberId: member.id
+    const contestants2 = await db.events_contestants.find({
+      clubMemberId: clubMember.id
     }).exec()
-    expect(participants2).toHaveLength(0)
+    expect(contestants2).toHaveLength(0)
   })
 })

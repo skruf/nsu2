@@ -1,10 +1,10 @@
 <i18n>
 {
   "en": {
-    "breadcrumb1Label": "Events",
-    "breadcrumb2Label": "All",
-    "title": "Events",
-    "eventsOpenCreateDialogButton": "Create event",
+    "breadcrumbEventsLabel": "Events",
+    "breadcrumbAllLabel": "All",
+    "screenTitle": "Events",
+    "eventsCreateDialogOpenButton": "Create event",
     "past": "Past",
     "upcoming": "Upcoming",
     "all": "All",
@@ -14,10 +14,10 @@
     "eventsActionsRemoveManySuccess": "%{eventsCount} events were removed from the database"
   },
   "no": {
-    "breadcrumb1Label": "Stevner",
-    "breadcrumb2Label": "Alle",
-    "title": "Stevner",
-    "eventsOpenCreateDialogButton": "Opprett stevne",
+    "breadcrumbEventsLabel": "Stevner",
+    "breadcrumbAllLabel": "Alle",
+    "screenTitle": "Stevner",
+    "eventsCreateDialogOpenButton": "Opprett stevne",
     "past": "Avsluttet",
     "upcoming": "Kommende",
     "all": "Alle",
@@ -30,84 +30,70 @@
 </i18n>
 
 <template>
-  <el-container
-    id="events-list-screen"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[{
-          to: '/events',
-          label: $t('breadcrumb1Label')
-        }, {
-          to: '',
-          label: breadcrumbLabel
-        }]"
-      />
-
-      <div class="page-titles">
-        <h1 class="h1">
-          {{ breadcrumbLabel }} {{ $t("title") }}
-        </h1>
-      </div>
-    </el-header>
-
-    <el-main
-      v-loading="eventsRemoveIsLoading"
-      class="content"
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
     >
+      <v-toolbar-title>
+        {{ $t("screenTitle") }}
+      </v-toolbar-title>
+
+      <v-spacer />
+
+      <v-btn icon>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/events', text: $t('breadcrumbEventsLabel') },
+        { to: '', text: $t('breadcrumbAllLabel') }
+      ]"
+    />
+
+    <div v-loading="eventsRemoveIsLoading">
       <events-list-table
-        @eventsOpenCreateDialog="eventsOpenCreateDialog"
-        @eventsOpenEditDialog="eventsOpenEditDialog"
+        @eventsCreateDialogOpen="eventsCreateDialogOpen"
+        @eventsEditDialogOpen="eventsEditDialogOpen"
         @eventsRemoveOne="eventsRemoveOne"
         @eventsRemoveMany="eventsRemoveMany"
       />
-    </el-main>
-
-    <el-footer height="auto">
-      <el-button
-        type="primary"
-        data-testid="eventsOpenCreateDialogButton"
-        @click="eventsOpenCreateDialog"
-      >
-        <i class="el-icon-plus el-icon--left" />
-        {{ $t("eventsOpenCreateDialogButton") }}
-      </el-button>
-    </el-footer>
+    </div>
 
     <events-create-dialog
-      :shown.sync="eventsShowCreateDialog"
+      :shown.sync="eventsCreateDialogShown"
     />
 
     <events-edit-dialog
-      :shown.sync="eventsShowEditDialog"
-      :event="eventsEditItem"
+      :shown.sync="eventsEditDialogShown"
+      :event="eventsEditDialogEvent"
     />
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapMutations, mapState } from "vuex"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-import EventsListTable from "@/containers/EventsListTable.vue"
-import EventsCreateDialog from "@/containers/EventsCreateDialog.vue"
-import EventsEditDialog from "@/containers/EventsEditDialog.vue"
+import EventsListTable from "@/components/EventsListTable.vue"
+import EventsCreateDialog from "@/components/EventsCreateDialog.vue"
+import EventsEditDialog from "@/components/EventsEditDialog.vue"
 
 export default Vue.extend({
   name: "EventsListScreen",
 
   components: {
-    BreadcrumbBar,
     EventsListTable,
     EventsCreateDialog,
     EventsEditDialog
   },
 
   data: () => ({
-    eventsShowCreateDialog: false,
-    eventsShowEditDialog: false,
-    eventsEditItem: {}
+    eventsCreateDialogShown: false,
+    eventsEditDialogShown: false,
+    eventsEditDialogEvent: {}
   }),
 
   computed: {
@@ -117,14 +103,14 @@ export default Vue.extend({
       eventsStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
 
-    eventsRemoveIsLoading() {
+    eventsRemoveIsLoading(): boolean {
       return (
         this.eventsStateRemoveOneIsLoading ||
         this.eventsStateRemoveManyIsLoading
       )
     },
 
-    breadcrumbLabel() {
+    breadcrumbLabel(): string {
       if(this.eventsStateFetchMode === "history") {
         return this.$t("past")
       }
@@ -138,7 +124,7 @@ export default Vue.extend({
   watch: {
     "$route.query.filter": {
       immediate: true,
-      handler: async function(mode) {
+      handler: async function(mode): Promise<void> {
         this.eventsMutationsSetFetchMode(mode)
         await this.eventsActionsList()
       }
@@ -156,16 +142,16 @@ export default Vue.extend({
       eventsActionsRemoveMany: "removeMany"
     }),
 
-    eventsOpenCreateDialog() {
-      this.eventsShowCreateDialog = true
+    eventsCreateDialogOpen(): void {
+      this.eventsCreateDialogShown = true
     },
 
-    eventsOpenEditDialog(item) {
-      this.eventsShowEditDialog = true
-      this.eventsEditItem = item
+    eventsEditDialogOpen(item): void {
+      this.eventsEditDialogShown = true
+      this.eventsEditDialogEvent = item
     },
 
-    async eventsRemoveOne(event) {
+    async eventsRemoveOne(event): Promise<void> {
       try {
         await this.$confirm(
           this.$t("eventsRemoveOneConfirmation", {
@@ -200,7 +186,7 @@ export default Vue.extend({
       }
     },
 
-    async eventsRemoveMany(events) {
+    async eventsRemoveMany(events): Promise<void> {
       const count = events.length
       try {
         await this.$confirm(

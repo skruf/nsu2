@@ -4,6 +4,19 @@
   "close": "Close",
   "success": "Success!",
   "warning": "Warning!",
-  "confirmButtonText": "Ja, jeg er sikker",
-  "validationError": "Please fill in all required fields before saving"
+  "confirmButtonText": "Yes, I am sure",
+  "validationError": "Please fill in all required fields before saving",
+  "loading": "Loading..",
+  "edit": "Edit",
+  "remove": "Remove",
+  "create": "Create",
+  "selection": "Selection",
+  "removeSelection": "@:remove @:selection.lower",
+  "createNew": "@:create new?",
+  "groupBy": "Group by",
+  "none": "None",
+  "event": "Event",
+  "division": "Division",
+  "contestant": "Contestant",
+  "weapon": "Weapon"
 }

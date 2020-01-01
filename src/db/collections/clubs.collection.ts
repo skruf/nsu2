@@ -59,7 +59,8 @@ const schema: RxJsonSchema = {
       type: "string"
     },
     area: {
-      type: "string"
+      type: "string",
+      index: true
     },
     country: {
       type: "string"

@@ -36,10 +36,12 @@ const schema: RxJsonSchema = {
       index: true
     },
     streetAddress: {
-      type: "string"
+      type: "string",
+      index: true
     },
     area: {
-      type: "string"
+      type: "string",
+      index: true
     },
     country: {
       type: "string",
@@ -72,11 +74,13 @@ const statics: RangesStatics = {
 }
 
 const preRemove = async (data: RangesProperties): Promise<void> => {
-  const clubs = await db.clubs.find({ rangeId: data.id })
-  await clubs.update({ $set: { rangeId: "" } })
+  await db.clubs
+    .find({ rangeId: data.id })
+    .update({ $set: { rangeId: undefined } })
 
-  const events = await db.events.find({ rangeId: data.id })
-  await events.update({ $set: { rangeId: "" } })
+  await db.events
+    .find({ rangeId: data.id })
+    .update({ $set: { rangeId: undefined } })
 }
 
 export default {

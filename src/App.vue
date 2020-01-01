@@ -1,69 +1,28 @@
 <style lang="stylus" scoped>
-#app
-  flex 1
-  min-height 100vh
-  display flex
-
-.titlebar
-  -webkit-user-select none
-  -webkit-app-region drag
-  width 100%
-  height 20px
-  position absolute
-  left 0
-  right 0
-  top 0
-
 </style>
 
 <template>
-  <div>
-    <el-container
-      id="app"
-      :class="{
-        'sidebar-open': isSidebarOpen
-      }"
-    >
-      <div class="titlebar" />
-
-      <app-sidebar
-        :open.sync="isSidebarOpen"
-      />
-
+  <v-app>
+    <app-sidebar />
+    <v-content>
       <router-view />
-    </el-container>
-  </div>
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="ts">
-// import config from "@/app.config"
+import Vue from "vue"
 import AppSidebar from "@/components/AppSidebar.vue"
+// import config from "@/app.config"
 
-export default {
+export default Vue.extend({
   name: "Nsu",
 
   components: {
     AppSidebar
   },
 
-  data: () => ({
-    isSidebarOpen: true
-  }),
-
-  watch: {
-    isSidebarOpen() {
-      localStorage.setItem("isSidebarOpen", this.isSidebarOpen)
-    },
-    appOnboardingShowDialog() {
-      localStorage.setItem("appOnboardingShowDialog", this.appOnboardingShowDialog)
-    }
-  },
-
   created() {
-    if(localStorage.isSidebarOpen !== undefined) {
-      this.isSidebarOpen = localStorage.isSidebarOpen === "true"
-    }
-
     // if(config.runtime === "web") return
 
     // console.log(window.ipc)
@@ -94,5 +53,5 @@ export default {
     //   this.$notify.info({ title, message })
     // })
   }
-}
+})
 </script>

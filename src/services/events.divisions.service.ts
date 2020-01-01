@@ -1,5 +1,5 @@
 import {
-  insert, findMany, findOne, destroyOne, destroyMany, updateOne
+  insert, findMany, findOne, destroyOne, destroyMany, updateOne, count
 } from "@/db/queries"
 import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
 import { eventsDivisionsStub } from "@/stubs"
@@ -7,16 +7,19 @@ import { filterInputUtil } from "@/utils"
 import {
   EventsDivisionsProperties
 } from "@/db/collections/events.divisions.collection"
+import _uniqBy from "lodash.uniqby"
 
-import {
-  eventsService,
-  eventsContestantsService
-} from "@/services"
+type ListResult = Promise<{ items: QueryResult[], count: number }>
+type List = (filter: QueryFilter, options: QueryOptions) => ListResult
 
-const list = async (
-  filter: QueryFilter, options: QueryOptions
-): Promise<{ items: QueryResult[], count: number }> => {
+const list: List = async (filter, options) => {
   const divisions = await findMany("events_divisions", filter, options, true)
+  divisions.items = await Promise.all(
+    divisions.items.map(async (item: EventsDivisionsProperties) => {
+      item.contestantsCount = await count("events_contestants", { divisionId: item.id })
+      return item
+    })
+  )
   return divisions
 }
 
@@ -24,6 +27,7 @@ const select = async (
   filter: QueryFilter
 ): Promise<EventsDivisionsProperties | null> => {
   const division = await findOne("events_divisions", filter, true)
+  division.contestantsCount = await count("events_contestants", { divisionId: division.id })
   return division
 }
 
@@ -32,6 +36,7 @@ const create = async (
 ): Promise<EventsDivisionsProperties> => {
   const data = filterInputUtil(item, eventsDivisionsStub)
   const division = await insert("events_divisions", data, true)
+  division.contestantsCount = await count("events_contestants", { divisionId: division.id })
   return division
 }
 
@@ -57,6 +62,61 @@ const editOne = async (
   return division
 }
 
+// get existing contestants for uniq
+const autoAssign = async (data) => {
+  const populate = async (doc) => {
+    doc.weapon = await doc.populate("weaponId")
+    return doc
+  }
+
+  const existingContestants: any = await findMany("events_contestants", {
+    eventId: data.eventId,
+    divisionId: data.id
+  })
+
+  const contestantsWithoutDivision: any = await findMany("events_contestants", {
+    eventId: data.eventId,
+    divisionId: { $exists: false }
+
+    // $and: [{
+    //   eventId: data.eventId
+    // }, {
+    //   $or: [
+    //     { divisionId: { $exists: false } },
+    //     { divisionId: data.id }
+    //   ]
+    // }]
+  })
+
+  const contestants = await Promise.all(
+    contestantsWithoutDivision.items.filter(
+      ({ clubMemberId }) => !existingContestants.items.map(
+        ({ clubMemberId }) => clubMemberId
+      ).includes(clubMemberId)
+    ).map(populate)
+  )
+
+  // delta between existing and new contestants
+  // @TODO: sort stands by every other big / small calibre
+  // @TODO: check that contestant doesnt exist in other divisions
+
+  const currentMaxCount = data.standsCount - existingContestants.count
+
+  await Promise.all(
+    _uniqBy(contestants, "clubMemberId")
+      .filter(({ weapon }) => weapon.distance === data.distance)
+      .slice(0, currentMaxCount)
+      // index is wrong for stand
+      .map((doc: any, index) => {
+        // const a = doc.toJSON()
+        // console.log(a.clubMemberId)
+        return doc.update(
+          { $set: { divisionId: data.id, stand: index + 1 } }
+        )
+      })
+  )
+}
+
 export default {
-  list, select, create, removeOne, removeMany, editOne
+  list, select, create, removeOne, removeMany, editOne, autoAssign
 }

@@ -9,6 +9,7 @@ const fs = require("fs")
 const debug = true
 const IS_DEV = process.env.NODE_ENV === "development"
 if(IS_DEV) require("electron-reload")(__dirname)
+log.catchErrors()
 
 let win
 

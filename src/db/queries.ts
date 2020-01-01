@@ -16,23 +16,27 @@ import {
 const buildQuery: BuildQuery = async (
   collection, method, filter, options = {}
 ) => {
+  let query = filter
+
   if(options.search && options.search.value) {
     const $or: any = []
-
     options.search.fields.forEach((field) => {
       $or.push({
         [field]: {
-          $regex: new RegExp(`${options.search ? options.search.value : ""}`, "i")
+          $regex: new RegExp(
+            `${options.search ? options.search.value : ""}`,
+            "gi"
+          )
         }
       })
     })
-
-    filter = {
-      $and: [ filter, { $or } ]
+    query = {
+      $and: [ { $or } ]
     }
+    if(Object.keys(filter).length) query.$and.push(filter)
   }
 
-  let operation: any = db[collection][method](filter)
+  let operation: any = db[collection][method](query)
 
   if(options.sort) {
     // @TODO: bugfix sorting while searching
@@ -42,11 +46,11 @@ const buildQuery: BuildQuery = async (
     }
   }
 
-  if(typeof options.skip === "number") {
+  if(options.skip && typeof options.skip === "number") {
     operation = operation.skip(options.skip)
   }
 
-  if(typeof options.limit === "number") {
+  if(options.limit && typeof options.limit === "number") {
     operation = operation.limit(options.limit)
   }
 
@@ -66,7 +70,7 @@ export const findMany: FindManyQuery = async (
   collection, filter, options = {}, json = false
 ) => {
   const query = await buildQuery(collection, "find", filter, options)
-  let docs = await query.exec()
+  const docs = await query.exec()
   const amount = await count(collection, filter, options)
   return {
     items: json ? docs.map((doc) => doc.toJSON()) : docs,
@@ -77,7 +81,7 @@ export const findMany: FindManyQuery = async (
 export const findOne: FindOneQuery = async (
   collection, filter, json = false
 ) => {
-  let doc = await db[collection].findOne(filter).exec()
+  const doc = await db[collection].findOne(filter).exec()
   if(!doc) return null
   return json ? doc.toJSON() : doc
 }
@@ -89,7 +93,7 @@ export const insert: InsertQuery = async (
   data.id = getIdUtil()
   data.createdAt = timestamp
   data.updatedAt = timestamp
-  let doc = await db[collection].insert(data)
+  const doc = await db[collection].insert(data)
   return json ? doc.toJSON() : doc
 }
 

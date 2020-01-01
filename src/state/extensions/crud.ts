@@ -1,5 +1,6 @@
 import { queryHelperUtil } from "@/utils"
 import { QueryFilter, QueryResult } from "@/db/queries.d"
+import _cloneDeep from "lodash.clonedeep"
 
 interface Options {
   list?: Function,
@@ -109,17 +110,17 @@ export default (options?: Options) => {
       state.listFilter = listFilter
     }
 
-    actions.list = async function({ commit, state }, filter) {
+    // filter undefined = loopage
+    actions.list = async function({ commit, state }, params = {}) {
+      const { filter, options, persistFilter } = params
       commit("SET_LIST_LOADING", true)
 
-      let options = queryHelperUtil(state)
-      if(filter && filter.options && Object.keys(filter.options).length > 0) {
-        options = filter.options
-        delete filter.options
-      }
+      const listOptions = { ...queryHelperUtil(state), ...options }
+      const listFilter = _cloneDeep(filter) || state.listFilter
 
-      const query = filter || state.listFilter
-      const results = await config.list(query, options)
+      if(persistFilter) commit("SET_LIST_FILTER", state, listFilter)
+
+      const results = await config.list(listFilter, listOptions)
 
       commit("SET_LIST", results.items)
       commit("SET_COUNT", results.count)

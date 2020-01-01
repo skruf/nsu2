@@ -7,16 +7,10 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-export {}
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      getById: (testid: string) => Chainable
-    }
-  }
-}
-
 Cypress.Commands.add("getById", (testId) => {
   return cy.get(`[data-testid="${testId}"]`)
+})
+
+Cypress.Commands.add("startup", () => {
+  cy.window({ timeout: 10000 }).should("have.property", "ready", true)
 })

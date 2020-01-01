@@ -1,6 +1,6 @@
 import { RxJsonSchema, RxCollection, RxDocument } from "rxdb"
 import { destroyMany } from "@/db/queries"
-import { getIdUtil, getTimestampUtil } from "@/utils"
+import { db } from "@/db"
 
 export declare interface EventsCategoriesProperties {
   id: string
@@ -40,39 +40,20 @@ const schema: RxJsonSchema = {
   ]
 }
 
-const statics: EventsCategoriesStatics = {
-  count: async function() {
-    const docs = await this.find().exec()
-    return docs.length
-  }
-}
-
-const preInsert = (data: EventsCategoriesProperties) => {
-  const timestamp = getTimestampUtil()
-  data.id = getIdUtil()
-  data.createdAt = timestamp
-  data.updatedAt = timestamp
-}
-
 const preRemove = async (data: EventsCategoriesProperties) => {
-  await destroyMany("events", {
-    categoryId: data.id
-  })
+  await db.events_contestants
+    .find({ categoryId: data.id })
+    .update({ $set: { categoryId: undefined } })
 }
 
 export default {
   collection: {
     name: "events_categories",
-    schema: schema,
-    statics: statics
+    schema: schema
   },
   middlewares: {
     preRemove: {
       handle: preRemove,
-      parallel: false
-    },
-    preInsert: {
-      handle: preInsert,
       parallel: false
     }
   }

@@ -25,20 +25,4 @@ describe("weapons.collection", () => {
     const weapon = await db.weapons.findOne().exec()
     expect(weapon.id).not.toBeFalsy()
   })
-
-  it("removing a weapon should also remove participants weapon's", async () => {
-    const weapon = await db.weapons.findOne().exec()
-
-    const weapons1 = await db.events_participants_weapons.find({
-      weaponId: weapon.id
-    }).exec()
-    expect(weapons1).not.toHaveLength(0)
-
-    await weapon.remove()
-
-    const weapons2 = await db.events_participants_weapons.find({
-      weaponId: weapon.id
-    }).exec()
-    expect(weapons2).toHaveLength(0)
-  })
 })

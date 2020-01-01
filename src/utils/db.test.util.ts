@@ -1,6 +1,6 @@
 import { Database } from "../db"
 import { DatabaseCollectionsNames } from "../db/collections"
-import { getIdUtil, getTimestampUtil } from "./"
+import { getTimestampUtil } from "./"
 import {
   weaponsFixture,
   rangesFixture,
@@ -12,76 +12,83 @@ import {
   eventsContestantsFixture
 } from "../fixtures"
 
+const rId = (m): string => {
+  const c = Math.floor(Math.random() * m.length)
+  const v = m[c]
+  if(typeof v === "string") return m.splice(0, c)
+  return v.id
+}
+
 const store = (
   db: Database,
   collection: DatabaseCollectionsNames,
   fixtures: any,
-  overrides?: any
+  refs?: any
 ): any => {
-  return Promise.all(
-    fixtures.map(async (fixture: any) => {
-      const f = { ...fixture, ...overrides }
-      const timestamp = getTimestampUtil()
-      f.id = getIdUtil()
-      f.createdAt = timestamp
-      f.updatedAt = timestamp
-      const d = await db[collection].insert(f)
-      return d.toJSON()
-    })
-  )
+  // for(const k in refs) {
+  //   const ref = refs[k]
+  //   f[k] = rId(ref)
+  // }
+
+  const timestamp = getTimestampUtil()
+
+  const docs = fixtures.map((fixture) => db[collection].newDocument({
+    ...fixture,
+    createdAt: timestamp,
+    updatedAt: timestamp
+  }))
+
+  return Promise.all(docs.map(async (doc: any) => {
+    await doc.save()
+    return doc.toJSON()
+  }))
 }
 
-export const seedWeapons = (db: Database, overrides?: object) => {
-  return store(db, "weapons", weaponsFixture, overrides)
+export const seedWeapons = (db: Database, refs?: object) => {
+  return store(db, "weapons", weaponsFixture, refs)
 }
-export const seedRanges = (db: Database, overrides?: object) => {
-  return store(db, "ranges", rangesFixture, overrides)
+export const seedRanges = (db: Database, refs?: object) => {
+  return store(db, "ranges", rangesFixture, refs)
 }
-export const seedClubs = (db: Database, overrides?: object) => {
-  return store(db, "clubs", clubsFixture, overrides)
+export const seedClubs = (db: Database, refs?: object) => {
+  return store(db, "clubs", clubsFixture, refs)
 }
-export const seedClubsMembers = (db: Database, overrides?: object) => {
-  return store(db, "clubs_members", clubsMembersFixture, overrides)
+export const seedClubsMembers = (db: Database, refs?: object) => {
+  return store(db, "clubs_members", clubsMembersFixture, refs)
 }
-export const seedEventsCategories = (db: Database, overrides?: object) => {
-  return store(db, "events_categories", eventsCategoriesFixture, overrides)
+export const seedEventsCategories = (db: Database, refs?: object) => {
+  return store(db, "events_categories", eventsCategoriesFixture, refs)
 }
-export const seedEvents = (db: Database, overrides?: object) => {
-  return store(db, "events", eventsFixture, overrides)
+export const seedEvents = (db: Database, refs?: object) => {
+  return store(db, "events", eventsFixture, refs)
 }
-export const seedEventsContestants = (db: Database, overrides?: object) => {
-  return store(db, "events_contestants", eventsContestantsFixture, overrides)
+export const seedEventsContestants = (db: Database, refs?: object) => {
+  return store(db, "events_contestants", eventsContestantsFixture, refs)
 }
-export const seedEventsDivisions = (db: Database, overrides?: object) => {
-  return store(db, "events_divisions", eventsDivisionsFixture, overrides)
+export const seedEventsDivisions = (db: Database, refs?: object) => {
+  return store(db, "events_divisions", eventsDivisionsFixture, refs)
 }
 
 export default {
-  seed: async (db: Database) => {
-    const weapons = await seedWeapons(db)
-    const ranges = await seedRanges(db)
-    const clubs = await seedClubs(db, {
-      rangeId: ranges[0].id
-    })
-    const clubsMembers = await seedClubsMembers(db, { clubId: clubs[0].id })
-    const eventsCategories = await seedEventsCategories(db)
-    const events = await seedEvents(db, {
-      categoryId: eventsCategories[0].id,
-      rangeId: ranges[0].id,
-      organizerId: clubs[0].id
-    })
-    const eventsContestants = await seedEventsContestants(db, {
-      weaponId: weapons[0].id,
-      eventId: events[0].id,
-      clubMemberId: clubsMembers[0].id
-    })
-    await seedEventsDivisions(db, {
-      eventId: events[0].id,
-      eventsContestantsIds: eventsContestants.map(({ id }) => id)
-    })
+  seed: async (db: Database): Promise<void> => {
+    // console.log("[seed] seed:started")
+
+    await seedWeapons(db)
+    await seedRanges(db)
+    await seedClubs(db)
+    await seedClubsMembers(db)
+    await seedEventsCategories(db)
+    await seedEvents(db)
+    await seedEventsDivisions(db)
+    await seedEventsContestants(db)
+
+    // console.log("[seed] seed:finished")
   },
-  reset: async (db: Database) => {
+
+  reset: async (db: Database): Promise<void> => {
+    // console.log("[seed] reset:started")
     await db.remove()
     db = null
+    // console.log("[seed] reset:finished")
   }
 }

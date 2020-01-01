@@ -1,13 +1,19 @@
 [{
-  "id" : "",
+  "id" : "1",
   "title": "VM Eisenstadt Østerrike 2019",
-  "startsAt": "2019-03-15T10:00:00.699Z",
-  "endsAt": "2019-03-18T18:00:00.699Z",
-  "approbated": true
+  "startsAt": "2019-03-15",
+  "endsAt": "2019-03-18",
+  "approbated": true,
+  "rangeId": "1",
+  "organizerId": "1",
+  "categoryId": "1"
 }, {
-  "id" : "",
+  "id" : "2",
   "title": "Nord & Sør Klubbmesterskap 2018",
-  "startsAt": "2018-03-15T10:00:00.699Z",
-  "endsAt": "2018-03-18T18:00:00.699Z",
-  "approbated": false
+  "startsAt": "2018-03-15",
+  "endsAt": "2018-03-18",
+  "approbated": false,
+  "rangeId": "2",
+  "organizerId": "2",
+  "categoryId": "2"
 }]

@@ -1,15 +1,41 @@
 [{
-  "id" : "",
-  "name": "Day 1",
-  "day": "2019-03-15",
+  "id" : "1",
+  "name": "Håndvåpen",
+  "day": "2019-07-09",
   "time": "10:00",
   "distance": 25,
-  "standsCount": 9
+  "standsCount": 9,
+  "eventId": "1"
 }, {
-  "id" : "",
-  "name": "Day 2",
-  "day": "2019-03-16",
+  "id" : "2",
+  "name": "Håndvåpen",
+  "day": "2019-01-03",
   "time": "10:00",
+  "distance": 25,
+  "standsCount": 5,
+  "eventId": "1"
+}, {
+  "id" : "3",
+  "name": "Langhold",
+  "day": "2019-03-16",
+  "time": "12:00",
   "distance": 50,
-  "standsCount": 5
+  "standsCount": 10,
+  "eventId": "1"
+}, {
+  "id" : "4",
+  "name": "Langhold",
+  "day": "2019-10-25",
+  "time": "08:00",
+  "distance": 50,
+  "standsCount": 3,
+  "eventId": "2"
+}, {
+  "id" : "5",
+  "name": "Håndvåpen",
+  "day": "2019-07-19",
+  "time": "14:00",
+  "distance": 25,
+  "standsCount": 15,
+  "eventId": "2"
 }]

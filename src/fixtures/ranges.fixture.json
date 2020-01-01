@@ -1,5 +1,5 @@
 [{
-  "id" : "",
+  "id" : "1",
   "name": "Løvenskioldbanen",
   "streetAddress": "Dælimosen 50",
   "area": "1359 Eiksmarka",
@@ -8,7 +8,7 @@
   "lat": "59.9608354",
   "lng": "10.5821424"
 }, {
-  "id" : "",
+  "id" : "2",
   "name": "Korpåsen",
   "streetAddress": "Flaenveien 85",
   "area": "2015, Leirsund",
@@ -17,10 +17,74 @@
   "lat": "59.975744",
   "lng": "11.111534"
 }, {
-  "id" : "",
+  "id" : "3",
   "name": "Ulvdalen",
   "streetAddress": "Ulvedalsvegen 1",
   "area": "2022, Gjerdrum",
+  "country": "Norge",
+  "type": "Utebane"
+}, {
+  "id" : "4",
+  "name": "Råde Pistollag sin skytebane",
+  "streetAddress": "Jerndalsveien",
+  "area": "1640 Råde",
+  "country": "Norge",
+  "type": "Utebane",
+  "lat": "59.9608354",
+  "lng": "10.5821424"
+}, {
+  "id" : "5",
+  "name": "Hærland skytebane",
+  "streetAddress": "Kviserudveien",
+  "area": "1850 Mysen",
+  "country": "Norge",
+  "type": "Utebane",
+  "lat": "59.975744",
+  "lng": "11.111534"
+}, {
+  "id" : "6",
+  "name": "Grasåsen",
+  "streetAddress": "",
+  "area": "1963 Aurskog",
+  "country": "Norge",
+  "type": "Utebane"
+}, {
+  "id" : "7",
+  "name": "Hammock Hill",
+  "streetAddress": "",
+  "area": "Kongsvinger",
+  "country": "Norge",
+  "type": "Innebane",
+  "lat": "59.9608354",
+  "lng": "10.5821424"
+}, {
+  "id" : "8",
+  "name": "Narjordet",
+  "streetAddress": "",
+  "area": "Os",
+  "country": "Norge",
+  "type": "Utebane",
+  "lat": "59.975744",
+  "lng": "11.111534"
+}, {
+  "id" : "9",
+  "name": "Svarthølmoen ",
+  "streetAddress": "",
+  "area": "Os",
+  "country": "Norge",
+  "type": "Utebane"
+}, {
+  "id" : "10",
+  "name": "Kvemyra ",
+  "streetAddress": "",
+  "area": "Ringsaker",
+  "country": "Norge",
+  "type": "Utebane"
+}, {
+  "id" : "11",
+  "name": "Hodalen",
+  "streetAddress": "",
+  "area": "Tolga",
   "country": "Norge",
   "type": "Utebane"
 }]

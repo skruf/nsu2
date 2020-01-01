@@ -3,8 +3,10 @@ import Vuex from "vuex"
 import config from "@/app.config"
 import {
   eventsStore,
+  eventsCategoriesStore,
   eventsDivisionsStore,
   eventsContestantsStore,
+  eventsDivisionsContestantsStore,
   clubsStore,
   clubsMembersStore,
   weaponsStore,
@@ -14,16 +16,16 @@ import {
 const stores = {
   events: {
     ...eventsStore,
-    // modules: {
-    //   participants: eventsParticipantsStore,
-    //   divisions: eventsDivisionsStore,
-    //   contestants: {
-    //     ...eventsContestantsStore,
-    //     modules: {
-    //       results: eventsContestantsResultsStore
-    //     }
-    //   }
-    // }
+    modules: {
+      categories: eventsCategoriesStore,
+      contestants: eventsContestantsStore,
+      divisions: {
+        ...eventsDivisionsStore,
+        modules: {
+          contestants: eventsDivisionsContestantsStore
+        }
+      }
+    }
   },
   clubs: {
     ...clubsStore,

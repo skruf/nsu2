@@ -61,21 +61,21 @@ const schema: RxJsonSchema = {
   ]
 }
 
-// const preRemove = async (data: ClubsMembersProperties) => {
-//   await destroyMany("events_participants", {
-//     memberId: data.id
-//   })
-// }
+const preRemove = async (data: ClubsMembersProperties) => {
+  await destroyMany("events_contestants", {
+    clubMemberId: data.id
+  })
+}
 
 export default {
   collection: {
     name: "clubs_members",
     schema: schema
   },
-  // middlewares: {
-  //   preRemove: {
-  //     handle: preRemove,
-  //     parallel: false
-  //   }
-  // }
+  middlewares: {
+    preRemove: {
+      handle: preRemove,
+      parallel: false
+    }
+  }
 }

@@ -38,10 +38,12 @@ const schema: RxJsonSchema = {
       index: true
     },
     condition: {
-      type: "string"
+      type: "string",
+      index: true
     },
     distance: {
-      type: "number"
+      type: "number",
+      index: true
     }
   },
   required: [

@@ -11,7 +11,11 @@ export const i18n = new VueI18n({
   locale: locale,
   fallbackLocale: "en",
   messages: { en, no },
-  silentFallbackWarn: true
+  silentFallbackWarn: true,
+  silentTranslationWarn: true,
+  modifiers: {
+    capitilize: (s): string => s.charAt(0).toUpperCase().slice(1)
+  }
 })
 
 export default i18n

@@ -1,113 +1,135 @@
 <i18n>
 {
   "en": {
-    "formItem1Placeholder": "Select a participant",
-    "formItem2Placeholder": "Select a weapon",
-    "formItem3Placeholder": "Enter a calibre"
+    "eventsContestantsFormWeaponIdPlaceholder": "Weapon",
+    "eventsContestantsFormWeaponIdError": "Weapon is a required field",
+    "eventsContestantsFormCalibreLabel": "Calibre",
+    "eventsContestantsFormCalibreError": "Calibre is a required field",
+    "eventsContestantsFormDivisionIdLabel": "Division"
   },
   "no": {
-    "formItem1Placeholder": "Velg en deltaker",
-    "formItem2Placeholder": "Velg et våpen",
-    "formItem3Placeholder": "Skriv inn kaliber"
+    "eventsContestantsFormWeaponIdPlaceholder": "Våpen",
+    "eventsContestantsFormWeaponIdError": "Våpen er et påkrevd felt",
+    "eventsContestantsFormCalibreLabel": "Kaliber",
+    "eventsContestantsFormCalibreError": "Kaliber er et påkrevd felt",
+    "eventsContestantsFormDivisionIdLabel": "Standplassliste"
   }
 }
 </i18n>
 
 <template>
-  <el-form
-    ref="form"
-    class="flex items-center"
-    label-position="top"
-    :model="localForm"
-  >
-    <div class="w-48 mb-5">
-      {{ form.stand }}
-    </div>
+  <v-form ref="localForm">
+    <v-autocomplete
+      v-model="value.weaponId"
+      :items="weaponsStateList"
+      :loading="weaponsStateListIsLoading"
+      item-text="name"
+      item-value="id"
+      :label="$t('eventsContestantsFormWeaponIdPlaceholder')"
+      :rules="[(v) => !!v || $t('eventsContestantsFormWeaponIdError')]"
+      data-testid="eventsContestantsFormWeaponIdSelect"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      label=""
-      prop="participant"
-      class="pl-2 w-full"
-    >
-      <el-select
-        v-model="localForm.participantId"
-        filterable
-        :placeholder="$t('formItem1Placeholder')"
-        @change="changeParticipant"
-      >
-        <el-option
-          v-for="participant in participants"
-          :key="participant.id"
-          :label="`${participant.member.firstName} ${participant.member.lastName}`"
-          :value="participant.id"
-        />
-      </el-select>
-    </el-form-item>
+    <v-text-field
+      v-model="value.calibre"
+      :label="$t('eventsContestantsFormCalibreLabel')"
+      :rules="[(v) => !!v || $t('eventsContestantsFormCalibreError')]"
+      data-testid="eventsContestantsFormCalibreInput"
+      type="number"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      label=""
-      prop="weapon"
-      class="pl-2 w-full"
-    >
-      <el-select
-        v-model="localForm.weaponId"
-        filterable
-        :disabled="weapons.length < 1"
-        :placeholder="$t('formItem2Placeholder')"
-        @change="updateForm"
-      >
-        <el-option
-          v-for="(weapon, i) in weapons"
-          :key="weapon.id"
-          :label="`${weapon.class.name} (${weapon.calibre})`"
-          :value="weapon.id"
-        />
-      </el-select>
-    </el-form-item>
-  </el-form>
+    <v-select
+      v-model="value.divisionId"
+      :items="eventsDivisionsStateList"
+      :loading="eventsDivisionsStateListIsLoading"
+      :label="$t('eventsContestantsFormDivisionIdLabel')"
+      data-testid="eventsContestantsFormDivisionIdSelect"
+      item-value="id"
+      item-text="name"
+      outlined
+    />
+
+    <error-validation-notification
+      :shown.sync="showValidationError"
+    />
+  </v-form>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
+import { mapState, mapActions } from "vuex"
 import { eventsContestantsStub } from "@/stubs"
+import ErrorValidationNotification from "@/components/ErrorValidationNotification.vue"
 
-export default {
+export default Vue.extend({
   name: "EventsContestantsForm",
 
-  props: {
-    form: { type: Object, required: true },
-    participants: { type: Array, required: true }
+  components: {
+    ErrorValidationNotification
   },
 
-  data: function() {
-    return {
-      localForm: { ...eventsContestantsStub },
-      weapons: []
-    }
+  props: {
+    value: { type: Object, default: (): object => eventsContestantsStub }
   },
+
+  data: () => ({
+    showValidationError: false
+  }),
 
   computed: {
-    currentParticipant() {
-      const participantId = this.localForm.participantId
-      const index = this.participants.findIndex((p) => p.id === participantId)
-      return this.participants[index]
+    ...mapState("weapons", {
+      weaponsStateListIsLoading: "listIsLoading",
+      weaponsStateList: "list"
+    }),
+    ...mapState("events/divisions", {
+      eventsDivisionsStateListIsLoading: "listIsLoading",
+      eventsDivisionsStateList: "list"
+    })
+  },
+
+  watch: {
+    value: {
+      deep: true,
+      handler(data): void {
+        data.calibre = parseInt(data.calibre)
+        this.$emit("input", data)
+      }
     }
   },
 
   created() {
-    this.localForm = this.form
-    if(this.currentParticipant) {
-      this.changeParticipant()
-    }
+    this.weaponsActionsList({
+      filter: {}, options: { limit: false }
+    })
+    this.eventsDivisionsActionsList({
+      filter: { eventId: this.value.eventId }, options: { limit: false }
+    })
   },
 
   methods: {
-    changeParticipant() {
-      this.weapons = this.currentParticipant.weapons
-      this.localForm.memberId = this.currentParticipant.memberId
+    ...mapActions("weapons", {
+      weaponsActionsList: "list"
+    }),
+
+    ...mapActions("events/divisions", {
+      eventsDivisionsActionsList: "list"
+    }),
+
+    submit(cb): void {
+      this.$refs.localForm.validate()
+        ? cb()
+        : this.showValidationError = true
     },
-    updateForm() {
-      this.$emit("update:form", this.localForm)
+
+    resetFields(): void {
+      this.$refs.localForm.reset()
     }
   }
-}
+})
 </script>

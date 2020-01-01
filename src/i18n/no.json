@@ -5,5 +5,18 @@
   "success": "Suksess!",
   "warning": "Advarsel!",
   "confirmButtonText": "Ja, jeg er sikker",
-  "validationError": "Vennligst fyll inn alle påkrevde felt før du fortsetter"
+  "validationError": "Vennligst fyll inn alle påkrevde felt før du fortsetter",
+  "loading": "Laster..",
+  "edit": "Rediger",
+  "remove": "Fjern",
+  "create": "Opprett",
+  "selection": "Valgte",
+  "removeSelection": "@:remove @:selection.lower",
+  "createNew": "@:create ny?",
+  "groupBy": "Grupper etter",
+  "none": "Ingen",
+  "event": "Stevne",
+  "division": "Standplassliste",
+  "contestant": "Deltaker",
+  "weapon": "Våpen"
 }

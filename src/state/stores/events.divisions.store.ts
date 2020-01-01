@@ -1,9 +1,7 @@
 import eventsDivisionsService from "@/services/events.divisions.service"
 import extend from "@/state/extensions"
 
-const state = {
-  sortBy: "day"
-}
+const state = {}
 const mutations = {}
 const actions = {}
 const getters = {}
@@ -27,16 +25,6 @@ const modules = [
       removeMany: eventsDivisionsService.removeMany,
       editOne: eventsDivisionsService.editOne
     }
-  },
-  {
-    module: "pagination"
-  },
-  {
-    module: "sorting"
-  },
-  {
-    module: "search",
-    options: { fields: [ "name" ] }
   }
 ]
 

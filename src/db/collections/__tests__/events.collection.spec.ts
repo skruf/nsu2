@@ -40,33 +40,33 @@ describe("events.collection", () => {
 
   it("removing an event should also remove its divisions", async () => {
     const event = await db.events.findOne().exec()
-
-    const divisions1 = await db.events_divisions.find({
-      eventId: event.id
-    }).exec()
-    expect(divisions1).not.toHaveLength(0)
+    const divisions1 = await db.events_divisions
+      .find({ eventId: event.id })
+      .exec()
 
     await event.remove()
 
-    const divisions2 = await db.events_divisions.find({
-      eventId: event.id
-    }).exec()
+    const divisions2 = await db.events_divisions
+      .find({ eventId: event.id })
+      .exec()
+
+    expect(divisions1).not.toHaveLength(0)
     expect(divisions2).toHaveLength(0)
   })
 
-  it("removing an event should also remove its participants", async () => {
-    const event = await db.events.findOne().exec()
-
-    const participants1 = await db.events_participants.find({
-      eventId: event.id
-    }).exec()
-    expect(participants1).toHaveLength(0)
+  it("removing an event should also remove its contestants", async () => {
+    const event = await db.events.findOne({ id: "2" }).exec()
+    const contestants1 = await db.events_contestants
+      .find({ eventId: event.id })
+      .exec()
 
     await event.remove()
 
-    const participants2 = await db.events_participants.find({
-      eventId: event.id
-    }).exec()
-    expect(participants2).toHaveLength(0)
+    const contestants2 = await db.events_contestants
+      .find({ eventId: event.id })
+      .exec()
+
+    expect(contestants1.length).toBeGreaterThan(1)
+    expect(contestants2).toHaveLength(0)
   })
 })

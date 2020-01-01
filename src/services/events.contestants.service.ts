@@ -1,5 +1,5 @@
 import {
-  insert, insertMany, findMany, findOne, destroyOne, destroyMany, updateMany
+  insert, insertMany, findMany, findOne, destroyOne, destroyMany, updateMany, updateOne
 } from "@/db/queries"
 import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
 import { filterInputUtil } from "@/utils"
@@ -12,12 +12,12 @@ export const populate = async (doc) => {
   const weapon = await doc.populate("weaponId")
   const member = await doc.populate("clubMemberId")
   const club = await member.populate("clubId")
-
+  const division = await doc.populate("divisionId")
   const contestant = doc.toJSON()
   contestant.weapon = weapon.toJSON()
   contestant.clubMember = member.toJSON()
   contestant.clubMember.club = club.toJSON()
-
+  contestant.division = division ? division.toJSON() : null
   return contestant
 }
 
@@ -31,14 +31,13 @@ const list = async (
   return result
 }
 
-const select = async (
-  filter: QueryFilter
-): Promise<QueryResult | null> => {
+const select = async (filter: QueryFilter): Promise<QueryResult | null> => {
   const doc = await findOne("events_contestants", filter)
   const contestant = await populate(doc)
   return contestant
 }
 
+// validate that contestant doesnt already exist in division
 const create = async (
   item: EventsContestantsProperties
 ): Promise<QueryResult | null> => {
@@ -48,6 +47,7 @@ const create = async (
   return contestant
 }
 
+// validate that contestant doesnt already exist in division
 const createMany = async (
   items: EventsContestantsProperties[]
 ): Promise<{ items: QueryResult[], count: number }> => {
@@ -63,9 +63,17 @@ const createMany = async (
   }
 }
 
-const editMany = async (
-  items: EventsContestantsProperties[]
-) => {
+// validate that contestant doesnt already exist in division
+const editOne = async (item: EventsContestantsProperties) => {
+  const filter = { id: item.id }
+  const data = filterInputUtil(item, eventsContestantsStub)
+  const doc = await updateOne("events_contestants", filter, data)
+  const contestant = await populate(doc)
+  return contestant
+}
+
+// validate that contestant doesnt already exist in division
+const editMany = async (items: EventsContestantsProperties[]) => {
   const data = filterInputUtil(items, eventsContestantsStub)
   const docs = await updateMany("events_contestants", data)
   const contestants = await Promise.all(docs.map((doc) => populate(doc)))
@@ -86,5 +94,5 @@ const removeMany = async (contestants) => {
 }
 
 export default {
-  list, select, create, createMany, removeOne, removeMany, editMany
+  list, select, create, createMany, removeOne, removeMany, editMany, editOne
 }

@@ -1,20 +1,20 @@
 <i18n>
 {
   "en": {
-    "breadcrumb1Label": "Weapons",
-    "breadcrumb2Label": "All",
-    "title": "Weapons",
-    "weaponsOpenCreateDialogButton": "Create weapon",
+    "breadcrumbWeaponLabel": "Weapons",
+    "breadcrumbAllLabel": "All",
+    "screenTitle": "Weapons",
+    "weaponsCreateDialogOpenButton": "Create weapon",
     "weaponsRemoveOneConfirmation": "This will remove %{weaponsName} and participants who used this weapon permanently. Continue?",
     "weaponsActionsRemoveOneSuccess": "%{weaponsName} was removed from the database",
     "weaponsRemoveManyConfirmation": "This will remove %{weaponsCount} weapons and participants who used these weapons permanently. Continue?",
     "weaponsActionsRemoveManySuccess": "%{weaponsCount} weapons has been removed from the database"
   },
   "no": {
-    "breadcrumb1Label": "Våpen",
-    "breadcrumb2Label": "Alle",
-    "title": "Våpen",
-    "weaponsOpenCreateDialogButton": "Opprett våpen",
+    "breadcrumbWeaponLabel": "Våpen",
+    "breadcrumbAllLabel": "Alle",
+    "screenTitle": "Våpen",
+    "weaponsCreateDialogOpenButton": "Opprett våpen",
     "weaponsRemoveOneConfirmation": "Dette vil fjerne %{weaponsName} og deltakere som brukte denne klassen permanent. Fortsette?",
     "weaponsActionsRemoveOneSuccess": "%{weaponsName} ble fjernet fra databasen",
     "weaponsRemoveManyConfirmation": "Dette vil fjerne %{weaponsCount} våpen og deltakere som brukte denne klassen permanent. Fortsette?",
@@ -24,81 +24,81 @@
 </i18n>
 
 <template>
-  <el-container
-    id="weapons-list-screen"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[{
-          to: '/weapons', label: $t('breadcrumb1Label'),
-        }, {
-          to: '', label: $t('breadcrumb2Label')
-        }]"
-      />
-
-      <div class="page-titles">
-        <h1 class="h1">
-          {{ $t('title') }}
-        </h1>
-      </div>
-    </el-header>
-
-    <el-main
-      v-loading="weaponsRemoveIsLoading"
-      class="content"
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
     >
+      <v-toolbar-title>
+        {{ $t("screenTitle") }}
+      </v-toolbar-title>
+
+      <v-spacer />
+
+      <v-btn icon>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/weapons', text: $t('breadcrumbWeaponLabel') },
+        { to: '', text: $t('breadcrumbAllLabel') }
+      ]"
+    />
+
+    <div v-loading="weaponsRemoveIsLoading">
       <weapons-list-table
-        @weaponsOpenCreateDialog="weaponsOpenCreateDialog"
-        @weaponsOpenEditDialog="weaponsOpenEditDialog"
+        @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
+        @weaponsEditDialogOpen="weaponsEditDialogOpen"
         @weaponsRemoveOne="weaponsRemoveOne"
         @weaponsRemoveMany="weaponsRemoveMany"
       />
-    </el-main>
-
-    <el-footer height="auto">
-      <el-button
-        type="primary"
-        data-testid="weaponsOpenCreateDialogButton"
-        @click="weaponsOpenCreateDialog"
-      >
-        <i class="el-icon-plus el-icon--left" /> {{ $t("weaponsOpenCreateDialogButton") }}
-      </el-button>
-    </el-footer>
+    </div>
 
     <weapons-create-dialog
-      :shown.sync="weaponsShowCreateDialog"
+      :shown.sync="weaponsCreateDialogShown"
     />
 
     <weapons-edit-dialog
-      :shown.sync="weaponsEditShowDialog"
-      :weapon="weaponsEditItem"
+      :shown.sync="weaponsEditDialogShown"
+      :weapon="weaponsEditDialogWeapon"
     />
-  </el-container>
+
+    <!-- <v-footer>
+      <div class="px-1 py-3">
+        <v-btn
+          color="primary"
+          @click="weaponsCreateDialogOpen"
+        >
+          {{ $t("weaponsCreateDialogOpenButton") }}
+        </v-btn>
+      </div>
+    </v-footer> -->
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-import WeaponsListTable from "@/containers/WeaponsListTable.vue"
-import WeaponsCreateDialog from "@/containers/WeaponsCreateDialog.vue"
-import WeaponsEditDialog from "@/containers/WeaponsEditDialog.vue"
+import WeaponsListTable from "@/components/WeaponsListTable.vue"
+import WeaponsCreateDialog from "@/components/WeaponsCreateDialog.vue"
+import WeaponsEditDialog from "@/components/WeaponsEditDialog.vue"
 
 export default Vue.extend({
   name: "WeaponsListScreen",
 
   components: {
-    BreadcrumbBar,
     WeaponsListTable,
     WeaponsCreateDialog,
     WeaponsEditDialog
   },
 
   data: () => ({
-    weaponsShowCreateDialog: false,
-    weaponsEditShowDialog: false,
-    weaponsEditItem: {}
+    weaponsCreateDialogShown: false,
+    weaponsEditDialogShown: false,
+    weaponsEditDialogWeapon: {}
   }),
 
   computed: {
@@ -106,7 +106,7 @@ export default Vue.extend({
       weaponsStateRemoveOneIsLoading: "removeOneIsLoading",
       weaponsStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
-    weaponsRemoveIsLoading() {
+    weaponsRemoveIsLoading(): boolean {
       return (
         this.weaponsStateRemoveOneIsLoading ||
         this.weaponsStateRemoveManyIsLoading
@@ -120,16 +120,16 @@ export default Vue.extend({
       weaponsActionsRemoveMany: "removeMany",
     }),
 
-    weaponsOpenCreateDialog() {
-      this.weaponsShowCreateDialog = true
+    weaponsCreateDialogOpen(): void {
+      this.weaponsCreateDialogShown = true
     },
 
-    weaponsOpenEditDialog(weapon) {
-      this.weaponsEditShowDialog = true
-      this.weaponsEditItem = weapon
+    weaponsEditDialogOpen(weapon): void {
+      this.weaponsEditDialogShown = true
+      this.weaponsEditDialogWeapon = weapon
     },
 
-    async weaponsRemoveOne(weapon) {
+    async weaponsRemoveOne(weapon): Promise<void> {
       try {
         await this.$confirm(
           this.$t("weaponsRemoveOneConfirmation", {
@@ -164,7 +164,7 @@ export default Vue.extend({
       }
     },
 
-    async weaponsRemoveMany(weapons) {
+    async weaponsRemoveMany(weapons): Promise<void> {
       const count = weapons.length
 
       try {

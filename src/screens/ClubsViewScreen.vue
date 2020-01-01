@@ -38,221 +38,164 @@
 </i18n>
 
 <template>
-  <el-container
-    id="clubs-view-screen"
-    v-loading="clubsIsLoading"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[{
-          to: '/clubs',
-          label: this.$t('breadcrumb1Label')
-        }, {
-          to: `/clubs/${clubsStateSelected.id}`,
-          label: clubsStateSelected.name
-        }]"
-      />
-
-      <div class="page-meta">
-        <div class="page-titles flex">
-          <div>
-            <h1 class="h1">
-              {{ clubsStateSelected.name }} ({{ clubsStateSelected.shortName }})
-            </h1>
-
-            <small class="small page-subtitles">
-              <span
-                v-if="clubsStateSelected.address"
-                class="page-subtitles_part"
-              >
-                {{ clubsStateSelected.address }}
-              </span>
-
-              <span
-                v-if="clubsStateSelected.area"
-                class="page-subtitles_part"
-              >
-                {{ clubsStateSelected.area }}
-              </span>
-
-              <span
-                v-if="clubsStateSelected.country"
-                class="page-subtitles_part"
-              >
-                {{ clubsStateSelected.country }}
-              </span>
-            </small>
-          </div>
-
-          <div class="page-controls ml-2">
-            <el-dropdown
-              class="mt-1"
-              trigger="click"
-              @command="dispatchActions"
-            >
-              <el-button type="text">
-                <i class="el-icon-arrow-down el-icon-more" />
-              </el-button>
-
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-if="clubsStateSelected.website"
-                  :command="{
-                    handler: 'clubsOpenWebsite',
-                    payload: clubsStateSelected.website
-                  }"
-                >
-                  <i class="el-icon-edit el-icon--left" />
-                  {{ $t("clubsOpenWebsite") }}
-                </el-dropdown-item>
-
-                <el-dropdown-item
-                  :command="{
-                    handler: 'clubsEditOpenDialog'
-                  }"
-                >
-                  <i class="el-icon-edit el-icon--left" />
-                  {{ $t("editClub") }}
-                </el-dropdown-item>
-
-                <el-dropdown-item
-                  divided
-                  class="dropdown-menu-delete"
-                  :command="{
-                    handler: 'clubsRemoveOne',
-                    payload: clubsStateSelected
-                  }"
-                >
-                  <i class="el-icon-delete el-icon--left" />
-                  {{ $t("removeClub") }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
-
-        <div class="page-info">
-          <div
-            v-if="clubsStateSelected.emailAddress"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ clubsStateSelected.emailAddress }}
-            </h5>
-            <small class="small">
-              {{ $t("email") }}
-            </small>
-          </div>
-
-          <div
-            v-if="clubsStateSelected.phoneNumber"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ clubsStateSelected.phoneNumber }}
-            </h5>
-            <small class="small">
-              {{ $t("phoneNumber") }}
-            </small>
-          </div>
-
-          <div
-            v-if="clubsStateSelected.leader"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ clubsStateSelected.leader }}
-            </h5>
-            <small class="small">
-              {{ $t("leader") }}
-            </small>
-          </div>
-
-          <div
-            v-if="clubsStateSelected.range"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ clubsStateSelected.range.name }}
-              ({{ clubsStateSelected.range.area }})
-            </h5>
-            <small class="small">
-              {{ $t("range") }}
-            </small>
-          </div>
-        </div>
-      </div>
-    </el-header>
-
-    <el-main
-      v-loading="clubsMembersRemoveIsLoading"
-      class="content"
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
     >
-      <clubs-members-list-table
-        v-if="!clubsStateSelectedIsLoading"
-        :club-id="clubsStateSelected.id"
-        @clubsMembersOpenCreateDialog="clubsMembersOpenCreateDialog"
-        @clubsMembersOpenEditDialog="clubsMembersOpenEditDialog"
-        @clubsMembersRemoveOne="clubsMembersRemoveOne"
-        @clubsMembersRemoveMany="clubsMembersRemoveMany"
-      />
-    </el-main>
+      <v-toolbar-title class="flex items-center justify-between w-full">
+        <div>
+          {{ clubsStateSelected.name }}
 
-    <el-footer height="auto">
-      <el-button
-        type="primary"
-        data-testid="clubsMembersOpenCreateDialogButton"
-        @click="clubsMembersOpenCreateDialog"
-      >
-        <i class="el-icon-plus el-icon--left" />
-        {{ $t("clubsMembersOpenCreateDialog") }}
-      </el-button>
-    </el-footer>
+          <v-menu>
+            <template v-slot:activator="{ on: { click } }">
+              <v-btn
+                data-testid="clubsViewDropdown"
+                small
+                icon
+                @click.stop="click"
+              >
+                <v-icon>
+                  more_horiz
+                </v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item
+                :disabled="clubsStateSelected.websiteUrl !== ''"
+                data-testid="clubsViewDropdownOpenEditDialog"
+                @click.stop="openExternalUrlUtil(clubsStateSelected.websiteUrl)"
+              >
+                <v-list-item-title class="flex items-center">
+                  <v-icon>
+                    link
+                  </v-icon>
+
+                  <span class="ml-2">
+                    Webside
+                  </span>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                data-testid="clubsViewDropdownOpenEditDialog"
+                @click.stop="clubsEditDialogOpen()"
+              >
+                <v-list-item-title class="flex items-center">
+                  <v-icon>
+                    edit
+                  </v-icon>
+
+                  <span class="ml-2">
+                    {{ $t("edit") }}
+                  </span>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-divider />
+
+              <v-list-item
+                data-testid="clubsViewDropdownRemoveOne"
+                @click.stop="clubsRemoveOne(clubsStateSelected)"
+              >
+                <v-list-item-title class="flex items-center">
+                  <v-icon color="red">
+                    delete_forever
+                  </v-icon>
+
+                  <span class="ml-2 red--text">
+                    {{ $t("remove") }}
+                  </span>
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+
+        <data-grid>
+          <template slot="Leader">
+            {{ clubsStateSelected.leaderFullName }}
+          </template>
+          <template slot="Area">
+            {{ clubsStateSelected.area }}
+          </template>
+          <template slot="Address">
+            {{ clubsStateSelected.streetAddress }}
+          </template>
+          <template slot="Land">
+            {{ clubsStateSelected.country }}
+          </template>
+        </data-grid>
+      </v-toolbar-title>
+
+      <v-spacer />
+
+      <v-btn icon>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/clubs', text: $t('breadcrumb1Label') },
+        { to: `/clubs/${clubsStateSelected.id}`,
+          text: clubsStateSelected.name }
+      ]"
+    />
+
+    <clubs-members-list-table
+      :club="clubsStateSelected"
+      @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
+      @clubsMembersEditDialogOpen="clubsMembersEditDialogOpen"
+      @clubsMembersRemoveOne="clubsMembersRemoveOne"
+      @clubsMembersRemoveMany="clubsMembersRemoveMany"
+    />
 
     <clubs-edit-dialog
-      :shown.sync="clubsEditShowDialog"
+      :shown.sync="clubsEditDialogShown"
       :club="clubsStateSelected"
     />
 
     <clubs-members-create-dialog
-      :shown.sync="clubsMembersShowCreateDialog"
+      :shown.sync="clubsMembersCreateDialogShown"
       :club="clubsStateSelected"
     />
 
     <clubs-members-edit-dialog
-      :shown.sync="clubsMembersShowEditDialog"
+      :shown.sync="clubsMembersEditDialogShown"
       :club="clubsStateSelected"
       :club-member="clubsMembersEditItem"
     />
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
 import { openExternalUrlUtil } from "@/utils"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-import ClubsEditDialog from "@/containers/ClubsEditDialog.vue"
-import ClubsMembersListTable from "@/containers/ClubsMembersListTable.vue"
-import ClubsMembersCreateDialog from "@/containers/ClubsMembersCreateDialog.vue"
-import ClubsMembersEditDialog from "@/containers/ClubsMembersEditDialog.vue"
+import ClubsEditDialog from "@/components/ClubsEditDialog.vue"
+import ClubsMembersListTable from "@/components/ClubsMembersListTable.vue"
+import ClubsMembersCreateDialog from "@/components/ClubsMembersCreateDialog.vue"
+import ClubsMembersEditDialog from "@/components/ClubsMembersEditDialog.vue"
+import DataGrid from "@/components/DataGrid.vue"
 
 export default Vue.extend({
   name: "ClubsViewScreen",
 
   components: {
-    BreadcrumbBar,
     ClubsEditDialog,
     ClubsMembersListTable,
     ClubsMembersCreateDialog,
-    ClubsMembersEditDialog
+    ClubsMembersEditDialog,
+    DataGrid
   },
 
   data: () => ({
-    clubsMembersShowCreateDialog: false,
-    clubsEditShowDialog: false,
-    clubsMembersShowEditDialog: false,
+    clubsMembersCreateDialogShown: false,
+    clubsEditDialogShown: false,
+    clubsMembersEditDialogShown: false,
     clubsMembersEditItem: {}
   }),
 
@@ -264,13 +207,13 @@ export default Vue.extend({
       clubsMembersRemoveOneIsLoading: "removeOneIsLoading",
       clubsMembersRemoveManyIsLoading: "removeManyIsLoading"
     }),
-    clubsIsLoading() {
+    clubsIsLoading(): boolean {
       return (
         this.clubsStateSelectedIsLoading ||
         this.clubsStateRemoveOneIsLoading
       )
     },
-    clubsMembersRemoveIsLoading() {
+    clubsMembersRemoveIsLoading(): boolean {
       return (
         this.clubsMembersRemoveOneIsLoading ||
         this.clubsMembersRemoveManyIsLoading
@@ -278,8 +221,8 @@ export default Vue.extend({
     }
   },
 
-  async created() {
-    await this.clubsActionsSelect({ id: this.$route.params.clubId })
+  created() {
+    this.clubsActionsSelect({ id: this.$route.params.clubId })
   },
 
   methods: {
@@ -293,28 +236,20 @@ export default Vue.extend({
       clubsMembersActionsRemoveMany: "removeMany"
     }),
 
-    dispatchActions({ handler, payload }) {
-      this[handler](payload)
+    clubsEditDialogOpen(): void {
+      this.clubsEditDialogShown = true
     },
 
-    clubsEditOpenDialog() {
-      this.clubsEditShowDialog = true
+    clubsMembersCreateDialogOpen(): void {
+      this.clubsMembersCreateDialogShown = true
     },
 
-    clubsMembersOpenCreateDialog() {
-      this.clubsMembersShowCreateDialog = true
-    },
-
-    clubsMembersOpenEditDialog(member) {
-      this.clubsMembersShowEditDialog = true
+    clubsMembersEditDialogOpen(member): void {
+      this.clubsMembersEditDialogShown = true
       this.clubsMembersEditItem = member
     },
 
-    clubsOpenWebsite(url) {
-      openExternalUrlUtil(url)
-    },
-
-    async clubsRemoveOne(club) {
+    async clubsRemoveOne(club): Promise<void> {
       try {
         await this.$confirm(
           this.$t("clubsRemoveOneConfirmation", {
@@ -352,7 +287,7 @@ export default Vue.extend({
       }
     },
 
-    async clubsMembersRemoveOne(clubMember) {
+    async clubsMembersRemoveOne(clubMember): Promise<void> {
       const fullName = `${clubMember.firstName} ${clubMember.lastName}`
 
       try {
@@ -385,7 +320,7 @@ export default Vue.extend({
       }
     },
 
-    async clubsMembersRemoveMany(clubMembers) {
+    async clubsMembersRemoveMany(clubMembers): Promise<void> {
       const clubMembersCount = clubMembers.length
 
       try {
@@ -420,7 +355,9 @@ export default Vue.extend({
           message: e.message
         })
       }
-    }
+    },
+
+    openExternalUrlUtil
   }
 })
 </script>

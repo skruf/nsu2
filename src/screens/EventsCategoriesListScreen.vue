@@ -1,99 +1,193 @@
 <i18n>
 {
   "en": {
-    "breadcrumb1Label": "Events",
-    "breadcrumb2Label": "Categories",
-    "title": "Events Categories",
-    "openCreateDialogButton": "Create event category"
+    "breadcrumbEventsCategoriesLabel": "Categories",
+    "breadcrumbAllLabel": "All",
+    "screenTitle": "eventsCategories",
+    "eventsCategoriesRemoveOneConfirmation": "This will remove %{eventsCategoryName} and events that used this category permanently. Continue?",
+    "eventsCategoriesActionsRemoveOneSuccess": "%{eventsCategoryName} was removed from the database",
+    "eventsCategoriesRemoveManyConfirmation": "This will remove %{eventsCategoriesCount} categories and events that used these categories permanently. Continue?",
+    "eventsCategoriesActionsRemoveManySuccess": "%{eventsCategoriesCount} eventsCategories has been removed from the database"
   },
   "no": {
-    "breadcrumb1Label": "Stevner",
-    "breadcrumb2Label": "Kategorier",
-    "title": "Stevne kategorier",
-    "openCreateDialogButton": "Opprett stevne kategori"
+    "breadcrumbEventsCategoriesLabel": "Kategorier",
+    "breadcrumbAllLabel": "Alle",
+    "screenTitle": "Kategori",
+    "eventsCategoriesRemoveOneConfirmation": "Dette vil fjerne %{eventsCategoryName} og stevner som brukte denne kategorien permanent. Fortsette?",
+    "eventsCategoriesActionsRemoveOneSuccess": "%{eventsCategoryName} ble fjernet fra databasen",
+    "eventsCategoriesRemoveManyConfirmation": "Dette vil fjerne %{eventsCategoriesCount} kategorier og stevner som brukte denne kategorien permanent. Fortsette?",
+    "eventsCategoriesActionsRemoveManySuccess": "%{eventsCategoriesCount} kategorier ble fjernet fra databasen"
   }
 }
 </i18n>
 
 <template>
-  <el-container
-    id="events-categories-list-screen"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[{
-          to: '/events', label: $t('breadcrumb1Label'),
-        }, {
-          to: '/events/categories', label: $t('breadcrumb2Label')
-        }]"
-      />
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
+    >
+      <v-toolbar-title>
+        {{ $t("screenTitle") }}
+      </v-toolbar-title>
 
-      <div class="page-titles">
-        <h1 class="h1">
-          {{ $t('title') }}
-        </h1>
-      </div>
-    </el-header>
+      <v-spacer />
 
-    <el-main class="content">
+      <v-btn icon>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/events/categories', text: $t('breadcrumbEventsCategoriesLabel') },
+        { to: '', text: $t('breadcrumbAllLabel') }
+      ]"
+    />
+
+    <div v-loading="eventsCategoriesRemoveIsLoading">
       <events-categories-list-table
-        @openCreateDialog="openCreateDialog"
-        @openEditDialog="openEditDialog"
+        @eventsCategoriesCreateDialogOpen="eventsCategoriesCreateDialogOpen"
+        @eventsCategoriesEditDialogOpen="eventsCategoriesEditDialogOpen"
+        @eventsCategoriesRemoveOne="eventsCategoriesRemoveOne"
+        @eventsCategoriesRemoveMany="eventsCategoriesRemoveMany"
       />
-    </el-main>
-
-    <el-footer height="auto">
-      <el-button
-        type="primary"
-        data-testid="eventsCategoriesOpenCreateDialogButton"
-        @click="openCreateDialog"
-      >
-        <i class="el-icon-plus el-icon--left" /> {{ $t("openCreateDialogButton") }}
-      </el-button>
-    </el-footer>
+    </div>
 
     <events-categories-create-dialog
-      :shown.sync="showCreateDialog"
+      :shown.sync="eventsCategoriesCreateDialogShown"
     />
 
     <events-categories-edit-dialog
-      :shown.sync="editShowDialog"
-      :category="editItem"
+      :shown.sync="eventsCategoriesEditDialogShown"
+      :events-category="eventsCategoriesEditDialogEventsCategory"
     />
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-import EventsCategoriesListTable from "@/containers/EventsCategoriesListTable.vue"
-import EventsCategoriesCreateDialog from "@/containers/EventsCategoriesCreateDialog.vue"
-import EventsCategoriesEditDialog from "@/containers/EventsCategoriesEditDialog.vue"
+import { mapState, mapActions } from "vuex"
+import EventsCategoriesListTable from "@/components/EventsCategoriesListTable.vue"
+import EventsCategoriesCreateDialog from "@/components/EventsCategoriesCreateDialog.vue"
+import EventsCategoriesEditDialog from "@/components/EventsCategoriesEditDialog.vue"
 
 export default Vue.extend({
   name: "EventsCategoriesListScreen",
 
   components: {
-    BreadcrumbBar,
     EventsCategoriesListTable,
     EventsCategoriesCreateDialog,
     EventsCategoriesEditDialog
   },
 
   data: () => ({
-    showCreateDialog: false,
-    editShowDialog: false,
-    editItem: {}
+    eventsCategoriesCreateDialogShown: false,
+    eventsCategoriesEditDialogShown: false,
+    eventsCategoriesEditDialogEventsCategory: {}
   }),
 
+  computed: {
+    ...mapState("events/categories", {
+      eventsCategoriesStateRemoveOneIsLoading: "removeOneIsLoading",
+      eventsCategoriesStateRemoveManyIsLoading: "removeManyIsLoading"
+    }),
+    eventsCategoriesRemoveIsLoading(): boolean {
+      return (
+        this.eventsCategoriesStateRemoveOneIsLoading ||
+        this.eventsCategoriesStateRemoveManyIsLoading
+      )
+    }
+  },
+
   methods: {
-    openCreateDialog() {
-      this.showCreateDialog = true
+    ...mapActions("events/categories", {
+      eventsCategoriesActionsRemoveOne: "removeOne",
+      eventsCategoriesActionsRemoveMany: "removeMany",
+    }),
+
+    eventsCategoriesCreateDialogOpen(): void {
+      this.eventsCategoriesCreateDialogShown = true
     },
-    openEditDialog(category) {
-      this.editItem = category
-      this.editShowDialog = true
+
+    eventsCategoriesEditDialogOpen(eventsCategory): void {
+      this.eventsCategoriesEditDialogShown = true
+      this.eventsCategoriesEditDialogEventsCategory = eventsCategory
+    },
+
+    async eventsCategoriesRemoveOne(eventsCategory): Promise<void> {
+      const eventsCategoryName = eventsCategory.name
+
+      try {
+        await this.$confirm(
+          this.$t("eventsCategoriesRemoveOneConfirmation", {
+            eventsCategoryName
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsCategoriesActionsRemoveOne(eventsCategory)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsCategoriesActionsRemoveOneSuccess", {
+            eventsCategoryName
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    async eventsCategoriesRemoveMany(eventsCategories): Promise<void> {
+      const count = eventsCategories.length
+
+      try {
+        await this.$confirm(
+          this.$t("eventsCategoriesRemoveManyConfirmation", {
+            eventsCategoriesCount: count
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsCategoriesActionsRemoveMany(eventsCategories)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsCategoriesActionsRemoveManySuccess", {
+            eventsCategoriesCount: count
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
     }
   }
 })

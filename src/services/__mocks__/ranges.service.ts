@@ -1,4 +1,4 @@
-// import { mockServiceTestUtil } from "@/utils"
-// import { rangesFixture } from "@/fixtures"
+import mockServiceTestUtil from "@/utils/mockService.test.util"
+import { rangesFixture } from "@/fixtures"
 
-// export default mockServiceTestUtil(rangesFixture)
+export default mockServiceTestUtil(rangesFixture)

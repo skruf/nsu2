@@ -1,174 +1,196 @@
 <i18n>
 {
   "en": {
-    "formItemTitleLabel": "Title",
-    "formItemTitlePlaceholder": "Enter a title",
-    "formItemTitleError": "Title is a required field",
-    "formItemDatesLabel": "Start / End",
-    "formItemDatesPickerStart": "Start date",
-    "formItemDatesPickerEnd": "End date",
-    "formItemDatesError": "Dates is a required field",
-    "formItemCategoryLabel": "Category",
-    "formItemCategoryPlaceholder": "Select a category",
-    "formItemCategoryError": "Category is a required field",
-    "formItemOrganizerLabel": "Organizer",
-    "formItemOrganizerPlaceholder": "Select the organizer",
-    "formItemOrganizerError": "Organizer is a required field",
-    "formItemRangeLabel": "Range",
-    "formItemRangePlaceholder": "Select the range",
-    "formItemRangeError": "Range is a required field",
-    "formItemApprobatedLabel": "Approbated",
-    "formItemApprobatedActiveText": "Is officially approbated"
+    "eventsFormTitleLabel": "Title",
+    "eventsFormTitlePlaceholder": "Enter a title",
+    "eventsFormTitleError": "Title is a required field",
+    "eventsFormDatesLabel": "Start / End",
+    "eventsFormDatesPickerStart": "Start date",
+    "eventsFormDatesPickerEnd": "End date",
+    "eventsFormDatesError": "Dates is a required field",
+    "eventsFormCategoryLabel": "Category",
+    "eventsFormCategoryPlaceholder": "Select a category",
+    "eventsFormCategoryError": "Category is a required field",
+    "eventsFormOrganizerLabel": "Organizer",
+    "eventsFormOrganizerPlaceholder": "Select the organizer",
+    "eventsFormOrganizerError": "Organizer is a required field",
+    "eventsFormRangeLabel": "Range",
+    "eventsFormRangePlaceholder": "Select the range",
+    "eventsFormRangeError": "Range is a required field",
+    "eventsFormApprobatedLabel": "Approbated",
+    "eventsFormApprobatedActiveText": "Is officially approbated"
   },
   "no": {
-    "formItemTitleLabel": "Tittel",
-    "formItemTitlePlaceholder": "Skriv inn tittel",
-    "formItemTitleError": "Tittel er et påkrevd felt",
-    "formItemDatesLabel": "Start / Slutt",
-    "formItemDatesPickerStart": "Start dato",
-    "formItemDatesPickerEnd": "Slutt dato",
-    "formItemDatesError": "Dato er et påkrevd felt",
-    "formItemCategoryLabel": "Kategori",
-    "formItemCategoryPlaceholder": "Velg en kategori",
-    "formItemCategoryError": "Kategori er et påkrevd felt",
-    "formItemOrganizerLabel": "Arrangør",
-    "formItemOrganizerPlaceholder": "Velg en klubb",
-    "formItemOrganizerError": "Arrangør er et påkrevd felt",
-    "formItemRangeLabel": "Skyttebane",
-    "formItemRangePlaceholder": "Velg en skyttebane",
-    "formItemRangeError": "Skyttebane er et påkrevd felt",
-    "formItemApprobatedLabel": "Approbert",
-    "formItemApprobatedActiveText": "Er offisielt approbert"
+    "eventsFormTitleLabel": "Tittel",
+    "eventsFormTitlePlaceholder": "Skriv inn tittel",
+    "eventsFormTitleError": "Tittel er et påkrevd felt",
+    "eventsFormDatesLabel": "Start / Slutt",
+    "eventsFormDatesPickerStart": "Start dato",
+    "eventsFormDatesPickerEnd": "Slutt dato",
+    "eventsFormDatesError": "Dato er et påkrevd felt",
+    "eventsFormCategoryLabel": "Kategori",
+    "eventsFormCategoryPlaceholder": "Velg en kategori",
+    "eventsFormCategoryError": "Kategori er et påkrevd felt",
+    "eventsFormOrganizerLabel": "Arrangør",
+    "eventsFormOrganizerPlaceholder": "Velg en klubb",
+    "eventsFormOrganizerError": "Arrangør er et påkrevd felt",
+    "eventsFormRangeLabel": "Skyttebane",
+    "eventsFormRangePlaceholder": "Velg en skyttebane",
+    "eventsFormRangeError": "Skyttebane er et påkrevd felt",
+    "eventsFormApprobatedLabel": "Approbert",
+    "eventsFormApprobatedActiveText": "Er offisielt approbert"
   }
 }
 </i18n>
 
 <template>
-  <el-form
-    ref="form"
-    label-position="top"
-    :model="form"
-    :rules="formRules"
-  >
-    <el-form-item
-      prop="title"
-      :label="$t('formItemTitleLabel')"
-    >
-      <el-input
-        v-model="form.title"
-        data-testid="eventsFormInputTitle"
-        :placeholder="$t('formItemTitlePlaceholder')"
-      />
-    </el-form-item>
+  <v-form ref="localForm">
+    <v-text-field
+      v-model="value.title"
+      :label="$t('eventsFormTitleLabel')"
+      :rules="[(v) => !!v || $t('eventsFormTitleError')]"
+      data-testid="eventsFormTitleInput"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      prop="dates"
-      :label="$t('formItemDatesLabel')"
+    <v-menu
+      ref="eventsFormStartTimeDialog"
+      v-model="eventsFormStartTimeDialogShow"
+      :close-on-content-click="false"
+      :return-value.sync="startEndAt"
+      data-testid="eventsFormStartsAtMenu"
+      transition="scale-transition"
+      min-width="290px"
+      offset-y
     >
-      <el-date-picker
-        v-model="form.dates"
-        type="daterange"
-        range-separator="to"
-        data-testid="eventsFormDatePickerDates"
-        :start-placeholder="$t('formItemDatesPickerStart')"
-        :end-placeholder="$t('formItemDatesPickerEnd')"
-      />
-    </el-form-item>
-
-    <el-form-item
-      prop="categoryId"
-      :label="$t('formItemCategoryLabel')"
-    >
-      <el-select
-        v-model="form.categoryId"
-        data-testid="eventsFormSelectCategory"
-        :placeholder="$t('formItemCategoryPlaceholder')"
-        :loading="categoriesIsLoading"
-      >
-        <el-option
-          v-for="category in categories"
-          :data-testid="`eventsFormSelectCategoryValue${category.name.replace(/\s/g, '')}`"
-          :key="category.id"
-          :label="category.name"
-          :value="category.id"
+      <template v-slot:activator="{ on }">
+        <v-text-field
+          :value="eventsFormStartEndInput"
+          :label="$t('eventsFormDatesLabel')"
+          :rules="[(v) => !!v || $t('eventsFormTitleError')]"
+          data-testid="eventsFormStartsAtInput"
+          readonly
+          outlined
+          v-on="on"
         />
-      </el-select>
-    </el-form-item>
+      </template>
 
-    <el-form-item
-      prop="organizerId"
-      :label="$t('formItemOrganizerLabel')"
-    >
-      <el-select
-        v-model="form.organizerId"
-        :placeholder="$t('formItemOrganizerPlaceholder')"
-        :loading="clubsStateListIsLoading"
+      <v-date-picker
+        v-model="startEndAt"
+        :range="true"
+        no-title
+        scrollable
       >
-        <el-option
-          v-for="club in clubsStateList"
-          :key="club.id"
-          :label="`${club.name} (${club.area})`"
-          :value="club.id"
-        />
-      </el-select>
-    </el-form-item>
+        <v-spacer />
 
-    <el-form-item
-      prop="rangeId"
-      :label="$t('formItemRangeLabel')"
+        <v-btn
+          text
+          color="primary"
+          data-testid="eventsFormStartsAtCancelButton"
+          @click="eventsFormStartTimeDialogShow = false"
+        >
+          {{ $t("close") }}
+        </v-btn>
+
+        <v-btn
+          text
+          color="primary"
+          data-testid="eventsFormStartsAtOkButton"
+          @click="$refs.eventsFormStartTimeDialog.save(startEndAt)"
+        >
+          OK
+        </v-btn>
+      </v-date-picker>
+    </v-menu>
+
+    <v-select
+      v-model="value.categoryId"
+      :items="eventsCategoriesStateList"
+      :loading="eventsCategoriesStateListIsLoading"
+      :label="$t('eventsFormCategoryLabel')"
+      item-text="name"
+      item-value="id"
+      data-testid="eventsFormCategorySelect"
+      class="mb-3"
+      outlined
+    />
+
+    <v-select
+      v-model="value.organizerId"
+      :items="clubsStateList"
+      :loading="clubsStateListIsLoading"
+      :label="$t('eventsFormOrganizerLabel')"
+      item-text="name"
+      item-value="id"
+      data-testid="eventsFormOrganizerSelect"
+      class="mb-3"
+      outlined
+    />
+
+    <v-select
+      v-model="value.rangeId"
+      :items="rangesStateList"
+      :loading="rangesStateListIsLoading"
+      :label="$t('eventsFormRangeLabel')"
+      item-text="name"
+      item-value="id"
+      data-testid="eventsFormRangeSelect"
+      class="mb-3"
+      outlined
+    />
+
+    <v-switch
+      v-model="value.approbated"
+      :label="$t('eventsFormApprobatedLabel')"
+      data-testid="eventsFormApprobatedSwitch"
+    />
+
+    <v-snackbar
+      v-model="showValidationError"
+      color="error"
+      multi-line
+      right
+      top
     >
-      <el-select
-        v-model="form.rangeId"
-        :placeholder="$t('formItemRangePlaceholder')"
-        :loading="rangesStateListIsLoading"
+      <v-icon
+        color="white"
+        class="mr-4"
       >
-        <el-option
-          v-for="range in rangesStateList"
-          :key="range.id"
-          :label="`${range.name} (${range.area})`"
-          :value="range.id"
-        />
-      </el-select>
-    </el-form-item>
+        error
+      </v-icon>
 
-    <el-form-item
-      prop="approbated"
-      data-testid="eventsFormLabelApprobated"
-      :label="$t('formItemApprobatedLabel')"
-    >
-      <el-switch
-        v-model="form.approbated"
-        :active-text="$t('formItemApprobatedActiveText')"
-      />
-    </el-form-item>
-  </el-form>
+      {{ $t("validationError") }}
+
+      <v-btn
+        text
+        data-testid="eventsFormErrorCloseButton"
+        @click="showValidationError = false"
+      >
+        {{ $t("close") }}
+      </v-btn>
+    </v-snackbar>
+  </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
 import { eventsStub } from "@/stubs"
-import { db } from "@/db"
 
 export default Vue.extend({
   name: "EventsForm",
 
   props: {
-    form: { type: Object, default: () => eventsStub }
+    value: { type: Object, default: (): object => eventsStub }
   },
 
-  data: function() {
-    return {
-      categories: [],
-      categoriesSub: null,
-      categoriesIsLoading: false,
-      localForm: { ...eventsStub },
-      formRules: {
-        title: { required: true, message: this.$t("formItemTitleError") },
-        dates: { required: true, message: this.$t("formItemDatesError") }
-      }
-    }
-  },
+  data: () => ({
+    showValidationError: false,
+    eventsFormStartTimeDialogShow: false,
+    startEndAt: []
+  }),
 
   computed: {
     ...mapState("clubs", {
@@ -179,40 +201,38 @@ export default Vue.extend({
     ...mapState("ranges", {
       rangesStateListIsLoading: "listIsLoading",
       rangesStateList: "list"
-    })
+    }),
+
+    ...mapState("events/categories", {
+      eventsCategoriesStateListIsLoading: "listIsLoading",
+      eventsCategoriesStateList: "list"
+    }),
+
+    eventsFormStartEndInput(): string {
+      return [ this.value.startsAt, this.value.endsAt ].join(" / ")
+    }
   },
 
   watch: {
-    localForm: {
+    startEndAt: {
+      handler(v): void {
+        if(v.length > 0) this.value.startsAt = v[0]
+        if(v.length > 1) this.value.endsAt = v[1]
+      }
+    },
+    value: {
       deep: true,
-      handler(data) {
-        this.$emit("update:form", data)
+      immediate: true,
+      handler(data): void {
+        this.$emit("input", data)
       }
     }
   },
 
-  async created() {
-    this.localForm = this.form
-    await this.clubsActionsList()
-    await this.rangesActionsList()
-
-    const categoriesObserver = async (categories) => {
-      this.categoriesIsLoading = true
-      this.categories = categories
-      this.categoriesIsLoading = false
-    }
-
-    const categoriesError = (e) => {
-      this.$notify({
-        type: "error",
-        title: "Oops!",
-        message: e.message
-      })
-    }
-
-    this.categoriesSub = db.events_categories
-      .find()
-      .$.subscribe(categoriesObserver, categoriesError)
+  created() {
+    this.clubsActionsList()
+    this.rangesActionsList()
+    this.eventsCategoriesActionsList()
   },
 
   methods: {
@@ -224,12 +244,18 @@ export default Vue.extend({
       rangesActionsList: "list"
     }),
 
-    validate(cb) {
-      this.$refs.localForm.validate(cb)
+    ...mapActions("events/categories", {
+      eventsCategoriesActionsList: "list"
+    }),
+
+    submit(cb): void {
+      this.$refs.localForm.validate()
+        ? cb()
+        : this.showValidationError = true
     },
 
-    resetFields() {
-      this.$refs.localForm.resetFields()
+    resetFields(): void {
+      this.$refs.localForm.reset()
     }
   }
 })

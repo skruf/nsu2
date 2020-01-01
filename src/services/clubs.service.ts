@@ -7,7 +7,7 @@ import { filterInputUtil } from "@/utils"
 import { ClubsDocument, ClubsProperties } from "@/db/collections/clubs.collection"
 
 const populate = async (doc: ClubsDocument): Promise<ClubsProperties> => {
-  let range = await doc.populate("rangeId")
+  const range = await doc.populate("rangeId")
   const members = await findMany("clubs_members", { clubId: doc.id })
 
   const club = doc.toJSON()

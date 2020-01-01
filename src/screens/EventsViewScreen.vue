@@ -9,15 +9,14 @@
     "startsAt": "Starts at",
     "endsAt": "Ends at",
     "category": "Category",
-    "participants": "Participants",
+    "contestants": "Contestants",
     "createMember": "Create club member",
-    "manageParticipants": "Manage participants",
+    "manageContestants": "Manage contestants",
     "divisions": "Divisions",
     "createDivision": "Create division",
     "results": "Results",
-    "inputResults": "Input results",
-    "eventsRemoveOneConfirmation": "This will remove %{event} permanently. Continue?",
-    "eventsActionsRemoveOneSuccess": "%{event} was removed from the database"
+    "eventsRemoveOneConfirmation": "This will remove %{eventTitle} permanently. Continue?",
+    "eventsActionsRemoveOneSuccess": "%{eventTitle} was removed from the database"
   },
   "no": {
     "breadcrumb1Label": "Stevner",
@@ -28,299 +27,214 @@
     "startsAt": "Starter",
     "endsAt": "Slutter",
     "category": "Kategori",
-    "participants": "Deltakere",
+    "contestants": "Deltakere",
     "createMember": "Opprett klubbmedlem",
-    "manageParticipants": "Håndter deltakere",
-    "divisions": "Standplasser",
+    "manageContestants": "Håndter deltakere",
+    "divisions": "Standplasslister",
     "createDivision": "Opprett divisjon",
     "results": "Resultater",
-    "inputResults": "Fyll inn resultater",
-    "eventsRemoveOneConfirmation": "Dette vil fjerne %{event} permanent. Fortsette?",
-    "eventsActionsRemoveOneSuccess": "%{event} ble fjernet fra databasen"
+    "eventsRemoveOneConfirmation": "Dette vil fjerne %{eventTitle} permanent. Fortsette?",
+    "eventsActionsRemoveOneSuccess": "%{eventTitle} ble fjernet fra databasen"
   }
 }
 </i18n>
 
 <template>
-  <el-container
-    id="events-view-screen"
-    v-loading="eventsIsLoading"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[{
-          to: '/events',
-          label: $t('breadcrumb1Label')
-        }, {
-          to: `/events/${eventsStateSelected.id}`,
-          label: eventsStateSelected.title
-        }]"
-      />
-
-      <div class="page-meta">
-        <div class="page-titles">
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
+    >
+      <v-toolbar-title class="flex items-center justify-between w-full">
+        <div class="flex flex-col">
           <div class="flex items-center">
-            <div class="mr-2 text-xl">
-              <template v-if="eventsStateSelected.approbated">
-                <i class="el-icon-star-on" />
-              </template>
-              <template v-else>
-                <i class="el-icon-star-off" />
-              </template>
-            </div>
+            <template v-if="eventsStateSelected.approbated">
+              <v-icon class="mr-2">
+                star
+              </v-icon>
+            </template>
 
-            <h1 class="h1">
-              {{ eventsStateSelected.title }}
-            </h1>
+            <template v-else>
+              <v-icon class="mr-2">
+                star_border
+              </v-icon>
+            </template>
 
-            <div class="page-controls ml-2">
-              <el-dropdown
-                trigger="click"
-                @command="dispatchActions"
-              >
-                <el-button type="text">
-                  <i class="el-icon-arrow-down el-icon-more" />
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item
-                    v-if="eventsStateSelected.range"
-                    :disabled="!(eventsStateSelected.range.lat && eventsStateSelected.range.lng)"
-                    :command="{
-                      handler: 'eventsRangeOpenMap'
-                    }"
-                  >
-                    <i class="el-icon-location el-icon--left" />
-                    {{ $t("mapRange") }}
-                  </el-dropdown-item>
-                  <!-- <el-dropdown-item
-                    :command="{
-                      handler: 'eventsOpenPrintDialog'
-                    }"
-                  >
-                    <i class="el-icon-printer el-icon--left" />
-                    {{ $t("printEvent") }}
-                  </el-dropdown-item> -->
-                  <el-dropdown-item
-                    :command="{
-                      handler: 'eventsOpenEditDialog'
-                    }"
-                  >
-                    <i class="el-icon-edit el-icon--left" />
-                    {{ $t("editEvent") }}
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    divided
-                    class="dropdown-menu-delete"
-                    :command="{
-                      handler: 'eventsRemoveOne'
-                    }"
-                  >
-                    <i class="el-icon-delete el-icon--left" />
-                    {{ $t("removeEvent") }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
+            {{ eventsStateSelected.title }}
+
+            <v-menu>
+              <template v-slot:activator="{ on: { click } }">
+                <v-btn
+                  data-testid="clubsViewDropdown"
+                  small
+                  icon
+                  @click.stop="click"
+                >
+                  <v-icon>
+                    more_horiz
+                  </v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item
+                  data-testid="eventsViewDropdownOpenEditDialog"
+                  @click.stop="eventsEditDialogOpen()"
+                >
+                  <v-list-item-title class="flex items-center">
+                    <v-icon>
+                      edit
+                    </v-icon>
+
+                    <span class="ml-2">
+                      {{ $t("edit") }}
+                    </span>
+                  </v-list-item-title>
+                </v-list-item>
+
+                <v-divider />
+
+                <v-list-item
+                  data-testid="eventsViewDropdownRemoveOne"
+                  @click.stop="eventsRemoveOne(eventsStateSelected)"
+                >
+                  <v-list-item-title class="flex items-center">
+                    <v-icon color="red">
+                      delete_forever
+                    </v-icon>
+
+                    <span class="ml-2 red--text">
+                      {{ $t("remove") }}
+                    </span>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </div>
 
-          <small class="small page-subtitles">
-            <span
-              v-if="eventsStateSelected.range"
-              class="page-subtitles_part"
-            >
-              {{ eventsStateSelected.range.name }}
-            </span>
-
-            <span
-              v-if="eventsStateSelected.club"
-              class="page-subtitles_part"
-            >
-              {{ eventsStateSelected.club.name }}
-            </span>
-          </small>
+          <div
+            v-if="eventsStateSelected.range"
+            class="text-base leading-none opacity-75 ml-8"
+          >
+            {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.streetAddress }} {{ eventsStateSelected.range.area }}
+          </div>
         </div>
 
-        <div class="page-info">
-          <div
-            v-if="eventsStateSelected.startsAt"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ eventsStateSelected.startsAt | moment("DD MMM, YY") }}
-            </h5>
-            <small class="small">
-              {{ $t("startsAt") }}
-            </small>
-          </div>
-
-          <div
-            v-if="eventsStateSelected.endsAt"
-            class="page-info_item"
-          >
-            <h5 class="h5">
-              {{ eventsStateSelected.endsAt | moment("DD MMM, YY") }}
-            </h5>
-            <small class="small">
-              {{ $t("endsAt") }}
-            </small>
-          </div>
-
-          <div
+        <data-grid>
+          <template slot="Start">
+            {{ eventsStateSelected.startsAt | moment("YYYY-MM-DD") }}
+          </template>
+          <template slot="Slutt">
+            {{ eventsStateSelected.endsAt | moment("YYYY-MM-DD") }}
+          </template>
+          <template
             v-if="eventsStateSelected.category"
-            class="page-info_item"
+            slot="Kategori"
           >
-            <h5 class="h5">
-              {{ eventsStateSelected.category.name }}
-            </h5>
-            <small class="small">
-              {{ $t("category") }}
-            </small>
-          </div>
-        </div>
-      </div>
-    </el-header>
+            {{ eventsStateSelected.category.name }}
+          </template>
+          <template
+            v-if="eventsStateSelected.club"
+            slot="Arrangør"
+          >
+            {{ eventsStateSelected.club.shortName }}
+          </template>
+        </data-grid>
+      </v-toolbar-title>
 
-    <el-main>
-      <el-tabs
-        v-model="activeTab"
-        @tab-click="refreshTabs"
+      <v-spacer />
+
+      <v-btn
+        icon
+        data-testid="eventsPrintButton"
+        @click="print"
       >
-        <el-tab-pane
-          name="participants"
-          :label="$t('participants')"
-        >
-          <div class="content">
-            <!-- <events-participants-list-table
-              v-if="!eventsStateSelectedIsLoading"
-              :event="eventsStateSelected"
-              @eventsParticipantsOpenManageDialog="eventsParticipantsOpenManageDialog"
-              @eventsParticipantsOpenEditDialog="eventsParticipantsOpenEditDialog"
-            /> -->
-          </div>
+        <v-icon>print</v-icon>
+      </v-btn>
 
-          <el-footer height="auto">
-            <!-- <el-button
-              type="text"
-              @click="eventsOpenPrintDialog"
-            >
-              <i class="el-icon-printer el-icon--left" />
-              Skriv ut
-            </el-button> -->
-            <el-button
-              type="text"
-              @click="clubsMembersOpenCreateDialog"
-            >
-              <i class="el-icon-plus el-icon--left" />
-              {{ $t("createMember") }}
-            </el-button>
-            <el-button
-              type="primary"
-              @click="eventsParticipantsOpenManageDialog"
-            >
-              <i class="ion-ios-keypad el-icon--left" />
-              {{ $t("manageParticipants") }}
-            </el-button>
-          </el-footer>
-        </el-tab-pane>
-
-        <el-tab-pane
-          name="divisions"
-          :label="$t('divisions')"
+      <template v-slot:extension>
+        <v-tabs
+          v-model="activeTab"
+          align-with-title
+          background-color="transparent"
         >
-          <div class="content p-0">
-            <!-- <events-divisions-view
-              v-if="!eventsStateSelectedIsLoading"
-            /> -->
-          </div>
-        </el-tab-pane>
+          <v-tabs-slider color="white" />
 
-        <el-tab-pane
-          name="startlist"
-          label="Startliste"
-        >
-          <div class="content">
-            <!-- <events-startlist-list-table
-              v-if="!eventsStateSelectedIsLoading"
-              ref="eventsStartlistListTable"
-              :event="eventsStateSelected"
-            /> -->
-          </div>
-        </el-tab-pane>
+          <v-tab data-testid="eventsViewScreenTabsContestantsTab">
+            {{ $t("contestants") }}
+          </v-tab>
 
-        <el-tab-pane
-          name="results"
-          label="Resultater"
-        >
-          <div class="content p-0">
-            <!-- <events-results-view
-              v-if="!eventsStateSelectedIsLoading"
-              ref="eventsResultsView"
-              :event="eventsStateSelected"
-            /> -->
-          </div>
-        </el-tab-pane>
-      </el-tabs>
-    </el-main>
+          <v-tab data-testid="eventsViewScreenTabsDivisionsTab">
+            {{ $t("divisions") }}
+          </v-tab>
+
+          <v-tab data-testid="eventsViewScreenTabsResultsTab">
+            {{ $t("results") }}
+          </v-tab>
+        </v-tabs>
+      </template>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/events', text: $t('breadcrumb1Label') },
+        { to: `/events/${eventsStateSelected.id}`,
+          text: eventsStateSelected.title }
+      ]"
+    />
+
+    <v-tabs-items v-model="activeTab">
+      <v-tab-item>
+        <events-view-tabs-contestants
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+
+      <v-tab-item>
+        <events-view-tabs-divisions
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+
+      <v-tab-item>
+        <events-view-tabs-results
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+    </v-tabs-items>
 
     <events-edit-dialog
-      :shown.sync="eventsShowEditDialog"
+      :shown.sync="eventsEditDialogShow"
       :event="eventsStateSelected"
     />
-
-    <clubs-members-create-dialog
-      :shown.sync="clubsMembersShowCreateDialog"
-    />
-
-    <!-- <events-participants-manager-dialog
-      v-if="!eventsStateSelectedIsLoading"
-      :shown.sync="eventsParticipantsShowManageDialog"
-      :event="eventsStateSelected"
-      @clubsMembersOpenCreateDialog="clubsMembersOpenCreateDialog"
-    /> -->
-
-    <!-- <events-participants-edit-dialog
-      :shown.sync="eventsParticipantsShowEditDialog"
-      :participant="eventsParticipantsEditItem"
-      :event="eventsStateSelected"
-    /> -->
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-// import EventsParticipantsListTable from "@/containers/EventsParticipantsListTable.vue"
-// import EventsParticipantsManagerDialog from "@/containers/EventsParticipantsManagerDialog.vue"
-// import EventsParticipantsEditDialog from "@/containers/EventsParticipantsEditDialog.vue"
-// import EventsDivisionsView from "@/containers/EventsDivisionsView.vue"
-import EventsEditDialog from "@/containers/EventsEditDialog.vue"
-import ClubsMembersCreateDialog from "@/containers/ClubsMembersCreateDialog.vue"
-// import EventsStartlistListTable from "@/containers/EventsStartlistListTable.vue"
-// import EventsResultsView from "@/containers/EventsResultsView.vue"
+import EventsViewTabsContestants from "@/components/EventsViewTabsContestants.vue"
+import EventsViewTabsDivisions from "@/components/EventsViewTabsDivisions.vue"
+import EventsViewTabsResults from "@/components/EventsViewTabsResults.vue"
+import EventsEditDialog from "@/components/EventsEditDialog.vue"
+import DataGrid from "@/components/DataGrid.vue"
+import config from "@/app.config"
 
-export default {
+export default Vue.extend({
   name: "EventsViewScreen",
 
   components: {
-    BreadcrumbBar,
-    // EventsParticipantsListTable,
-    // EventsParticipantsManagerDialog,
-    ClubsMembersCreateDialog,
-    // EventsDivisionsView,
+    EventsViewTabsContestants,
+    EventsViewTabsDivisions,
+    EventsViewTabsResults,
     EventsEditDialog,
-    // EventsParticipantsEditDialog,
-    // EventsStartlistListTable,
-    // EventsResultsView
+    DataGrid
   },
 
   data: () => ({
-    activeTab: "participants",
-    eventsParticipantsShowManageDialog: false,
-    clubsMembersShowCreateDialog: false,
-    eventsShowEditDialog: false,
-    eventsParticipantsShowEditDialog: false,
-    eventsParticipantsEditItem: {}
+    activeTab: 0,
+    eventsEditDialogShow: false
   }),
 
   computed: {
@@ -329,7 +243,7 @@ export default {
       eventsStateSelectedIsLoading: "selectedIsLoading",
       eventsStateSelected: "selected"
     }),
-    eventsIsLoading() {
+    eventsIsLoading(): boolean {
       return (
         this.eventsStateSelectedIsLoading ||
         this.eventsStateRemoveOneIsLoading
@@ -337,8 +251,8 @@ export default {
     }
   },
 
-  async created() {
-    await this.eventsActionsSelect({ id: this.$route.params.eventId })
+  created(): void {
+    this.eventsActionsSelect({ id: this.$route.params.eventId })
   },
 
   methods: {
@@ -347,49 +261,28 @@ export default {
       eventsActionsRemoveOne: "removeOne"
     }),
 
-    refreshTabs() {
-      // switch(this.activeTab) {
-      //   case "startlist":
-      //     this.$refs.eventsStartlistListTable.refresh()
-      //     break
-      //   case "results":
-      //     this.$refs.eventsResultsView.refresh()
-      //     break
-      // }
+    print(): void {
+      if(config.runtime === "web") {
+        window.print()
+      } else {
+      }
     },
 
-    dispatchActions({ handler, payload }) {
-      this[handler](payload)
-    },
-
-    clubsMembersOpenCreateDialog() {
-      this.clubsMembersShowCreateDialog = true
-    },
-
-    eventsParticipantsOpenManageDialog() {
-      this.eventsParticipantsShowManageDialog = true
-    },
-
-    eventsRangeOpenMap() {
+    eventsRangeOpenMap(): void {
       const { range } = this.eventsStateSelected
       window.open(`https://www.google.com/maps/@${range.lat},${range.lng},15z`)
     },
 
-    eventsOpenEditDialog() {
-      this.eventsShowEditDialog = true
+    eventsEditDialogOpen(): void {
+      this.eventsEditDialogShow = true
     },
 
-    eventsParticipantsOpenEditDialog(participant) {
-      this.eventsParticipantsShowEditDialog = true
-      this.eventsParticipantsEditItem = participant
-    },
-
-    async eventsRemoveOne() {
+    async eventsRemoveOne(): Promise<void> {
       const event = this.eventsStateSelected
       try {
         await this.$confirm(
           this.$t("eventsRemoveOneConfirmation", {
-            event: event.title
+            eventTitle: event.title
           }),
           this.$t("warning"), {
             confirmButtonText: this.$t("confirmButtonText"),
@@ -408,7 +301,7 @@ export default {
           type: "success",
           title: this.$t("success"),
           message: this.$t("eventsActionsRemoveOneSuccess", {
-            event: event.title
+            eventTitle: event.title
           })
         })
         this.$router.push("/")
@@ -421,5 +314,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

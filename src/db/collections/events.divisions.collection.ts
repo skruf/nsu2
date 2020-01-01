@@ -1,6 +1,7 @@
 import { RxJsonSchema, RxCollection, RxDocument } from "rxdb"
-import { destroyMany } from "@/db/queries"
 import { EventsDocument } from "@/db/collections/events.collection"
+import { db } from "@/db"
+import { eventsDivisionsService } from "@/services"
 
 export declare interface EventsDivisionsProperties {
   id: string
@@ -13,6 +14,7 @@ export declare interface EventsDivisionsProperties {
   createdAt: string
   updatedAt: string
   event?: EventsDocument
+  contestantsCount: number
 }
 
 export declare type EventsDivisionsDocument = RxDocument<EventsDivisionsProperties>
@@ -48,13 +50,6 @@ const schema: RxJsonSchema = {
     eventId: {
       type: "string",
       ref: "events"
-    },
-    eventsContestantsIds: {
-      type: "array",
-      ref: "events_contestants",
-      items: {
-        type: "string"
-      }
     }
   },
   required: [
@@ -67,10 +62,31 @@ const schema: RxJsonSchema = {
   ]
 }
 
-const preRemove = async (data: EventsDivisionsProperties) => {
-  await destroyMany("events_contestants", {
-    divisionId: data.id
-  })
+const preInsert = async (data: EventsDivisionsProperties): Promise<void> => {
+  await eventsDivisionsService.autoAssign(data)
+  // const populate = async (doc) => {
+  //   doc.weapon = await doc.populate("weaponId")
+  //   return doc
+  // }
+  // const { items }: any = await findMany("events_contestants", {
+  //   eventId: data.eventId,
+  //   divisionId: { $exists: false }
+  // })
+  // const contestants = await Promise.all(items.map(populate))
+  // await Promise.all(
+  //   _uniqBy(contestants, "clubMemberId")
+  //     .filter(({ weapon }) => weapon.distance === data.distance)
+  //     .slice(0, data.standsCount)
+  //     .map((doc: any, index) => doc.update(
+  //       { $set: { divisionId: data.id, stand: index + 1 } }
+  //     ))
+  // )
+}
+
+const preRemove = async (data: EventsDivisionsProperties): Promise<void> => {
+  await db.events_contestants
+    .find({ divisionId: data.id })
+    .update({ $set: { divisionId: undefined } })
 }
 
 export default {
@@ -79,6 +95,10 @@ export default {
     schema: schema
   },
   middlewares: {
+    preInsert: {
+      handle: preInsert,
+      parallel: false
+    },
     preRemove: {
       handle: preRemove,
       parallel: false

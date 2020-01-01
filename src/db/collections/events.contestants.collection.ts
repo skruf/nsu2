@@ -3,6 +3,7 @@ import { WeaponsDocument } from "@/db/collections/weapons.collection"
 import { EventsDocument } from "@/db/collections/events.collection"
 import { EventsDivisionsDocument } from "@/db/collections/events.divisions.collection"
 import { ClubsMembersDocument } from "@/db/collections/clubs.members.collection"
+import { count, findOne } from "@/db/queries"
 
 export declare interface EventsContestantsProperties {
   id: string
@@ -14,7 +15,7 @@ export declare interface EventsContestantsProperties {
   notes: string[]
   weaponId: string
   eventId: string
-  // divisionId: string
+  divisionId: string
   clubMemberId: string
   createdAt: string
   updatedAt: string
@@ -84,20 +85,22 @@ const schema: RxJsonSchema = {
     },
     weaponId: {
       type: "string",
-      ref: "weapons"
+      ref: "weapons",
+      index: true
     },
     eventId: {
       type: "string",
-      ref: "events"
+      ref: "events",
+      index: true
     },
-    // divisionId: {
-    //   type: "string",
-    //   ref: "events_divisions"
-    // },
-
+    divisionId: {
+      type: "string",
+      ref: "events_divisions"
+    },
     clubMemberId: {
       type: "string",
-      ref: "clubs_members"
+      ref: "clubs_members",
+      index: true
     }
   },
   required: [
@@ -105,22 +108,39 @@ const schema: RxJsonSchema = {
     "calibre",
     "weaponId",
     "eventId",
-    // "divisionId",
     "clubMemberId"
   ]
 }
 
-const statics: EventsContestantsStatics = {
-  count: async function() {
-    const docs = await this.find().exec()
-    return docs.length
+const preInsert = async (data: EventsContestantsProperties): Promise<void> => {
+  if(data.number) return
+
+  const contestant = await findOne("events_contestants", {
+    eventId: data.eventId,
+    clubMemberId: data.clubMemberId
+  })
+
+  if(contestant) {
+    data.number = contestant.number
+    return
   }
+
+  const c = await count("events_contestants", {
+    eventId: data.eventId
+  })
+
+  data.number = c + 1
 }
 
 export default {
   collection: {
     name: "events_contestants",
-    schema: schema,
-    statics: statics
+    schema: schema
+  },
+  middlewares: {
+    preInsert: {
+      handle: preInsert,
+      parallel: false
+    }
   }
 }

@@ -1,69 +1,41 @@
 <style lang="stylus" scoped>
 #error-screen
   text-align center
-
-  .content
-    justify-content center
-    padding-bottom 100px
-
-  .el-header
-    align-items center
-
   .error_title
     margin 50px 0
-
   .error_image
     max-width 70px
     margin 0 auto
-
   .error_text
     max-width 700px
-    margin 0 auto
-
-  .el-footer
-    justify-content flex-start
+    margin 50px auto
 </style>
 
 <template>
-  <el-container
-    id="error-screen"
-    class="screen"
-  >
-    <!-- <el-header height="auto">
-      <div class="page-titles">
-        <h1 class="h1">
-          An error occurred!
-        </h1>
-      </div>
-    </el-header> -->
+  <div class="flex items-center justify-center">
+    <!-- <img
+      class="error_image"
+      src="../../../static/img/error.svg"
+    > -->
 
-    <el-main class="content">
-      <!-- <img
-        class="error_image"
-        src="../../../static/img/error.svg"
-      > -->
+    <h1 class="error_title">
+      An error occurred!
+    </h1>
 
-      <h1 class="h1 error_title">
-        An error occurred!
-      </h1>
+    <p
+      v-if="error"
+      class="error_text"
+    >
+      {{ error }}
+    </p>
 
-      <p
-        v-if="error"
-        class="paragraph error_text"
-      >
-        {{ error }}
-      </p>
-    </el-main>
-
-    <el-footer height="auto">
-      <el-button
-        type="text"
-        @click="navBack"
-      >
-        <i class="el-icon-arrow-left el-icon--left" /> Try again
-      </el-button>
-    </el-footer>
-  </el-container>
+    <v-btn
+      text
+      @click="navBack"
+    >
+      Prøv på nytt
+    </v-btn>
+  </div>
 </template>
 
 <script lang="ts">
@@ -76,7 +48,7 @@ export default {
     error: { type: String, default: "" }
   },
 
-  created() {
+  created(): void {
     if(config.env === "web") {
       console.error(this.error)
     } else {
@@ -85,7 +57,7 @@ export default {
   },
 
   methods: {
-    navBack() {
+    navBack(): void {
       this.$router.go(-1)
     }
   }

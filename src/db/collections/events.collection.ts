@@ -43,12 +43,12 @@ const schema: RxJsonSchema = {
     },
     startsAt: {
       type: "string",
-      format: "date-time",
+      format: "date",
       index: true
     },
     endsAt: {
       type: "string",
-      format: "date-time"
+      format: "date"
     },
     approbated: {
       type: "boolean",
@@ -66,7 +66,8 @@ const schema: RxJsonSchema = {
     },
     rangeId: {
       type: "string",
-      ref: "ranges"
+      ref: "ranges",
+      index: true
     }
   },
   required: [
@@ -76,13 +77,13 @@ const schema: RxJsonSchema = {
   ]
 }
 
-const preRemove = async (data: EventsProperties) => {
+const preRemove = async (data: EventsProperties): Promise<void> => {
   await destroyMany("events_divisions", {
     eventId: data.id
   })
-  // await destroyMany("events_participants", {
-  //   eventId: data.id
-  // })
+  await destroyMany("events_contestants", {
+    eventId: data.id
+  })
 }
 
 export default {

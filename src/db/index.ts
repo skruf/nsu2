@@ -1,4 +1,3 @@
-/* eslint-disable */
 import RxDB, { RxDatabase, RxCollectionCreator } from "rxdb"
 import RxDBSchemaCheckModule from "rxdb/plugins/schema-check"
 import RxDBErrorMessagesModule from "rxdb/plugins/error-messages"
@@ -13,7 +12,7 @@ RxDB.plugin(RxDBSchemaCheckModule)
 
 let adapter: string
 
-if(config.env === "test") {
+if(config.env !== "production") {
   adapter = "memory"
   RxDB.plugin(require("pouchdb-adapter-memory"))
 } else {
@@ -46,7 +45,7 @@ const configureCollection = async (
 
   const collection = await db.collection(config.collection)
 
-  for(let middleware in config.middlewares) {
+  for(const middleware in config.middlewares) {
     const { handle, parallel } = config.middlewares[middleware]
     collection[middleware](handle, parallel)
   }
@@ -63,7 +62,7 @@ export const init = async (): Promise<Database> => {
       adapter: adapter,
       password: "nsu2020nsu2020nsu2020",
       multiInstance: false,
-      queryChangeDetection: false
+      queryChangeDetection: true
     })
 
     await Promise.all(configs.map(
@@ -84,9 +83,3 @@ export const reset = async (): Promise<void> => {
   db = null
   await init()
 }
-
-// export default {
-//   get(): Database {
-//     return db
-//   }
-// }

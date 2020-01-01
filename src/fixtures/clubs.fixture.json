@@ -1,5 +1,5 @@
 [{
-  "id" : "",
+  "id" : "1",
   "name": "Norske Officerers Pistolklubb",
   "shortName": "NOP",
   "leaderFullName": "Jens Berentzen",
@@ -8,86 +8,96 @@
   "streetAddress": "Postboks 92 Sentrum",
   "area": "0101, Oslo",
   "country": "Norge",
-  "websiteUrl": "https://www.nop.no"
+  "websiteUrl": "https://www.nop.no",
+  "rangeId": "1"
 }, {
-  "id" : "",
+  "id" : "2",
   "name": "Schedmoe Civile Skydeselskab",
   "shortName": "SCS",
   "leaderFullName": "Frode Høybråten",
   "emailAddress": "frode.hoybraten@lilleborg.no",
   "streetAddress": "",
   "area": "1903, Gan",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "2"
 }, {
-  "id" : "",
+  "id" : "3",
   "name": "Christiania Skydeselskab",
   "shortName": "CKS",
   "leaderFullName": "Per Erik Andersson",
   "emailAddress": "pererikandersson51@gmail.com",
   "streetAddress": "",
   "area": "Oslo",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "3"
 }, {
-  "id" : "",
+  "id" : "4",
   "name": "Oslo Vestre Sportsskyttere",
   "shortName": "OVS",
   "leaderFullName": "Asle G. Resi",
   "emailAddress": "",
   "streetAddress": "Olav Aukrustsvei 58 a",
   "area": "0785 Oslo",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "4"
 }, {
-  "id" : "",
+  "id" : "5",
   "name": "OKTS Svartkruttgruppa",
   "shortName": "OKT",
   "leaderFullName": "Odd Flomark",
   "emailAddress": "",
   "streetAddress": "Munkerudåsen 22G",
   "area": "1165 Oslo",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "5"
 }, {
-  "id" : "",
+  "id" : "6",
   "name": "ZERO Pistolklubb",
   "shortName": "ZPK",
   "leaderFullName": "",
   "emailAddress": "post@zeropk.com",
   "streetAddress": "Postboks 79",
   "area": "1338 Sandvika",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "6"
 }, {
-  "id" : "",
+  "id" : "7",
   "name": "Bærum Pistolklubb",
   "shortName": "BPK",
   "leaderFullName": "Tor Ryden",
   "emailAddress": "",
   "streetAddress": "Rødskrubbgrenda 5",
   "area": "1352 Kolsås",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "7"
 }, {
-  "id" : "",
+  "id" : "8",
   "name": "Oslo Sportsskyttere",
   "shortName": "OSK",
   "leaderFullName": "",
   "emailAddress": "",
   "streetAddress": "Markalleen 68 A",
   "area": "1368 Stabekk",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "8"
 }, {
-  "id" : "",
+  "id" : "9",
   "name": "Asker Skyteklubb Svartkruttgruppa",
   "shortName": "ASS",
   "leaderFullName": "Per Erik Andersson",
   "emailAddress": "pererikandersson51@gmail.com",
   "streetAddress": "Gamle Drammensvei 357",
   "area": "1383 Asker",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "9"
 }, {
-  "id" : "",
+  "id" : "10",
   "name": "Tordenskiolds Soldater Stavern",
   "shortName": "TSS",
   "leaderFullName": "Tor Otto Madsen",
   "emailAddress": "post@sandefjordpaintball.no",
   "streetAddress": "Postboks 31",
   "area": "3290 Stavern",
-  "country": "Norge"
+  "country": "Norge",
+  "rangeId": "10"
 }]

@@ -3,7 +3,8 @@ import rangesService from "@/services/ranges.service"
 import { countriesFixture } from "@/fixtures"
 
 export const state = {
-  countries: countriesFixture
+  countries: countriesFixture,
+  types: [ "Utebane", "Innebane" ]
 }
 const mutations = {}
 const actions = {}

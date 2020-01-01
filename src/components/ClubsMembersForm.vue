@@ -1,183 +1,177 @@
 <i18n>
 {
   "en": {
-    "formItem1Label": "First Name",
-    "formItem1Placeholder": "Enter a first name",
-    "formItem1Error": "First name is a required field",
-    "formItem2Label": "Last Name",
-    "formItem2Placeholder": "Enter a last name",
-    "formItem2Error": "Last name is a required field",
-    "formItem3Label": "Email Address",
-    "formItem3Placeholder": "Enter a email address",
-    "formItem3Error": "Email is a required field",
-    "formItem4Label": "Phone Number",
-    "formItem4Placeholder": "Enter a phone number",
-    "formItem5Label": "Country",
-    "formItem5Placeholder": "Select a country",
-    "formItem6Label": "Club",
-    "formItem6Placeholder": "Please select a club",
-    "formItem6Error": "Select a club"
+    "clubsMembersFormFirstNameLabel": "First Name",
+    "clubsMembersFormFirstNamePlaceholder": "Enter a first name",
+    "clubsMembersFormFirstNameError": "First name is a required field",
+    "clubsMembersFormLastNameLabel": "Last Name",
+    "clubsMembersFormLastNamePlaceholder": "Enter a last name",
+    "clubsMembersFormLastNameError": "Last name is a required field",
+    "clubsMembersFormEmailAddressLabel": "Email Address",
+    "clubsMembersFormEmailAddressPlaceholder": "Enter a email address",
+    "clubsMembersFormEmailAddressError": "Email is a required field",
+    "clubsMembersFormPhoneNumberLabel": "Phone Number",
+    "clubsMembersFormPhoneNumberPlaceholder": "Enter a phone number",
+    "clubsMembersFormCountryLabel": "Country",
+    "clubsMembersFormCountryPlaceholder": "Select a country",
+    "clubsMembersFormCountryError": "Country is a required field",
+    "clubsMembersFormClubIdLabel": "Club",
+    "clubsMembersFormClubIdPlaceholder": "Please select a club",
+    "clubsMembersFormClubIdError": "Select a club"
   },
   "no": {
-    "formItem1Label": "Fornavn",
-    "formItem1Placeholder": "Skriv inn fornavn",
-    "formItem1Error": "Fornavn er et påkrevd felt",
-    "formItem2Label": "Etternavn",
-    "formItem2Placeholder": "Skriv inn etternavn",
-    "formItem2Error": "Etternavn er et påkrevd felt",
-    "formItem3Label": "Epost adresse",
-    "formItem3Placeholder": "Skriv inn en e-post adresse",
-    "formItem3Error": "Epost adresse er et påkrevd felt",
-    "formItem4Label": "Telefonnummer",
-    "formItem4Placeholder": "Skriv inn et telefonnummer",
-    "formItem5Label": "Land",
-    "formItem5Placeholder": "Velg et land",
-    "formItem6Label": "Klubb",
-    "formItem6Placeholder": "Velg en klubb",
-    "formItem6Error": "Klubb er et påkrevd felt"
+    "clubsMembersFormFirstNameLabel": "Fornavn",
+    "clubsMembersFormFirstNamePlaceholder": "Skriv inn fornavn",
+    "clubsMembersFormFirstNameError": "Fornavn er et påkrevd felt",
+    "clubsMembersFormLastNameLabel": "Etternavn",
+    "clubsMembersFormLastNamePlaceholder": "Skriv inn etternavn",
+    "clubsMembersFormLastNameError": "Etternavn er et påkrevd felt",
+    "clubsMembersFormEmailAddressLabel": "Epost adresse",
+    "clubsMembersFormEmailAddressPlaceholder": "Skriv inn en e-post adresse",
+    "clubsMembersFormEmailAddressError": "Epost adresse er et påkrevd felt",
+    "clubsMembersFormPhoneNumberLabel": "Telefonnummer",
+    "clubsMembersFormPhoneNumberPlaceholder": "Skriv inn et telefonnummer",
+    "clubsMembersFormCountryLabel": "Land",
+    "clubsMembersFormCountryPlaceholder": "Velg et land",
+    "clubsMembersFormCountryError": "Lang er et påkrevd felt",
+    "clubsMembersFormClubIdLabel": "Klubb",
+    "clubsMembersFormClubIdPlaceholder": "Velg en klubb",
+    "clubsMembersFormClubIdError": "Klubb er et påkrevd felt"
   }
 }
 </i18n>
 
 <template>
-  <el-form
-    ref="localForm"
-    label-position="top"
-    :model="localForm"
-    :rules="formRules"
-  >
-    <el-form-item
-      :label="$t('formItem1Label')"
-      prop="firstName"
-    >
-      <el-input
-        v-model="form.firstName"
-        data-testid="clubsMembersFormInputFirstName"
-        :placeholder="$t('formItem1Placeholder')"
-      />
-    </el-form-item>
+  <v-form ref="localForm">
+    <v-text-field
+      v-model="value.firstName"
+      :label="$t('clubsMembersFormFirstNameLabel')"
+      :rules="[(v) => !!v || $t('clubsMembersFormFirstNameError')]"
+      data-testid="clubsMembersFormFirstNameInput"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      :label="$t('formItem2Label')"
-      prop="lastName"
-    >
-      <el-input
-        v-model="form.lastName"
-        data-testid="clubsMembersFormInputLastName"
-        :placeholder="$t('formItem2Placeholder')"
-      />
-    </el-form-item>
+    <v-text-field
+      v-model="value.lastName"
+      :label="$t('clubsMembersFormLastNameLabel')"
+      :rules="[(v) => !!v || $t('clubsMembersFormLastNameError')]"
+      data-testid="clubsMembersFormLastNameInput"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      :label="$t('formItem3Label')"
-      prop="emailAddress"
-    >
-      <el-input
-        v-model="form.emailAddress"
-        data-testid="clubsMembersFormInputEmailAddress"
-        :placeholder="$t('formItem3Placeholder')"
-      />
-    </el-form-item>
+    <v-text-field
+      v-model="value.emailAddress"
+      :label="$t('clubsMembersFormEmailAddressLabel')"
+      data-testid="clubsMembersFormEmailAddressInput"
+      class="mb-3"
+      outlined
+    />
 
-    <el-form-item
-      :label="$t('formItem4Label')"
-      prop="phoneNumber"
-    >
-      <el-input
-        v-model="form.phoneNumber"
-        :placeholder="$t('formItem4Placeholder')"
-      />
-    </el-form-item>
+    <v-text-field
+      v-model="value.phoneNumber"
+      :label="$t('clubsMembersFormPhoneNumberLabel')"
+      data-testid="clubsMembersFormPhoneNumberInput"
+      class="mb-3"
+      outlined
+    />
 
-    <el-form-item
-      :label="$t('formItem5Label')"
-      prop="country"
+    <v-select
+      v-model="value.country"
+      :items="clubsMembersStateCountries"
+      :label="$t('clubsMembersFormCountryLabel')"
+      :rules="[(v) => !!v || $t('clubsMembersFormCountryError')]"
+      data-testid="clubsMembersFormCountrySelect"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-select
+      v-model="value.clubId"
+      :items="clubsStateList"
+      :loading="clubsStateListIsLoading"
+      :label="$t('clubsMembersFormClubIdLabel')"
+      :rules="[(v) => !!v || $t('clubsMembersFormClubIdError')]"
+      data-testid="clubsFormClubIdSelect"
+      item-value="id"
+      item-text="name"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-snackbar
+      v-model="showValidationError"
+      color="error"
+      multi-line
+      right
+      top
     >
-      <el-select
-        v-model="form.country"
-        filterable
-        :placeholder="$t('formItem5Placeholder')"
+      <v-icon
+        color="white"
+        class="mr-4"
       >
-        <el-option
-          v-for="(country, index) in clubsMembersStateCountries"
-          :key="index"
-          :label="country"
-          :value="country"
-        />
-      </el-select>
-    </el-form-item>
+        error
+      </v-icon>
 
-    <el-form-item
-      prop="clubId"
-      :label="$t('formItem6Label')"
-    >
-      <el-select
-        v-model="form.clubId"
-        filterable
-        :placeholder="$t('formItem6Placeholder')"
-        :loading="clubsStateListIsLoading"
+      {{ $t("validationError") }}
+
+      <v-btn
+        text
+        @click="showValidationError = false"
       >
-        <el-option
-          v-for="clubItem in clubsStateList"
-          :key="clubItem.id"
-          :label="clubItem.name"
-          :value="clubItem.id"
-        />
-      </el-select>
-    </el-form-item>
-  </el-form>
+        {{ $t("close") }}
+      </v-btn>
+    </v-snackbar>
+  </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
-import { clubsStub } from "@/stubs"
+import { clubsMembersStub } from "@/stubs"
 
 export default Vue.extend({
-  name: "ClubsForm",
+  name: "ClubsMembersForm",
 
   props: {
-    form: { type: Object, default: () => clubsStub },
-    club: { type: Object, required: false, default: () => null }
+    value: { type: Object, default: (): object => clubsMembersStub },
+    club: { type: Object, required: false, default: (): null => null }
   },
 
-  data: function() {
-    return {
-      localForm: { ...clubsStub },
-      formRules: {
-        firstName: { required: true, message: this.$t('formItem1Error') },
-        lastName: { required: true, message: this.$t('formItem2Error') },
-        email: { required: true, message: this.$t('formItem3Error') },
-        clubId: { required: true, message: this.$t('formItem6Error') }
-      }
-    }
-  },
+  data: () => ({
+    showValidationError: false
+  }),
 
   computed: {
-    ...mapState("clubs", {
-      clubsStateListIsLoading: "listIsLoading",
-      clubsStateList: "list"
-    }),
-
     ...mapState("clubs/members", {
-      clubsMembersStateCreateIsLoading: "createIsLoading",
       clubsMembersStateCountries: "countries"
+    }),
+    ...mapState("clubs", {
+      clubsStateList: "list",
+      clubsStateListIsLoading: "listIsLoading"
     })
   },
 
   watch: {
-    localForm: {
+    club: {
+      immediate: true,
+      async handler(): Promise<void> {
+        this.localForm = this.form
+        await this.clubsActionsList()
+        if(this.club) this.form.clubId = this.club.id
+      }
+    },
+    value: {
       deep: true,
-      handler(data) {
-        this.$emit("update:form", data)
+      handler(data): void {
+        this.$emit("input", data)
       }
     }
-  },
-
-  async created() {
-    this.localForm = this.form
-    await this.clubsActionsList()
-    if(this.club) this.form.clubId = this.club.id
   },
 
   methods: {
@@ -185,12 +179,14 @@ export default Vue.extend({
       clubsActionsList: "list"
     }),
 
-    validate(cb) {
-      this.$refs.localForm.validate(cb)
+    submit(cb): void {
+      this.$refs.localForm.validate()
+        ? cb()
+        : this.showValidationError = true
     },
 
-    resetFields() {
-      this.$refs.localForm.resetFields()
+    resetFields(): void {
+      this.$refs.localForm.reset()
     }
   }
 })

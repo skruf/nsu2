@@ -4,6 +4,7 @@ interface Options {
 
 interface State {
   sortBy: string
+  sortDesc: boolean
 }
 
 const defaultOptions = {
@@ -14,23 +15,28 @@ export default (options?: Options) => {
   const config = { ...defaultOptions, ...options }
 
   const state: State = {
-    sortBy: "-createdAt"
+    sortBy: "-createdAt",
+    sortDesc: false
   }
 
   const mutations = {
-    SET_SORTING: (state: State, { prop, order }) => {
+    SET_SORTING: (state: State, prop = "-createdAt"): void => {
       state.sortBy = prop
-      if(order === "ascending") {
-        state.sortBy = `-${state.sortBy}`
-      }
+    },
+    SET_ORDER: (state: State, sortDesc: string): void => {
+      if(sortDesc) state.sortBy = `-${state.sortBy}`
     }
   }
 
   const actions = {
-    setSorting: async ({ commit, dispatch }, sorting: string) => {
+    setSorting: async ({ commit, dispatch }, sorting: string): Promise<void> => {
       commit("SET_SORTING", sorting)
       await dispatch(config.action)
-    }
+    },
+    setOrder: async ({ commit, dispatch }, order: string): Promise<void> => {
+      commit("SET_ORDER", order)
+      await dispatch(config.action)
+    },
   }
 
   return {

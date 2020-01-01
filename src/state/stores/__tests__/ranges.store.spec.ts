@@ -64,9 +64,9 @@ describe("ranges.store", () => {
     const sortBy = "area"
 
     expect(state.sortBy).toBe("-createdAt")
-    mutations.SET_SORTING(state, { prop: sortBy })
+    mutations.SET_SORTING(state, sortBy)
     expect(state.sortBy).toBe(sortBy)
-    mutations.SET_SORTING(state, { prop: sortBy, order: "ascending" })
+    mutations.SET_ORDER(state, true)
     expect(state.sortBy).toBe(`-${sortBy}`)
   })
 
@@ -106,7 +106,7 @@ describe("ranges.store", () => {
     const pageSize = 30
     const pageCurrent = 2
 
-    expect(state.pageSize).toBe(15)
+    expect(state.pageSize).toBe(150)
     expect(state.pageCurrent).toBe(1)
     mutations.SET_PAGE_SIZE(state, pageSize)
     expect(state.pageSize).toBe(pageSize)

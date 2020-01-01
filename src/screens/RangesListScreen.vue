@@ -1,20 +1,20 @@
 <i18n>
 {
   "en": {
-    "breadcrumb1Label": "Ranges",
-    "breadcrumb2Label": "All",
+    "breadcrumbRangesLabel": "Ranges",
+    "breadcrumbAllLabel": "All",
     "screenTitle": "Ranges",
-    "rangesOpenCreateDialogButton": "Create range",
+    "rangesCreateDialogOpenButton": "Create range",
     "rangesRemoveOneConfirmation": "This will remove %{rangeName} permanently. Continue?",
     "rangesActionsRemoveOneSuccess": "%{rangeName} was removed from the database",
     "rangesRemoveManyConfirmation": "This will remove %{rangesCount} ranges permanently. Continue?",
     "rangesActionsRemoveManySuccess": "%{rangesCount} ranges were removed from the database"
   },
   "no": {
-    "breadcrumb1Label": "Skyttebaner",
-    "breadcrumb2Label": "Alle",
+    "breadcrumbRangesLabel": "Skyttebaner",
+    "breadcrumbAllLabel": "Alle",
     "screenTitle": "Skyttebaner",
-    "rangesOpenCreateDialogButton": "Opprett skyttebane",
+    "rangesCreateDialogOpenButton": "Opprett skyttebane",
     "rangesRemoveOneConfirmation": "Dette vil fjerne %{rangeName} permanent. Fortsette?",
     "rangesActionsRemoveOneSuccess": "%{rangeName} ble fjernet fra databasen",
     "rangesRemoveManyConfirmation": "Dette vil fjerne %{rangesCount} skyttebaner permanent. Fortsette?",
@@ -24,78 +24,84 @@
 </i18n>
 
 <template>
-  <el-container
-    id="ranges-list-screen"
-    class="screen"
-  >
-    <el-header height="auto">
-      <breadcrumb-bar
-        :paths="[
-          { to: '/ranges', label: $t('breadcrumb1Label') },
-          { to: '', label: $t('breadcrumb2Label') }
-        ]"
-      />
+  <div>
+    <v-app-bar
+      color="primary"
+      dark
+      flat
+    >
+      <v-toolbar-title>
+        {{ $t("screenTitle") }}
+      </v-toolbar-title>
 
-      <div class="page-titles">
-        <h1 class="h1">
-          {{ $t('screenTitle') }}
-        </h1>
-      </div>
-    </el-header>
+      <v-spacer />
 
-    <el-main class="content">
+      <v-btn icon>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-breadcrumbs
+      :items="[
+        { to: '/ranges', text: $t('breadcrumbRangesLabel') },
+        { to: '', text: $t('breadcrumbAllLabel') }
+      ]"
+    />
+
+    <div v-loading="rangesRemoveIsLoading">
       <ranges-list-table
-        @rangesOpenCreateDialog="rangesOpenCreateDialog"
-        @rangesOpenEditDialog="rangesOpenEditDialog"
+        @rangesCreateDialogOpen="rangesCreateDialogOpen"
+        @rangesEditDialogOpen="rangesEditDialogOpen"
         @rangesRemoveOne="rangesRemoveOne"
         @rangesRemoveMany="rangesRemoveMany"
       />
-    </el-main>
-
-    <el-footer height="auto">
-      <el-button
-        type="primary"
-        data-testid="rangesOpenCreateDialogButton"
-        @click="rangesOpenCreateDialog"
-      >
-        <i class="el-icon-plus el-icon--left" /> {{ $t("rangesOpenCreateDialogButton") }}
-      </el-button>
-    </el-footer>
+    </div>
 
     <ranges-create-dialog
-      :shown.sync="rangesShowCreateDialog"
+      :shown.sync="rangesCreateDialogShown"
     />
 
     <ranges-edit-dialog
-      :shown.sync="rangesEditShowDialog"
-      :range="rangesEditItem"
+      :shown.sync="rangesEditDialogShown"
+      :range="rangesEditDialogRange"
     />
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions } from "vuex"
-import BreadcrumbBar from "@/components/BreadcrumbBar.vue"
-import RangesListTable from "@/containers/RangesListTable.vue"
-import RangesCreateDialog from "@/containers/RangesCreateDialog.vue"
-import RangesEditDialog from "@/containers/RangesEditDialog.vue"
+import { mapActions, mapState } from "vuex"
+import RangesListTable from "@/components/RangesListTable.vue"
+import RangesCreateDialog from "@/components/RangesCreateDialog.vue"
+import RangesEditDialog from "@/components/RangesEditDialog.vue"
 
 export default Vue.extend({
   name: "RangesListScreen",
 
   components: {
-    BreadcrumbBar,
     RangesListTable,
     RangesCreateDialog,
     RangesEditDialog
   },
 
   data: () => ({
-    rangesShowCreateDialog: false,
-    rangesEditShowDialog: false,
-    rangesEditItem: {}
+    rangesCreateDialogShown: false,
+    rangesEditDialogShown: false,
+    rangesEditDialogRange: {}
   }),
+
+  computed: {
+    ...mapState("weapons", {
+      weaponsStateRemoveOneIsLoading: "removeOneIsLoading",
+      weaponsStateRemoveManyIsLoading: "removeManyIsLoading"
+    }),
+    rangesRemoveIsLoading(): boolean {
+      return (
+        this.weaponsStateRemoveOneIsLoading ||
+        this.weaponsStateRemoveManyIsLoading
+      )
+    }
+  },
 
   methods: {
     ...mapActions("ranges", {
@@ -103,16 +109,16 @@ export default Vue.extend({
       rangesActionsRemoveMany: "removeMany"
     }),
 
-    rangesOpenCreateDialog() {
-      this.rangesShowCreateDialog = true
+    rangesCreateDialogOpen(): void {
+      this.rangesCreateDialogShown = true
     },
 
-    rangesOpenEditDialog(item) {
-      this.rangesEditShowDialog = true
-      this.rangesEditItem = item
+    rangesEditDialogOpen(range): void {
+      this.rangesEditDialogShown = true
+      this.rangesEditDialogRange = range
     },
 
-    async rangesRemoveOne(range) {
+    async rangesRemoveOne(range): Promise<void> {
       try {
         await this.$confirm(
           this.$t("rangesRemoveOneConfirmation", { rangeName: range.name }),
@@ -145,7 +151,7 @@ export default Vue.extend({
       }
     },
 
-    async rangesRemoveMany() {
+    async rangesRemoveMany(): Promise<void> {
       const count = this.rangesSelection.length
 
       try {

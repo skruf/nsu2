@@ -1,145 +1,136 @@
 <i18n>
 {
   "en": {
-    "formItemNumberLabel": "Number",
-    "formItemNumberPlaceholder": "Enter a class number",
-    "formItemNumberError": "Number is a required field",
-    "formItemNameLabel": "Name",
-    "formItemNamePlaceholder": "Enter a name",
-    "formItemNameError": "Name is a required field",
-    "formItemCategoryLabel": "Category",
-    "formItemCategoryPlaceholder": "Select a category",
-    "formItemCategoryError": "Category is a required field",
-    "formItemConditionLabel": "Condition",
-    "formItemConditionPlaceholder": "Select a condition",
-    "formItemConditionError": "Condition is a required field",
-    "formItemDistanceLabel": "Distance",
-    "formItemDistanceError": "Distance is a required field"
+    "weaponsFormNumberLabel": "Number",
+    "weaponsFormNumberPlaceholder": "Enter a class number",
+    "weaponsFormNumberError": "Number is a required field",
+    "weaponsFormNameLabel": "Name",
+    "weaponsFormNamePlaceholder": "Enter a name",
+    "weaponsFormNameError": "Name is a required field",
+    "weaponsFormCategoryLabel": "Category",
+    "weaponsFormCategoryPlaceholder": "Select a category",
+    "weaponsFormCategoryError": "Category is a required field",
+    "weaponsFormConditionLabel": "Condition",
+    "weaponsFormConditionPlaceholder": "Select a condition",
+    "weaponsFormConditionError": "Condition is a required field",
+    "weaponsFormDistanceLabel": "Distance",
+    "weaponsFormDistanceError": "Distance is a required field"
   },
   "no": {
-    "formItemNumberLabel": "Nummer",
-    "formItemNumberPlaceholder": "Skriv et nummer",
-    "formItemNumberError": "Nummer er et påkrevd felt",
-    "formItemNameLabel": "Navn",
-    "formItemNamePlaceholder": "Skriv et navn",
-    "formItemNameError": "Navn er et påkrevd felt",
-    "formItemCategoryLabel": "Kategori",
-    "formItemCategoryPlaceholder": "Velg en kategori",
-    "formItemCategoryError": "Kategori er et påkrevd felt",
-    "formItemConditionLabel": "Tilstand",
-    "formItemConditionPlaceholder": "Velg en tilstand",
-    "formItemConditionError": "Tilstand er et påkrevd felt",
-    "formItemDistanceLabel": "Avstand",
-    "formItemDistanceError": "Avstand er et påkrevd felt"
+    "weaponsFormNumberLabel": "Nummer",
+    "weaponsFormNumberPlaceholder": "Skriv et nummer",
+    "weaponsFormNumberError": "Nummer er et påkrevd felt",
+    "weaponsFormNameLabel": "Navn",
+    "weaponsFormNamePlaceholder": "Skriv et navn",
+    "weaponsFormNameError": "Navn er et påkrevd felt",
+    "weaponsFormCategoryLabel": "Kategori",
+    "weaponsFormCategoryPlaceholder": "Velg en kategori",
+    "weaponsFormCategoryError": "Kategori er et påkrevd felt",
+    "weaponsFormConditionLabel": "Tilstand",
+    "weaponsFormConditionPlaceholder": "Velg en tilstand",
+    "weaponsFormConditionError": "Tilstand er et påkrevd felt",
+    "weaponsFormDistanceLabel": "Avstand",
+    "weaponsFormDistanceError": "Avstand er et påkrevd felt"
   }
 }
 </i18n>
 
 <template>
-  <el-form
-    ref="localForm"
-    label-position="top"
-    :model="localForm"
-    :rules="formRules"
-  >
-    <el-form-item
-      prop="number"
-      :label="$t('formItemNumberLabel')"
-    >
-      <el-input
-        v-model="form.number"
-        :placeholder="$t('formItemNumberPlaceholder')"
-        data-testid="weaponsFormInputNumber"
-      />
-    </el-form-item>
+  <v-form ref="localForm">
+    <v-text-field
+      v-model="value.number"
+      :label="$t('weaponsFormNumberLabel')"
+      :rules="[(v) => !!v || $t('weaponsFormNumberError')]"
+      data-testid="weaponsFormNumberInput"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      prop="name"
-      :label="$t('formItemNameLabel')"
-    >
-      <el-input
-        v-model="form.name"
-        :placeholder="$t('formItemNamePlaceholder')"
-        data-testid="weaponsFormInputName"
-      />
-    </el-form-item>
+    <v-text-field
+      v-model="value.name"
+      :label="$t('weaponsFormNameLabel')"
+      :rules="[(v) => !!v || $t('weaponsFormNameError')]"
+      data-testid="weaponsFormNameInput"
+      class="mb-3"
+      outlined
+      required
+    />
 
-    <el-form-item
-      prop="category"
-      :label="$t('formItemCategoryLabel')"
+    <v-select
+      v-model="value.category"
+      :items="weaponsStateCategories"
+      :label="$t('weaponsFormCategoryLabel')"
+      :rules="[(v) => !!v || $t('weaponsFormCategoryError')]"
+      data-testid="weaponsFormCategorySelect"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-select
+      v-model="value.condition"
+      :items="weaponsStateConditions"
+      :label="$t('weaponsFormConditionLabel')"
+      :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
+      data-testid="weaponsFormConditionSelect"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-text-field
+      v-model="value.distance"
+      :label="$t('weaponsFormDistanceLabel')"
+      :rules="[(v) => !!v || $t('weaponsFormDistanceError')]"
+      type="number"
+      data-testid="weaponsFormDistanceInput"
+      hint="Antall meter"
+      outlined
+      required
+    />
+
+    <v-snackbar
+      v-model="showValidationError"
+      color="error"
+      multi-line
+      right
+      top
     >
-      <el-select
-        v-model="form.category"
-        :placeholder="$t('formItemCategoryPlaceholder')"
-        data-testid="weaponsFormSelectCategory"
+      <v-icon
+        color="white"
+        class="mr-4"
       >
-        <el-option
-          v-for="(category, index) in weaponsStateCategories"
-          :key="index"
-          :label="category"
-          :value="category"
-          :data-testid="`weaponsFormSelectCategoryValue${category.replace(/\s/g, '')}`"
-        />
-      </el-select>
-    </el-form-item>
+        error
+      </v-icon>
 
-    <el-form-item
-      prop="condition"
-      :label="$t('formItemConditionLabel')"
-    >
-      <el-select
-        v-model="form.condition"
-        :placeholder="$t('formItemConditionPlaceholder')"
-        data-testid="weaponsFormSelectCondition"
+      {{ $t("validationError") }}
+
+      <v-btn
+        text
+        @click="showValidationError = false"
       >
-        <el-option
-          v-for="(condition, index) in weaponsStateConditions"
-          :key="index"
-          :label="condition"
-          :value="condition"
-          :data-testid="`weaponsFormSelectConditionValue${condition.replace(/\s/g, '')}`"
-        />
-      </el-select>
-    </el-form-item>
-
-    <el-form-item
-      :label="$t('formItemDistanceLabel')"
-      prop="distance"
-    >
-      <el-input-number
-        v-model="form.distance"
-        controls-position="right"
-        size="small"
-        :min="0"
-        data-testid="weaponsFormInputDistance"
-      />
-    </el-form-item>
-  </el-form>
+        {{ $t("close") }}
+      </v-btn>
+    </v-snackbar>
+  </v-form>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
 import { mapState } from "vuex"
 import { weaponsStub } from "@/stubs"
 
-export default {
+export default Vue.extend({
   name: "WeaponsForm",
 
   props: {
-    form: { type: Object, default: () => weaponsStub }
+    value: { type: Object, default: (): object => weaponsStub }
   },
 
-  data: function() {
-    return {
-      localForm: { ...weaponsStub },
-      formRules: {
-        number: { required: true, message: this.$t("formItemNumberError") },
-        name: { required: true, message: this.$t("formItemNameError") },
-        category: { required: true, message: this.$t("formItemCategoryError") },
-        condition: { required: true, message: this.$t("formItemConditionError") },
-        distance: { required: true, message: this.$t("formItemDistanceError") }
-      }
-    }
-  },
+  data: () => ({
+    showValidationError: false
+  }),
 
   computed: mapState("weapons", {
     weaponsStateCategories: "categories",
@@ -147,26 +138,25 @@ export default {
   }),
 
   watch: {
-    localForm: {
+    value: {
       deep: true,
-      handler(data) {
-        this.$emit("update:form", data)
+      handler(data): void {
+        data.distance = parseInt(data.distance)
+        this.$emit("input", data)
       }
     }
   },
 
-  created() {
-    this.localForm = this.form
-  },
-
   methods: {
-    validate(cb) {
-      this.$refs.localForm.validate(cb)
+    submit(cb): void {
+      this.$refs.localForm.validate()
+        ? cb()
+        : this.showValidationError = true
     },
 
-    resetFields() {
-      this.$refs.localForm.resetFields()
+    resetFields(): void {
+      this.$refs.localForm.reset()
     }
   }
-}
+})
 </script>
