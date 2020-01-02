@@ -13,13 +13,11 @@
 
 <template>
   <action-dialog :shown.sync="visible">
-    <template v-slot:toolbar-title>
-      <span class="headline mb-6">
-        {{ $t("dialogTitle") }}
-      </span>
+    <template v-slot:title>
+      {{ $t("dialogTitle") }}
     </template>
 
-    <template v-slot:toolbar-items>
+    <template v-slot:actions>
       <v-btn
         text
         data-testid="eventsDivisionsCreateDialogSubmitButton"
@@ -30,12 +28,10 @@
       </v-btn>
     </template>
 
-    <template v-slot:content>
-      <events-divisions-form
-        ref="eventsDivisionsForm"
-        v-model="form"
-      />
-    </template>
+    <events-divisions-form
+      ref="eventsDivisionsForm"
+      v-model="form"
+    />
   </action-dialog>
 </template>
 

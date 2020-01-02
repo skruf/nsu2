@@ -113,6 +113,7 @@
             </v-menu>
           </div>
 
+          <!-- @TODO: tailwind print ml-8 = ml-0? -->
           <div
             v-if="eventsStateSelected.range"
             class="text-base leading-none opacity-75 ml-8"
@@ -219,7 +220,6 @@ import EventsViewTabsDivisions from "@/components/EventsViewTabsDivisions.vue"
 import EventsViewTabsResults from "@/components/EventsViewTabsResults.vue"
 import EventsEditDialog from "@/components/EventsEditDialog.vue"
 import DataGrid from "@/components/DataGrid.vue"
-import config from "@/app.config"
 
 export default Vue.extend({
   name: "EventsViewScreen",
@@ -251,8 +251,13 @@ export default Vue.extend({
     }
   },
 
-  created(): void {
-    this.eventsActionsSelect({ id: this.$route.params.eventId })
+  watch: {
+    "$route.params.eventId": {
+      immediate: true,
+      handler: function(id): void {
+        this.eventsActionsSelect({ id })
+      }
+    }
   },
 
   methods: {
@@ -260,13 +265,6 @@ export default Vue.extend({
       eventsActionsSelect: "select",
       eventsActionsRemoveOne: "removeOne"
     }),
-
-    print(): void {
-      if(config.runtime === "web") {
-        window.print()
-      } else {
-      }
-    },
 
     eventsRangeOpenMap(): void {
       const { range } = this.eventsStateSelected

@@ -34,7 +34,6 @@
     permanent
   >
     <div class="mx-auto px-4 my-4">
-      <!-- lazy-src="https://picsum.photos/id/11/10/6" -->
       <v-img
         src="@/assets/img/nsu-logo.png"
         aspect-ratio="1"

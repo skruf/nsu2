@@ -36,7 +36,11 @@
 
       <v-spacer />
 
-      <v-btn icon>
+      <v-btn
+        icon
+        data-testid="eventsListPrintButton"
+        @click="print"
+      >
         <v-icon>print</v-icon>
       </v-btn>
     </v-app-bar>

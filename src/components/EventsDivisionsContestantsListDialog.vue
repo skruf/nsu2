@@ -12,7 +12,11 @@
     </template>
 
     <template v-slot:actions>
-      <v-btn icon>
+      <v-btn
+        icon
+        data-testid="eventsDivisionsContestantsListDialogPrintButton"
+        @click="print"
+      >
         <v-icon>print</v-icon>
       </v-btn>
     </template>
@@ -63,8 +67,17 @@ export default Vue.extend({
     eventsContestantsEditDialogOpen(contestant): void {
       this.$emit("eventsContestantsEditDialogOpen", contestant)
     },
+
     close(): void {
       this.visible = false
+    },
+
+    print(): void {
+      this.$notify({
+        type: "warning",
+        title: "Ikke implementert",
+        message: "Kommer snart"
+      })
     }
   }
 })

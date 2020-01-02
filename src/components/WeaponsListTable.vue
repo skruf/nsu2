@@ -2,7 +2,8 @@
 {
   "en": {
     "searchFormPlaceholder": "Search for a weapon by name",
-    "weaponsListTableColumnNameLabel": "Name/Nummer",
+    "weaponsListTableColumnNumberLabel": "Number",
+    "weaponsListTableColumnNameLabel": "Name",
     "weaponsListTableColumnCategoryLabel": "Category",
     "weaponsListTableColumnConditionLabel": "Condition",
     "weaponsListTableColumnDistanceLabel": "Distance",
@@ -15,7 +16,8 @@
   },
   "no": {
     "searchFormPlaceholder": "Søk etter våpen med navn",
-    "weaponsListTableColumnNameLabel": "Navn/Nummer",
+    "weaponsListTableColumnNumberLabel": "Nummer",
+    "weaponsListTableColumnNameLabel": "Navn",
     "weaponsListTableColumnCategoryLabel": "Kategori",
     "weaponsListTableColumnConditionLabel": "Tilstand",
     "weaponsListTableColumnDistanceLabel": "Avstand",
@@ -31,7 +33,7 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="weaponsSearchFilter"
@@ -79,17 +81,6 @@
         <span data-testid="weaponsListTableColumnNameText">
           {{ header.text }}
         </span>
-      </template>
-
-      <template v-slot:item.name="{ item }">
-        {{ item.name }}
-        <div class="text-gray-600">
-          #{{ item.number }}
-        </div>
-      </template>
-
-      <template v-slot:item.category="{ item }">
-        {{ item.category }}
       </template>
 
       <template v-slot:item.distance="{ item }">
@@ -198,6 +189,9 @@ export default Vue.extend({
       weaponsHeaders: [{
         value: "name",
         text: this.$t("weaponsListTableColumnNameLabel")
+      }, {
+        value: "number",
+        text: this.$t("weaponsListTableColumnNumberLabel")
       }, {
         value: "category",
         text: this.$t("weaponsListTableColumnCategoryLabel")

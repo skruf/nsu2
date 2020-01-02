@@ -3,8 +3,9 @@
   "en": {
     "searchFormPlaceholder": "Search for a club by name",
     "columnNameLabel": "Name",
-    "columnAreaStreetAddressLabel": "Area/Address",
-    "columnLeaderFullNameEmailLabel": "Leader/Email",
+    "columnShortNameLabel": "Short Name",
+    "columnAreaLabel": "Area",
+    "columnLeaderFullNameLabel": "Leader",
     "columnMembersCountLabel": "Members",
     "removeSelected": "Remove selected",
     "editClub": "Edit club",
@@ -16,8 +17,9 @@
   "no": {
     "searchFormPlaceholder": "Søk etter en klubb med navn",
     "columnNameLabel": "Navn",
-    "columnAreaStreetAddressLabel": "Område/Adresse",
-    "columnLeaderFullNameEmailLabel": "Leder/Epost",
+    "columnShortNameLabel": "Kortnavn",
+    "columnAreaLabel": "Område",
+    "columnLeaderFullNameLabel": "Leder",
     "columnMembersCountLabel": "Medlemmer",
     "removeSelected": "Slett valgte",
     "editClub": "Rediger klubb",
@@ -31,7 +33,7 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="clubsSearchFilter"
@@ -77,27 +79,6 @@
       @update:sort-by="clubsActionsSetSorting"
       @update:sort-desc="clubsActionsSetOrder"
     >
-      <template v-slot:item.name="{ item }">
-        {{ item.name }}
-        <div class="text-gray-600">
-          {{ item.shortName }}
-        </div>
-      </template>
-
-      <template v-slot:item.area="{ item }">
-        {{ item.area }}
-        <div class="text-gray-600">
-          {{ item.streetAddress }}
-        </div>
-      </template>
-
-      <template v-slot:item.category="{ item }">
-        {{ item.leaderFullName }}
-        <div class="text-gray-600">
-          {{ item.emailAddress || "N/A" }}
-        </div>
-      </template>
-
       <template v-slot:item.actions="{ item }">
         <v-menu>
           <template v-slot:activator="{ on: { click } }">
@@ -198,14 +179,17 @@ export default Vue.extend({
     return {
       clubsSelection: [],
       clubsHeaders: [{
+        value: "shortName",
+        text: this.$t("columnShortNameLabel")
+      }, {
         value: "name",
         text: this.$t("columnNameLabel")
       }, {
         value: "area",
-        text: this.$t("columnAreaStreetAddressLabel")
+        text: this.$t("columnAreaLabel")
       }, {
         value: "leaderFullName",
-        text: this.$t("columnLeaderFullNameEmailLabel"),
+        text: this.$t("columnLeaderFullNameLabel"),
         sortable: false
       }, {
         value: "membersCount",

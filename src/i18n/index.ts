@@ -9,7 +9,7 @@ const locale = window.localStorage.getItem("currentLocale") || "no"
 
 export const i18n = new VueI18n({
   locale: locale,
-  fallbackLocale: "en",
+  fallbackLocale: "no",
   messages: { en, no },
   silentFallbackWarn: true,
   silentTranslationWarn: true,

@@ -33,7 +33,7 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="rangesSearchFilter"
@@ -210,18 +210,18 @@ export default Vue.extend({
       rangesStateOrder: "sortDesc"
     }),
 
-    rangesHasSelection() {
+    rangesHasSelection(): boolean {
       return this.rangesSelection.length > 0
     },
 
     rangesSearchFilter: {
-      get() { return this.$store.state.ranges.searchFilterValue },
-      set(search) { this.rangesMutationsSetSearchFilter(search) }
+      get(): string { return this.$store.state.ranges.searchFilterValue },
+      set(search): void { this.rangesMutationsSetSearchFilter(search) }
     }
   },
 
   watch: {
-    rangesSearchFilter(v) {
+    rangesSearchFilter(v): void {
       if(v === "") this.rangesActionsList()
     }
   },
@@ -244,19 +244,19 @@ export default Vue.extend({
       rangesActionsSetOrder: "setOrder"
     }),
 
-    rangesCreateDialogOpen() {
+    rangesCreateDialogOpen(): void {
       this.$emit("rangesCreateDialogOpen")
     },
 
-    rangesEditDialogOpen(range) {
+    rangesEditDialogOpen(range): void {
       this.$emit("rangesEditDialogOpen", range)
     },
 
-    rangesRemoveOne(range) {
+    rangesRemoveOne(range): void {
       this.$emit("rangesRemoveOne", range)
     },
 
-    rangesRemoveMany(ranges) {
+    rangesRemoveMany(ranges): void {
       this.$emit("rangesRemoveMany", ranges)
     }
   }

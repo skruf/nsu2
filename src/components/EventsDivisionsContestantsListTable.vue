@@ -29,7 +29,7 @@
 
 <template>
   <div class="w-full">
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="eventsDivisionsContestantsSearchFilter"
@@ -309,7 +309,14 @@ export default {
     Sortable.create(document.querySelector(".v-data-table tbody"), {
       swap: true,
       handle: ".handle",
-      onEnd: this.eventsDivisionsContestantsActionsReorder
+      onEnd: () => {
+        this.$notify({
+          type: "warning",
+          title: "Ikke implementert",
+          message: "Kommer snart"
+        })
+      }
+      // onEnd: this.eventsDivisionsContestantsActionsReorder
     })
   },
 

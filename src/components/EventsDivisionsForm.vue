@@ -49,55 +49,14 @@
       required
     />
 
-    <v-menu
-      ref="eventsDivisionsFormDay"
-      v-model="eventsDivisionsFormDayShow"
-      :close-on-content-click="false"
-      :return-value.sync="value.day"
-      transition="scale-transition"
-      offset-y
-      min-width="290px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          :value="eventsDivisionsFormDayInput"
-          :label="$t('eventsDivisionsFormDayLabel')"
-          data-testid="eventsDivisionsFormDayInput"
-          readonly
-          outlined
-          required
-          v-bind="attrs"
-          v-on="on"
-        />
-      </template>
-
-      <v-date-picker
-        v-model="value.day"
-        data-testid="eventsDivisionsFormDayDatePicker"
-        no-title
-        scrollable
-      >
-        <v-spacer />
-
-        <v-btn
-          text
-          color="primary"
-          data-testid="eventsDivisionsFormDayCancelButton"
-          @click="eventsDivisionsFormDayShow = false"
-        >
-          {{ $t("cancel") }}
-        </v-btn>
-
-        <v-btn
-          text
-          color="primary"
-          data-testid="eventsDivisionsFormDaySaveButton"
-          @click="$refs.eventsDivisionsFormDay.save(value.day)"
-        >
-          OK
-        </v-btn>
-      </v-date-picker>
-    </v-menu>
+    <date-picker
+      v-model="value.day"
+      :label="$t('eventsDivisionsFormDayLabel')"
+      :rules="[(v) => !!v || $t('eventsDivisionsFormDayError')]"
+      data-testid="eventsDivisionsFormDayInput"
+      class-name="mb-3"
+      required
+    />
 
     <v-text-field
       v-model="value.time"
@@ -142,13 +101,14 @@
 import Vue from "vue"
 import { mapState } from "vuex"
 import { eventsDivisionsStub } from "@/stubs"
+import DatePicker from "@/components/DatePicker.vue"
 import ErrorValidationNotification from "@/components/ErrorValidationNotification.vue"
-import moment from "moment"
 
 export default Vue.extend({
   name: "EventsDivisionsForm",
 
   components: {
+    DatePicker,
     ErrorValidationNotification
   },
 
@@ -157,20 +117,14 @@ export default Vue.extend({
   },
 
   data: () => ({
-    showValidationError: false,
-    eventsDivisionsFormDayShow: false
+    showValidationError: false
   }),
 
   computed: {
     ...mapState("events/divisions", {
       eventsDivisionsStateCategories: "categories",
       eventsDivisionsStateConditions: "conditions"
-    }),
-    eventsDivisionsFormDayInput(): string {
-      return this.value.day !== ""
-        ? moment(this.value.day).format("DD-MMM-YY")
-        : ""
-    }
+    })
   },
 
   watch: {

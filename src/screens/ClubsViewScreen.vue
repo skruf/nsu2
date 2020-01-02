@@ -46,7 +46,7 @@
     >
       <v-toolbar-title class="flex items-center justify-between w-full">
         <div>
-          {{ clubsStateSelected.name }}
+          {{ clubsStateSelected.name }} [{{ clubsStateSelected.shortName }}]
 
           <v-menu>
             <template v-slot:activator="{ on: { click } }">
@@ -66,7 +66,7 @@
               <v-list-item
                 :disabled="clubsStateSelected.websiteUrl !== ''"
                 data-testid="clubsViewDropdownOpenEditDialog"
-                @click.stop="openExternalUrlUtil(clubsStateSelected.websiteUrl)"
+                @click.stop="openExternalUrl(clubsStateSelected.websiteUrl)"
               >
                 <v-list-item-title class="flex items-center">
                   <v-icon>
@@ -115,16 +115,25 @@
         </div>
 
         <data-grid>
-          <template slot="Leader">
+          <template
+            v-if="clubsStateSelected.leaderFullName"
+            slot="Leder"
+          >
             {{ clubsStateSelected.leaderFullName }}
           </template>
-          <template slot="Area">
+          <template slot="Område">
             {{ clubsStateSelected.area }}
           </template>
-          <template slot="Address">
+          <template
+            v-if="clubsStateSelected.streetAddress"
+            slot="Adresse"
+          >
             {{ clubsStateSelected.streetAddress }}
           </template>
-          <template slot="Land">
+          <template
+            v-if="clubsStateSelected.country"
+            slot="Land"
+          >
             {{ clubsStateSelected.country }}
           </template>
         </data-grid>
@@ -132,7 +141,11 @@
 
       <v-spacer />
 
-      <v-btn icon>
+      <v-btn
+        icon
+        data-testid="eventsListPrintButton"
+        @click="print"
+      >
         <v-icon>print</v-icon>
       </v-btn>
     </v-app-bar>
@@ -174,7 +187,6 @@
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import { openExternalUrlUtil } from "@/utils"
 import ClubsEditDialog from "@/components/ClubsEditDialog.vue"
 import ClubsMembersListTable from "@/components/ClubsMembersListTable.vue"
 import ClubsMembersCreateDialog from "@/components/ClubsMembersCreateDialog.vue"
@@ -221,8 +233,13 @@ export default Vue.extend({
     }
   },
 
-  created() {
-    this.clubsActionsSelect({ id: this.$route.params.clubId })
+  watch: {
+    "$route.params.clubId": {
+      immediate: true,
+      handler: function(id): void {
+        this.clubsActionsSelect({ id })
+      }
+    }
   },
 
   methods: {
@@ -355,9 +372,7 @@ export default Vue.extend({
           message: e.message
         })
       }
-    },
-
-    openExternalUrlUtil
+    }
   }
 })
 </script>

@@ -14,9 +14,14 @@ import "roboto-fontface/css/roboto/roboto-fontface.css"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
 import "./design/imports.css"
 
-import { dbTestUtil } from "@/utils"
+import {
+  dbTestUtil, openExternalUrlUtil, printUtil
+} from "@/utils"
 
 Vue.config.productionTip = false
+
+Vue.prototype.openExternalUrl = openExternalUrlUtil
+Vue.prototype.print = printUtil
 
 ;(async (): Promise<void> => {
   const db = await init()

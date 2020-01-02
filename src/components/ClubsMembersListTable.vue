@@ -15,11 +15,11 @@
   },
   "no": {
     "searchFormPlaceholder": "Søk etter medlemmer med fornavn eller etternavn",
-    "columnFirstNameLabel": "First Name",
-    "columnLastNameLabel": "Last Name",
-    "columnEmailAddressLabel": "Email Address",
-    "columnPhoneNumberLabel": "Phone Number",
-    "columnCountryLabel": "Country",
+    "columnFirstNameLabel": "Fornavn",
+    "columnLastNameLabel": "Etternavn",
+    "columnEmailAddressLabel": "E-post",
+    "columnPhoneNumberLabel": "Telefon",
+    "columnCountryLabel": "Land",
     "removeSelected": "Slett valgte",
     "editMember": "Rediger medlem",
     "removeMember": "Slett medlem",
@@ -31,7 +31,7 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="clubsMembersSearchFilter"

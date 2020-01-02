@@ -89,21 +89,19 @@
       data-testid="eventsContestantsResultsListTable"
     >
       <template v-slot:item.number="{ item }">
-        <span
-          class="text-xs font-semibold py-1 px-2 rounded-full bg-gray-200"
-        >
+        <span class="text-xs font-semibold py-1 px-2 rounded-full bg-gray-200">
           {{ item.number }}
         </span>
       </template>
 
       <template v-slot:item.weapon.name="{ item }">
-        {{ item.weapon.name }} ({{ item.weapon.distance }}m)
+        {{ item.weapon.name }}
       </template>
 
       <template v-slot:item.hits="{ item }">
         <div
           v-if="item.hits.length"
-          class="flex justify-center"
+          class="mx-auto w-full max-w-xs flex justify-center"
         >
           <span
             v-for="h in item.hits"
@@ -114,23 +112,27 @@
           </span>
         </div>
 
-        <v-btn
+        <div
           v-else
-          text
-          small
-          color="primary"
-          class="mx-auto block no-print"
-          data-testid="eventsContestantsResultsInputDialogOpen"
-          @click="eventsContestantsResultsInputDialogOpen(item)"
+          class="mx-auto w-full max-w-xs"
         >
-          {{ $t("eventsContestantsResultsInputDialogOpen") }}
-        </v-btn>
+          <v-btn
+            text
+            small
+            color="primary"
+            class="mx-auto block no-print"
+            data-testid="eventsContestantsResultsInputDialogOpen"
+            @click="eventsContestantsResultsInputDialogOpen(item)"
+          >
+            {{ $t("eventsContestantsResultsInputDialogOpen") }}
+          </v-btn>
+        </div>
       </template>
 
       <template v-slot:header.hits="{ item }">
         <!-- h-full -->
         <!-- border-r last:border-r-0 -->
-        <div class="flex justify-center">
+        <div class="mx-auto w-full max-w-xs flex justify-center">
           <span
             v-for="h in Array.from({ length: 13 }, (_, i) => i + 1)"
             :key="h"
@@ -275,16 +277,16 @@ export default Vue.extend({
 
     eventsContestantsResultsInputDialogOpen(contestant): void {
       this.$emit("eventsContestantsResultsInputDialogOpen", contestant)
-    },
-
-    customSort(items, index, isDesc) {
-      items.sort((a, b) => {
-        if(a.sum < b.sum) return -1
-        if(a.sum > b.sum) return 1
-        return 0
-      })
-      return items
     }
+
+    // customSort(items, index, isDesc) {
+    //   items.sort((a, b) => {
+    //     if(a.sum < b.sum) return -1
+    //     if(a.sum > b.sum) return 1
+    //     return 0
+    //   })
+    //   return items
+    // }
   }
 })
 </script>

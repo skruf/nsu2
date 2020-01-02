@@ -125,11 +125,11 @@
       </template>
 
       <template v-slot:item.weapon.name="{ item }">
-        {{ item.weapon.name }} ({{ item.weapon.distance }}m)
+        {{ item.weapon.name }}
       </template>
 
       <template v-slot:item.calibre="{ item }">
-        {{ item.calibre }}mm
+        {{ item.calibre }}
       </template>
 
       <template v-slot:item.stand="{ item }">

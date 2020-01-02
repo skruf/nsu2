@@ -282,6 +282,10 @@
               </v-icon>
             </v-btn>
           </div>
+
+          <div v-if="!hasSelectedMember">
+            Velg et medlem for å legge til et våpen
+          </div>
         </v-list>
       </div>
 

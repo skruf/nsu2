@@ -42,7 +42,11 @@
 
       <v-spacer />
 
-      <v-btn icon>
+      <v-btn
+        icon
+        data-testid="eventsListPrintButton"
+        @click="print"
+      >
         <v-icon>print</v-icon>
       </v-btn>
     </v-app-bar>
@@ -124,9 +128,9 @@ export default Vue.extend({
   watch: {
     "$route.query.filter": {
       immediate: true,
-      handler: async function(mode): Promise<void> {
+      handler: function(mode): void {
         this.eventsMutationsSetFetchMode(mode)
-        await this.eventsActionsList()
+        this.eventsActionsList()
       }
     }
   },

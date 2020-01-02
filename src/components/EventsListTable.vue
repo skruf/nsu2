@@ -37,7 +37,7 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
+    <div class="flex justify-between items-center mb-4 px-5 no-print">
       <div class="w-full max-w-md">
         <v-text-field
           v-model="eventsSearchFilter"
@@ -117,7 +117,7 @@
       </template>
 
       <template v-slot:item.organizerId="{ item }">
-        {{ item.club ? item.club.name : "-" }}
+        {{ item.club ? item.club.shortName : "-" }}
       </template>
 
       <template v-slot:item.categoryId="{ item }">

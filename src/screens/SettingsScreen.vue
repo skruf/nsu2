@@ -35,12 +35,6 @@
       <v-toolbar-title class="flex items-center">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
-
-      <v-spacer />
-
-      <v-btn icon>
-        <v-icon>print</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-breadcrumbs

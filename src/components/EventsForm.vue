@@ -18,7 +18,11 @@
     "eventsFormRangePlaceholder": "Select the range",
     "eventsFormRangeError": "Range is a required field",
     "eventsFormApprobatedLabel": "Approbated",
-    "eventsFormApprobatedActiveText": "Is officially approbated"
+    "eventsFormApprobatedActiveText": "Is officially approbated",
+    "eventsFormStartsAtLabel": "Starts at",
+    "eventsFormStartsAtError": "Start is a required field",
+    "eventsFormEndsAtLabel": "Ends at",
+    "eventsFormEndsAtError": "End is a required field"
   },
   "no": {
     "eventsFormTitleLabel": "Tittel",
@@ -38,7 +42,11 @@
     "eventsFormRangePlaceholder": "Velg en skyttebane",
     "eventsFormRangeError": "Skyttebane er et påkrevd felt",
     "eventsFormApprobatedLabel": "Approbert",
-    "eventsFormApprobatedActiveText": "Er offisielt approbert"
+    "eventsFormApprobatedActiveText": "Er offisielt approbert",
+    "eventsFormStartsAtLabel": "Starter den",
+    "eventsFormStartsAtError": "Starter er et påkrevet felt",
+    "eventsFormEndsAtLabel": "Slutter den",
+    "eventsFormEndsAtError": "Slutter er et påkrevet felt"
   }
 }
 </i18n>
@@ -55,55 +63,25 @@
       required
     />
 
-    <v-menu
-      ref="eventsFormStartTimeDialog"
-      v-model="eventsFormStartTimeDialogShow"
-      :close-on-content-click="false"
-      :return-value.sync="startEndAt"
-      data-testid="eventsFormStartsAtMenu"
-      transition="scale-transition"
-      min-width="290px"
-      offset-y
-    >
-      <template v-slot:activator="{ on }">
-        <v-text-field
-          :value="eventsFormStartEndInput"
-          :label="$t('eventsFormDatesLabel')"
-          :rules="[(v) => !!v || $t('eventsFormTitleError')]"
-          data-testid="eventsFormStartsAtInput"
-          readonly
-          outlined
-          v-on="on"
-        />
-      </template>
+    <div class="flex">
+      <date-picker
+        v-model="value.startsAt"
+        :label="$t('eventsFormStartsAtLabel')"
+        :rules="[(v) => !!v || $t('eventsFormStartsAtError')]"
+        class-name="mr-2"
+        data-testid="eventsFormStartsAtInput"
+        required
+      />
 
-      <v-date-picker
-        v-model="startEndAt"
-        :range="true"
-        no-title
-        scrollable
-      >
-        <v-spacer />
-
-        <v-btn
-          text
-          color="primary"
-          data-testid="eventsFormStartsAtCancelButton"
-          @click="eventsFormStartTimeDialogShow = false"
-        >
-          {{ $t("close") }}
-        </v-btn>
-
-        <v-btn
-          text
-          color="primary"
-          data-testid="eventsFormStartsAtOkButton"
-          @click="$refs.eventsFormStartTimeDialog.save(startEndAt)"
-        >
-          OK
-        </v-btn>
-      </v-date-picker>
-    </v-menu>
+      <date-picker
+        v-model="value.endsAt"
+        :label="$t('eventsFormEndsAtLabel')"
+        :rules="[(v) => !!v || $t('eventsFormEndsAtError')]"
+        class-name="ml-2"
+        data-testid="eventsFormEndsAtInput"
+        required
+      />
+    </div>
 
     <v-select
       v-model="value.categoryId"
@@ -147,30 +125,9 @@
       data-testid="eventsFormApprobatedSwitch"
     />
 
-    <v-snackbar
+    <error-validation-notification
       v-model="showValidationError"
-      color="error"
-      multi-line
-      right
-      top
-    >
-      <v-icon
-        color="white"
-        class="mr-4"
-      >
-        error
-      </v-icon>
-
-      {{ $t("validationError") }}
-
-      <v-btn
-        text
-        data-testid="eventsFormErrorCloseButton"
-        @click="showValidationError = false"
-      >
-        {{ $t("close") }}
-      </v-btn>
-    </v-snackbar>
+    />
   </v-form>
 </template>
 
@@ -178,18 +135,23 @@
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
 import { eventsStub } from "@/stubs"
+import DatePicker from "@/components/DatePicker.vue"
+import ErrorValidationNotification from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "EventsForm",
+
+  components: {
+    DatePicker,
+    ErrorValidationNotification
+  },
 
   props: {
     value: { type: Object, default: (): object => eventsStub }
   },
 
   data: () => ({
-    showValidationError: false,
-    eventsFormStartTimeDialogShow: false,
-    startEndAt: []
+    showValidationError: false
   }),
 
   computed: {
@@ -206,20 +168,10 @@ export default Vue.extend({
     ...mapState("events/categories", {
       eventsCategoriesStateListIsLoading: "listIsLoading",
       eventsCategoriesStateList: "list"
-    }),
-
-    eventsFormStartEndInput(): string {
-      return [ this.value.startsAt, this.value.endsAt ].join(" / ")
-    }
+    })
   },
 
   watch: {
-    startEndAt: {
-      handler(v): void {
-        if(v.length > 0) this.value.startsAt = v[0]
-        if(v.length > 1) this.value.endsAt = v[1]
-      }
-    },
     value: {
       deep: true,
       immediate: true,
@@ -230,6 +182,7 @@ export default Vue.extend({
   },
 
   created() {
+    // @TODO: check if stale
     this.clubsActionsList()
     this.rangesActionsList()
     this.eventsCategoriesActionsList()

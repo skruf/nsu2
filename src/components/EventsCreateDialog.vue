@@ -87,7 +87,7 @@ export default Vue.extend({
             type: "success",
             title: this.$t("success"),
             message: this.$t("eventsActionsCreateSuccess", {
-              eventTitle: this.form.name
+              eventTitle: this.form.title
             })
           })
           this.clear()
