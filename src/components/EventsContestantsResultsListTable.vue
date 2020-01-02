@@ -100,7 +100,7 @@
 
       <template v-slot:item.hits="{ item }">
         <div
-          v-if="item.hits.length"
+          v-if="item.hits && item.hits.length"
           class="mx-auto w-full max-w-xs flex justify-center"
         >
           <span
@@ -130,8 +130,6 @@
       </template>
 
       <template v-slot:header.hits="{ item }">
-        <!-- h-full -->
-        <!-- border-r last:border-r-0 -->
         <div class="mx-auto w-full max-w-xs flex justify-center">
           <span
             v-for="h in Array.from({ length: 13 }, (_, i) => i + 1)"
@@ -181,7 +179,7 @@
 
           <v-list>
             <v-list-item
-              :disabled="!item.hits.length"
+              :disabled="!item.hits || !item.hits.length"
               data-testid="eventsContestantsResultsInputDialogOpenListItem"
               @click.stop="eventsContestantsResultsInputDialogOpen(item)"
             >
