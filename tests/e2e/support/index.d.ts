@@ -1,14 +1,13 @@
-namespace Cypress {
-  interface Chainable {
-    getById: (testid: string) => Chainable
-    startup: () => void
+declare namespace Cypress {
+  interface Chainable<Subject> {
+    getById(testid: string): Chainable
+    startup(): Chainable
+    acceptConfirmation(): Chainable
+    inputEventsForm(data: object): Chainable
   }
 }
 
-// declare global {
 interface Window {
   ipc: any
-  db: any
   ready: boolean
 }
-// }

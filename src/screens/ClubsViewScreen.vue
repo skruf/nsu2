@@ -44,17 +44,18 @@
       dark
       flat
     >
-      <v-toolbar-title class="flex items-center justify-between w-full">
-        <div>
+      <v-toolbar-title class="screen-title">
+        <div class="print:mb-2 print:text-2xl">
           {{ clubsStateSelected.name }} [{{ clubsStateSelected.shortName }}]
 
           <v-menu>
-            <template v-slot:activator="{ on: { click } }">
+            <template v-slot:activator="{ on, attrs }">
               <v-btn
                 data-testid="clubsViewDropdown"
                 small
                 icon
-                @click.stop="click"
+                v-bind="attrs"
+                v-on="on"
               >
                 <v-icon>
                   more_horiz
@@ -66,7 +67,7 @@
               <v-list-item
                 :disabled="clubsStateSelected.websiteUrl !== ''"
                 data-testid="clubsViewDropdownOpenEditDialog"
-                @click.stop="openExternalUrl(clubsStateSelected.websiteUrl)"
+                @click="openExternalUrl(clubsStateSelected.websiteUrl)"
               >
                 <v-list-item-title class="flex items-center">
                   <v-icon>
@@ -81,7 +82,7 @@
 
               <v-list-item
                 data-testid="clubsViewDropdownOpenEditDialog"
-                @click.stop="clubsEditDialogOpen()"
+                @click="clubsEditDialogOpen()"
               >
                 <v-list-item-title class="flex items-center">
                   <v-icon>
@@ -98,7 +99,7 @@
 
               <v-list-item
                 data-testid="clubsViewDropdownRemoveOne"
-                @click.stop="clubsRemoveOne(clubsStateSelected)"
+                @click="clubsRemoveOne(clubsStateSelected)"
               >
                 <v-list-item-title class="flex items-center">
                   <v-icon color="red">
@@ -114,7 +115,7 @@
           </v-menu>
         </div>
 
-        <data-grid>
+        <data-grid v-if="!clubsStateSelectedIsLoading">
           <template
             v-if="clubsStateSelected.leaderFullName"
             slot="Leder"

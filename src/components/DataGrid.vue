@@ -1,11 +1,11 @@
 <template>
-  <div class="text-base leading-none inline-flex items-center">
+  <div class="text-base leading-none inline-flex items-center print:ml-8 print:mt-4 print:text-sm">
     <template v-for="stat in stats">
       <div
         :key="stat"
-        class="mr-8"
+        class="mr-8 last:print:mr-0"
       >
-        <div class="mr-2 mb-px pb-px text-sm opacity-75">
+        <div class="mb-px pb-px text-sm opacity-75 print:text-xs">
           {{ stat }}
         </div>
         <slot :name="stat" />

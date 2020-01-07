@@ -14,19 +14,23 @@ module.exports = {
           900: "#212121",
         },
         primary: "#b3315f"
+      },
+      screens: {
+        print: { raw: "print" }
       }
     }
   },
 
   variants: {
     borderWidth: [ "responsive", "last", "hover", "focus" ],
-    height: [ "responsive", "important" ]
+    height: [ "responsive", "important" ],
+    margin: [ "responsive", "last" ]
   },
 
   plugins: [
     ({ addVariant }) => {
       addVariant("important", ({ container }) => {
-        container.walkRules(rule => {
+        container.walkRules((rule) => {
           rule.selector = `.\\!${rule.selector.slice(1)}`
           rule.walkDecls((decl) => {
             decl.important = true

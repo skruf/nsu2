@@ -114,6 +114,20 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.el-notification__content {
+  text-align: initial;
+}
+
+.theme--dark.v-icon {
+  color: inherit;
+}
+
+.screen-title {
+  @apply flex items-center justify-between;
+}
+
+@tailwind utilities;
+
 @media print {
   .v-data-footer,
   .v-breadcrumbs,
@@ -129,13 +143,20 @@
     padding-left: 0 !important;
   }
 
-  .v-toolbar {
+  html .v-application .primary {
+    background-color: #fff !important;
+  }
+  html .v-application .ml-8.print\:ml-0 {
+    margin-left: 0 !important;
+  }
+
+  .v-toolbar,
+  .v-toolbar__content {
     height: auto !important;
   }
 
-  .v-toolbar * {
-    color: #000 !important;
-    font-size: 13px !important;
+  .screen-title {
+    @apply pb-6 w-full text-black text-center text-2xl flex-col;
   }
 
   body { 
@@ -143,5 +164,3 @@
     height: auto; 
   }
 }
-
-@tailwind utilities;

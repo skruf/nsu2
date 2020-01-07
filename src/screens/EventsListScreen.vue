@@ -36,7 +36,7 @@
       dark
       flat
     >
-      <v-toolbar-title>
+      <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
 

@@ -71,8 +71,6 @@ export const seedEventsDivisions = (db: Database, refs?: object) => {
 
 export default {
   seed: async (db: Database): Promise<void> => {
-    // console.log("[seed] seed:started")
-
     await seedWeapons(db)
     await seedRanges(db)
     await seedClubs(db)
@@ -81,14 +79,10 @@ export default {
     await seedEvents(db)
     await seedEventsDivisions(db)
     await seedEventsContestants(db)
-
-    // console.log("[seed] seed:finished")
   },
 
   reset: async (db: Database): Promise<void> => {
-    // console.log("[seed] reset:started")
     await db.remove()
     db = null
-    // console.log("[seed] reset:finished")
   }
 }

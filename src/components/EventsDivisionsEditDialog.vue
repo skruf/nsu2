@@ -97,7 +97,6 @@ export default Vue.extend({
             })
           })
           this.close()
-          this.clear()
         } catch(e) {
           this.$notify({
             type: "error",
@@ -106,10 +105,6 @@ export default Vue.extend({
           })
         }
       })
-    },
-
-    clear(): void {
-      this.$refs.eventsDivisionsForm.resetFields()
     },
 
     close(): void {

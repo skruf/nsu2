@@ -46,8 +46,8 @@
       dark
       flat
     >
-      <v-toolbar-title class="flex items-center justify-between w-full">
-        <div class="flex flex-col">
+      <v-toolbar-title class="screen-title">
+        <div class="flex flex-col print:mb-2">
           <div class="flex items-center">
             <template v-if="eventsStateSelected.approbated">
               <v-icon class="mr-2">
@@ -64,12 +64,13 @@
             {{ eventsStateSelected.title }}
 
             <v-menu>
-              <template v-slot:activator="{ on: { click } }">
+              <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  data-testid="clubsViewDropdown"
+                  data-testid="eventsViewDropdown"
                   small
                   icon
-                  @click.stop="click"
+                  v-bind="attrs"
+                  v-on="on"
                 >
                   <v-icon>
                     more_horiz
@@ -80,7 +81,7 @@
               <v-list>
                 <v-list-item
                   data-testid="eventsViewDropdownOpenEditDialog"
-                  @click.stop="eventsEditDialogOpen()"
+                  @click="eventsEditDialogOpen()"
                 >
                   <v-list-item-title class="flex items-center">
                     <v-icon>
@@ -97,7 +98,7 @@
 
                 <v-list-item
                   data-testid="eventsViewDropdownRemoveOne"
-                  @click.stop="eventsRemoveOne(eventsStateSelected)"
+                  @click="eventsRemoveOne(eventsStateSelected)"
                 >
                   <v-list-item-title class="flex items-center">
                     <v-icon color="red">
@@ -113,16 +114,15 @@
             </v-menu>
           </div>
 
-          <!-- @TODO: tailwind print ml-8 = ml-0? -->
           <div
             v-if="eventsStateSelected.range"
-            class="text-base leading-none opacity-75 ml-8"
+            class="text-base leading-none opacity-75 ml-8 print:ml-0 print:text-sm"
           >
             {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.streetAddress }} {{ eventsStateSelected.range.area }}
           </div>
         </div>
 
-        <data-grid>
+        <data-grid v-if="!eventsStateSelectedIsLoading">
           <template slot="Start">
             {{ eventsStateSelected.startsAt | moment("YYYY-MM-DD") }}
           </template>

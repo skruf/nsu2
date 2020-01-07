@@ -15,9 +15,22 @@ describe("events.view", () => {
   })
 
   it.only("Print details", () => {
-    cy.getById("eventsPrintButton").click()
+    cy.wait(10000)
+    cy.getById("eventsPrintButton")
+      .click()
   })
 
-  // @TODO: add event edit
+  it("Edit event from dropdown", () => {
+    const title = "Test event"
+    cy.getById("eventsViewDropdown")
+      .click()
+    cy.getById("eventsViewDropdownOpenEditDialog")
+      .click()
+    cy.inputEventsForm({ title })
+    cy.getById("eventsEditDialogSubmitButton")
+      .click()
+    cy.contains(event.title)
+  })
+
   // @TODO: add event delete
 })
