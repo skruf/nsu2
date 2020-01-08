@@ -2,11 +2,11 @@
 {
   "en": {
     "submitSuccess": "Results for %{fullName} was updated in the database",
-    "dialogTitle": "Angi resultater for deltaker"
+    "dialogTitle": "Input results for contestant"
   },
   "no": {
     "submitSuccess": "Resultater ble satt for %{fullName} i databasen",
-    "dialogTitle": "Input results for contestant"
+    "dialogTitle": "Angi resultater for deltaker"
   }
 }
 </i18n>

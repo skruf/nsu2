@@ -89,13 +89,14 @@
       data-testid="eventsContestantsResultsListTable"
     >
       <template v-slot:item.number="{ item }">
-        <span class="text-xs font-semibold py-1 px-2 rounded-full bg-gray-200">
-          {{ item.number }}
-        </span>
-      </template>
-
-      <template v-slot:item.weapon.name="{ item }">
-        {{ item.weapon.name }}
+        <div class="flex items-center">
+          <div class="text-xs font-semibold py-1 px-2 rounded-full bg-gray-200">
+            {{ item.number }}
+          </div>
+          <div class="ml-2 hidden print:inline-block">
+            {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
+          </div>
+        </div>
       </template>
 
       <template v-slot:item.hits="{ item }">
@@ -163,6 +164,7 @@
         <v-menu
           bottom
           left
+          class="no-print"
         >
           <template v-slot:activator="{ on: { click } }">
             <v-btn
@@ -241,6 +243,7 @@ export default Vue.extend({
         value: "actions",
         sortable: false,
         align: "right"
+        // class: "no-print"
       }]
     }
   },

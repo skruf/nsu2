@@ -63,28 +63,6 @@ describe("events.contestants.collection", () => {
       return r.toJSON()
     }
 
-    // await factory({
-    //   eventId: eventsFixture[0].id,
-    //   clubMemberId: clubsMembersFixture[0].id
-    // })
-    // await factory({
-    //   eventId: eventsFixture[0].id,
-    //   clubMemberId: clubsMembersFixture[0].id
-    // })
-
-    // await factory({
-    //   eventId: eventsFixture[0].id,
-    //   clubMemberId: clubsMembersFixture[1].id
-    // })
-
-    // const a = await db.events_contestants.find({
-    //   eventId: eventsFixture[0].id
-    // }).exec()
-
-    // a.forEach((b) => { console.log(b.toJSON().number) })
-
-    // expect(true).toBe(true)
-
     const event0Person0Contestant0 = await factory({
       eventId: eventsFixture[0].id,
       clubMemberId: clubsMembersFixture[0].id

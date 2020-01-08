@@ -114,16 +114,16 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.el-notification__content {
+html .el-notification__content {
   text-align: initial;
 }
 
-.theme--dark.v-icon {
+html .theme--dark.v-icon {
   color: inherit;
 }
 
 .screen-title {
-  @apply flex items-center justify-between;
+  @apply w-full flex items-center justify-between;
 }
 
 @tailwind utilities;
@@ -156,8 +156,12 @@
   }
 
   .screen-title {
-    @apply pb-6 w-full text-black text-center text-2xl flex-col;
+    @apply pb-6 text-black text-center text-2xl flex-col;
   }
+
+  .hit {
+    @apply w-4 bg-transparent rounded-none;
+  }  
 
   body { 
     overflow: auto;
