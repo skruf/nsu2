@@ -4,6 +4,9 @@ declare namespace Cypress {
     startup(): Chainable
     acceptConfirmation(): Chainable
     inputEventsForm(data: object): Chainable
+    random(): Chainable
+    selectMember(): Chainable
+    addWeapon(): Chainable
   }
 }
 

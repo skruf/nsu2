@@ -99,6 +99,7 @@
       :show-group-by="false"
       :group-by="eventsContestantsTableGroupBy"
       :items-per-page="150"
+      sort-by="number"
       data-testid="eventsContestantsListTable"
     >
       <template v-slot:item.clubMember.firstName="{ item }">

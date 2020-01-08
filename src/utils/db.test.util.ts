@@ -1,6 +1,6 @@
 import { Database } from "../db"
 import { DatabaseCollectionsNames } from "../db/collections"
-import { getTimestampUtil } from "./"
+import { getTimestampUtil, promiseSequenceUtil } from "./"
 import {
   weaponsFixture,
   rangesFixture,
@@ -12,12 +12,12 @@ import {
   eventsContestantsFixture
 } from "../fixtures"
 
-const rId = (m): string => {
-  const c = Math.floor(Math.random() * m.length)
-  const v = m[c]
-  if(typeof v === "string") return m.splice(0, c)
-  return v.id
-}
+// const rId = (m): string => {
+//   const c = Math.floor(Math.random() * m.length)
+//   const v = m[c]
+//   if(typeof v === "string") return m.splice(0, c)
+//   return v.id
+// }
 
 const store = (
   db: Database,
@@ -38,10 +38,9 @@ const store = (
     updatedAt: timestamp
   }))
 
-  return Promise.all(docs.map(async (doc: any) => {
-    await doc.save()
-    return doc.toJSON()
-  }))
+  return promiseSequenceUtil(
+    docs.map((doc: any) => () => doc.save())
+  )
 }
 
 export const seedWeapons = (db: Database, refs?: object) => {

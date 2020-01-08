@@ -48,3 +48,35 @@ Cypress.Commands.add("inputEventsForm", (data) => {
     cy.getById("eventsFormApprobatedSwitch").click({ force: true })
   }
 })
+
+Cypress.Commands.add("random", { prevSubject: true }, (subject) => {
+  return cy.get(subject).its("length")
+    .then((count) => {
+      return cy.get(subject).eq(Math.floor(Math.random() * count - 1))
+    })
+})
+
+// Cypress.Commands.add("selectMember", () => {
+//   cy.getById("eventsContestantsManagerDialogSelectClubListItem")
+//     .random()
+//     .click()
+//   cy.wait(500)
+//   cy.getById("eventsContestantsManagerDialogSelectClubMemberListItem")
+//     .random()
+//     .click()
+//   cy.wait(500)
+// })
+
+// Cypress.Commands.add("addWeapon", () => {
+//   cy.getById("eventsContestantsManagerDialogAddWeaponButton")
+//     .click()
+//   cy.getById("eventsContestantsManagerDialogWeaponsFormIdSelect")
+//     .last()
+//     .click()
+//   cy.get(".v-list-item--link")
+//     .random()
+//     .click()
+//   cy.getById("eventsContestantsManagerDialogWeaponsFormCalibreInput")
+//     .last()
+//     .type(`${Math.floor(Math.random() * 50)}`)
+// })

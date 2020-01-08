@@ -6,10 +6,10 @@ describe("events.view.contestants", () => {
   beforeEach(() => {
     cy.visit(`/events/${event.id}`)
     cy.startup()
-    cy.wait(5000)
+    cy.wait(2500)
   })
 
-  it.only("Group by", () => {
+  it("Group by", () => {
     cy.getById("eventsContestantsTableGroupByContestantButton").click()
     cy.getById("eventsContestantsTableGroupByContestantTd")
       .should("be.visible")
@@ -25,14 +25,35 @@ describe("events.view.contestants", () => {
       .should("not.be.visible")
   })
 
-  it("Should be able to add a contestant to an event", () => {
+  it.only("Should be able to add a contestant to an event", () => {
+    const selectMember = () => {
+      cy.getById("eventsContestantsManagerDialogSelectClubListItem")
+        .random()
+        .click()
+      cy.wait(500)
+      cy.getById("eventsContestantsManagerDialogSelectClubMemberListItem")
+        .random()
+        .click()
+      cy.wait(500)
+    }
+
+    const addWeapon = () => {
+      cy.getById("eventsContestantsManagerDialogAddWeaponButton")
+        .click()
+      cy.getById("eventsContestantsManagerDialogWeaponsFormIdSelect")
+        .last()
+        .click()
+      cy.get(".v-list-item--link")
+        .random()
+        .click()
+      cy.getById("eventsContestantsManagerDialogWeaponsFormCalibreInput")
+        .last()
+        .type(`${Math.floor(Math.random() * 50)}`)
+    }
+
     cy.getById("eventsContestantsListTableOpenManageDialogButton").click()
-    cy.getById("eventsContestantsManagerDialogSelectClubListItem").first().click()
-    cy.getById("eventsContestantsManagerDialogSelectClubMemberListItem").first().click({ force: true })
-    cy.getById("eventsContestantsManagerDialogAddWeaponButton").click()
-    cy.getById("eventsContestantsManagerDialogWeaponsFormIdSelect").click()
-    cy.get(".v-list-item--link").first().click()
-    cy.getById("eventsContestantsManagerDialogWeaponsFormCalibreInput").type("99")
+    selectMember()
+    addWeapon()
     cy.getById("eventsContestantsManagerDialogSubmit").click()
   })
 })

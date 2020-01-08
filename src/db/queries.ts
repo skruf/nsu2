@@ -1,4 +1,4 @@
-import { getIdUtil, getTimestampUtil } from "@/utils"
+import { getIdUtil, getTimestampUtil, promiseSequenceUtil } from "@/utils"
 import { db } from "@/db"
 import {
   BuildQuery,
@@ -100,9 +100,14 @@ export const insert: InsertQuery = async (
 export const insertMany: InsertManyQuery = async (
   collection, items, json = false
 ) => {
-  const docs = await Promise.all(
-    items.map((item: any) => insert(collection, item, json))
+  // const docs = await Promise.all(
+  //   items.map((item: any) => insert(collection, item, json))
+  // )
+
+  const docs = await promiseSequenceUtil(
+    items.map((item: any) => () => insert(collection, item, json))
   )
+
   return docs
 }
 

@@ -3,7 +3,7 @@ import { WeaponsDocument } from "@/db/collections/weapons.collection"
 import { EventsDocument } from "@/db/collections/events.collection"
 import { EventsDivisionsDocument } from "@/db/collections/events.divisions.collection"
 import { ClubsMembersDocument } from "@/db/collections/clubs.members.collection"
-import { count, findOne } from "@/db/queries"
+import { db } from "@/db"
 
 export declare interface EventsContestantsProperties {
   id: string
@@ -115,21 +115,28 @@ const schema: RxJsonSchema = {
 const preInsert = async (data: EventsContestantsProperties): Promise<void> => {
   if(data.number) return
 
-  const contestant = await findOne("events_contestants", {
+  const contestant = await db.events_contestants.findOne({
     eventId: data.eventId,
     clubMemberId: data.clubMemberId
-  })
+  }).exec()
 
   if(contestant) {
     data.number = contestant.number
     return
   }
 
-  const c = await count("events_contestants", {
-    eventId: data.eventId
-  })
+  const contestantsNextNumber = await db.events_contestants
+    .find({ eventId: data.eventId })
+    .sort({ number: -1 })
+    .limit(1)
+    .exec()
 
-  data.number = c + 1
+  if(!contestantsNextNumber.length) {
+    data.number = 1
+    return
+  }
+
+  data.number = contestantsNextNumber[0].number + 1
 }
 
 export default {
