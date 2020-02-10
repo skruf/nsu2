@@ -88,9 +88,9 @@
       :items="eventsCategoriesStateList"
       :loading="eventsCategoriesStateListIsLoading"
       :label="$t('eventsFormCategoryLabel')"
+      data-testid="eventsFormCategorySelect"
       item-text="name"
       item-value="id"
-      data-testid="eventsFormCategorySelect"
       class="mb-3"
       outlined
     />

@@ -103,24 +103,23 @@ export default (options?: Options) => {
     state.listFilter = {}
     state.list = []
 
-    mutations.SET_LIST_LOADING = (state, loading) => {
+    mutations.SET_LIST_LOADING = (state, loading): void => {
       state.listIsLoading = loading
     }
-    mutations.SET_LIST_FILTER = (state, listFilter) => {
+    mutations.SET_LIST_FILTER = (state, listFilter): void => {
       state.listFilter = listFilter
     }
 
     // filter undefined = loopage
-    actions.list = async function({ commit, state }, params = {}) {
-      const { filter, options, persistFilter } = params
+    actions.list = async function({ commit, state }, params = {}): Promise<any> {
+      const { filter, persistFilter } = params
       commit("SET_LIST_LOADING", true)
 
-      const listOptions = { ...queryHelperUtil(state), ...options }
       const listFilter = _cloneDeep(filter) || state.listFilter
 
       if(persistFilter) commit("SET_LIST_FILTER", state, listFilter)
 
-      const results = await config.list(listFilter, listOptions)
+      const results = await config.list(listFilter)
 
       commit("SET_LIST", results.items)
       commit("SET_COUNT", results.count)

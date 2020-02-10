@@ -6,7 +6,11 @@ describe("events.view.contestants", () => {
   beforeEach(() => {
     cy.visit(`/events/${event.id}`)
     cy.startup()
-    cy.wait(2500)
+  })
+
+  it.only("Filter", () => {
+    cy.getById("eventsContestantsListTableFilterClubMember")
+      .click()
   })
 
   it("Group by", () => {
@@ -25,7 +29,7 @@ describe("events.view.contestants", () => {
       .should("not.be.visible")
   })
 
-  it.only("Should be able to add a contestant to an event", () => {
+  it("Should be able to add a contestant to an event", () => {
     const selectMember = () => {
       cy.getById("eventsContestantsManagerDialogSelectClubListItem")
         .random()
@@ -51,9 +55,11 @@ describe("events.view.contestants", () => {
         .type(`${Math.floor(Math.random() * 50)}`)
     }
 
-    cy.getById("eventsContestantsListTableOpenManageDialogButton").click()
+    cy.getById("eventsContestantsListTableOpenManageDialogButton")
+      .click()
     selectMember()
     addWeapon()
-    cy.getById("eventsContestantsManagerDialogSubmit").click()
+    cy.getById("eventsContestantsManagerDialogSubmit")
+      .click()
   })
 })

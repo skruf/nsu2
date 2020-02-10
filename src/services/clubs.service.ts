@@ -1,26 +1,26 @@
 import {
-  insert, findMany, findOne, destroyOne, destroyMany, updateOne
+  insert, findMany, findOne, destroyOne, destroyMany, updateOne, count
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { clubsStub } from "@/stubs"
 import { filterInputUtil } from "@/utils"
 import { ClubsDocument, ClubsProperties } from "@/db/collections/clubs.collection"
 
 const populate = async (doc: ClubsDocument): Promise<ClubsProperties> => {
   const range = await doc.populate("rangeId")
-  const members = await findMany("clubs_members", { clubId: doc.id })
+  const membersCount = await count("clubs_members", { clubId: doc.id })
 
   const club = doc.toJSON()
-  club.membersCount = members.count
+  club.membersCount = membersCount
   if(range) club.range = range.toJSON()
 
   return club
 }
 
-const list = async (filter: QueryFilter, options: QueryOptions): Promise<{
+const list = async (filter: QueryFilter): Promise<{
   items: QueryResult[], count: number
 }> => {
-  const result = await findMany("clubs", filter, options)
+  const result = await findMany("clubs", filter)
   result.items = await Promise.all(
     result.items.map((doc: ClubsDocument) => populate(doc))
   )

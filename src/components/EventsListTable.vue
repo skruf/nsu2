@@ -37,21 +37,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="eventsSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="eventsSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-          @keyup.enter="eventsActionsList()"
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="eventsSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -66,22 +57,14 @@
       v-model="eventsSelection"
       :headers="eventsHeaders"
       :items="eventsStateList"
+      :search="eventsSearchFilter"
       :loading="eventsStateListIsLoading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :sort-by="eventsStateSortBy"
-      :items-per-page="eventsStatePageSize"
-      :page="eventsStatePageCurrent"
-      :server-items-length="eventsStateCount"
-      :sort-desc="eventsStateOrder"
       data-testid="eventsListTable"
       class="clickable"
       @click:row="eventsRowClick"
-      @update:items-per-page="eventsActionsSetPageSize"
-      @update:page="eventsActionsSetPageCurrent"
-      @update:sort-by="eventsActionsSetSorting"
-      @update:sort-desc="eventsActionsSetOrder"
     >
       <template v-slot:item.title="{ item }">
         <div
@@ -125,15 +108,13 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-menu
-          bottom
-          left
-        >
-          <template v-slot:activator="{ on: { click } }">
+        <v-menu>
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="eventsListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -181,14 +162,20 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "EventsListTable",
 
-  data: function() {
+  components: {
+    TableFilterSearch
+  },
+
+  data() {
     return {
       eventsSelection: [],
+      eventsSearchFilter: "",
       eventsHeaders: [{
         value: "title",
         text: this.$t("columnTitleApprobatedLabel")
@@ -215,36 +202,13 @@ export default Vue.extend({
   computed: {
     ...mapState("events", {
       eventsStateListIsLoading: "listIsLoading",
-      eventsStateSortBy: "sortBy",
-      eventsStatePageSize: "pageSize",
-      eventsStatePageCurrent: "pageCurrent",
-      eventsStateCount: "count",
-      eventsStateList: "list",
-      eventsStateOrder: "sortDesc"
-    }),
-    eventsSearchFilter: {
-      get(): string { return this.$store.state.events.searchFilterValue },
-      set(search): void { this.eventsMutationsSetSearchFilter(search) }
-    }
-  },
-
-  watch: {
-    eventsSearchFilter(v): void {
-      if(v === "") this.eventsActionsList()
-    }
+      eventsStateList: "list"
+    })
   },
 
   methods: {
-    ...mapMutations("events", {
-      eventsMutationsSetSearchFilter: "SET_SEARCH_FILTER"
-    }),
-
     ...mapActions("events", {
-      eventsActionsList: "list",
-      eventsActionsSetSorting: "setSorting",
-      eventsActionsSetPageSize: "setPageSize",
-      eventsActionsSetPageCurrent: "setPageCurrent",
-      eventsActionsSetOrder: "setOrder"
+      eventsActionsList: "list"
     }),
 
     eventsCreateDialogOpen(): void {

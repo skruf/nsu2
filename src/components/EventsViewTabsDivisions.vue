@@ -2,11 +2,11 @@
 {
   "en": {
     "eventsDivisionsRemoveOneConfirmation": "This will remove %{divisionName} permanently. Continue?",
-    "eventsDivisionsActionsRemoveOneSuccess": "%{divisionName} was removed from the database"
+    "eventsDivisionsRemoveOneSuccess": "%{divisionName} was removed from the database"
   },
   "no": {
     "eventsDivisionsRemoveOneConfirmation": "Dette vil fjerne %{divisionName} permanent. Fortsette?",
-    "eventsDivisionsActionsRemoveOneSuccess": "%{divisionName} ble fjernet fra databasen"
+    "eventsDivisionsRemoveOneSuccess": "%{divisionName} ble fjernet fra databasen"
   }
 }
 </i18n>
@@ -169,7 +169,7 @@ export default Vue.extend({
         this.$notify({
           type: "success",
           title: this.$t("success"),
-          message: this.$t("eventsDivisionsActionsRemoveOneSuccess", {
+          message: this.$t("eventsDivisionsRemoveOneSuccess", {
             divisionName: division.name
           })
         })

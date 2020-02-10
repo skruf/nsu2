@@ -25,28 +25,31 @@
   <div>
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
-      <v-toolbar-title>
+      <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/events/categories', text: $t('breadcrumbEventsCategoriesLabel') },
-        { to: '', text: $t('breadcrumbAllLabel') }
-      ]"
-    />
-
-    <div v-loading="eventsCategoriesRemoveIsLoading">
-      <events-categories-list-table
-        @eventsCategoriesCreateDialogOpen="eventsCategoriesCreateDialogOpen"
-        @eventsCategoriesEditDialogOpen="eventsCategoriesEditDialogOpen"
-        @eventsCategoriesRemoveOne="eventsCategoriesRemoveOne"
-        @eventsCategoriesRemoveMany="eventsCategoriesRemoveMany"
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/events/categories', text: $t('breadcrumbEventsCategoriesLabel') },
+          { to: '', text: $t('breadcrumbAllLabel') }
+        ]"
       />
+
+      <div v-loading="eventsCategoriesRemoveIsLoading">
+        <events-categories-list-table
+          @eventsCategoriesCreateDialogOpen="eventsCategoriesCreateDialogOpen"
+          @eventsCategoriesEditDialogOpen="eventsCategoriesEditDialogOpen"
+          @eventsCategoriesRemoveOne="eventsCategoriesRemoveOne"
+          @eventsCategoriesRemoveMany="eventsCategoriesRemoveMany"
+        />
+      </div>
     </div>
 
     <events-categories-create-dialog

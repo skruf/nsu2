@@ -9,7 +9,7 @@
     "columnLabelLane": "Lane",
     "tablePlaceholderText": "No participants yet.",
     "tablePlaceholderButton": "Add new?",
-    "eventsContestantsResultsSearchFilterPlaceholder": "Search for contestants by first or last name",
+    "eventsContestantsResultsSearchFilterPlaceholder": "Search for contestants",
     "eventsContestantsResultsInputDialogOpen": "Input result"
   },
   "no": {
@@ -21,53 +21,20 @@
     "columnLabelLane": "Stand",
     "tablePlaceholderText": "Ingen deltakere enda",
     "tablePlaceholderButton": "Legg til ny?",
-    "eventsContestantsResultsSearchFilterPlaceholder": "Søk etter deltaker med fornavn eller etternavn",
+    "eventsContestantsResultsSearchFilterPlaceholder": "Søk etter deltakere",
     "eventsContestantsResultsInputDialogOpen": "Angi resultat"
   }
 }
 </i18n>
 
 <template>
-  <div>
-    <div class="px-5 no-print">
-      <div class="flex justify-between items-center mb-4">
-        <div class="w-full max-w-md">
-          <v-text-field
-            v-model="eventsContestantsResultsSearchFilter"
-            :label="$t('eventsContestantsResultsSearchFilterPlaceholder')"
-            data-testid="eventsContestantsResultsSearchFilterInput"
-            prepend-inner-icon="search"
-            rounded
-            filled
-            dense
-            hide-details
-            single-line
-          />
-        </div>
-      </div>
-
-      <div class="my-4 flex items-center">
-        <div class="mr-4 text-sm">
-          {{ $t("groupBy") }}
-        </div>
-
-        <v-btn-toggle v-model="eventsContestantsResultsTableGroupBy">
-          <v-btn
-            small
-            :value="[]"
-            data-testid="eventsContestantsResultsTableGroupByNoneButton"
-          >
-            {{ $t("none") }}
-          </v-btn>
-          <v-btn
-            small
-            value="weaponId"
-            data-testid="eventsContestantsResultsTableGroupByWeaponButton"
-          >
-            {{ $t("weapon") }}
-          </v-btn>
-        </v-btn-toggle>
-      </div>
+  <div class="relative">
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsContestantsResultsSearchFilter"
+        :label="$t('eventsContestantsResultsSearchFilterPlaceholder')"
+        data-testid="eventsContestantsResultsSearchFilterInput"
+      />
     </div>
 
     <!-- :custom-sort="customSort" -->
@@ -82,9 +49,9 @@
       :no-data-text="$t('tablePlaceholderText')"
       :show-group-by="false"
       :group-by="eventsContestantsResultsTableGroupBy"
-      :items-per-page="150"
       :sort-desc="true"
       :must-sort="true"
+      :group-desc="true"
       sort-by="total"
       data-testid="eventsContestantsResultsListTable"
     >
@@ -166,11 +133,12 @@
           left
           class="no-print"
         >
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
+              data-testid="eventsContestantsTableRowMenuButton"
               small
               icon
-              data-testid="eventsContestantsTableRowMenuButton"
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -198,6 +166,40 @@
         </v-menu>
       </template>
     </v-data-table>
+
+    <div class="flex items-center py-4 absolute bottom-0 left-0">
+      <div class="flex items-center">
+        <div
+          class="mr-4"
+          style="font-size:12px;"
+        >
+          {{ $t("groupBy") }}:
+        </div>
+
+        <v-btn-toggle
+          v-model="eventsContestantsResultsTableGroupBy"
+          active-class="primary"
+          color="white"
+        >
+          <v-btn
+            text
+            small
+            :value="[]"
+            data-testid="eventsContestantsResultsTableGroupByNoneButton"
+          >
+            {{ $t("none") }}
+          </v-btn>
+          <v-btn
+            text
+            small
+            value="weaponId"
+            data-testid="eventsContestantsResultsTableGroupByWeaponButton"
+          >
+            {{ $t("weapon") }}
+          </v-btn>
+        </v-btn-toggle>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -205,9 +207,14 @@
 // @TODO: reverse sorting when grouped by weapon
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "EventsContestantsResultsListTable",
+
+  components: {
+    TableFilterSearch
+  },
 
   props: {
     event: { type: Object, required: true }
@@ -216,7 +223,7 @@ export default Vue.extend({
   data: function() {
     return {
       eventsContestantsResultsSearchFilter: "",
-      eventsContestantsResultsTableGroupBy: [],
+      eventsContestantsResultsTableGroupBy: "weaponId",
       eventsContestantsResultsSelection: [],
       eventsContestantsResultsHeaders: [{
         value: "total",
@@ -243,7 +250,6 @@ export default Vue.extend({
         value: "actions",
         sortable: false,
         align: "right"
-        // class: "no-print"
       }]
     }
   },

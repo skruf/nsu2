@@ -35,6 +35,11 @@ const routes = [
     component: (): any => import(/* webpackChunkName: "ranges" */ "./screens/RangesListScreen.vue")
   },
   {
+    path: "/ranges/:rangeId",
+    name: "RangesViewScreen",
+    component: (): any => import(/* webpackChunkName: "ranges" */ "./screens/RangesViewScreen.vue")
+  },
+  {
     path: "/weapons",
     name: "WeaponsListScreen",
     component: (): any => import(/* webpackChunkName: "weapons" */ "./screens/WeaponsListScreen.vue")

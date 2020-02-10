@@ -30,9 +30,10 @@
 </i18n>
 
 <template>
-  <div>
+  <div class="screen">
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
@@ -51,20 +52,22 @@
       </v-btn>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/events', text: $t('breadcrumbEventsLabel') },
-        { to: '', text: $t('breadcrumbAllLabel') }
-      ]"
-    />
-
-    <div v-loading="eventsRemoveIsLoading">
-      <events-list-table
-        @eventsCreateDialogOpen="eventsCreateDialogOpen"
-        @eventsEditDialogOpen="eventsEditDialogOpen"
-        @eventsRemoveOne="eventsRemoveOne"
-        @eventsRemoveMany="eventsRemoveMany"
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/events', text: $t('breadcrumbEventsLabel') },
+          { to: '', text: $t('breadcrumbAllLabel') }
+        ]"
       />
+
+      <div v-loading="eventsRemoveIsLoading">
+        <events-list-table
+          @eventsCreateDialogOpen="eventsCreateDialogOpen"
+          @eventsEditDialogOpen="eventsEditDialogOpen"
+          @eventsRemoveOne="eventsRemoveOne"
+          @eventsRemoveMany="eventsRemoveMany"
+        />
+      </div>
     </div>
 
     <events-create-dialog

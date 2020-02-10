@@ -1,82 +1,84 @@
-Cypress.Commands.add("getById", (testId) => {
-  return cy.get(`[data-testid="${testId}"]`)
-})
+Cypress.Commands.add("getById", (testId) => (
+  cy.get(`[data-testid="${testId}"]`)
+))
 
 Cypress.Commands.add("startup", () => {
-  cy.window({ timeout: 10000 }).should("have.property", "ready", true)
+  cy.window({ timeout: 10000 })
+    .should("have.property", "ready", true)
+  cy.wait(1000)
 })
 
-Cypress.Commands.add("acceptConfirmation", () => {
-  cy.get(".el-message-box .el-button--primary").click()
+Cypress.Commands.add("acceptConfirmation", (
+  options: Partial<Cypress.ClickOptions>
+) => {
+  cy.get(".el-message-box .el-button--primary")
+    .click(options)
 })
 
-Cypress.Commands.add("inputEventsForm", (data) => {
-  if(data.title) {
-    cy.getById("eventsFormTitleInput").clear().type(data.title)
-  }
+Cypress.Commands.add("random", { prevSubject: true }, (subject) => (
+  cy.get(subject).its("length")
+    .then((count) => (
+      cy.get(subject)
+        .eq(Math.floor(Math.random() * count - 1))
+    ))
+))
 
-  if(data.startsAt) {
-    cy.getById("eventsFormStartsAtInput").click({ force: true })
-    cy.get(".v-date-picker-table .v-btn").first().click()
-    cy.get(".v-date-picker-table .v-btn").last().click()
-    cy.getById("eventsFormStartsAtOkButton").click()
-  }
-
-  if(data.endsAt) {
-    cy.getById("eventsFormEndsAtInput").click({ force: true })
-    cy.get(".v-date-picker-table .v-btn").first().click()
-    cy.get(".v-date-picker-table .v-btn").last().click()
-    cy.getById("eventsFormEndsAtOkButton").click()
-  }
-
-  if(data.categoryId) {
-    cy.getById("eventsFormCategorySelect").click({ force: true })
-    cy.get(".v-list-item").first().click()
-  }
-
-  if(data.organizerId) {
-    cy.getById("eventsFormOrganizerSelect").click({ force: true })
-    cy.get(".v-list-item").first().click()
-  }
-
-  if(data.rangeId) {
-    cy.getById("eventsFormRangeSelect").click({ force: true })
-    cy.get(".v-list-item").first().click()
-  }
-
-  if(data.approbated) {
-    cy.getById("eventsFormApprobatedSwitch").click({ force: true })
-  }
+Cypress.Commands.add("searchTable", (searchValue, inputId, tableId) => {
+  cy.getById(inputId)
+    .type(`${searchValue}{enter}`)
+  cy.getById(tableId)
+    .within(() => {
+      cy.get("tr")
+        .each((tr, index) => {
+          if(index !== 0) cy.wrap(tr).contains(searchValue)
+        })
+    })
+  cy.getById(inputId)
+    .clear()
 })
 
-Cypress.Commands.add("random", { prevSubject: true }, (subject) => {
-  return cy.get(subject).its("length")
-    .then((count) => {
-      return cy.get(subject).eq(Math.floor(Math.random() * count - 1))
+Cypress.Commands.add("pickFromSelect", (testid, value) => {
+  cy.getById(testid)
+    .click({ force: true })
+    .type(`${value}{enter}`, { force: true })
+})
+
+Cypress.Commands.add("pickFromDatePicker", (testid, date) => {
+  cy.getById(testid)
+    .type(date.split(".").reverse().join("-"))
+})
+
+Cypress.Commands.add("datePickerPickFirst", (testid) => {
+  cy.getById(testid)
+    .click({ force: true })
+    .within(() => {
+      cy.get(".v-btn")
+        .first()
+        .click()
+      cy.getById("datePickerSaveButton")
+        .first()
+        .click()
     })
 })
 
-// Cypress.Commands.add("selectMember", () => {
-//   cy.getById("eventsContestantsManagerDialogSelectClubListItem")
-//     .random()
-//     .click()
-//   cy.wait(500)
-//   cy.getById("eventsContestantsManagerDialogSelectClubMemberListItem")
-//     .random()
-//     .click()
-//   cy.wait(500)
-// })
+Cypress.Commands.add("datePickerPickLast", (testid) => {
+  cy.getById(testid)
+    .click({ force: true })
+    .within(() => {
+      cy.get(".v-btn")
+        .last()
+        .click()
+      cy.getById("datePickerSaveButton")
+        .first()
+        .click()
+    })
 
-// Cypress.Commands.add("addWeapon", () => {
-//   cy.getById("eventsContestantsManagerDialogAddWeaponButton")
-//     .click()
-//   cy.getById("eventsContestantsManagerDialogWeaponsFormIdSelect")
-//     .last()
-//     .click()
-//   cy.get(".v-list-item--link")
-//     .random()
-//     .click()
-//   cy.getById("eventsContestantsManagerDialogWeaponsFormCalibreInput")
-//     .last()
-//     .type(`${Math.floor(Math.random() * 50)}`)
-// })
+  // cy.getById(testid)
+  //   .click({ force: true })
+  // cy.get(".v-date-picker-table .v-btn")
+  //   .last()
+  //   .click()
+  // cy.getById("datePickerSaveButton")
+  //   .first()
+  //   .click()
+})

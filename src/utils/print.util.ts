@@ -1,4 +1,4 @@
-import config from "@/app.config"
+import config from "../app.config"
 
 export default (): void => {
   if(config.runtime === "web") {

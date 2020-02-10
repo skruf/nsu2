@@ -1,7 +1,7 @@
 import {
   insert, findMany, findOne, destroyOne, destroyMany, updateOne
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { eventsStub } from "@/stubs"
 import { filterInputUtil } from "@/utils"
 import { EventsDocument, EventsProperties } from "@/db/collections/events.collection"
@@ -20,9 +20,7 @@ const populate = async (doc: EventsDocument): Promise<EventsProperties> => {
 }
 
 const list = async (
-  filter: QueryFilter,
-  options: QueryOptions,
-  fetchMode?: "upcoming" | "history"
+  filter: QueryFilter, fetchMode?: "upcoming" | "history"
 ): Promise<{
   items: QueryResult[],
   count: number
@@ -35,7 +33,7 @@ const list = async (
     filter.startsAt = { $lte: new Date() }
   }
 
-  const result = await findMany("events", filter, options)
+  const result = await findMany("events", filter)
   result.items = await Promise.all(
     result.items.map((doc: EventsDocument) => populate(doc))
   )
@@ -61,11 +59,11 @@ const removeOne = async (event: { id: string }): Promise<true> => {
   return true
 }
 
-const removeMany = async (items: { id: string }[], options = {}) => {
+const removeMany = async (items: { id: string }[]) => {
   const filter = {
     id: { $in: items.map(({ id }) => id) }
   }
-  await destroyMany("events", filter, options)
+  await destroyMany("events", filter)
   return true
 }
 

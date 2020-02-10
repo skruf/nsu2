@@ -2,7 +2,7 @@
 {
   "en": {
     "category": "category",
-    "searchFormPlaceholder": "Search for categories by name",
+    "searchFormPlaceholder": "Search for categories",
     "eventsCategoriesListTableColumnNameLabel": "Name",
     "editEventsCategory": "@:edit @:category",
     "removeEventsCategory": "@:remove @:category",
@@ -10,7 +10,7 @@
   },
   "no": {
     "category": "kategori",
-    "searchFormPlaceholder": "Søk etter kategorier med navn",
+    "searchFormPlaceholder": "Søk etter kategorier",
     "eventsCategoriesListTableColumnNameLabel": "Navn",
     "editEventsCategory": "@:edit @:category",
     "removeEventsCategory": "@:remove @:category",
@@ -21,20 +21,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="eventsCategoriesSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="eventsCategoriesSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsCategoriesSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="eventsCategoriesSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -58,11 +50,12 @@
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="eventsCategoriesListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -109,12 +102,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!eventsCategoriesHasSelection"
               data-testid="eventsCategoriesListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -148,14 +142,19 @@
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "EventsCategoriesListTable",
 
-  data: function() {
+  components: {
+    TableFilterSearch
+  },
+
+  data() {
     return {
-      eventsCategoriesSearchFilter: "",
       eventsCategoriesSelection: [],
+      eventsCategoriesSearchFilter: "",
       eventsCategoriesHeaders: [{
         value: "name",
         text: this.$t("eventsCategoriesListTableColumnNameLabel")

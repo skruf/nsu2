@@ -1,7 +1,8 @@
 <template>
   <div class="text-base leading-none inline-flex items-center print:ml-8 print:mt-4 print:text-sm">
-    <template v-for="stat in stats">
+    <template v-if="!loading">
       <div
+        v-for="stat in stats"
         :key="stat"
         class="mr-8 last:print:mr-0"
       >
@@ -19,6 +20,9 @@ import Vue from "vue"
 
 export default Vue.extend({
   name: "DataGrid",
+  props: {
+    loading: { type: Boolean, default: false }
+  },
   data: () => ({
     stats: []
   }),

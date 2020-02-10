@@ -9,8 +9,10 @@
     "columnLabelCalibre": "Calibre",
     "tablePlaceholderText": "No contestants yet.",
     "tablePlaceholderButton": "Add new?",
-    "eventsDivisionsContestantsSearchFilterPlaceholder": "Search for contestants by first or last name",
-    "autoAssign": "Assign contestants"
+    "eventsDivisionsContestantsSearchFilterPlaceholder": "Search for contestants",
+    "autoAssign": "Assign contestants",
+    "eventsDivisionsContestantsRemoveOneConfirmation": "This will remove %{contestantFullName} from the division. Continue?",
+    "eventsDivisionsContestantsRemoveOneSuccess": "%{contestantFullName} was removed from the division"
   },
   "no": {
     "columnLabelStand": "Plass",
@@ -21,28 +23,22 @@
     "columnLabelCalibre": "Kaliber",
     "tablePlaceholderText": "Ingen deltakere enda",
     "tablePlaceholderButton": "Legg til ny?",
-    "eventsDivisionsContestantsSearchFilterPlaceholder": "Søk etter deltakere med fornavn eller etternavn",
-    "autoAssign": "Fyll deltakere"
+    "eventsDivisionsContestantsSearchFilterPlaceholder": "Søk etter deltakere",
+    "autoAssign": "Fyll deltakere",
+    "eventsDivisionsContestantsRemoveOneConfirmation": "Dette vil fjerne %{contestantFullName} fra standplasslisten. Fortsette?",
+    "eventsDivisionsContestantsRemoveOneSuccess": "%{contestantFullName} ble fjernet fra standplasslisten"
   }
 }
 </i18n>
 
 <template>
-  <div class="w-full">
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="eventsDivisionsContestantsSearchFilter"
-          :label="$t('eventsDivisionsContestantsSearchFilterPlaceholder')"
-          data-testid="eventsDivisionsContestantsSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-        />
-      </div>
+  <div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsDivisionsContestantsSearchFilter"
+        :label="$t('eventsDivisionsContestantsSearchFilterPlaceholder')"
+        data-testid="eventsDivisionsContestantsSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -65,7 +61,7 @@
       ref="eventsDivisionsContestantsListTable"
       v-model="eventsDivisionsContestantsSelection"
       :headers="eventsDivisionsContestantsHeaders"
-      :items="eventsDivisionsContestantsStateList"
+      :items="eventsDivisionsContestantsIsLoading ? [] : eventsDivisionsContestantsStateList"
       :search="eventsDivisionsContestantsSearchFilter"
       :loading="eventsDivisionsContestantsIsLoading"
       :loading-text="$t('loading')"
@@ -95,7 +91,7 @@
       </template>
 
       <template v-slot:item.weapon.name="{ item }">
-        {{ item.weapon.name }}
+        {{ item.weapon.name }} ({{ item.weapon.distance }})
       </template>
 
       <template v-slot:item.actions="{ item }">
@@ -103,11 +99,12 @@
           bottom
           left
         >
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
+              data-testid="eventsDivisionsContestantsTableRowMenuButton"
               small
               icon
-              data-testid="eventsDivisionsContestantsTableRowMenuButton"
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -135,7 +132,7 @@
 
             <v-list-item
               data-testid="eventsDivisionsContestantsRemoveOneListItem"
-              @click.stop="eventsDivisionsContestantsActionsRemoveOne(item)"
+              @click.stop="eventsDivisionsContestantsRemoveOne(item)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon color="red">
@@ -229,16 +226,21 @@
 
 <script lang="ts">
 import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 import { Sortable, Swap } from "sortablejs/modular/sortable.core.esm"
 
 export default {
   name: "EventsDivisionsContestantsListTable",
 
+  components: {
+    TableFilterSearch
+  },
+
   props: {
     division: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
       eventsDivisionsContestantsSearchFilter: "",
       eventsDivisionsContestantsSelection: [],
@@ -340,9 +342,41 @@ export default {
       this.$emit("eventsContestantsEditDialogOpen", contestant)
     },
 
-    // eventsDivisionsContestantsRemoveOne(contestant): void {
-    //   this.$emit("eventsDivisionsContestantsRemoveOne", contestant)
-    // },
+    async eventsDivisionsContestantsRemoveOne(contestant): Promise<void> {
+      const fullName = `${contestant.clubMember.firstName} ${contestant.clubMember.lastName}`
+      try {
+        await this.$confirm(
+          this.$t("eventsDivisionsContestantsRemoveOneConfirmation", {
+            contestantFullName: fullName
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsDivisionsContestantsActionsRemoveOne(contestant)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsDivisionsContestantsRemoveOneSuccess", {
+            contestantFullName: fullName
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
 
     // eventsDivisionsContestantsRemoveMany(contestants): void {
     //   this.$emit("eventsDivisionsContestantsRemoveMany", contestants)

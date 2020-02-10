@@ -8,7 +8,7 @@
     "columnLabelStandsCount": "Lanes",
     "eventsDivisionsListTableNoDataText": "No participants yet.",
     "eventsDivisionsListTableCreateDialogOpenButton": "Add new?",
-    "eventsDivisionsSearchFilterPlaceholder": "Search for divisions by first or last name"
+    "eventsDivisionsSearchFilterPlaceholder": "Search for divisions"
   },
   "no": {
     "columnLabelName": "Navn",
@@ -18,27 +18,19 @@
     "columnLabelStandsCount": "Plasser",
     "eventsDivisionsListTableNoDataText": "Ingen deltakere enda",
     "eventsDivisionsListTableCreateDialogOpenButton": "Legg til ny?",
-    "eventsDivisionsSearchFilterPlaceholder": "Søk etter standplasslister med navn"
+    "eventsDivisionsSearchFilterPlaceholder": "Søk etter standplasslister"
   }
 }
 </i18n>
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="eventsDivisionsSearchFilter"
-          :label="$t('eventsDivisionsSearchFilterPlaceholder')"
-          data-testid="eventsDivisionsSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsDivisionsSearchFilter"
+        :label="$t('eventsDivisionsSearchFilterPlaceholder')"
+        data-testid="eventsDivisionsSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -137,15 +129,20 @@
 
 <script lang="ts">
 import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default {
   name: "EventsDivisionsListTable",
+
+  components: {
+    TableFilterSearch
+  },
 
   props: {
     event: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
       eventsDivisionsSearchFilter: "",
       eventsDivisionsSelection: [],

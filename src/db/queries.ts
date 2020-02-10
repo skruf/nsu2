@@ -1,7 +1,6 @@
 import { getIdUtil, getTimestampUtil, promiseSequenceUtil } from "@/utils"
 import { db } from "@/db"
 import {
-  BuildQuery,
   CountQuery,
   FindManyQuery,
   FindOneQuery,
@@ -13,65 +12,16 @@ import {
   UpdateManyQuery
 } from "@/db/queries.d"
 
-const buildQuery: BuildQuery = async (
-  collection, method, filter, options = {}
-) => {
-  let query = filter
-
-  if(options.search && options.search.value) {
-    const $or: any = []
-    options.search.fields.forEach((field) => {
-      $or.push({
-        [field]: {
-          $regex: new RegExp(
-            `${options.search ? options.search.value : ""}`,
-            "gi"
-          )
-        }
-      })
-    })
-    query = {
-      $and: [ { $or } ]
-    }
-    if(Object.keys(filter).length) query.$and.push(filter)
-  }
-
-  let operation: any = db[collection][method](query)
-
-  if(options.sort) {
-    // @TODO: bugfix sorting while searching
-    if(options.search && options.search.value) {
-    } else {
-      operation = operation.sort(options.sort)
-    }
-  }
-
-  if(options.skip && typeof options.skip === "number") {
-    operation = operation.skip(options.skip)
-  }
-
-  if(options.limit && typeof options.limit === "number") {
-    operation = operation.limit(options.limit)
-  }
-
-  return operation
-}
-
-export const count: CountQuery = async (
-  collection, filter, defaultOptions = {}
-) => {
-  const options = { ...defaultOptions, skip: false, limit: false }
-  const query = await buildQuery(collection, "find", filter, options)
-  const docs = await query.exec()
-  return docs.length
+export const count: CountQuery = async (collection, filter = {}) => {
+  const { length } = await db[collection].find(filter).exec()
+  return length
 }
 
 export const findMany: FindManyQuery = async (
-  collection, filter, options = {}, json = false
+  collection, filter, json = false
 ) => {
-  const query = await buildQuery(collection, "find", filter, options)
-  const docs = await query.exec()
-  const amount = await count(collection, filter, options)
+  const docs: any = await db[collection].find(filter).exec()
+  const amount = await count(collection)
   return {
     items: json ? docs.map((doc) => doc.toJSON()) : docs,
     count: amount
@@ -103,7 +53,6 @@ export const insertMany: InsertManyQuery = async (
   const docs = await promiseSequenceUtil(
     items.map((item: any) => () => insert(collection, item, json))
   )
-
   return docs
 }
 
@@ -117,9 +66,9 @@ export const destroyOne: DestroyOneQuery = async (
 }
 
 export const destroyMany: DestroyManyQuery = async (
-  collection, filter, options = {}
+  collection, filter
 ) => {
-  const docs: any = await findMany(collection, filter, options, false)
+  const docs: any = await findMany(collection, filter, false)
   const result = await Promise.all(
     docs.items.map((doc: any) => doc.remove())
   )

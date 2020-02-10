@@ -13,7 +13,7 @@
     "weaponsFormConditionLabel": "Condition",
     "weaponsFormConditionPlaceholder": "Select a condition",
     "weaponsFormConditionError": "Condition is a required field",
-    "weaponsFormDistanceLabel": "Distance",
+    "weaponsFormDistanceLabel": "Distance in meters",
     "weaponsFormDistanceError": "Distance is a required field"
   },
   "no": {
@@ -29,7 +29,7 @@
     "weaponsFormConditionLabel": "Tilstand",
     "weaponsFormConditionPlaceholder": "Velg en tilstand",
     "weaponsFormConditionError": "Tilstand er et påkrevd felt",
-    "weaponsFormDistanceLabel": "Avstand",
+    "weaponsFormDistanceLabel": "Avstand i meter",
     "weaponsFormDistanceError": "Avstand er et påkrevd felt"
   }
 }

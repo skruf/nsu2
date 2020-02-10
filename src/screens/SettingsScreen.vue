@@ -29,22 +29,23 @@
   <div>
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
-      <v-toolbar-title class="flex items-center">
+      <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/settings', text: $t('breadcrumbSettingsLabel') },
-        { to: '/', text: $t('breadcrumbCurrentLabel') }
-      ]"
-    />
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/settings', text: $t('breadcrumbSettingsLabel') },
+          { to: '/', text: $t('breadcrumbCurrentLabel') }
+        ]"
+      />
 
-    <div class="p-5">
       <div
         v-if="config.runtime === 'app'"
         class="mb-10"
@@ -57,7 +58,7 @@
         :items="languages"
         :label="$t('formItemLanguageLabel')"
         :placeholder="$t('formItemLanguagePlaceholder')"
-        class="max-w-md mb-10"
+        class="max-w-md mb-10 mt-5"
         data-testid="settingsLanguageSelect"
         item-text="label"
         item-value="locale"
@@ -65,20 +66,22 @@
         required
       />
 
-      <v-btn
-        v-if="config.runtime === 'app'"
-        text
-        @click="checkForUpdates"
-      >
-        {{ $t("appCheckForUpdatesButton") }}
-      </v-btn>
+      <div class="flex justify-end pb-5">
+        <v-btn
+          v-if="config.runtime === 'app'"
+          text
+          @click="checkForUpdates"
+        >
+          {{ $t("appCheckForUpdatesButton") }}
+        </v-btn>
 
-      <v-btn
-        color="error"
-        @click="resetApp"
-      >
-        {{ $t("appResetButton") }}
-      </v-btn>
+        <v-btn
+          color="error"
+          @click="resetApp"
+        >
+          {{ $t("appResetButton") }}
+        </v-btn>
+      </div>
     </div>
   </div>
 </template>

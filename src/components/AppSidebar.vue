@@ -91,13 +91,7 @@ import Vue from "vue"
 export default Vue.extend({
   name: "AppSidebar",
 
-  watch: {
-    isOpen(): void {
-      localStorage.isOpen = this.isOpen
-    }
-  },
-
-  data: function() {
+  data() {
     return {
       isOpen: false,
       items: [
@@ -109,6 +103,12 @@ export default Vue.extend({
         // { title: this.$t("records"), icon: "emoji_events", to: "/records" },
         { title: this.$t("settings"), icon: "settings_applications", to: "/settings" }
       ]
+    }
+  },
+
+  watch: {
+    isOpen(): void {
+      localStorage.isOpen = this.isOpen
     }
   },
 

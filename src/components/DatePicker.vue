@@ -1,23 +1,31 @@
+<style>
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-calendar-picker-indicator {
+  -webkit-appearance: none;
+  display: none;
+}
+</style>
+
 <template>
   <v-menu
     ref="datePickerMenu"
     v-model="datePickerMenuShown"
-    :close-on-content-click="false"
     :return-value.sync="v"
+    :close-on-content-click="false"
     transition="scale-transition"
     offset-y
     min-width="290px"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
-        :value="input"
+        v-model="v"
         :label="label"
-        :data-testid="testid"
+        :data-testid="dataTestid"
         :rules="rules"
         :class="className"
-        readonly
+        type="date"
+        hint="DD/MM/YYYY"
         outlined
-        required
         v-bind="attrs"
         v-on="on"
       />
@@ -62,7 +70,7 @@ export default Vue.extend({
   props: {
     value: { type: String, default: (): string => "" },
     label: { type: String, required: true },
-    testid: { type: String, default: (): string => "datepicker-input" },
+    dataTestid: { type: String, default: (): string => "datepicker-input" },
     rules: { type: Array, default: (): boolean => false },
     format: { type: String, default: (): string => "DD-MMM-YY" },
     className: { type: String, default: (): string => "" }

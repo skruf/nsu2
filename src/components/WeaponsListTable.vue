@@ -1,7 +1,7 @@
 <i18n>
 {
   "en": {
-    "searchFormPlaceholder": "Search for a weapon by name",
+    "searchFormPlaceholder": "Search for weapons",
     "weaponsListTableColumnNumberLabel": "Number",
     "weaponsListTableColumnNameLabel": "Name",
     "weaponsListTableColumnCategoryLabel": "Category",
@@ -15,7 +15,7 @@
     "weaponsCreateDialogOpen": "Create weapon"
   },
   "no": {
-    "searchFormPlaceholder": "Søk etter våpen med navn",
+    "searchFormPlaceholder": "Søk etter våpen",
     "weaponsListTableColumnNumberLabel": "Nummer",
     "weaponsListTableColumnNameLabel": "Navn",
     "weaponsListTableColumnCategoryLabel": "Kategori",
@@ -33,21 +33,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="weaponsSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="weaponsSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-          @keyup.enter="weaponsActionsList()"
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="weaponsSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="weaponsSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -62,20 +53,12 @@
       v-model="weaponsSelection"
       :headers="weaponsHeaders"
       :items="weaponsStateList"
+      :search="weaponsSearchFilter"
       :loading="weaponsStateListIsLoading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :sort-by="weaponsStateSortBy"
-      :items-per-page="weaponsStatePageSize"
-      :page="weaponsStatePageCurrent"
-      :server-items-length="weaponsStateCount"
-      :sort-desc="weaponsStateOrder"
       data-testid="weaponsListTable"
-      @update:items-per-page="weaponsActionsSetPageSize"
-      @update:page="weaponsActionsSetPageCurrent"
-      @update:sort-by="weaponsActionsSetSorting"
-      @update:sort-desc="weaponsActionsSetOrder"
     >
       <template v-slot:header.name="{ header }">
         <span data-testid="weaponsListTableColumnNameText">
@@ -89,11 +72,12 @@
 
       <template v-slot:item.actions="{ item }">
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="weaponsListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -140,12 +124,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!weaponsHasSelection"
               data-testid="weaponsListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -178,14 +163,20 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "WeaponsListTable",
 
+  components: {
+    TableFilterSearch
+  },
+
   data: function() {
     return {
       weaponsSelection: [],
+      weaponsSearchFilter: "",
       weaponsHeaders: [{
         value: "name",
         text: this.$t("weaponsListTableColumnNameLabel")
@@ -212,46 +203,21 @@ export default Vue.extend({
   computed: {
     ...mapState("weapons", {
       weaponsStateListIsLoading: "listIsLoading",
-      weaponsStateSortBy: "sortBy",
-      weaponsStatePageSize: "pageSize",
-      weaponsStatePageCurrent: "pageCurrent",
-      weaponsStateCount: "count",
-      weaponsStateList: "list",
-      weaponsStateOrder: "sortDesc"
+      weaponsStateList: "list"
     }),
 
     weaponsHasSelection(): boolean {
       return this.weaponsSelection.length > 0
-    },
-
-    weaponsSearchFilter: {
-      get(): string { return this.$store.state.weapons.searchFilterValue },
-      set(search): void { this.weaponsMutationsSetSearchFilter(search) }
     }
   },
 
-  watch: {
-    weaponsSearchFilter(v): void {
-      if(v === "") this.weaponsActionsList()
-    }
-  },
-
-  async created() {
-    await this.weaponsActionsList()
+  created() {
+    this.weaponsActionsList()
   },
 
   methods: {
-    ...mapMutations("weapons", {
-      weaponsMutationsSetSearchFilter: "SET_SEARCH_FILTER"
-    }),
-
     ...mapActions("weapons", {
-      weaponsActionsList: "list",
-      weaponsActionsSetSorting: "setSorting",
-      weaponsActionsSetPageSize: "setPageSize",
-      weaponsActionsSetPageCurrent: "setPageCurrent",
-      weaponsActionsSetSearchFilter: "setSearchFilter",
-      weaponsActionsSetOrder: "setOrder"
+      weaponsActionsList: "list"
     }),
 
     weaponsCreateDialogOpen(): void {

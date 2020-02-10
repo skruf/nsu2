@@ -1,7 +1,7 @@
 import {
   insert, insertMany, findMany, findOne, destroyOne, destroyMany, updateMany, updateOne
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { filterInputUtil } from "@/utils"
 import { eventsContestantsStub } from "@/stubs"
 import {
@@ -21,10 +21,10 @@ export const populate = async (doc) => {
   return contestant
 }
 
-const list = async (
-  filter: QueryFilter, options: QueryOptions
-): Promise<{ items: QueryResult[], count: number }> => {
-  const result = await findMany("events_contestants", filter, options)
+const list = async (filter: QueryFilter): Promise<{
+  items: QueryResult[], count: number
+}> => {
+  const result = await findMany("events_contestants", filter)
   result.items = await Promise.all(
     result.items.map(async (doc) => populate(doc))
   )
@@ -38,9 +38,7 @@ const select = async (filter: QueryFilter): Promise<QueryResult | null> => {
 }
 
 // validate that contestant doesnt already exist in division
-const create = async (
-  item: EventsContestantsProperties
-): Promise<QueryResult | null> => {
+const create = async (item: EventsContestantsProperties): Promise<QueryResult | null> => {
   const data = filterInputUtil(item, eventsContestantsStub)
   const doc = await insert("events_contestants", data)
   const contestant = await populate(doc)

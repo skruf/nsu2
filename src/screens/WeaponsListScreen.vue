@@ -24,17 +24,16 @@
 </i18n>
 
 <template>
-  <div>
+  <div class="screen">
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
-      <v-toolbar-title>
+      <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
-
-      <v-spacer />
 
       <v-btn
         icon
@@ -45,20 +44,22 @@
       </v-btn>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/weapons', text: $t('breadcrumbWeaponLabel') },
-        { to: '', text: $t('breadcrumbAllLabel') }
-      ]"
-    />
-
-    <div v-loading="weaponsRemoveIsLoading">
-      <weapons-list-table
-        @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
-        @weaponsEditDialogOpen="weaponsEditDialogOpen"
-        @weaponsRemoveOne="weaponsRemoveOne"
-        @weaponsRemoveMany="weaponsRemoveMany"
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/weapons', text: $t('breadcrumbWeaponLabel') },
+          { to: '', text: $t('breadcrumbAllLabel') }
+        ]"
       />
+
+      <div v-loading="weaponsRemoveIsLoading">
+        <weapons-list-table
+          @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
+          @weaponsEditDialogOpen="weaponsEditDialogOpen"
+          @weaponsRemoveOne="weaponsRemoveOne"
+          @weaponsRemoveMany="weaponsRemoveMany"
+        />
+      </div>
     </div>
 
     <weapons-create-dialog
@@ -69,17 +70,6 @@
       :shown.sync="weaponsEditDialogShown"
       :weapon="weaponsEditDialogWeapon"
     />
-
-    <!-- <v-footer>
-      <div class="px-1 py-3">
-        <v-btn
-          color="primary"
-          @click="weaponsCreateDialogOpen"
-        >
-          {{ $t("weaponsCreateDialogOpenButton") }}
-        </v-btn>
-      </div>
-    </v-footer> -->
   </div>
 </template>
 

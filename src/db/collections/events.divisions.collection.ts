@@ -64,23 +64,6 @@ const schema: RxJsonSchema = {
 
 const preInsert = async (data: EventsDivisionsProperties): Promise<void> => {
   await eventsDivisionsService.autoAssign(data)
-  // const populate = async (doc) => {
-  //   doc.weapon = await doc.populate("weaponId")
-  //   return doc
-  // }
-  // const { items }: any = await findMany("events_contestants", {
-  //   eventId: data.eventId,
-  //   divisionId: { $exists: false }
-  // })
-  // const contestants = await Promise.all(items.map(populate))
-  // await Promise.all(
-  //   _uniqBy(contestants, "clubMemberId")
-  //     .filter(({ weapon }) => weapon.distance === data.distance)
-  //     .slice(0, data.standsCount)
-  //     .map((doc: any, index) => doc.update(
-  //       { $set: { divisionId: data.id, stand: index + 1 } }
-  //     ))
-  // )
 }
 
 const preRemove = async (data: EventsDivisionsProperties): Promise<void> => {

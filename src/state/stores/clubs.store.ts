@@ -28,16 +28,6 @@ const modules = [
       removeMany: clubsService.removeMany,
       editOne: clubsService.editOne
     }
-  },
-  {
-    module: "pagination"
-  },
-  {
-    module: "sorting"
-  },
-  {
-    module: "search",
-    options: { fields: [ "name" ] }
   }
 ]
 

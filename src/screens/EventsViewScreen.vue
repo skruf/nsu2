@@ -40,9 +40,10 @@
 </i18n>
 
 <template>
-  <div>
+  <div class="screen">
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
@@ -62,64 +63,15 @@
             </template>
 
             {{ eventsStateSelected.title }}
-
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  data-testid="eventsViewDropdown"
-                  small
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon>
-                    more_horiz
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <v-list>
-                <v-list-item
-                  data-testid="eventsViewDropdownOpenEditDialog"
-                  @click="eventsEditDialogOpen()"
-                >
-                  <v-list-item-title class="flex items-center">
-                    <v-icon>
-                      edit
-                    </v-icon>
-
-                    <span class="ml-2">
-                      {{ $t("edit") }}
-                    </span>
-                  </v-list-item-title>
-                </v-list-item>
-
-                <v-divider />
-
-                <v-list-item
-                  data-testid="eventsViewDropdownRemoveOne"
-                  @click="eventsRemoveOne(eventsStateSelected)"
-                >
-                  <v-list-item-title class="flex items-center">
-                    <v-icon color="red">
-                      delete_forever
-                    </v-icon>
-
-                    <span class="ml-2 red--text">
-                      {{ $t("remove") }}
-                    </span>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
           </div>
 
-          <div
+          <router-link
             v-if="eventsStateSelected.range"
-            class="text-base leading-none opacity-75 ml-8 print:ml-0 print:text-sm"
+            class="text-base leading-none opacity-75 ml-8 self-start print:ml-0 print:text-sm"
+            :to="`/ranges/${eventsStateSelected.range.id}`"
           >
             {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.streetAddress }} {{ eventsStateSelected.range.area }}
-          </div>
+          </router-link>
         </div>
 
         <data-grid v-if="!eventsStateSelectedIsLoading">
@@ -144,8 +96,6 @@
         </data-grid>
       </v-toolbar-title>
 
-      <v-spacer />
-
       <v-btn
         icon
         data-testid="eventsPrintButton"
@@ -154,56 +104,106 @@
         <v-icon>print</v-icon>
       </v-btn>
 
-      <template v-slot:extension>
-        <v-tabs
-          v-model="activeTab"
-          align-with-title
-          background-color="transparent"
-        >
-          <v-tabs-slider color="white" />
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            data-testid="eventsViewDropdown"
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>more_horiz</v-icon>
+          </v-btn>
+        </template>
 
-          <v-tab data-testid="eventsViewScreenTabsContestantsTab">
-            {{ $t("contestants") }}
-          </v-tab>
+        <v-list>
+          <v-list-item
+            data-testid="eventsViewDropdownOpenEditDialog"
+            @click="eventsEditDialogOpen()"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon>
+                edit
+              </v-icon>
 
-          <v-tab data-testid="eventsViewScreenTabsDivisionsTab">
-            {{ $t("divisions") }}
-          </v-tab>
+              <span class="ml-2">
+                {{ $t("edit") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
 
-          <v-tab data-testid="eventsViewScreenTabsResultsTab">
-            {{ $t("results") }}
-          </v-tab>
-        </v-tabs>
-      </template>
+          <v-divider />
+
+          <v-list-item
+            data-testid="eventsViewDropdownRemoveOne"
+            @click="eventsRemoveOne(eventsStateSelected)"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon color="red">
+                delete_forever
+              </v-icon>
+
+              <span class="ml-2 red--text">
+                {{ $t("remove") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/events', text: $t('breadcrumb1Label') },
-        { to: `/events/${eventsStateSelected.id}`,
-          text: eventsStateSelected.title }
-      ]"
-    />
+    <div class="screen-wrapper">
+      <!-- <v-breadcrumbs
+        :items="[
+          { to: '/events', text: $t('breadcrumb1Label') },
+          { to: `/events/${eventsStateSelected.id}`,
+            text: eventsStateSelected.title }
+        ]"
+      /> -->
 
-    <v-tabs-items v-model="activeTab">
-      <v-tab-item>
-        <events-view-tabs-contestants
-          :event="eventsStateSelected"
-        />
-      </v-tab-item>
+      <v-tabs
+        v-model="activeTab"
+        background-color="transparent"
+        color="primary"
+        centered
+        class="mt-2"
+      >
+        <v-tab data-testid="eventsViewScreenTabsContestantsTab">
+          {{ $t("contestants") }}
+        </v-tab>
 
-      <v-tab-item>
-        <events-view-tabs-divisions
-          :event="eventsStateSelected"
-        />
-      </v-tab-item>
+        <v-tab data-testid="eventsViewScreenTabsDivisionsTab">
+          {{ $t("divisions") }}
+        </v-tab>
 
-      <v-tab-item>
-        <events-view-tabs-results
-          :event="eventsStateSelected"
-        />
-      </v-tab-item>
-    </v-tabs-items>
+        <v-tab data-testid="eventsViewScreenTabsResultsTab">
+          {{ $t("results") }}
+        </v-tab>
+      </v-tabs>
+
+      <v-tabs-items
+        v-model="activeTab"
+        class="mt-5"
+      >
+        <v-tab-item>
+          <events-view-tabs-contestants
+            :event="eventsStateSelected"
+          />
+        </v-tab-item>
+
+        <v-tab-item>
+          <events-view-tabs-divisions
+            :event="eventsStateSelected"
+          />
+        </v-tab-item>
+
+        <v-tab-item>
+          <events-view-tabs-results
+            :event="eventsStateSelected"
+          />
+        </v-tab-item>
+      </v-tabs-items>
+    </div>
 
     <events-edit-dialog
       :shown.sync="eventsEditDialogShow"

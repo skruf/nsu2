@@ -24,17 +24,16 @@
 </i18n>
 
 <template>
-  <div>
+  <div class="screen">
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
-      <v-toolbar-title>
+      <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
-
-      <v-spacer />
 
       <v-btn
         icon
@@ -45,20 +44,22 @@
       </v-btn>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/ranges', text: $t('breadcrumbRangesLabel') },
-        { to: '', text: $t('breadcrumbAllLabel') }
-      ]"
-    />
-
-    <div v-loading="rangesRemoveIsLoading">
-      <ranges-list-table
-        @rangesCreateDialogOpen="rangesCreateDialogOpen"
-        @rangesEditDialogOpen="rangesEditDialogOpen"
-        @rangesRemoveOne="rangesRemoveOne"
-        @rangesRemoveMany="rangesRemoveMany"
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/ranges', text: $t('breadcrumbRangesLabel') },
+          { to: '', text: $t('breadcrumbAllLabel') }
+        ]"
       />
+
+      <div v-loading="rangesRemoveIsLoading">
+        <ranges-list-table
+          @rangesCreateDialogOpen="rangesCreateDialogOpen"
+          @rangesEditDialogOpen="rangesEditDialogOpen"
+          @rangesRemoveOne="rangesRemoveOne"
+          @rangesRemoveMany="rangesRemoveMany"
+        />
+      </div>
     </div>
 
     <ranges-create-dialog

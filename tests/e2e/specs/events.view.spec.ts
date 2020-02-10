@@ -14,7 +14,7 @@ describe("events.view", () => {
     cy.contains(event.endsAt)
   })
 
-  it.only("Print details", () => {
+  it.skip("Print details", () => {
     cy.wait(10000)
     cy.getById("eventsPrintButton")
       .click()

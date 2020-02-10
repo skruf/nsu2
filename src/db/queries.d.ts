@@ -6,19 +6,7 @@ import {
   DatabaseDocumentsProperties
 } from "@/db/collections"
 
-export declare type QueryFilter = {
-  [k in string]: RxQueryOptions<any> | any
-}
-
-export declare type QueryOptions = {
-  search?: {
-    value: string
-    fields: string[]
-  },
-  sort?: string
-  skip?: number | boolean
-  limit?: number | boolean
-}
+export declare type QueryFilter = RxQueryOptions
 
 type QueryMethods = (
   "insert" |
@@ -30,26 +18,18 @@ type QueryMethods = (
   "dump"
 )
 
-export declare type BuildQuery = (
-  collection: DatabaseCollectionsNames,
-  method: QueryMethods,
-  filter: QueryFilter,
-  options?: QueryOptions
-) => Promise<RxQuery<DatabaseCollections, DatabaseDocument[]>>
+export declare type QueryResult = (
+  DatabaseDocument | DatabaseDocumentsProperties
+)
 
 export declare type CountQuery = (
   collection: DatabaseCollectionsNames,
-  filter: QueryFilter,
-  options?: QueryOptions,
-  json?: boolean
+  filter?: QueryFilter
 ) => Promise<number>
-
-export declare type QueryResult = DatabaseDocument | DatabaseDocumentsProperties
 
 export declare type FindManyQuery = (
   collection: DatabaseCollectionsNames,
   filter: QueryFilter,
-  options?: QueryOptions,
   json?: boolean
 ) => Promise<{
   items: QueryResult[],
@@ -81,8 +61,7 @@ export declare type DestroyOneQuery = (
 
 export declare type DestroyManyQuery = (
   collection: DatabaseCollectionsNames,
-  filter: QueryFilter,
-  options?: QueryOptions
+  filter: QueryFilter
 ) => Promise<any>
 
 export declare type UpdateOneQuery = (

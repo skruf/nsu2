@@ -21,10 +21,11 @@
       </v-btn>
     </template>
 
-    <div class="-m-5">
+    <div class="-mt-6 -mb-3">
       <events-divisions-contestants-list-table
         :division="division"
         @eventsContestantsEditDialogOpen="eventsContestantsEditDialogOpen"
+        @eventsDivisionsContestantsRemoveOne="eventsDivisionsContestantsRemoveOne"
       />
     </div>
   </action-dialog>
@@ -66,6 +67,10 @@ export default Vue.extend({
   methods: {
     eventsContestantsEditDialogOpen(contestant): void {
       this.$emit("eventsContestantsEditDialogOpen", contestant)
+    },
+
+    eventsDivisionsContestantsRemoveOne(contestant): void {
+      this.$emit("eventsDivisionsContestantsRemoveOne", contestant)
     },
 
     close(): void {

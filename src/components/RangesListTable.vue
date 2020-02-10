@@ -33,21 +33,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="rangesSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="rangesSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-          @keyup.enter="rangesActionsList()"
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="rangesSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="rangesSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -62,28 +53,23 @@
       v-model="rangesSelection"
       :headers="rangesHeaders"
       :items="rangesStateList"
+      :search="rangesSearchFilter"
       :loading="rangesStateListIsLoading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :sort-by="rangesStateSortBy"
-      :items-per-page="rangesStatePageSize"
-      :page="rangesStatePageCurrent"
-      :server-items-length="rangesStateCount"
-      :sort-desc="rangesStateOrder"
       data-testid="rangesListTable"
-      @update:items-per-page="rangesActionsSetPageSize"
-      @update:page="rangesActionsSetPageCurrent"
-      @update:sort-by="rangesActionsSetSorting"
-      @update:sort-desc="rangesActionsSetOrder"
+      class="clickable"
+      @click:row="rangesTableRowClick"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="rangesListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -130,12 +116,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!rangesHasSelection"
               data-testid="rangesListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -168,14 +155,20 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "RangesListTable",
 
-  data: function() {
+  components: {
+    TableFilterSearch
+  },
+
+  data() {
     return {
       rangesSelection: [],
+      rangesSearchFilter: "",
       rangesHeaders: [{
         value: "name",
         text: this.$t("rangesListTableColumnNameLabel")
@@ -202,46 +195,21 @@ export default Vue.extend({
   computed: {
     ...mapState("ranges", {
       rangesStateListIsLoading: "listIsLoading",
-      rangesStateSortBy: "sortBy",
-      rangesStatePageSize: "pageSize",
-      rangesStatePageCurrent: "pageCurrent",
-      rangesStateCount: "count",
-      rangesStateList: "list",
-      rangesStateOrder: "sortDesc"
+      rangesStateList: "list"
     }),
 
     rangesHasSelection(): boolean {
       return this.rangesSelection.length > 0
-    },
-
-    rangesSearchFilter: {
-      get(): string { return this.$store.state.ranges.searchFilterValue },
-      set(search): void { this.rangesMutationsSetSearchFilter(search) }
     }
   },
 
-  watch: {
-    rangesSearchFilter(v): void {
-      if(v === "") this.rangesActionsList()
-    }
-  },
-
-  async created() {
-    await this.rangesActionsList()
+  created() {
+    this.rangesActionsList()
   },
 
   methods: {
-    ...mapMutations("ranges", {
-      rangesMutationsSetSearchFilter: "SET_SEARCH_FILTER"
-    }),
-
     ...mapActions("ranges", {
-      rangesActionsList: "list",
-      rangesActionsSetSorting: "setSorting",
-      rangesActionsSetPageSize: "setPageSize",
-      rangesActionsSetPageCurrent: "setPageCurrent",
-      rangesActionsSetSearchFilter: "setSearchFilter",
-      rangesActionsSetOrder: "setOrder"
+      rangesActionsList: "list"
     }),
 
     rangesCreateDialogOpen(): void {
@@ -258,6 +226,10 @@ export default Vue.extend({
 
     rangesRemoveMany(ranges): void {
       this.$emit("rangesRemoveMany", ranges)
+    },
+
+    rangesTableRowClick(range): void {
+      this.$router.push(`/ranges/${range.id}`)
     }
   }
 })

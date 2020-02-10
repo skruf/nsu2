@@ -38,7 +38,6 @@
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import { clubsStub } from "@/stubs"
 import ClubsForm from "@/components/ClubsForm.vue"
 import ActionDialog from "@/components/ActionDialog.vue"
 
@@ -57,7 +56,7 @@ export default Vue.extend({
   data: function() {
     return {
       visible: this.shown,
-      form: { ...clubsStub }
+      form: {}
     }
   },
 

@@ -1,15 +1,15 @@
 import {
   insert, findMany, destroyOne, destroyMany, updateOne
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { clubsMembersStub } from "@/stubs"
 import { filterInputUtil } from "@/utils"
 import { ClubsMembersProperties } from "@/db/collections/clubs.members.collection"
 
-const list = async (filter: QueryFilter, options: QueryOptions): Promise<{
+const list = async (filter: QueryFilter): Promise<{
   items: QueryResult[], count: number
 }> => {
-  const result = await findMany("clubs_members", filter, options, true)
+  const result = await findMany("clubs_members", filter, true)
   return result
 }
 

@@ -85,7 +85,7 @@ const preRemove = async (data: ClubsProperties): Promise<void> => {
 
   const { items: events } = await findMany("events", {
     organizerId: data.id
-  }, {}, true)
+  }, true)
 
   await updateMany("events", events.map(
     (event: EventsDocument) => ({ ...event, organizerId: "" })

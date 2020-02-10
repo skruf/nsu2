@@ -27,14 +27,13 @@
   <div>
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
       <v-toolbar-title class="screen-title">
         {{ $t("screenTitle") }}
       </v-toolbar-title>
-
-      <v-spacer />
 
       <v-btn
         icon
@@ -45,20 +44,22 @@
       </v-btn>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/clubs', text: $t('breadcrumbLabelClubs') },
-        { to: '', text: $t('breadcrumbLabelAll') }
-      ]"
-    />
-
-    <div v-loading="clubsRemoveIsLoading">
-      <clubs-list-table
-        @clubsCreateDialogOpen="clubsCreateDialogOpen"
-        @clubsEditDialogOpen="clubsEditDialogOpen"
-        @clubsRemoveOne="clubsRemoveOne"
-        @clubsRemoveMany="clubsRemoveMany"
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/clubs', text: $t('breadcrumbLabelClubs') },
+          { to: '', text: $t('breadcrumbLabelAll') }
+        ]"
       />
+
+      <div v-loading="clubsRemoveIsLoading">
+        <clubs-list-table
+          @clubsCreateDialogOpen="clubsCreateDialogOpen"
+          @clubsEditDialogOpen="clubsEditDialogOpen"
+          @clubsRemoveOne="clubsRemoveOne"
+          @clubsRemoveMany="clubsRemoveMany"
+        />
+      </div>
     </div>
 
     <clubs-create-dialog

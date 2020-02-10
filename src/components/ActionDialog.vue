@@ -20,11 +20,9 @@
         </v-icon>
       </v-btn>
 
-      <v-toolbar-title class="pl-0">
+      <v-toolbar-title class="pl-0 flex-1">
         <slot name="title" />
       </v-toolbar-title>
-
-      <v-spacer />
 
       <v-toolbar-items>
         <slot name="actions" />

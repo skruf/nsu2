@@ -3,10 +3,14 @@ declare namespace Cypress {
     getById(testid: string): Chainable
     startup(): Chainable
     acceptConfirmation(): Chainable
-    inputEventsForm(data: object): Chainable
+    inputEventsForm(event: object): Chainable
     random(): Chainable
-    selectMember(): Chainable
-    addWeapon(): Chainable
+    searchTable(value: string, inputId: string, tableId: string): Chainable,
+    pickFromSelect(testid: string, value: string): Chainable,
+    datePickerPickFirst(testid: string): Chainable,
+    datePickerPickLast(testid: string): Chainable,
+
+    pickFromDatePicker(testid: string, value: string): Chainable
   }
 }
 

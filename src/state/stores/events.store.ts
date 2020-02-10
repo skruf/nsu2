@@ -7,16 +7,17 @@ const state = {
 }
 
 const mutations = {
-  SET_FETCH_MODE: (state, fetchMode) => {
+  SET_FETCH_MODE: (state, fetchMode): void => {
     state.fetchMode = fetchMode
   }
 }
 
 const actions = {
-  list: async ({ commit, state }, filter = {}) => {
+  list: async ({ commit, state }, filter = {}): Promise<void> => {
     commit("SET_LIST_LOADING", true)
     const config = queryHelperUtil(state)
-    const results = await eventsService.list(filter, config, state.fetchMode)
+    // state.fetchMode
+    const results = await eventsService.list(filter, config)
     commit("SET_LIST", results.items)
     commit("SET_COUNT", results.count)
     commit("SET_LIST_LOADING", false)

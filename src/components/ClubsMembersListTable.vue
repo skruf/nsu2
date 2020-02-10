@@ -1,7 +1,7 @@
 <i18n>
 {
   "en": {
-    "searchFormPlaceholder": "Search for members by first or last name",
+    "searchFormPlaceholder": "Search for members",
     "columnFirstNameLabel": "First Name",
     "columnLastNameLabel": "Last Name",
     "columnEmailAddressLabel": "Email Address",
@@ -14,7 +14,7 @@
     "tablePlaceholderButton": "Create new?"
   },
   "no": {
-    "searchFormPlaceholder": "Søk etter medlemmer med fornavn eller etternavn",
+    "searchFormPlaceholder": "Søk etter medlemmer",
     "columnFirstNameLabel": "Fornavn",
     "columnLastNameLabel": "Etternavn",
     "columnEmailAddressLabel": "E-post",
@@ -31,21 +31,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="clubsMembersSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="clubsMembersSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-          @keyup.enter="clubsMembersActionsList()"
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="clubsMembersSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="clubsMembersSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -60,28 +51,21 @@
       v-model="clubsMembersSelection"
       :headers="clubsMembersHeaders"
       :items="clubsMembersStateList"
+      :search="clubsMembersSearchFilter"
       :loading="clubsMembersStateListIsLoading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :sort-by="clubsMembersStateSortBy"
-      :items-per-page="clubsMembersStatePageSize"
-      :page="clubsMembersStatePageCurrent"
-      :server-items-length="clubsMembersStateCount"
-      :sort-desc="clubsMembersStateOrder"
       data-testid="clubsMembersListTable"
-      @update:items-per-page="clubsMembersActionsSetPageSize"
-      @update:page="clubsMembersActionsSetPageCurrent"
-      @update:sort-by="clubsMembersActionsSetSorting"
-      @update:sort-desc="clubsMembersActionsSetOrder"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="clubsMembersListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -128,12 +112,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!clubsMembersHasSelection"
               data-testid="clubsMembersListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -166,18 +151,24 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "ClubsMembersListTable",
+
+  components: {
+    TableFilterSearch
+  },
 
   props: {
     club: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
       clubsMembersSelection: [],
+      clubsMembersSearchFilter: "",
       clubsMembersHeaders: [{
         value: "firstName",
         text: this.$t("columnFirstNameLabel")
@@ -204,19 +195,10 @@ export default Vue.extend({
   computed: {
     ...mapState("clubs/members", {
       clubsMembersStateListIsLoading: "listIsLoading",
-      clubsMembersStateSortBy: "sortBy",
-      clubsMembersStatePageSize: "pageSize",
-      clubsMembersStatePageCurrent: "pageCurrent",
-      clubsMembersStateCount: "count",
-      clubsMembersStateList: "list",
-      clubsMembersStateOrder: "sortDesc"
+      clubsMembersStateList: "list"
     }),
     clubsMembersHasSelection(): boolean {
       return this.clubsMembersSelection.length > 0
-    },
-    clubsMembersSearchFilter: {
-      get(): string { return this.$store.state.clubs.members.searchFilterValue },
-      set(search): void { this.clubsMembersMutationsSetSearchFilter(search) }
     }
   },
 
@@ -225,31 +207,17 @@ export default Vue.extend({
       immediate: true,
       handler: function(): void {
         if(!this.club) return
-        this.clubsMembersMutationsSetListFilter({ clubId: this.club.id })
-        this.clubsMembersActionsList()
+        this.clubsMembersActionsList({
+          filter: { clubId: this.club.id },
+          persistFilter: true
+        })
       }
-    },
-
-    clubsMembersSearchFilter(v): void {
-      if(v !== "") return
-      this.clubsMembersMutationsSetListFilter({ clubId: this.club.id })
-      this.clubsMembersActionsList()
     }
   },
 
   methods: {
-    ...mapMutations("clubs/members", {
-      clubsMembersMutationsSetSearchFilter: "SET_SEARCH_FILTER",
-      clubsMembersMutationsSetListFilter: "SET_LIST_FILTER"
-    }),
-
     ...mapActions("clubs/members", {
-      clubsMembersActionsList: "list",
-      clubsMembersActionsSetSorting: "setSorting",
-      clubsMembersActionsSetPageSize: "setPageSize",
-      clubsMembersActionsSetPageCurrent: "setPageCurrent",
-      clubsMembersActionsSetSearchFilter: "setSearchFilter",
-      clubsMembersActionsSetOrder: "setOrder"
+      clubsMembersActionsList: "list"
     }),
 
     clubsMembersCreateDialogOpen(): void {

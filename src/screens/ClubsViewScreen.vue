@@ -41,78 +41,13 @@
   <div>
     <v-app-bar
       color="primary"
+      class="screen-bar"
       dark
       flat
     >
       <v-toolbar-title class="screen-title">
         <div class="print:mb-2 print:text-2xl">
           {{ clubsStateSelected.name }} [{{ clubsStateSelected.shortName }}]
-
-          <v-menu>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                data-testid="clubsViewDropdown"
-                small
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon>
-                  more_horiz
-                </v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item
-                :disabled="clubsStateSelected.websiteUrl !== ''"
-                data-testid="clubsViewDropdownOpenEditDialog"
-                @click="openExternalUrl(clubsStateSelected.websiteUrl)"
-              >
-                <v-list-item-title class="flex items-center">
-                  <v-icon>
-                    link
-                  </v-icon>
-
-                  <span class="ml-2">
-                    Webside
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-
-              <v-list-item
-                data-testid="clubsViewDropdownOpenEditDialog"
-                @click="clubsEditDialogOpen()"
-              >
-                <v-list-item-title class="flex items-center">
-                  <v-icon>
-                    edit
-                  </v-icon>
-
-                  <span class="ml-2">
-                    {{ $t("edit") }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-
-              <v-divider />
-
-              <v-list-item
-                data-testid="clubsViewDropdownRemoveOne"
-                @click="clubsRemoveOne(clubsStateSelected)"
-              >
-                <v-list-item-title class="flex items-center">
-                  <v-icon color="red">
-                    delete_forever
-                  </v-icon>
-
-                  <span class="ml-2 red--text">
-                    {{ $t("remove") }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
         </div>
 
         <data-grid v-if="!clubsStateSelectedIsLoading">
@@ -140,8 +75,6 @@
         </data-grid>
       </v-toolbar-title>
 
-      <v-spacer />
-
       <v-btn
         icon
         data-testid="eventsListPrintButton"
@@ -149,23 +82,92 @@
       >
         <v-icon>print</v-icon>
       </v-btn>
+
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            data-testid="clubsViewDropdown"
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>
+              more_horiz
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            :disabled="clubsStateSelected.websiteUrl !== ''"
+            data-testid="clubsViewDropdownOpenEditDialog"
+            @click="openExternalUrl(clubsStateSelected.websiteUrl)"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon>
+                link
+              </v-icon>
+
+              <span class="ml-2">
+                Webside
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item
+            data-testid="clubsViewDropdownOpenEditDialog"
+            @click="clubsEditDialogOpen()"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon>
+                edit
+              </v-icon>
+
+              <span class="ml-2">
+                {{ $t("edit") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-divider />
+
+          <v-list-item
+            data-testid="clubsViewDropdownRemoveOne"
+            @click="clubsRemoveOne(clubsStateSelected)"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon color="red">
+                delete_forever
+              </v-icon>
+
+              <span class="ml-2 red--text">
+                {{ $t("remove") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
-    <v-breadcrumbs
-      :items="[
-        { to: '/clubs', text: $t('breadcrumb1Label') },
-        { to: `/clubs/${clubsStateSelected.id}`,
-          text: clubsStateSelected.name }
-      ]"
-    />
+    <div class="screen-wrapper">
+      <v-breadcrumbs
+        :items="[
+          { to: '/clubs', text: $t('breadcrumb1Label') },
+          { to: `/clubs/${clubsStateSelected.id}`,
+            text: clubsStateSelected.name }
+        ]"
+      />
 
-    <clubs-members-list-table
-      :club="clubsStateSelected"
-      @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
-      @clubsMembersEditDialogOpen="clubsMembersEditDialogOpen"
-      @clubsMembersRemoveOne="clubsMembersRemoveOne"
-      @clubsMembersRemoveMany="clubsMembersRemoveMany"
-    />
+      <div v-loading="clubsMembersRemoveIsLoading">
+        <clubs-members-list-table
+          :club="clubsStateSelected"
+          @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
+          @clubsMembersEditDialogOpen="clubsMembersEditDialogOpen"
+          @clubsMembersRemoveOne="clubsMembersRemoveOne"
+          @clubsMembersRemoveMany="clubsMembersRemoveMany"
+        />
+      </div>
+    </div>
 
     <clubs-edit-dialog
       :shown.sync="clubsEditDialogShown"

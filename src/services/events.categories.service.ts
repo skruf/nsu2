@@ -1,15 +1,15 @@
 import {
   insert, findMany, findOne, destroyOne, destroyMany, updateOne
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { eventsCategoriesStub } from "@/stubs"
 import { filterInputUtil } from "@/utils"
 import { EventsCategoriesProperties } from "@/db/collections/events.categories.collection"
 
-const list = async (filter: QueryFilter, options: QueryOptions): Promise<{
+const list = async (filter: QueryFilter): Promise<{
   items: QueryResult[], count: number
 }> => {
-  const result = await findMany("events_categories", filter, options, true)
+  const result = await findMany("events_categories", filter, true)
   return result
 }
 

@@ -3,94 +3,60 @@
   "en": {
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Contestant",
-    "columnLabelClubName": "Club",
+    "columnLabelClub": "Club",
     "columnLabelWeapon": "Weapon",
     "columnLabelCalibre": "Calibre",
     "columnLabelLane": "Lane",
     "tablePlaceholderText": "No participants yet.",
     "tablePlaceholderButton": "Add new?",
-    "eventsContestantsSearchFilterPlaceholder": "Search for contestants by first or last name",
+    "eventsContestantsSearchFilterPlaceholder": "Search for contestants",
     "removeSelected": "Remove selected"
   },
   "no": {
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Deltaker",
-    "columnLabelClubName": "Klubb",
+    "columnLabelClub": "Klubb",
     "columnLabelWeapon": "Våpen",
     "columnLabelCalibre": "Kaliber",
     "columnLabelLane": "Stand",
     "tablePlaceholderText": "Ingen deltakere enda",
     "tablePlaceholderButton": "Legg til ny?",
-    "eventsContestantsSearchFilterPlaceholder": "Søk etter deltaker med fornavn eller etternavn",
+    "eventsContestantsSearchFilterPlaceholder": "Søk etter deltakere",
     "removeSelected": "Fjern valgte"
   }
 }
 </i18n>
 
 <template>
-  <div>
-    <div class="px-5 no-print">
-      <div class="flex justify-between items-center mb-4">
-        <div class="w-full max-w-md">
-          <v-text-field
-            v-model="eventsContestantsSearchFilter"
-            :label="$t('eventsContestantsSearchFilterPlaceholder')"
-            data-testid="eventsContestantsSearchFilterInput"
-            prepend-inner-icon="search"
-            rounded
-            filled
-            dense
-            hide-details
-            single-line
-          />
-        </div>
+  <div class="relative">
+    <div class="table-controls">
+      <table-filter-search
+        v-model="eventsContestantsSearchFilter"
+        :label="$t('eventsContestantsSearchFilterPlaceholder')"
+        data-testid="eventsContestantsSearchFilterInput"
+      />
 
-        <v-btn
-          color="primary"
-          data-testid="eventsContestantsListTableOpenManageDialogButton"
-          @click.stop="eventsContestantsManageDialogOpen"
-        >
-          {{ $t("tablePlaceholderButton") }}
-        </v-btn>
-      </div>
+      <events-contestants-list-table-filters
+        v-model="eventsContestantsTableFilter"
+        :contestants="eventsContestantsStateList"
+        :loading="eventsContestantsStateListIsLoading"
+        class="mx-5"
+      />
 
-      <div class="my-4 flex items-center">
-        <div class="mr-4 text-sm">
-          {{ $t("groupBy") }}
-        </div>
-
-        <v-btn-toggle v-model="eventsContestantsTableGroupBy">
-          <v-btn
-            small
-            :value="[]"
-            data-testid="eventsContestantsTableGroupByNoneButton"
-          >
-            {{ $t("none") }}
-          </v-btn>
-          <v-btn
-            small
-            value="clubMemberId"
-            data-testid="eventsContestantsTableGroupByContestantButton"
-          >
-            {{ $t("contestant") }}
-          </v-btn>
-          <v-btn
-            small
-            value="divisionId"
-            data-testid="eventsContestantsTableGroupByDivisionButton"
-          >
-            {{ $t("division") }}
-          </v-btn>
-        </v-btn-toggle>
-      </div>
+      <v-btn
+        color="primary"
+        data-testid="eventsContestantsListTableOpenManageDialogButton"
+        @click.stop="eventsContestantsManageDialogOpen"
+      >
+        {{ $t("tablePlaceholderButton") }}
+      </v-btn>
     </div>
 
-    <!-- :custom-filter="customFilter" -->
     <v-data-table
       v-model="eventsContestantsSelection"
       :class="{ 'is-grouped': isntGrouped }"
       :headers="eventsContestantsHeaders"
-      :items="eventsContestantsStateList"
+      :items="eventsContestantsStateListIsLoading ? [] : eventsContestantsStateList"
       :search="eventsContestantsSearchFilter"
       :loading="eventsContestantsStateListIsLoading"
       :loading-text="$t('loading')"
@@ -98,44 +64,38 @@
       :show-select="true"
       :show-group-by="false"
       :group-by="eventsContestantsTableGroupBy"
-      :items-per-page="150"
       sort-by="number"
       data-testid="eventsContestantsListTable"
     >
       <template v-slot:item.clubMember.firstName="{ item }">
-        <!-- small -->
-        <!-- <v-chip
-          outlined
-          class="bg-gray-200"
-        > -->
         <span class="mr-2 text-xs font-semibold py-1 px-2 rounded-full bg-gray-200">
           {{ item.number }}
         </span>
-        <!-- <v-avatar
-          size="24"
-          class="bg-black text-white mr-2 font-bold text-xs"
-        >
-          {{ item.number }}
-        </v-avatar> -->
 
         {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
-        <!-- </v-chip> -->
+      </template>
 
-        <!-- <span data-testid="eventsContestantsListTableColumnContestant">
-        </span> -->
+      <template v-slot:item.clubMember.club.shortName="{ item }">
+        <router-link :to="`/clubs/${item.clubMember.club.id}`">
+          {{ item.clubMember.club.shortName }}
+        </router-link>
       </template>
 
       <template v-slot:item.weapon.name="{ item }">
-        {{ item.weapon.name }}
+        {{ item.weapon.name }} ({{ item.weapon.distance }}m) - {{ item.weapon.id }}
       </template>
 
       <template v-slot:item.calibre="{ item }">
-        {{ item.calibre }}
+        {{ item.calibre }}mm
       </template>
 
       <template v-slot:item.stand="{ item }">
         <template v-if="item.division">
-          {{ item.stand }}
+          <span class="mr-2 text-xs font-semibold py-1 px-2 rounded-full bg-gray-200">
+            {{ item.stand }}
+          </span>
+
+          {{ item.division.name }}, {{ item.division.day | moment("DD/MMM") }} kl. {{ item.division.time }}
         </template>
 
         <template v-else>
@@ -193,11 +153,12 @@
           bottom
           left
         >
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
+              data-testid="eventsContestantsTableRowMenuButton"
               small
               icon
-              data-testid="eventsContestantsTableRowMenuButton"
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -242,12 +203,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!eventsContestantsSelection.length"
               data-testid="eventsContestantsListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -275,47 +237,91 @@
         </v-menu>
       </template>
     </v-data-table>
+
+    <div class="flex items-center py-4 absolute bottom-0 left-0">
+      <div class="flex items-center">
+        <div
+          class="mr-4"
+          style="font-size:12px;"
+        >
+          {{ $t("groupBy") }}:
+        </div>
+
+        <v-btn-toggle
+          v-model="eventsContestantsTableGroupBy"
+          active-class="primary"
+          color="white"
+        >
+          <v-btn
+            text
+            small
+            :value="[]"
+            data-testid="eventsContestantsTableGroupByNoneButton"
+          >
+            {{ $t("none") }}
+          </v-btn>
+          <v-btn
+            text
+            small
+            value="clubMemberId"
+            data-testid="eventsContestantsTableGroupByContestantButton"
+          >
+            {{ $t("contestant") }}
+          </v-btn>
+          <v-btn
+            text
+            small
+            value="divisionId"
+            data-testid="eventsContestantsTableGroupByDivisionButton"
+          >
+            {{ $t("division") }}
+          </v-btn>
+        </v-btn-toggle>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
+import EventsContestantsListTableFilters from "@/components/EventsContestantsListTableFilters.vue"
 
 export default Vue.extend({
   name: "EventsContestantsListTable",
+
+  components: {
+    TableFilterSearch,
+    EventsContestantsListTableFilters
+  },
 
   props: {
     event: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
+      eventsContestantsTableFilter: {
+        clubMemberIds: [],
+        weaponIds: [],
+        clubIds: []
+      },
       eventsContestantsSearchFilter: "",
       eventsContestantsTableGroupBy: [],
       eventsContestantsSelection: [],
       eventsContestantsHeaders: [{
-      //   value: "number",
-      //   text: this.$t("columnLabelNumber")
-      // }, {
         value: "clubMember.firstName",
         text: this.$t("columnLabelClubMember"),
-        // filter: (value: any, search: string, item: any) => {
-        //   if(!search || search === "" || !value || !value.clubMember) return true
-        //   if(
-        //     value.clubMember.firstName.contains(search) ||
-        //     value.clubMember.lastName.contains(search)
-        //   ) {
-        //     return true
-        //   } else {
-        //     return false
-        //   }
+        filter: this.clubMemberFilter
       }, {
         value: "clubMember.club.shortName",
-        text: this.$t("columnLabelClubName")
+        text: this.$t("columnLabelClub"),
+        filter: this.clubFilter
       }, {
         value: "weapon.name",
-        text: this.$t("columnLabelWeapon")
+        text: this.$t("columnLabelWeapon"),
+        filter: this.weaponFilter
       }, {
         value: "calibre",
         text: this.$t("columnLabelCalibre")
@@ -335,6 +341,7 @@ export default Vue.extend({
       eventsContestantsStateListIsLoading: "listIsLoading",
       eventsContestantsStateList: "list"
     }),
+
     isntGrouped(): boolean {
       return this.eventsContestantsTableGroupBy === []
     }
@@ -354,15 +361,27 @@ export default Vue.extend({
   },
 
   methods: {
-    // customFilter(value, search, item) {
-    //   search = search.toString().toLowerCase()
-    //   return items.filter((row) => filter(row.type, search))
-    //   return items
-    // },
-
     ...mapActions("events/contestants", {
       eventsContestantsActionsList: "list"
     }),
+
+    clubMemberFilter(_, __, { clubMemberId }): boolean {
+      return this.eventsContestantsTableFilter.clubMemberIds.length
+        ? this.eventsContestantsTableFilter.clubMemberIds.includes(clubMemberId)
+        : true
+    },
+
+    clubFilter(_, __, { clubMember }): boolean {
+      return this.eventsContestantsTableFilter.clubIds.length
+        ? this.eventsContestantsTableFilter.clubIds.includes(clubMember.clubId)
+        : true
+    },
+
+    weaponFilter(_, __, { weaponId }): boolean {
+      return this.eventsContestantsTableFilter.weaponIds.length
+        ? this.eventsContestantsTableFilter.weaponIds.includes(weaponId)
+        : true
+    },
 
     eventsContestantsManageDialogOpen(): void {
       this.$emit("eventsContestantsManageDialogOpen")

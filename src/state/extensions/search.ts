@@ -3,7 +3,7 @@ interface Options {
   fields: string[]
 }
 
-interface State {
+export declare interface SearchState {
   searchFilterValue?: string,
   searchFilterFields: string[],
   pageCurrent?: number
@@ -17,13 +17,13 @@ const defaultOptions = {
 export default (options?: Options) => {
   const config = { ...defaultOptions, ...options }
 
-  const state: State = {
+  const state: SearchState = {
     searchFilterValue: null,
     searchFilterFields: config.fields
   }
 
   const mutations = {
-    SET_SEARCH_FILTER: (state: State, search: string) => {
+    SET_SEARCH_FILTER: (state: SearchState, search: string) => {
       state.searchFilterValue = search
       state.pageCurrent = 1
     }
@@ -36,9 +36,22 @@ export default (options?: Options) => {
     }
   }
 
+  const getters = {
+    getSearch: (state: SearchState): { fields: string[], value: string } | null => (
+      state.searchFilterFields && state.searchFilterValue
+        ? ({ fields: state.searchFilterFields, value: state.searchFilterValue })
+        : null
+    )
+    // getSearch: (state: SearchState): { fields: string[], value: string } => ({
+    //   fields: state.searchFilterFields ? state.searchFilterFields : [],
+    //   value: state.searchFilterValue ? state.searchFilterValue : ""
+    // })
+  }
+
   return {
     state,
     mutations,
-    actions
+    actions,
+    getters
   }
 }

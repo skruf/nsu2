@@ -1,7 +1,7 @@
 <i18n>
 {
   "en": {
-    "searchFormPlaceholder": "Search for a club by name",
+    "searchFormPlaceholder": "Search for clubs",
     "columnNameLabel": "Name",
     "columnShortNameLabel": "Short Name",
     "columnAreaLabel": "Area",
@@ -15,7 +15,7 @@
     "clubsCreateDialogOpen": "Create club"
   },
   "no": {
-    "searchFormPlaceholder": "Søk etter en klubb med navn",
+    "searchFormPlaceholder": "Søk etter klubber",
     "columnNameLabel": "Navn",
     "columnShortNameLabel": "Kortnavn",
     "columnAreaLabel": "Område",
@@ -33,21 +33,12 @@
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-4 px-5 no-print">
-      <div class="w-full max-w-md">
-        <v-text-field
-          v-model="clubsSearchFilter"
-          :label="$t('searchFormPlaceholder')"
-          data-testid="clubsSearchFilterInput"
-          prepend-inner-icon="search"
-          rounded
-          filled
-          dense
-          hide-details
-          single-line
-          @keyup.enter="clubsActionsList()"
-        />
-      </div>
+    <div class="table-controls">
+      <table-filter-search
+        v-model="clubsSearchFilter"
+        :label="$t('searchFormPlaceholder')"
+        data-testid="clubsSearchFilterInput"
+      />
 
       <v-btn
         color="primary"
@@ -58,34 +49,33 @@
       </v-btn>
     </div>
 
+    <!--
+    :sort-by="clubsSortBy"
+    :items-per-page="clubsPageSize"
+    :page="clubsPageCurrent"
+    :sort-desc="clubsOrder"
+    -->
     <v-data-table
       v-model="clubsSelection"
       :headers="clubsHeaders"
       :items="clubsStateList"
+      :search="clubsSearchFilter"
       :loading="clubsStateListIsLoading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :sort-by="clubsStateSortBy"
-      :items-per-page="clubsStatePageSize"
-      :page="clubsStatePageCurrent"
-      :server-items-length="clubsStateCount"
-      :sort-desc="clubsStateOrder"
       data-testid="clubsListTable"
       class="clickable"
       @click:row="clubsTableRowClick"
-      @update:items-per-page="clubsActionsSetPageSize"
-      @update:page="clubsActionsSetPageCurrent"
-      @update:sort-by="clubsActionsSetSorting"
-      @update:sort-desc="clubsActionsSetOrder"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               data-testid="clubsListTableRowDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -132,12 +122,13 @@
 
       <template v-slot:header.actions>
         <v-menu>
-          <template v-slot:activator="{ on: { click } }">
+          <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
               :disabled="!clubsHasSelection"
               data-testid="clubsListTableHeaderDropdown"
               small
               icon
+              v-bind="attrs"
               @click.stop="click"
             >
               <v-icon>
@@ -170,14 +161,20 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
+import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
   name: "ClubsListTable",
 
-  data: function() {
+  components: {
+    TableFilterSearch
+  },
+
+  data() {
     return {
       clubsSelection: [],
+      clubsSearchFilter: "",
       clubsHeaders: [{
         value: "shortName",
         text: this.$t("columnShortNameLabel")
@@ -206,46 +203,22 @@ export default Vue.extend({
   computed: {
     ...mapState("clubs", {
       clubsStateListIsLoading: "listIsLoading",
-      clubsStateSortBy: "sortBy",
-      clubsStatePageSize: "pageSize",
-      clubsStatePageCurrent: "pageCurrent",
-      clubsStateCount: "count",
-      clubsStateList: "list",
-      clubsStateOrder: "sortDesc"
+      clubsStateList: "list"
     }),
 
     clubsHasSelection(): boolean {
       return this.clubsSelection.length > 0
-    },
-
-    clubsSearchFilter: {
-      get(): string { return this.$store.state.clubs.searchFilterValue },
-      set(search): void { this.clubsMutationsSetSearchFilter(search) }
     }
   },
 
-  watch: {
-    clubsSearchFilter(v): void {
-      if(v === "") this.clubsActionsList()
-    }
-  },
-
-  async created() {
-    await this.clubsActionsList()
+  created() {
+    // @TODO: observer
+    this.clubsActionsList()
   },
 
   methods: {
-    ...mapMutations("clubs", {
-      clubsMutationsSetSearchFilter: "SET_SEARCH_FILTER"
-    }),
-
     ...mapActions("clubs", {
-      clubsActionsList: "list",
-      clubsActionsSetSorting: "setSorting",
-      clubsActionsSetPageSize: "setPageSize",
-      clubsActionsSetPageCurrent: "setPageCurrent",
-      clubsActionsSetSearchFilter: "setSearchFilter",
-      clubsActionsSetOrder: "setOrder"
+      clubsActionsList: "list"
     }),
 
     clubsCreateDialogOpen(): void {

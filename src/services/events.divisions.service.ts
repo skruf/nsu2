@@ -1,19 +1,20 @@
 import {
   insert, findMany, findOne, destroyOne, destroyMany, updateOne, count
 } from "@/db/queries"
-import { QueryOptions, QueryFilter, QueryResult } from "@/db/queries.d"
+import { QueryFilter, QueryResult } from "@/db/queries.d"
 import { eventsDivisionsStub } from "@/stubs"
 import { filterInputUtil } from "@/utils"
 import {
   EventsDivisionsProperties
 } from "@/db/collections/events.divisions.collection"
 import _uniqBy from "lodash.uniqby"
+import { EventsContestantsDocument } from '@/db/collections/events.contestants.collection'
 
 type ListResult = Promise<{ items: QueryResult[], count: number }>
-type List = (filter: QueryFilter, options: QueryOptions) => ListResult
+type List = (filter: QueryFilter) => ListResult
 
-const list: List = async (filter, options) => {
-  const divisions = await findMany("events_divisions", filter, options, true)
+const list: List = async (filter) => {
+  const divisions = await findMany("events_divisions", filter, true)
   divisions.items = await Promise.all(
     divisions.items.map(async (item: EventsDivisionsProperties) => {
       item.contestantsCount = await count("events_contestants", { divisionId: item.id })
@@ -63,8 +64,8 @@ const editOne = async (
 }
 
 // get existing contestants for uniq
-const autoAssign = async (data) => {
-  const populate = async (doc) => {
+const autoAssign = async (data): Promise<void> => {
+  const populate = async (doc: EventsContestantsDocument): Promise<EventsContestantsDocument> => {
     doc.weapon = await doc.populate("weaponId")
     return doc
   }
@@ -77,15 +78,6 @@ const autoAssign = async (data) => {
   const contestantsWithoutDivision: any = await findMany("events_contestants", {
     eventId: data.eventId,
     divisionId: { $exists: false }
-
-    // $and: [{
-    //   eventId: data.eventId
-    // }, {
-    //   $or: [
-    //     { divisionId: { $exists: false } },
-    //     { divisionId: data.id }
-    //   ]
-    // }]
   })
 
   const contestants = await Promise.all(
