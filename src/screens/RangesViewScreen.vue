@@ -26,64 +26,13 @@
 <template>
   <div class="screen">
     <v-app-bar
-      color="primary"
       class="screen-bar"
-      dark
+      height="auto"
       flat
     >
       <v-toolbar-title class="screen-title">
         <div class="print:mb-2 print:text-2xl">
           {{ rangesStateSelected.name }}
-
-          <v-menu>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                data-testid="rangesViewDropdown"
-                small
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon>
-                  more_horiz
-                </v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item
-                data-testid="rangesViewDropdownOpenEditDialog"
-                @click="rangesEditDialogOpen()"
-              >
-                <v-list-item-title class="flex items-center">
-                  <v-icon>
-                    edit
-                  </v-icon>
-
-                  <span class="ml-2">
-                    {{ $t("edit") }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-
-              <v-divider />
-
-              <v-list-item
-                data-testid="rangesViewDropdownRemoveOne"
-                @click="rangesRemoveOne(rangesStateSelected)"
-              >
-                <v-list-item-title class="flex items-center">
-                  <v-icon color="red">
-                    delete_forever
-                  </v-icon>
-
-                  <span class="ml-2 red--text">
-                    {{ $t("remove") }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
         </div>
 
         <data-grid :loading="rangesStateSelectedIsLoading">
@@ -115,6 +64,56 @@
       >
         <v-icon>print</v-icon>
       </v-btn>
+
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            data-testid="rangesViewDropdown"
+            small
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>
+              more_horiz
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            data-testid="rangesViewDropdownOpenEditDialog"
+            @click="rangesEditDialogOpen()"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon>
+                edit
+              </v-icon>
+
+              <span class="ml-2">
+                {{ $t("edit") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-divider />
+
+          <v-list-item
+            data-testid="rangesViewDropdownRemoveOne"
+            @click="rangesRemoveOne(rangesStateSelected)"
+          >
+            <v-list-item-title class="flex items-center">
+              <v-icon color="red">
+                delete_forever
+              </v-icon>
+
+              <span class="ml-2 red--text">
+                {{ $t("remove") }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <div class="screen-wrapper">

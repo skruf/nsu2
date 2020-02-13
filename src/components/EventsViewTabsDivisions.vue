@@ -12,37 +12,8 @@
 </i18n>
 
 <template>
-  <div>
-    <!-- <div class="flex">
-      <div class="">
-        <events-divisions-contestants-list-table
-          v-if="division"
-          :division="division"
-        />
-      </div>
-
-      <div class="w-64 border-l border-gray-300">
-        <events-divisions-list-menu
-          @eventsDivisionsCreateDialogOpen="eventsDivisionsCreateDialogOpen"
-          @eventsDivisionsListMenuDivisionSelect="setSelectedDivision"
-        />
-      </div>
-    </div> -->
-
-    <events-divisions-list-table
-      :event="event"
-      @eventsDivisionsContestantsListDialogOpen="eventsDivisionsContestantsListDialogOpen"
-      @eventsDivisionsCreateDialogOpen="eventsDivisionsCreateDialogOpen"
-      @eventsDivisionsEditDialogOpen="eventsDivisionsEditDialogOpen"
-      @eventsDivisionsRemoveOne="eventsDivisionsRemoveOne"
-      @eventsDivisionsRemoveMany="eventsDivisionsRemoveMany"
-    />
-
-    <events-divisions-contestants-list-dialog
-      :shown.sync="eventsDivisionsContestantsListDialogShown"
-      :division="eventsDivisionsContestantsListDialogDivision"
-      @eventsContestantsEditDialogOpen="eventsContestantsEditDialogOpen"
-    />
+  <div class="screen-wrapper p-0">
+    <events-divisions-scheduler />
 
     <events-contestants-edit-dialog
       :shown.sync="eventsContestantsEditDialogShow"
@@ -58,47 +29,29 @@
       :shown.sync="eventsDivisionsEditDialogShown"
       :division="eventsDivisionsEditDialogDivision"
     />
-
-    <!--
-    <events-divisions-assignment-dialog
-      v-if="division"
-      :shown.sync="eventsDivisionsAssignmentDialogShown"
-      :division="division"
-    />
-    -->
-
-    <!-- <events-contestants-manager-dialog
-      v-if="!eventsStateSelectedIsLoading"
-      :shown.sync="eventsContestantsShowManageDialog"
-      :event="eventsStateSelected"
-      @clubsMembersOpenCreateDialog="clubsMembersOpenCreateDialog"
-    /> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import EventsDivisionsListTable from "@/components/EventsDivisionsListTable.vue"
-import EventsDivisionsCreateDialog from "@/components/EventsDivisionsCreateDialog.vue"
-import EventsDivisionsEditDialog from "@/components/EventsDivisionsEditDialog.vue"
-import EventsDivisionsContestantsListDialog from "@/components/EventsDivisionsContestantsListDialog.vue"
-import EventsContestantsEditDialog from "@/components/EventsContestantsEditDialog.vue"
-
-// import EventsDivisionsListMenu from "@/components/EventsDivisionsListMenu.vue"
-// import EventsDivisionsContestantsListTable from "@/components/EventsDivisionsContestantsListTable.vue"
+import EventsDivisionsCreateDialog
+  from "@/components/EventsDivisionsCreateDialog.vue"
+import EventsDivisionsEditDialog
+  from "@/components/EventsDivisionsEditDialog.vue"
+import EventsContestantsEditDialog
+  from "@/components/EventsContestantsEditDialog.vue"
+import EventsDivisionsScheduler
+  from "@/components/EventsDivisionsScheduler.vue"
 
 export default Vue.extend({
   name: "EventsViewTabsDivisions",
 
   components: {
-    EventsDivisionsListTable,
     EventsDivisionsCreateDialog,
     EventsDivisionsEditDialog,
-    EventsDivisionsContestantsListDialog,
-    EventsContestantsEditDialog
-    // EventsDivisionsListMenu,
-    // EventsDivisionsContestantsListTable
+    EventsContestantsEditDialog,
+    EventsDivisionsScheduler
   },
 
   props: {
@@ -184,15 +137,7 @@ export default Vue.extend({
 
     async eventsDivisionsRemoveMany(divisions): Promise<void> {
       console.log(divisions)
-    },
-
-    // eventsDivisionsAssignmentDialogOpen() {
-    //   this.eventsDivisionsAssignmentDialogShown = true
-    // },
-
-    // setSelectedDivision(division) {
-    //   this.division = division
-    // },
+    }
   }
 })
 </script>

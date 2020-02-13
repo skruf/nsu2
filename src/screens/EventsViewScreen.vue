@@ -42,9 +42,8 @@
 <template>
   <div class="screen">
     <v-app-bar
-      color="primary"
       class="screen-bar"
-      dark
+      height="auto"
       flat
     >
       <v-toolbar-title class="screen-title">
@@ -152,21 +151,15 @@
       </v-menu>
     </v-app-bar>
 
-    <div class="screen-wrapper">
-      <!-- <v-breadcrumbs
-        :items="[
-          { to: '/events', text: $t('breadcrumb1Label') },
-          { to: `/events/${eventsStateSelected.id}`,
-            text: eventsStateSelected.title }
-        ]"
-      /> -->
-
+    <div
+      class="relative bg-white border-t border-border border-solid px-6"
+      style="box-shadow: 1px 2px 10px -7px #00000078;"
+    >
       <v-tabs
         v-model="activeTab"
         background-color="transparent"
         color="primary"
-        centered
-        class="mt-2"
+        class="flex-initial"
       >
         <v-tab data-testid="eventsViewScreenTabsContestantsTab">
           {{ $t("contestants") }}
@@ -180,30 +173,40 @@
           {{ $t("results") }}
         </v-tab>
       </v-tabs>
-
-      <v-tabs-items
-        v-model="activeTab"
-        class="mt-5"
-      >
-        <v-tab-item>
-          <events-view-tabs-contestants
-            :event="eventsStateSelected"
-          />
-        </v-tab-item>
-
-        <v-tab-item>
-          <events-view-tabs-divisions
-            :event="eventsStateSelected"
-          />
-        </v-tab-item>
-
-        <v-tab-item>
-          <events-view-tabs-results
-            :event="eventsStateSelected"
-          />
-        </v-tab-item>
-      </v-tabs-items>
     </div>
+
+    <!-- <div class="screen-wrapper"> -->
+    <!-- <v-breadcrumbs
+      :items="[
+        { to: '/events', text: $t('breadcrumb1Label') },
+        { to: `/events/${eventsStateSelected.id}`,
+          text: eventsStateSelected.title }
+      ]"
+    /> -->
+
+    <!-- class="mt-5" -->
+    <v-tabs-items
+      v-model="activeTab"
+    >
+      <v-tab-item>
+        <events-view-tabs-contestants
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+
+      <v-tab-item>
+        <events-view-tabs-divisions
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+
+      <v-tab-item>
+        <events-view-tabs-results
+          :event="eventsStateSelected"
+        />
+      </v-tab-item>
+    </v-tabs-items>
+    <!-- </div> -->
 
     <events-edit-dialog
       :shown.sync="eventsEditDialogShow"

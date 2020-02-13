@@ -29,27 +29,39 @@
 
 <template>
   <div class="relative">
-    <div class="table-controls">
+    <div class="table-controls mb-0">
+      <events-contestants-list-table-filters
+        v-model="eventsContestantsTableFilter"
+        :contestants="eventsContestantsStateList"
+        :loading="eventsContestantsStateListIsLoading"
+      />
+    </div>
+
+    <div class="table-controls mt-0 pt-0">
       <table-filter-search
         v-model="eventsContestantsSearchFilter"
         :label="$t('eventsContestantsSearchFilterPlaceholder')"
         data-testid="eventsContestantsSearchFilterInput"
       />
 
-      <events-contestants-list-table-filters
-        v-model="eventsContestantsTableFilter"
-        :contestants="eventsContestantsStateList"
-        :loading="eventsContestantsStateListIsLoading"
-        class="mx-5"
-      />
+      <div>
+        <v-btn
+          class="mr-5"
+          color="primary"
+          data-testid="eventsContestantsListTableOpenManageDialogButton"
+          @click.stop="eventsContestantsManageDialogOpen"
+        >
+          {{ $t("tablePlaceholderButton") }}
+        </v-btn>
 
-      <v-btn
-        color="primary"
-        data-testid="eventsContestantsListTableOpenManageDialogButton"
-        @click.stop="eventsContestantsManageDialogOpen"
-      >
-        {{ $t("tablePlaceholderButton") }}
-      </v-btn>
+        <v-btn
+          color="primary"
+          data-testid="eventsContestantsListTableOpenManageDialogButton"
+          @click.stop="eventsContestantsManageDialogOpen"
+        >
+          Opprett medlem
+        </v-btn>
+      </div>
     </div>
 
     <v-data-table

@@ -2,7 +2,7 @@
 {
   "en": {
     "eventsCreateDialogOpenButton": "@:create event",
-    "searchFormPlaceholder": "Search for an event by title or club",
+    "searchFormPlaceholder": "Search for events",
     "columnStartsAtLabel": "Starts/Ends",
     "columnTitleApprobatedLabel": "Title/Approbated",
     "columnTitleApprobatedLabelIsApprobated": "Is approbated",
@@ -18,7 +18,7 @@
   },
   "no": {
     "eventsCreateDialogOpenButton": "@:create stevne",
-    "searchFormPlaceholder": "Søk etter et stevne med tittel eller klubb",
+    "searchFormPlaceholder": "Søk etter stevner",
     "columnStartsAtLabel": "Starter/Slutter",
     "columnTitleApprobatedLabel": "Tittel/Approbert",
     "columnTitleApprobatedLabelIsApprobated": "Er approbert",

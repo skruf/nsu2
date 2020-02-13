@@ -31,7 +31,9 @@
   <v-navigation-drawer
     :mini-variant.sync="isOpen"
     app
+    dark
     permanent
+    color="primary"
   >
     <div class="mx-auto px-4 my-4">
       <v-img
@@ -44,10 +46,7 @@
 
     <v-divider />
 
-    <v-list
-      dense
-      nav
-    >
+    <v-list>
       <v-list-item
         v-for="item in items"
         :key="item.title"

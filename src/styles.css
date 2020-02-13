@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 
+:root {
+  --border-color: #dce3e6;
+  /* --border-color: #e9f0f3; */
+  /* --bg-color: #fff; */
+  --bg-color: #f2f3f7;
+}
+
 html {
   font-size: 110%;
 }
@@ -17,7 +24,7 @@ html {
 }
 
 .theme--light.v-application {
-  background-color: #f2f3f7;
+  background-color: var(--bg-color);
 }
 
 .screen {
@@ -30,17 +37,18 @@ html {
 }
 
 .screen-bar {
-  @apply px-5 py-2;
-  height: 140px !important;
-  max-height: 140px !important;
+  flex: initial;
+  /* border-bottom: 1px solid var(--border-color) !important; */
+  @apply p-2;
 }
 
 .screen-wrapper {
-  @apply px-5 mb-5 mx-5 -mt-12 bg-white relative rounded-lg;
-  box-shadow: 1px 2px 10px -7px #00000078;
+  @apply px-5 m-5 bg-white relative rounded-lg;
+  box-shadow: 1px 2px 10px -7px #00000070;
 }
 
-.v-application a {
+.v-application a,
+.theme--light.v-btn.v-btn--icon {
   color: inherit !important;
 }
 
@@ -49,8 +57,14 @@ html {
   padding-right: 0.25rem !important;
 }
 
+.screen-bar,
+.screen-wrapper,
 .v-navigation-drawer {
-  box-shadow: 0 2px 10px -7px #00000078;
+  box-shadow: 0 2px 10px -7px #00000070;
+}
+
+.v-input fieldset {
+  box-shadow: 0 2px 10px -8px #00000070;
 }
 
 .v-navigation-drawer__border {
@@ -61,14 +75,20 @@ html {
   font-size: 0.9rem;
 }
 
-.v-tabs {
+.v-tabs,
+.v-tabs-items {
   background: inherit !important;
-  border-bottom: 1px solid #e9f0f3;
+  /* border-bottom: 1px solid var(--border-color); */
+}
+.v-tab.v-tab {
+  padding-top: 2px;
 }
 
 .theme--light.v-text-field--outlined fieldset {
-  border-color: #2a2c4b3d;
-  border-width: 2px;
+  border-color: var(--border-color);
+  border-width: 1px;
+  /* border-color: #2a2c4b3d; */
+  /* border-width: 2px; */
 }
 
 .sortable-swap-highlight {
@@ -76,19 +96,21 @@ html {
 }
 
 .table-controls {
-  @apply flex justify-between items-center mb-2 pb-5;
-  border-bottom: 1px solid #e9f0f3;
+  @apply flex justify-between items-center pb-5 pt-2;
+  /* mb-2 */
+  /* border-bottom: 1px solid var(--border-color); */
 }
 
 .v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row),
 .v-data-table tbody tr:not(:last-child) td:last-child,
 .v-data-table thead tr:last-child th,
 .v-data-table .v-data-footer {
-  border-color: #e9f0f3 !important;
+  border-color: var(--border-color) !important;
 }
 
 .v-data-table td {
-  height: 2.75rem;
+  height: 3rem;
+  /* height: 2.75rem; */
 }
 
 .v-data-table tbody tr.v-data-table__selected {

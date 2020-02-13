@@ -35,9 +35,39 @@
         :label="$t('eventsContestantsResultsSearchFilterPlaceholder')"
         data-testid="eventsContestantsResultsSearchFilterInput"
       />
+
+      <v-form
+        ref="filterForm"
+        class="flex items-center ml-auto max-w-lg"
+      >
+        <table-filter-select
+          v-model="eventsContestantsTableFilter.clubIds"
+          v-slot="item"
+          :items="eventsContestantsStateList.map(({ clubMember }) => clubMember.club)"
+          :loading="eventsContestantsStateListIsLoading"
+          :item-text="({ name, shortName }) => `${name} (${shortName})`"
+          data-testid="eventsContestantsResultsListTableFilterClub"
+          class="flex-1 mx-5"
+          label="Vis klubb"
+        >
+          {{ item.shortName }}
+        </table-filter-select>
+
+        <table-filter-select
+          v-model="eventsContestantsTableFilter.weaponIds"
+          v-slot="item"
+          :items="eventsContestantsStateList.map(({ weapon }) => weapon)"
+          :loading="eventsContestantsStateListIsLoading"
+          item-text="name"
+          data-testid="eventsContestantsResultsListTableFilterWeapon"
+          class="flex-1"
+          label="Vis våpen"
+        >
+          {{ item.name }}
+        </table-filter-select>
+      </v-form>
     </div>
 
-    <!-- :custom-sort="customSort" -->
     <v-data-table
       v-model="eventsContestantsResultsSelection"
       :class="{ 'is-grouped': isntGrouped }"
@@ -208,20 +238,26 @@
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
 import TableFilterSearch from "@/components/TableFilterSearch.vue"
+import TableFilterSelect from "@/components/TableFilterSelect.vue"
 
 export default Vue.extend({
   name: "EventsContestantsResultsListTable",
 
   components: {
-    TableFilterSearch
+    TableFilterSearch,
+    TableFilterSelect
   },
 
   props: {
     event: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
+      eventsContestantsTableFilter: {
+        weaponIds: [],
+        clubIds: []
+      },
       eventsContestantsResultsSearchFilter: "",
       eventsContestantsResultsTableGroupBy: "weaponId",
       eventsContestantsResultsSelection: [],
@@ -236,10 +272,12 @@ export default Vue.extend({
       }, {
         value: "clubMember.club.shortName",
         text: this.$t("columnLabelClubName"),
+        filter: this.clubFilter,
         sortable: false
       }, {
         value: "weapon.name",
         text: this.$t("columnLabelWeapon"),
+        filter: this.weaponFilter,
         sortable: false
       }, {
         value: "hits",
@@ -284,16 +322,19 @@ export default Vue.extend({
 
     eventsContestantsResultsInputDialogOpen(contestant): void {
       this.$emit("eventsContestantsResultsInputDialogOpen", contestant)
-    }
+    },
 
-    // customSort(items, index, isDesc) {
-    //   items.sort((a, b) => {
-    //     if(a.sum < b.sum) return -1
-    //     if(a.sum > b.sum) return 1
-    //     return 0
-    //   })
-    //   return items
-    // }
+    clubFilter(_, __, { clubMember }): boolean {
+      return this.eventsContestantsTableFilter.clubIds.length
+        ? this.eventsContestantsTableFilter.clubIds.includes(clubMember.clubId)
+        : true
+    },
+
+    weaponFilter(_, __, { weaponId }): boolean {
+      return this.eventsContestantsTableFilter.weaponIds.length
+        ? this.eventsContestantsTableFilter.weaponIds.includes(weaponId)
+        : true
+    },
   }
 })
 </script>

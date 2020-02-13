@@ -28,9 +28,8 @@
 <template>
   <div>
     <v-app-bar
-      color="primary"
       class="screen-bar"
-      dark
+      height="auto"
       flat
     >
       <v-toolbar-title class="screen-title">

@@ -13,7 +13,8 @@ module.exports = {
           800: "#424242",
           900: "#212121",
         },
-        primary: "#b3315f"
+        primary: "#b3315f",
+        border: "#dce3e6"
       },
       screens: {
         print: { raw: "print" }

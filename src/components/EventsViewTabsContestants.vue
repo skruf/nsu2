@@ -16,7 +16,7 @@
 </i18n>
 
 <template>
-  <div>
+  <div class="screen-wrapper pt-3">
     <events-contestants-list-table
       :event="event"
       @eventsContestantsManageDialogOpen="eventsContestantsManageDialogOpen"

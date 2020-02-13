@@ -4,6 +4,7 @@
     v-bind="$attrs"
     :items="items"
     item-value="id"
+    :data-testid="dataTestid"
     multiple
     chips
     single-line
@@ -42,7 +43,8 @@ export default Vue.extend({
   name: "TableFilterSelect",
   props: {
     value: { type: Array, required: true },
-    items: { type: Array, required: true }
+    items: { type: Array, required: true },
+    dataTestid: { type: String, required: false, default: "" }
   },
   data: function() {
     return {

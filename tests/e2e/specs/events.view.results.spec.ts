@@ -1,4 +1,7 @@
-import { eventsFixture } from "../../../src/fixtures"
+import {
+  eventsFixture,
+  eventsContestantsFixture
+} from "../../../src/fixtures"
 
 const event = eventsFixture[1]
 
@@ -19,6 +22,13 @@ describe("events.view.results", () => {
       .click()
     cy.getById("eventsContestantsResultsTableGroupByWeaponTd")
       .should("not.be.visible")
+  })
+
+  it.only("Filters", () => {
+    cy.pickFromSelect("eventsContestantsResultsListTableFilterWeapon", "Colt")
+      .type("{enter}", { force: true })
+    cy.getById("eventsContestantsResultsListTable")
+      .contains("Colt")
   })
 
   it("Set results", () => {
