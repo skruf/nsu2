@@ -459,7 +459,7 @@
 
       <div
         v-else
-        class="border-border border-t border-solid p-5 flex items-center justify-center h-64"
+        class="border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64"
       >
         <div class="text-muted">
           Ingen standplasslister enda.
@@ -467,7 +467,7 @@
 
         <v-btn
           text
-          class="py-4 mb-2 w-full"
+          class="py-4 mb-2"
           data-testid="eventsDivisionsCreateDialogOpenButton"
           @click.stop="eventsDivisionsCreateDialogOpen"
         >

@@ -290,14 +290,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+// import Vue from "vue"
 import { mapState, mapMutations } from "vuex"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 import EventsContestantsNotes
   from "./EventsContestantsNotes.vue"
 
-export default Vue.extend({
+export default {
   name: "EventsContestantsResultsListTable",
 
   components: {
@@ -425,19 +425,7 @@ export default Vue.extend({
     eventsContestantsResultsNotesOpen(contestant): void {
       this.eventsContestantsResultsNotesShown = true
       this.eventsContestantsMutationsSelect(contestant)
-    },
-
-    // getRank(item): number {
-    //   const s = this.eventsContestantsStateList
-    //     .map(({ id, total }) => ({ id, total }))
-    //     .sort((a, b) => a.total - b.total)
-    //     .reverse()
-
-    //   console.log(s)
-
-    //   return s
-    //     .findIndex(({ id }) => id === item.id) + 1
-    // }
+    }
   }
-})
+}
 </script>
