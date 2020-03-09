@@ -22,7 +22,7 @@ const schema: RxJsonSchema = {
       type: "string"
     },
     endsAt: {
-      type: "string"
+      type: "number"
     },
     distance: {
       type: "number"
