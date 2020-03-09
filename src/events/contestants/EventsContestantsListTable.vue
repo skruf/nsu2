@@ -277,12 +277,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+// import Vue from "vue"
 import { mapState } from "vuex"
 import EventsContestantsListTableFilters
   from "./EventsContestantsListTableFilters.vue"
 
-export default Vue.extend({
+export default {
   name: "EventsContestantsListTable",
 
   components: {
@@ -381,5 +381,5 @@ export default Vue.extend({
       this.$emit("eventsContestantsRemoveMany", contestants)
     }
   }
-})
+}
 </script>
