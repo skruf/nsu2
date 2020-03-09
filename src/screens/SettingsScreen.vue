@@ -53,7 +53,7 @@
       </div>
 
       <v-select
-        v-model="locale"
+        v-model="currentLocale"
         :items="languages"
         :label="$t('formItemLanguageLabel')"
         :placeholder="$t('formItemLanguagePlaceholder')"
@@ -99,16 +99,17 @@ export default Vue.extend({
       { label: "English", locale: "en" },
       { label: "Norwegian", locale: "no" }
     ],
-    locale: "no",
+    currentLocale: "no",
     appVersion: "",
     config: {}
   }),
 
   watch: {
-    locale: {
+    currentLocale: {
       immediate: true,
       handler(v): void {
         i18n.locale = v
+        this.$vuetify.lang.current = v
         window.localStorage.setItem("currentLocale", v)
       }
     }

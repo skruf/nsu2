@@ -1,8 +1,4 @@
-import {
-  eventsFixture,
-  eventsContestantsFixture
-} from "../../../src/fixtures"
-
+import { eventsFixture } from "../../../src/fixtures"
 const event = eventsFixture[1]
 
 describe("events.view.results", () => {
@@ -24,7 +20,7 @@ describe("events.view.results", () => {
       .should("not.be.visible")
   })
 
-  it.only("Filters", () => {
+  it("Filters", () => {
     cy.pickFromSelect("eventsContestantsResultsListTableFilterWeapon", "Colt")
       .type("{enter}", { force: true })
     cy.getById("eventsContestantsResultsListTable")
@@ -52,5 +48,49 @@ describe("events.view.results", () => {
       .click()
     cy.getById("eventsContestantsResultsListTable")
       .contains("64")
+  })
+
+  it("Create note", () => {
+    const note = "Dette er en test"
+    cy.getById("eventsContestantsResultsNotesOpenButton")
+      .first()
+      .click()
+    cy.getById("eventsContestantsResultsNotesNewInput")
+      .type(note)
+    cy.getById("eventsContestantsResultsNotesSubmitNewButton")
+      .click()
+    cy.getById("eventsContestantsResultsNotesList")
+      .contains(note)
+  })
+
+  it("Edit note", () => {
+    const note = "Dette er enda en test"
+    cy.getById("eventsContestantsResultsNotesOpenButton")
+      .first()
+      .click()
+    cy.getById("eventsContestantsResultsNotesListItem")
+      .first()
+      .click()
+    cy.getById("eventsContestantsResultsNotesEditInput")
+      .clear()
+      .type(note)
+    cy.getById("eventsContestantsResultsNotesSubmitEditButton")
+      .click()
+    cy.getById("eventsContestantsResultsNotesList")
+      .contains(note)
+  })
+
+  it("Delete note", () => {
+    const note = "testest"
+    cy.getById("eventsContestantsResultsNotesOpenButton")
+      .first()
+      .click()
+    cy.getById("eventsContestantsResultsNotesListItem")
+      .first()
+      .click()
+    cy.getById("eventsContestantsResultsNotesDeleteButton")
+      .click()
+    cy.getById("eventsContestantsResultsNotesList")
+      .not(note)
   })
 })

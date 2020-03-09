@@ -46,6 +46,8 @@ Cypress.Commands.add("pickFromSelect", (testid, value) => {
 Cypress.Commands.add("pickFromDatePicker", (testid, date) => {
   cy.getById(testid)
     .type(date.split(".").reverse().join("-"))
+  cy.getById("datePickerSaveButton")
+    .click()
 })
 
 Cypress.Commands.add("datePickerPickFirst", (testid) => {

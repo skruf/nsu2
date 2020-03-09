@@ -1,5 +1,5 @@
 import { Database } from "../db"
-import { DatabaseCollectionsNames } from "../db/collections"
+import { Collection } from "../db/queries"
 import { getTimestampUtil, promiseSequenceUtil } from "./"
 import {
   weaponsFixture,
@@ -21,7 +21,7 @@ import {
 
 const store = (
   db: Database,
-  collection: DatabaseCollectionsNames,
+  collection: Collection,
   fixtures: any,
   refs?: any
 ): any => {

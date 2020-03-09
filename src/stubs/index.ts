@@ -1,8 +1,0 @@
-export { default as weaponsStub } from "./weapons.stub.json"
-export { default as rangesStub } from "./ranges.stub.json"
-export { default as clubsStub } from "./clubs.stub.json"
-export { default as clubsMembersStub } from "./clubs.members.stub.json"
-export { default as eventsStub } from "./events.stub.json"
-export { default as eventsCategoriesStub } from "./events.categories.stub.json"
-export { default as eventsDivisionsStub } from "./events.divisions.stub.json"
-export { default as eventsContestantsStub } from "./events.contestants.stub.json"

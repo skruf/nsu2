@@ -23,6 +23,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
         :data-testid="dataTestid"
         :rules="rules"
         :class="className"
+        :dense="dense"
         type="date"
         hint="DD/MM/YYYY"
         outlined
@@ -73,7 +74,8 @@ export default Vue.extend({
     dataTestid: { type: String, default: (): string => "datepicker-input" },
     rules: { type: Array, default: (): boolean => false },
     format: { type: String, default: (): string => "DD-MMM-YY" },
-    className: { type: String, default: (): string => "" }
+    className: { type: String, default: (): string => "" },
+    dense: { type: Boolean, default: false, required: false }
   },
 
   data: () => ({

@@ -16,6 +16,9 @@ module.exports = {
         primary: "#b3315f",
         border: "#dce3e6"
       },
+      height: {
+        inherit: "inherit"
+      },
       screens: {
         print: { raw: "print" }
       }

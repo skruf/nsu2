@@ -1,5 +1,5 @@
 <template>
-  <div class="text-base leading-none inline-flex items-center print:ml-8 print:mt-4 print:text-sm">
+  <div class="text-base leading-none inline-flex items-center ml-8 print:text-sm">
     <template v-if="!loading">
       <div
         v-for="stat in stats"

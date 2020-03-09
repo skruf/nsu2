@@ -1,7 +1,18 @@
+<style scoped>
+.dialog-content {
+  @apply p-5 pt-10;
+  margin-top: 64px;
+}
+.dialog-footer {
+  @apply px-5 absolute inset-x-0 bottom-0 bg-white flex items-center justify-end;
+  height: 64px;
+}
+</style>
+
 <template>
   <v-dialog
     v-model="visible"
-    content-class="pt-16 bg-white relative"
+    :content-class="`bg-white relative ${className ? className : ''}`"
     :max-width="maxWidth"
   >
     <v-toolbar
@@ -29,7 +40,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <div class="p-5 pt-10">
+    <div class="dialog-content">
       <slot />
     </div>
   </v-dialog>
@@ -43,7 +54,8 @@ export default Vue.extend({
 
   props: {
     shown: { type: Boolean, default: false },
-    maxWidth: { type: Number, default: 500 }
+    maxWidth: { type: Number, default: 500 },
+    className: { type: String, required: false, default: "" }
   },
 
   data: function() {

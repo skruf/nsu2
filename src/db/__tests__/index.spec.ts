@@ -1,14 +1,13 @@
 import RxDB from "rxdb"
-import { init } from "@/db"
-import collections from "@/db/collections"
+import { init, collections } from "@/db"
 
 let db = null
 
-const setup = async () => {
+const setup = async (): Promise<void> => {
   db = await init()
 }
 
-const cleanup = async () => {
+const cleanup = async (): Promise<void> => {
   await db.remove()
   db = null
 }

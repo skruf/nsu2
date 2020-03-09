@@ -1,3 +1,41 @@
+<style>
+.v-navigation-drawer .v-list-item__icon,
+.v-navigation-drawer .v-list-item__content {
+  @apply m-0;
+}
+
+.v-navigation-drawer .v-list-item__icon {
+  @apply py-2;
+}
+.v-navigation-drawer .v-list-item__content {
+  @apply py-1;
+}
+
+.v-navigation-drawer .v-list-item {
+  min-height: 24px;
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+.v-navigation-drawer__border {
+  width: 0;
+}
+
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+  @apply mr-5;
+}
+
+.v-navigation-drawer--mini-variant .v-list-item__icon,
+.v-navigation-drawer--mini-variant .v-list-item__content {
+  margin-right: 0 !important;
+}
+
+.v-navigation-drawer--mini-variant .v-list-item__icon {
+  @apply py-2;
+}
+</style>
+
 <i18n>
 {
   "en": {
@@ -34,29 +72,32 @@
     dark
     permanent
     color="primary"
+    width="200"
   >
-    <div class="mx-auto px-4 my-4">
+    <div class="flex justify-center px-1 my-4">
       <v-img
         src="@/assets/img/nsu-logo.png"
         aspect-ratio="1"
-        class="lighten-2 block mx-auto"
+        class="lighten-2 block mx-px"
         max-width="84px"
       />
     </div>
 
-    <v-divider />
-
-    <v-list>
+    <v-list nav>
       <v-list-item
         v-for="item in items"
         :key="item.title"
         :to="item.to"
+        :exact="item.exact || false"
         link
       >
         <v-list-item-icon>
-          <v-icon>
-            {{ item.icon }}
-          </v-icon>
+          <v-img
+            :src="item.icon"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -94,13 +135,13 @@ export default Vue.extend({
     return {
       isOpen: false,
       items: [
-        { title: this.$t("events"), icon: "event", to: "/events" },
-        { title: this.$t("categories"), icon: "category", to: "/events/categories" },
-        { title: this.$t("clubs"), icon: "house", to: "/clubs" },
-        { title: this.$t("weapons"), icon: "sports", to: "/weapons" },
-        { title: this.$t("ranges"), icon: "adjust", to: "/ranges" },
-        // { title: this.$t("records"), icon: "emoji_events", to: "/records" },
-        { title: this.$t("settings"), icon: "settings_applications", to: "/settings" }
+        { title: this.$t("events"), icon: require("@/assets/icons/events.svg"), to: "/events" },
+        { title: this.$t("categories"), icon: require("@/assets/icons/categories.svg"), to: "/events/categories", exact: true },
+        { title: this.$t("clubs"), icon: require("@/assets/icons/clubs.svg"), to: "/clubs" },
+        { title: this.$t("weapons"), icon: require("@/assets/icons/weapons.svg"), to: "/weapons" },
+        { title: this.$t("ranges"), icon: require("@/assets/icons/ranges.svg"), to: "/ranges" },
+        // { title: this.$t("records"), icon: require("@/assets/icons/records.svg"), to: "/records" },
+        { title: this.$t("settings"), icon: require("@/assets/icons/settings.svg"), to: "/settings" }
       ]
     }
   },

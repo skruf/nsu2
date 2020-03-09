@@ -1,9 +1,5 @@
-interface MockObject {
-  [key: string]: any
-}
-
-const filter = (item: MockObject, stub: MockObject): MockObject => {
-  const data: any = {}
+const filter = <T, U>(item: T | any, stub: U | {}): U | any => {
+  const data = {}
 
   for(const key in item) {
     if(Object.hasOwnProperty.call(stub, key)) {
@@ -25,16 +21,8 @@ const filter = (item: MockObject, stub: MockObject): MockObject => {
   return data
 }
 
-export default (
-  item: (MockObject | MockObject[]), stub: MockObject
-): MockObject => {
-  let data: MockObject
-
-  if(Array.isArray(item)) {
-    data = item.map((i: any) => filter(i, stub))
-  } else {
-    data = filter(item, stub)
-  }
-
-  return data
-}
+export default <T, U>(item: (T | T[]), stub: U): U | U[] => (
+  Array.isArray(item)
+    ? item.map((i) => filter(i, stub))
+    : filter<T, U>(item, stub)
+)

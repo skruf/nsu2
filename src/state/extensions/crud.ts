@@ -1,5 +1,4 @@
 import { queryHelperUtil } from "@/utils"
-import { QueryFilter, QueryResult } from "@/db/queries.d"
 import _cloneDeep from "lodash.clonedeep"
 
 interface Options {
@@ -20,7 +19,7 @@ interface Model {
 interface State {
   count?: number,
   listIsLoading?: boolean,
-  listFilter?: QueryFilter,
+  listFilter?: any,
   list?: Model[],
   selectedIsLoading?: boolean,
   selected?: Model,
@@ -36,7 +35,7 @@ interface Mutations {
   SET_LIST?: (state: State, items: Model[]) => void,
   SET_COUNT?: (state: State, count: number) => void,
   SET_LIST_LOADING?: (state: State, isLoading: boolean) => void,
-  SET_LIST_FILTER?: (state: State, filter: QueryFilter) => void,
+  SET_LIST_FILTER?: (state: State, filter: any) => void,
   SET_SELECTED_LOADING?: (state: State, isLoading: boolean) => void,
   SET_SELECTED?: (state: State, item: Model) => void,
   SET_CREATE_LOADING?: (state: State, isLoading: boolean) => void,
@@ -59,14 +58,14 @@ interface StateContext {
 }
 
 interface Actions {
-  list?: (ctx: StateContext, filter?: QueryFilter) => Promise<QueryResult[]>
-  select?: (ctx: StateContext, filter?: QueryFilter) => Promise<QueryResult>
-  create?: (ctx: StateContext, item: object) => Promise<QueryResult>
-  createMany?: (ctx: StateContext, items: object[]) => Promise<QueryResult[]>
+  list?: (ctx: StateContext, filter?: any) => Promise<any[]>
+  select?: (ctx: StateContext, filter?: any) => Promise<any>
+  create?: (ctx: StateContext, item: object) => Promise<any>
+  createMany?: (ctx: StateContext, items: object[]) => Promise<any[]>
   removeOne?: (ctx: StateContext, item: object) => Promise<boolean>
   removeMany?: (ctx: StateContext, items: object[]) => Promise<boolean>
-  editOne?: (ctx: StateContext, item: object) => Promise<QueryResult>
-  editMany?: (ctx: StateContext, items: object[]) => Promise<QueryResult>
+  editOne?: (ctx: StateContext, item: object) => Promise<any>
+  editMany?: (ctx: StateContext, items: object[]) => Promise<any>
 }
 
 const defaultOptions = {}

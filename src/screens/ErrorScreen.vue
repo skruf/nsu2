@@ -1,14 +1,18 @@
-<style lang="stylus" scoped>
-#error-screen
-  text-align center
-  .error_title
-    margin 50px 0
-  .error_image
-    max-width 70px
-    margin 0 auto
-  .error_text
-    max-width 700px
-    margin 50px auto
+<style scoped>
+#error-screen {
+  text-align: center;
+}
+.error_title {
+  margin: 50px 0;
+}
+.error_image {
+  max-width: 70px;
+  margin: 0 auto;
+}
+.error_text {
+  max-width: 700px;
+  margin: 50px auto;
+}
 </style>
 
 <template>

@@ -1,6 +1,7 @@
 import { RxCollection, RxDocument } from "rxdb"
+import { RangesStatics } from "./ranges.collection"
 
-export declare interface Properties {
+export declare interface RangesProperties {
   id: string
   name: string
   streetAddress?: string
@@ -14,16 +15,5 @@ export declare interface Properties {
   membersCount: number
 }
 
-export declare interface Statics {
-  count: () => Promise<number>
-}
-
-export declare type Document = RxDocument<Properties>
-export declare type Collection = RxCollection<Properties, Statics>
-
-export declare interface Ranges {
-  Properties: Properties
-  Statics: Statics
-  Document: Document
-  Collection: Collection
-}
+export declare type RangesDocument = RxDocument<RangesProperties>
+export declare type RangesCollection = RxCollection<RangesProperties, RangesStatics>

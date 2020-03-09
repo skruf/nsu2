@@ -1,41 +1,65 @@
 [{
   "id" : "1",
-  "name": "Håndvåpen",
-  "day": "2019-07-09",
-  "time": "10:00",
+  "day": "2019-03-15",
+  "startsAt": "08:00",
   "distance": 25,
-  "standsCount": 9,
-  "eventId": "1"
+  "standsCount": 4,
+  "eventId": "1",
+  "autoAssign": false
 }, {
   "id" : "2",
-  "name": "Håndvåpen",
-  "day": "2019-01-03",
-  "time": "10:00",
-  "distance": 25,
-  "standsCount": 5,
-  "eventId": "1"
+  "day": "2019-03-15",
+  "startsAt": "08:00",
+  "distance": 50,
+  "standsCount": 6,
+  "eventId": "1",
+  "autoAssign": false
 }, {
   "id" : "3",
-  "name": "Langhold",
   "day": "2019-03-16",
-  "time": "12:00",
-  "distance": 50,
-  "standsCount": 10,
-  "eventId": "1"
+  "startsAt": "10:00",
+  "distance": 25,
+  "standsCount": 4,
+  "eventId": "1",
+  "autoAssign": false
 }, {
   "id" : "4",
-  "name": "Langhold",
-  "day": "2019-10-25",
-  "time": "08:00",
-  "distance": 50,
-  "standsCount": 3,
-  "eventId": "2"
+  "day": "2019-03-17",
+  "startsAt": "10:00",
+  "distance": 100,
+  "standsCount": 12,
+  "eventId": "1",
+  "autoAssign": false
 }, {
   "id" : "5",
-  "name": "Håndvåpen",
-  "day": "2019-07-19",
-  "time": "14:00",
+  "day": "2019-03-18",
+  "startsAt": "10:00",
+  "distance": 50,
+  "standsCount": 16,
+  "eventId": "1",
+  "autoAssign": false
+}, {
+  "id" : "6",
+  "day": "2019-03-18",
+  "startsAt": "10:30",
   "distance": 25,
-  "standsCount": 15,
-  "eventId": "2"
+  "standsCount": 4,
+  "eventId": "1",
+  "autoAssign": false
+}, {
+  "id" : "7",
+  "day": "2020-03-25",
+  "startsAt": "08:00",
+  "distance": 25,
+  "standsCount": 7,
+  "eventId": "2",
+  "autoAssign": true
+}, {
+  "id" : "8",
+  "day": "2020-04-04",
+  "startsAt": "14:00",
+  "distance": 50,
+  "standsCount": 3,
+  "eventId": "2",
+  "autoAssign": true
 }]

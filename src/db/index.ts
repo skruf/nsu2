@@ -1,11 +1,32 @@
 import RxDB, { RxDatabase, RxCollectionCreator } from "rxdb"
 import RxDBSchemaCheckModule from "rxdb/plugins/schema-check"
 import RxDBErrorMessagesModule from "rxdb/plugins/error-messages"
-import configs, { DatabaseCollections } from "./collections"
 import router from "@/router"
 import config from "@/app.config"
+import rangesCollection from "@/ranges/ranges.collection"
+import clubsCollection from "@/clubs/clubs.collection"
+import clubsMembersCollection from "@/clubs/members/clubs.members.collection"
+import weaponsCollection from "@/weapons/weapons.collection"
+import eventsCollection from "@/events/events.collection"
+import eventsCategoriesCollection
+  from "@/events/categories/events.categories.collection"
+import eventsDivisionsCollection
+  from "@/events/divisions/events.divisions.collection"
+import eventsContestantsCollection
+  from "@/events/contestants/events.contestants.collection"
 
-export type Database = RxDatabase<DatabaseCollections> | null
+export const collections = [
+  rangesCollection,
+  clubsCollection,
+  clubsMembersCollection,
+  weaponsCollection,
+  eventsCollection,
+  eventsCategoriesCollection,
+  eventsDivisionsCollection,
+  eventsContestantsCollection
+]
+
+export type Database = RxDatabase | null
 
 RxDB.plugin(RxDBErrorMessagesModule)
 RxDB.plugin(RxDBSchemaCheckModule)
@@ -65,10 +86,11 @@ export const init = async (): Promise<Database> => {
       queryChangeDetection: true
     })
 
-    await Promise.all(configs.map(
+    await Promise.all(collections.map(
       (config) => configureCollection(db, config))
     )
   } catch(e) {
+    console.error(e)
     router.push({
       name: "ErrorScreen",
       params: { error: e.message }

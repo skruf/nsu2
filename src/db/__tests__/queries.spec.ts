@@ -2,17 +2,21 @@ import { init } from "@/db"
 import { clubsFixture } from "@/fixtures"
 import { dbTestUtil } from "@/utils"
 import {
-  insert, findMany, findOne, destroyOne, destroyMany
+  insert,
+  findMany,
+  findOne,
+  destroyOne,
+  destroyMany
 } from "@/db/queries"
 
 let db = null
 
-const setup = async () => {
+const setup = async (): Promise<void> => {
   db = await init()
   await dbTestUtil.seed(db)
 }
 
-const cleanup = async () => {
+const cleanup = async (): Promise<void> => {
   await dbTestUtil.reset(db)
 }
 
