@@ -252,6 +252,13 @@
               </div>
 
               <div class="flex-1">
+                kl. {{ item.endsAt }}
+                <div class="text-muted">
+                  Siste start
+                </div>
+              </div>
+
+              <div class="flex-1">
                 {{ item.distance }} meter
                 <div class="text-muted">
                   Distanse
@@ -298,6 +305,13 @@
                 <!-- [{{ item.eventId }}] -->
                 <div class="text-muted">
                   Dato: {{ item.day | moment("DD/MM/YYYY") }}
+                </div>
+              </div>
+
+              <div class="flex-1">
+                kl. {{ item.endsAt }}
+                <div class="text-muted">
+                  Siste start
                 </div>
               </div>
 

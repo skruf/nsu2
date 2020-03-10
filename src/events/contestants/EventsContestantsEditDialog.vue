@@ -109,6 +109,8 @@ export default Vue.extend({
           })
           this.close()
         } catch(e) {
+          console.error(e)
+          console.error(e.message)
           this.$notify({
             type: "error",
             title: "Oops!",

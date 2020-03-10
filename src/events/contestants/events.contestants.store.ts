@@ -16,7 +16,9 @@ const getters = {
     list.filter((c) => !c.stand && !c.time && c.weapon.distance === weaponDistance)
   ),
   timesByDivisionId: (_, { assignedByDivisionId }) => (divisionId) => (
-    [ ...new Set(assignedByDivisionId(divisionId).map(({ time }) => time)) ].sort()
+    [ ...new Set(assignedByDivisionId(divisionId).sort((a, b) => (
+      a.time.localeCompare(b.time)
+    )).map(({ time }) => time)) ]
   ),
   standsByDivisionId: (_, { assignedByDivisionId }) => (divisionId) => (
     [ ...new Set(assignedByDivisionId(divisionId).map(({ stand }) => stand)) ].sort()

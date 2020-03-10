@@ -19,10 +19,12 @@ const schema: RxJsonSchema = {
       index: true
     },
     startsAt: {
-      type: "string"
+      type: "string",
+      index: true
     },
     endsAt: {
-      type: "number"
+      type: "string",
+      index: true
     },
     distance: {
       type: "number"

@@ -4,15 +4,11 @@
     "eventsDivisionsFormDayLabel": "Choose a Day",
     "eventsDivisionsFormDayPlaceholder": "Pick a day",
     "eventsDivisionsFormDayError": "Day is a required field",
-
     "eventsDivisionsFormTimePlaceholder": "Pick or enter a time",
-
     "eventsDivisionsFormStartsAtLabel": "Starts",
     "eventsDivisionsFormStartsAtError": "Starts is a required field",
-
     "eventsDivisionsFormEndsAtLabel": "Ends",
     "eventsDivisionsFormEndsAtError": "Ends is a required field",
-
     "eventsDivisionsFormDistanceLabel": "Distance",
     "eventsDivisionsFormDistancePlaceholder": "Enter distance",
     "eventsDivisionsFormDistanceError": "Distance is a required field",
@@ -25,15 +21,11 @@
     "eventsDivisionsFormDayLabel": "Velg en dato",
     "eventsDivisionsFormDayPlaceholder": "Velg en dato",
     "eventsDivisionsFormDayError": "Dato er et påkrevd felt",
-
     "eventsDivisionsFormTimePlaceholder": "Velg eller skriv et klokkeslett",
-
     "eventsDivisionsFormStartsAtLabel": "Starter",
     "eventsDivisionsFormStartsAtError": "Starter er et påkrevd felt",
-
     "eventsDivisionsFormEndsAtLabel": "Slutter",
     "eventsDivisionsFormEndsAtError": "Slutter er et påkrevd felt",
-
     "eventsDivisionsFormDistanceLabel": "Distanse",
     "eventsDivisionsFormDistancePlaceholder": "Skriv inn en distanse",
     "eventsDivisionsFormDistanceError": "Distanse er et påkrevd felt",
@@ -149,7 +141,6 @@ export default Vue.extend({
       handler(data): void {
         data.distance = parseInt(data.distance)
         data.standsCount = parseInt(data.standsCount)
-        console.log(`startsAt: ${data.startsAt} - endsAt : ${data.endsAt}`)
         this.$emit("input", data)
       }
     }

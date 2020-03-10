@@ -9,10 +9,11 @@
     "columnLabelDivision": "Division",
     "columnLabelStand": "Lane",
     "columnLabelTime": "Time",
-    "tablePlaceholderText": "No participants yet.",
-    "tablePlaceholderButton": "Add new?",
+    "tablePlaceholderText": "No contestants yet.",
+    "addContestant": "Add contestant",
     "eventsContestantsSearchFilterPlaceholder": "Search for contestants",
-    "removeSelected": "Remove selected"
+    "removeSelected": "Remove selected",
+    "createMember": "Create member"
   },
   "no": {
     "columnLabelNumber": "Nr",
@@ -24,9 +25,10 @@
     "columnLabelStand": "Bane",
     "columnLabelTime": "Tid",
     "tablePlaceholderText": "Ingen deltakere enda",
-    "tablePlaceholderButton": "Legg til ny?",
+    "addContestant": "Legg til deltaker",
     "eventsContestantsSearchFilterPlaceholder": "Søk etter deltakere",
-    "removeSelected": "Fjern valgte"
+    "removeSelected": "Fjern valgte",
+    "createMember": "Opprett medlem"
   }
 }
 </i18n>
@@ -76,18 +78,18 @@
         <v-icon left>
           add
         </v-icon>
-        {{ $t("tablePlaceholderButton") }}
+        {{ $t("addContestant") }}
       </v-btn>
 
       <v-btn
         color="white"
         data-testid="eventsContestantsListTableOpenManageDialogButton"
-        @click.stop="eventsContestantsManageDialogOpen"
+        @click.stop="clubsMembersCreateDialogOpen"
       >
         <v-icon left>
           add
         </v-icon>
-        Medlem
+        {{ $t("createMember") }}
       </v-btn>
     </div>
 
@@ -273,20 +275,26 @@
         </v-menu>
       </template>
     </v-data-table>
+
+    <clubs-members-create-dialog
+      :shown.sync="clubsMembersCreateDialogShown"
+    />
   </div>
 </template>
 
 <script lang="ts">
-// import Vue from "vue"
 import { mapState } from "vuex"
 import EventsContestantsListTableFilters
   from "./EventsContestantsListTableFilters.vue"
+import ClubsMembersCreateDialog
+  from "@/clubs/members/ClubsMembersCreateDialog.vue"
 
 export default {
   name: "EventsContestantsListTable",
 
   components: {
-    EventsContestantsListTableFilters
+    EventsContestantsListTableFilters,
+    ClubsMembersCreateDialog
   },
 
   props: {
@@ -295,6 +303,7 @@ export default {
 
   data() {
     return {
+      clubsMembersCreateDialogShown: false,
       eventsContestantsTableFilter: {
         clubMemberIds: [],
         weaponIds: [],
@@ -379,6 +388,10 @@ export default {
 
     eventsContestantsRemoveMany(contestants): void {
       this.$emit("eventsContestantsRemoveMany", contestants)
+    },
+
+    clubsMembersCreateDialogOpen() {
+      this.clubsMembersCreateDialogShown = true
     }
   }
 }

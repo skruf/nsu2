@@ -1,7 +1,7 @@
 import { RxJsonSchema } from "rxdb"
 import { db } from "@/db"
 import { calcTime, calcStand } from "@/utils/division.utils"
-import { parseTime, stringifyTime } from "@/utils/time.util"
+import { parseTime } from "@/utils/time.util"
 import { EventsContestantsProperties, EventsContestantsDocument }
   from "./events.contestants.types"
 
@@ -89,10 +89,8 @@ const schema: RxJsonSchema = {
   ]
 }
 
-// @TODO: auto-assign stand/time/divisionId
-const assignNumber = async (
-  data: EventsContestantsProperties
-): Promise<void> => {
+// @TODO: auto-assign divisionId
+const assignNumber = async (data: EventsContestantsProperties): Promise<void> => {
   if(data.number) return
 
   const contestant = await db.events_contestants.findOne({
@@ -121,7 +119,7 @@ const assignNumber = async (
 
 const sortContestantByTime = (contestants) => (
   contestants.sort((a, b) => (
-    a.time.localeCompare(b.time, "en", { sensitivity: "base" })
+    a.time.localeCompare(b.time)
   ))
 )
 
@@ -133,110 +131,118 @@ const getLastTime = (contestants) => (
   sortContestantByTime(contestants).reverse()[0].time
 )
 
-const filterContestantsByTime = (contestants, t) => (
-  contestants.filter(({ time }) => time === t)
-)
-
-const assignTimeAndStand = async (
+const assignTimeAndStandAndUpdateDivision = async (
   data: EventsContestantsProperties,
   doc: EventsContestantsDocument
 ): Promise<void> => {
   // dont auto-assigned when being un-assigned
-  if(!data.divisionId) return
-  // dont auto-assign when an un-assigned contestant gets dragged to a slot
-  if(data.stand && data.time && !doc.divisionId) return
+  // dont auto-assign when an un-assigned contestant gets dragged
+  if(!data.divisionId || (data.stand && data.time && !doc.divisionId)) return
 
   const division = await db.events_divisions
     .findOne({ id: data.divisionId })
     .exec()
+
   const contestants = await db.events_contestants
     .find({ divisionId: data.divisionId })
     .exec()
 
-  if(!data.time || data.time === "" || data.divisionId !== doc.divisionId) {
-    if(!contestants.length) {
-      data.time = division.startsAt
-    } else {
-      const nextTime = contestants.sort((a, b) => (
-        a.time.localeCompare(b.time, "en", { sensitivity: "base" })
-      ))[0].time
+  const assignTime = () => {
+    if(!data.time || data.time === "" || data.divisionId !== doc.divisionId) {
+      if(!contestants.length) {
+        data.time = division.startsAt
+      } else {
+        const nextTime = contestants.sort((a, b) => (
+          a.time.localeCompare(b.time)
+        ))[0].time
 
-      data.time = calcTime(
-        division.standsCount,
-        nextTime,
-        contestants.length
-      )
+        data.time = calcTime(
+          division.standsCount,
+          nextTime,
+          contestants.length
+        )
+      }
     }
   }
 
-  const currentContestantTimes = parseTime(data.time)
-  const currentContestantTime = data.time
+  assignTime()
 
-  const firstContestantTime = getFirstTime(contestants)
-  const firstContestantTimes = parseTime(firstContestantTime)
-
-  const filterContestantsByHour = (contestants, t) => (
-    contestants.filter(({ time }) => parseTime(time).hours >= t)
-  )
-
-  const morePeopleShootingAtFirstTime = filterContestantsByHour(contestants, firstContestantTimes.hours).length > 1
-  // const noMorePeopleShootingAtFirstTime = !morePeopleShootingAtFirstTime
-
-  // console.log(`f: ${firstContestantTimes.hours} - c: ${currentContestantTimes.hours} - n: ${noMorePeopleShootingAtFirstTime}`)
-
-  // f: 6
-  // c: 7
-  // n: true
-
-  // lowest number unless no more people, then first number
-
-  let t = firstContestantTime
-
-  if(currentContestantTimes.hours !== firstContestantTimes.hours) {
-    t = currentContestantTime
-  }
-
-  await division.atomicSet("startsAt", t)
-
-  if(!data.stand || data.stand === 0 || data.divisionId !== doc.divisionId) {
-    if(!contestants.length) {
-      data.stand = 1
-    } else {
-      data.stand = calcStand(
-        division.standsCount,
-        contestants.length
-      )
+  const assignStand = () => {
+    if(!data.stand || data.stand === 0 || data.divisionId !== doc.divisionId) {
+      if(!contestants.length) {
+        data.stand = 1
+      } else {
+        data.stand = calcStand(
+          division.standsCount,
+          contestants.length
+        )
+      }
     }
   }
 
-  const furthest = Math.max(...contestants.map(({ stand }) => stand))
+  assignStand()
 
-  const moreFurther = contestants.filter(({ stand }) => stand >= furthest).length > 0
+  const updateDivision = async () => {
+    const contestantsWithoutSelf = contestants.filter(({ id }) => id !== data.id)
+    if(!contestantsWithoutSelf.length) return
 
-  console.log(contestants.filter(({ stand }) => stand >= furthest).length)
+    const updateDivisionStartsAt = async () => {
+      const currentContestantTimes = parseTime(data.time)
+      const currentContestantTime = data.time
+      const filterByEarlierHours = (contestants, t) => (
+        contestants.filter(({ time }) => parseTime(time).hours >= t)
+      )
 
-  if(data.stand > furthest) {
-    // if nobody else is shooting at last stand, then set it to data.stand
-    await division.atomicSet("standsCount", data.stand)
-  }
+      const firstContestantTime = getFirstTime(contestantsWithoutSelf)
+      const firstContestantTimes = parseTime(firstContestantTime)
+      const morePeopleShootingAtFirstTime = filterByEarlierHours(
+        contestantsWithoutSelf,
+        firstContestantTimes.hours
+      ).length > 1
+      if(morePeopleShootingAtFirstTime) {
+        await division.atomicSet("startsAt", firstContestantTime)
+      }
+      if(currentContestantTimes.hours < firstContestantTimes.hours) {
+        await division.atomicSet("startsAt", currentContestantTime)
+      }
 
-  if(data.stand < furthest) {
-    if(moreFurther) {
-      if(contestants.filter(({ stand }) => stand >= furthest).length === 1) {
-        const unique = [ ...new Set(contestants.map(({ stand }) => stand)) ]
-        const n = unique.sort()[unique.length - 2]
+      const filterByLaterHours = (contestants, t) => (
+        contestants.filter(({ time }) => parseTime(time).hours <= t)
+      )
+      const lastContestantTime = getLastTime(contestantsWithoutSelf)
+      const lastContestantTimes = parseTime(lastContestantTime)
+      const morePeopleShootingAtLastTime = filterByLaterHours(
+        contestantsWithoutSelf,
+        lastContestantTimes.hours
+      ).length > 1
+      if(morePeopleShootingAtLastTime) {
+        await division.atomicSet("endsAt", lastContestantTime)
+      }
+      if(currentContestantTimes.hours > lastContestantTimes.hours) {
+        await division.atomicSet("endsAt", currentContestantTime)
+      }
+    }
 
-        if(data.stand > n) {
-          await division.atomicSet("standsCount", data.stand)
+    await updateDivisionStartsAt()
+
+    const updateDivisionStandsCount = async () => {
+      const furthest = Math.max(...contestantsWithoutSelf.map(({ stand }) => stand))
+      if(data.stand >= furthest) {
+        await division.atomicSet("standsCount", data.stand)
+      } else {
+        const moreFurther = contestantsWithoutSelf.filter(({ stand }) => stand >= furthest).length > 0
+        if(moreFurther || doc.stand <= furthest) {
+          await division.atomicSet("standsCount", furthest)
         } else {
-          await division.atomicSet("standsCount", n)
+          await division.atomicSet("standsCount", data.stand)
         }
       }
-    } else {
-      await division.atomicSet("standsCount", data.stand)
     }
+
+    await updateDivisionStandsCount()
   }
 
+  await updateDivision()
 }
 
 export default {
@@ -250,7 +256,7 @@ export default {
       parallel: false
     },
     preSave: {
-      handle: assignTimeAndStand,
+      handle: assignTimeAndStandAndUpdateDivision,
       parallel: false
     }
   }

@@ -290,7 +290,6 @@
 </template>
 
 <script lang="ts">
-// import Vue from "vue"
 import { mapState, mapMutations } from "vuex"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
@@ -369,6 +368,7 @@ export default {
       eventsContestantsStateListIsLoading: "listIsLoading",
       eventsContestantsStateList: "list"
     }),
+
     isntGrouped(): boolean {
       return this.eventsContestantsResultsTableGroupBy === []
     },
