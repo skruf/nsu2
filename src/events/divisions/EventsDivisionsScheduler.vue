@@ -4,20 +4,42 @@
   flex: 2;
 }
 
-.grid {
+.time-labels,
+.lane-labels,
+.grid,
+.unassigned-contestants {
   display: grid;
+  grid-gap: 1px;
+}
+
+.grid {
   overflow-x: auto;
   position: relative;
   padding-top: 43px;
+  margin-left: 1px;
 }
 
 .cell {
-  @apply text-base text-center border-t border-r border-solid border-border flex flex-col items-center justify-center bg-white cursor-pointer leading-tight p-1;
+  @apply text-base text-center flex flex-col items-center justify-center bg-white cursor-pointer leading-tight p-1;
   font-size: 0.9rem;
 }
 
-.contestant-cell {
+.time:last-child {
+  border-bottom-left-radius: 0.5rem;
 }
+
+.cell:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+.cell.dragover:not(.unassigned-contestants-cell) {
+  @apply bg-gray-100;
+  /* background-color: rgba(0, 0, 0, 0.8); */
+}
+
+/* .contestant-cell.dragging {
+  background-color: green;
+} */
 
 .contestant-cell:hover,
 .unassigned-contestants-cell:hover {
@@ -29,16 +51,14 @@
   @apply h-20;
 }
 
-.top-left-corner {
-  @apply border-t border-r border-solid border-border;
-  height: 43px;
+.top-left-corner,
+.lane {
+  @apply bg-white;
+  height: 42px;
 }
 
 .time {
-  @apply border-r border-t border-solid border-border flex items-center justify-center flex-initial text-xs text-gray-700;
-}
-.time:last-child {
-  border-bottom: 0;
+  @apply flex items-center justify-center flex-initial text-xs text-gray-700 bg-white;
 }
 
 .top-left-corner,
@@ -47,7 +67,7 @@
 }
 
 .lane {
-  @apply flex-1 text-center border-t border-r border-solid border-border py-3 text-xs text-gray-700;
+  @apply flex-1 text-center py-3 text-xs text-gray-700;
 }
 
 .time:nth-child(2) span,
@@ -63,11 +83,11 @@
 }
 
 .lane-labels {
-  display: flex;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
+  grid-template-columns: inherit;
 }
 
 .add-cell:hover > * {
@@ -77,17 +97,12 @@
 
 .unassigned-container {
   @apply flex-col min-w-0 mr-5 ml-0 overflow-y-auto;
-  max-width: 280px;
+  max-width: 281px;
 }
 
 .unassigned-contestants {
-  display: grid;
   grid-template-columns: 1fr 1fr;
-  /* @apply border-t border-solid border-border; */
-}
-
-.unassigned-contestants .cell:nth-child(even) {
-  border-right: 0;
+  @apply bg-border;
 }
 
 .unassigned-search-filter {
@@ -123,6 +138,10 @@
 }
 .contestant-print-cell-key {
   min-width: 8rem;
+}
+
+.placeholder-container {
+  @apply border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64;
 }
 </style>
 
@@ -390,9 +409,9 @@
 
       <div
         v-if="hasDivision && hasSchedule"
-        class="flex w-full"
+        class="flex w-full bg-border rounded-b-lg border-t border-border border-solid"
       >
-        <div>
+        <div class="time-labels">
           <div class="top-left-corner" />
           <div
             v-for="time of times"
@@ -423,11 +442,16 @@
                 v-if="schedule[time] && schedule[time][stand]"
                 :key="`${time}-${stand}`"
                 class="cell contestant-cell"
+                :class="{ 'dragging': isDragging }"
                 :data-time="time"
                 :data-stand="stand"
                 :data-contestantid="schedule[time][stand].id"
                 :draggable="true"
                 data-testid="assignedContestantCell"
+
+                @dragenter="addDragOverClass"
+                @dragleave="removeDragOverClass"
+
                 @dragstart="dragStartAssigned"
                 @dragover="dragOver"
                 @dragend="dragEnd"
@@ -458,6 +482,10 @@
                 :data-time="time"
                 :data-stand="stand"
                 data-testid="addContestantCell"
+
+                @dragenter="addDragOverClass"
+                @dragleave="removeDragOverClass"
+
                 @dragover="dragOver"
                 @drop="dropAddOrUpdate"
                 @click="eventsContestantsCreateDialogOpen(time, stand)"
@@ -473,7 +501,7 @@
 
       <div
         v-else
-        class="border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64"
+        class="placeholder-container"
       >
         <div class="text-muted">
           Ingen standplasslister enda.
@@ -611,9 +639,15 @@ export default Vue.extend({
       getScheduleByDivisionId: "scheduleByDivisionId",
       getUnAssignedByWeaponDistance: "unAssignedByWeaponDistance"
     }),
-    hasDivision() {
+
+    isDragging(): boolean {
+      return this.dragType !== ""
+    },
+
+    hasDivision(): boolean {
       return Object.keys(this.eventsDivisionsStateSelected).length > 1
     },
+
     times() {
       if(!this.eventsDivisionsStateSelected) return
       const times = this.getTimesByDivisionId(this.eventsDivisionsStateSelected.id)
@@ -666,6 +700,7 @@ export default Vue.extend({
         // `${newLastHour}:${lastTime[1]}`
       ]
     },
+
     stands() {
       if(!this.eventsDivisionsStateSelected) return
 
@@ -681,12 +716,14 @@ export default Vue.extend({
         lastStand + 1
       ]
     },
+
     schedule(): object {
       if(!this.eventsDivisionsStateSelected) return
       return this.getScheduleByDivisionId(
         this.eventsDivisionsStateSelected.id
       )
     },
+
     unAssigned(): any {
       if(!this.eventsDivisionsStateSelected) return []
       return this.getUnAssignedByWeaponDistance(
@@ -703,6 +740,7 @@ export default Vue.extend({
           .includes(this.unAssignedSearchFilter.toLowerCase())
       })
     },
+
     hasSchedule(): boolean {
       if(!this.times || !this.stands) return false
       return this.times.length > 0 && this.stands.length > 0
@@ -731,17 +769,9 @@ export default Vue.extend({
     }),
 
     ...mapActions("events/contestants", {
-      // eventsContestantsActionsList: "list",
       eventsContestantsActionsEditOne: "editOne",
       eventsContestantsActionsEditMany: "editMany"
     }),
-
-    // refresh() {
-    //   this.eventsContestantsActionsList({
-    //     filter: { eventId: this.eventsDivisionsStateSelected.eventId },
-    //     persistFilter: true
-    //   })
-    // },
 
     changeDivision(id): void {
       this.eventsDivisionsActionsSelect({ id })
@@ -758,21 +788,31 @@ export default Vue.extend({
       })
     },
 
-    getCell(e): boolean {
-      return e.path.find(
-        (elem) => (elem.className.includes("cell"))
-      )
+    getCell(e): HTMLElement {
+      return e.path.find((elem) => elem.className.includes("cell"))
+    },
+
+    addDragOverClass(e: DragEvent): void {
+      const cell: HTMLElement = this.getCell(e)
+      cell.classList.add("dragover")
+    },
+
+    removeDragOverClass(e: DragEvent): void {
+      const cell: HTMLElement = this.getCell(e)
+      cell.classList.remove("dragover")
     },
 
     dragOver(e: DragEvent): void {
       e.preventDefault()
       e.stopPropagation()
       e.dataTransfer.dropEffect = "move"
+      this.addDragOverClass(e)
     },
 
-    dragEnd(): void {
+    dragEnd(e: DragEvent): void {
       this.dragContestantId = null
       this.dragType = ""
+      this.removeDragOverClass(e)
     },
 
     dragStartUnAssigned(e): void {
@@ -836,7 +876,6 @@ export default Vue.extend({
       if(this.dragType === "assigned") {
         const fromTime = e.dataTransfer.getData("time")
         const fromStand = e.dataTransfer.getData("stand")
-        // console.log(`from: ${fromTime} ${fromStand} : to: ${toTime} ${toStand}`)
         if(fromTime === toTime && fromStand === toStand) return
 
         const dragContestant = this.schedule[fromTime][fromStand]

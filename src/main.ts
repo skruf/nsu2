@@ -22,11 +22,11 @@ Vue.prototype.print = printUtil
 ;(async (): Promise<void> => {
   const db = await init()
 
-  if(process.env.NODE_ENV !== "production") {
-    const dbTestUtil = require("@/utils/db.test.util").default
-    await dbTestUtil.seed(db)
-    window.ready = true
-  }
+  // if(process.env.NODE_ENV !== "production") {
+  const dbTestUtil = require("@/utils/db.test.util").default
+  await dbTestUtil.seed(db)
+  window.ready = true
+  // }
 
   new Vue({
     i18n,
