@@ -6,14 +6,23 @@ import { filterInputUtil } from "@/utils"
 import { ClubsMembersProperties, ClubsMembersDocument } from "./clubs.members.types"
 import clubsMembersStub from "./clubs.members.stub"
 
+const populate = async (doc: ClubsMembersDocument): Promise<ClubsMembersProperties> => {
+  const club = await doc.populate("clubId")
+  const member = doc.toJSON()
+  if(club) member.club = club.toJSON()
+  return member
+}
+
 const list = async (filter: ClubsMembersProperties | {}): Promise<{
   items: ClubsMembersProperties[],
   count: number
 }> => {
-  const result = await findMany<ClubsMembersDocument>(
-    "clubs_members", filter, true
-  )
-  return result
+  const { items, count } = await findMany<ClubsMembersDocument>("clubs_members", filter)
+  const populated = await Promise.all(items.map((doc) => populate(doc)))
+  return {
+    items: populated,
+    count
+  }
 }
 
 const create = async (item: ClubsMembersProperties): Promise<

@@ -29,6 +29,7 @@ const schema: RxJsonSchema = {
     },
     hits: {
       type: "array",
+      default: [],
       items: {
         type: "object",
         properties: {
@@ -47,6 +48,7 @@ const schema: RxJsonSchema = {
     },
     notes: {
       type: "array",
+      default: [],
       items: {
         type: "string"
       }
@@ -78,6 +80,9 @@ const schema: RxJsonSchema = {
     stand: {
       type: "number",
       index: true
+    },
+    colour: {
+      type: "string"
     }
   },
   required: [
@@ -89,6 +94,17 @@ const schema: RxJsonSchema = {
   ]
 }
 
+// function getRandomColor() {
+//   const letters = "789ABCD"
+//   let color = "#"
+//   for (let i = 0; i < 6; i++) {
+//     color += letters[Math.floor(Math.random() * 6)]
+//   }
+//   return color
+// }
+// const c = () => `hsl(${Math.random() * 360}, 100%, 90%)`
+const c = () => `#ececec`
+
 // @TODO: auto-assign divisionId
 const assignNumber = async (data: EventsContestantsProperties): Promise<void> => {
   if(data.number) return
@@ -99,6 +115,7 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
   }).exec()
 
   if(contestant) {
+    data.colour = contestant.colour
     data.number = contestant.number
     return
   }
@@ -114,6 +131,7 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
     return
   }
 
+  data.colour = c()
   data.number = contestantsNextNumber[0].number + 1
 }
 

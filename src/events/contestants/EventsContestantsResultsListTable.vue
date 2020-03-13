@@ -106,9 +106,12 @@
     >
       <template v-slot:item.number="{ item }">
         <div class="flex items-center">
-          #{{ item.number }}
+          <avatar
+            :colour="item.colour"
+            :value="item.number"
+          />
           <div class="ml-2 hidden print:inline-block">
-            - {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
+            {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
           </div>
         </div>
       </template>
@@ -140,7 +143,7 @@
             data-testid="eventsContestantsResultsNotesOpenButton"
             @click="eventsContestantsResultsNotesOpen(item)"
           >
-            {{ item.notes.length }} notater
+            {{ item.notes ? item.notes.length : 0 }} notater
           </v-btn>
         </div>
       </template>
@@ -183,9 +186,29 @@
       </template>
 
       <template v-slot:item.rank="{ item }">
-        <span class="font-bold text-black">
-          {{ item.rank }}
-        </span>
+        <div class="font-bold text-black flex items-center justify-center">
+          <v-img
+            v-if="item.rank === 1"
+            src="https://image.flaticon.com/icons/svg/340/340334.svg"
+            max-width="22px"
+          />
+
+          <v-img
+            v-if="item.rank === 2"
+            src="https://image.flaticon.com/icons/svg/340/340333.svg"
+            max-width="22px"
+          />
+
+          <v-img
+            v-if="item.rank === 3"
+            src="https://image.flaticon.com/icons/svg/340/340335.svg"
+            max-width="22px"
+          />
+
+          <template v-if="item.rank > 3 || item.rank === 0">
+            {{ item.rank }}
+          </template>
+        </div>
       </template>
 
       <template v-slot:header.hits>
@@ -208,9 +231,13 @@
             data-testid="eventsContestantsResultsTableGroupByContestantTd"
           >
             <div class="flex items-center">
-              Deltaker: {{ c.number }}
+              Deltaker:
+              <avatar
+                :colour="c.colour"
+                :value="c.number"
+              />
               <div class="ml-2 hidden print:inline-block">
-                - {{ c.clubMember.firstName }} {{ c.clubMember.lastName }}
+                {{ c.clubMember.firstName }} {{ c.clubMember.lastName }}
               </div>
             </div>
           </td>
@@ -291,6 +318,7 @@
 
 <script lang="ts">
 import { mapState, mapMutations } from "vuex"
+import Avatar from "@/components/Avatar.vue"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 import EventsContestantsNotes
@@ -301,7 +329,8 @@ export default {
 
   components: {
     TableFilterSelect,
-    EventsContestantsNotes
+    EventsContestantsNotes,
+    Avatar
   },
 
   props: {

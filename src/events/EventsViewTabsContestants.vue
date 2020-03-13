@@ -29,6 +29,7 @@
       :shown.sync="eventsContestantsManageDialogShow"
       :event="event"
       @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
+      @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
     />
 
     <events-contestants-edit-dialog
@@ -37,7 +38,11 @@
     />
 
     <clubs-members-create-dialog
-      :shown.sync="clubsMembersCreateDialogShow"
+      :shown.sync="clubsMembersCreateDialogShown"
+    />
+
+    <weapons-create-dialog
+      :shown.sync="weaponsCreateDialogShown"
     />
   </div>
 </template>
@@ -53,6 +58,8 @@ import EventsContestantsEditDialog
   from "./contestants/EventsContestantsEditDialog.vue"
 import ClubsMembersCreateDialog
   from "@/clubs/members/ClubsMembersCreateDialog.vue"
+import WeaponsCreateDialog
+  from "@/weapons/WeaponsCreateDialog.vue"
 
 export default Vue.extend({
   name: "EventsViewTabsContestants",
@@ -61,7 +68,8 @@ export default Vue.extend({
     EventsContestantsListTable,
     EventsContestantsManagerDialog,
     EventsContestantsEditDialog,
-    ClubsMembersCreateDialog
+    ClubsMembersCreateDialog,
+    WeaponsCreateDialog
   },
 
   props: {
@@ -69,10 +77,11 @@ export default Vue.extend({
   },
 
   data: () => ({
+    clubsMembersCreateDialogShown: false,
+    weaponsCreateDialogShown: false,
     eventsContestantsManageDialogShow: false,
     eventsContestantsEditDialogShow: false,
-    eventsContestantsEditContestant: {},
-    clubsMembersCreateDialogShow: false
+    eventsContestantsEditContestant: {}
   }),
 
   computed: {
@@ -89,7 +98,11 @@ export default Vue.extend({
     }),
 
     clubsMembersCreateDialogOpen(): void {
-      this.clubsMembersCreateDialogShow = true
+      this.clubsMembersCreateDialogShown = true
+    },
+
+    weaponsCreateDialogOpen(): void {
+      this.weaponsCreateDialogShown = true
     },
 
     eventsContestantsManageDialogOpen(): void {

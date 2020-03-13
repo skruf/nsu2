@@ -36,13 +36,6 @@
 <template>
   <div class="container relative">
     <div class="table-controls">
-      <!-- <table-filter-search
-        v-model="eventsContestantsSearchFilter"
-        :label="$t('eventsContestantsSearchFilterPlaceholder')"
-        data-testid="eventsContestantsSearchFilterInput"
-        class="mr-5"
-      /> -->
-
       <v-select
         v-model="eventsContestantsTableGroupBy"
         :label="$t('groupBy')"
@@ -70,7 +63,7 @@
       />
 
       <v-btn
-        class="mx-5"
+        class="ml-5"
         color="white"
         data-testid="eventsContestantsListTableOpenManageDialogButton"
         @click.stop="eventsContestantsManageDialogOpen"
@@ -79,17 +72,6 @@
           add
         </v-icon>
         {{ $t("addContestant") }}
-      </v-btn>
-
-      <v-btn
-        color="white"
-        data-testid="eventsContestantsListTableOpenManageDialogButton"
-        @click.stop="clubsMembersCreateDialogOpen"
-      >
-        <v-icon left>
-          add
-        </v-icon>
-        {{ $t("createMember") }}
       </v-btn>
     </div>
 
@@ -112,7 +94,11 @@
       class="no-print-first-td no-print-last-td"
     >
       <template v-slot:item.number="{ item }">
-        #{{ item.number }} - {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
+        <avatar
+          :colour="item.colour"
+          :value="item.number"
+        />
+        {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
       </template>
 
       <template v-slot:item.clubMember.club.shortName="{ item }">
@@ -155,7 +141,13 @@
             colspan="100%"
             data-testid="eventsContestantsTableGroupByContestantTd"
           >
-            Deltaker: #{{ c.number }} - {{ c.clubMember.firstName }} {{ c.clubMember.lastName }}
+            Deltaker:
+            <avatar
+              class="mx-2"
+              :colour="c.colour"
+              :value="c.number"
+            />
+            {{ c.clubMember.firstName }} {{ c.clubMember.lastName }}
           </td>
         </template>
 
@@ -275,26 +267,21 @@
         </v-menu>
       </template>
     </v-data-table>
-
-    <clubs-members-create-dialog
-      :shown.sync="clubsMembersCreateDialogShown"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { mapState } from "vuex"
+import Avatar from "@/components/Avatar.vue"
 import EventsContestantsListTableFilters
   from "./EventsContestantsListTableFilters.vue"
-import ClubsMembersCreateDialog
-  from "@/clubs/members/ClubsMembersCreateDialog.vue"
 
 export default {
   name: "EventsContestantsListTable",
 
   components: {
+    Avatar,
     EventsContestantsListTableFilters,
-    ClubsMembersCreateDialog
   },
 
   props: {
@@ -303,7 +290,6 @@ export default {
 
   data() {
     return {
-      clubsMembersCreateDialogShown: false,
       eventsContestantsTableFilter: {
         clubMemberIds: [],
         weaponIds: [],
@@ -388,10 +374,6 @@ export default {
 
     eventsContestantsRemoveMany(contestants): void {
       this.$emit("eventsContestantsRemoveMany", contestants)
-    },
-
-    clubsMembersCreateDialogOpen() {
-      this.clubsMembersCreateDialogShown = true
     }
   }
 }

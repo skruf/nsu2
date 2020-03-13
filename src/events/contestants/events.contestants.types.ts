@@ -19,6 +19,7 @@ export declare interface EventsContestantsProperties {
   eventId: string
   divisionId: string
   clubMemberId: string
+  colour: string
   createdAt: string
   updatedAt: string
   weapon?: WeaponsDocument

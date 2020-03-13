@@ -27,16 +27,6 @@ const modules = [
       removeMany: clubsMembersService.removeMany,
       editOne: clubsMembersService.editOne
     }
-  },
-  {
-    module: "pagination"
-  },
-  {
-    module: "sorting"
-  },
-  {
-    module: "search",
-    options: { fields: [ "firstName", "lastName" ] }
   }
 ]
 

@@ -1,87 +1,35 @@
 <i18n>
 {
   "en": {
-    "title": "Manage contestants",
-    "subtitle": "For %{event}",
-    "selectClub": "Select a club",
-    "clubsSearchFormPlaceholder": "Search for clubs by name",
-    "addClubsMembers": "Add members",
-    "clubsMembersSearchFormPlaceholder": "Search for members by first or last name",
-    "clubsMembersPlaceholderText": "Select a club to assign contestants",
-    "currentContestants": "Current contestants",
-    "contestantsSearchFormPlaceholder": "Search for contestants by first or last name",
-    "column1Label": "Contestant",
-    "column2Label": "Club",
-    "column3Label": "Weapons",
-    "column4Label": "Calibres",
-    "editContestant": "Edit contestant",
-    "removeContestant": "Remove contestant",
-    "tablePlaceholderText": "No contestants yet.",
-    "saveSuccess": "%{members} was added to the event",
-    "formItem1Label": "Weapon",
+    "title": "Add participations",
     "formItem1Placeholder": "Choose a weapon",
     "formItem2Label": "Calibre",
     "formItem2Placeholder": "Enter a calibre",
-    "eventsContestantsActionsCreateSuccess": "%{member} was added to the event",
     "formItemWeaponIdError": "Choose a weapon",
     "formItemCalibreError": "Enter a calibre",
-
-    "columnLabelClubMember": "Contestant",
-    "columnLabelClubName": "Club",
-    "columnLabelWeapon": "Weapon",
-    "columnLabelCalibre": "Calibre"
+    "selectMemberLabel": "Choose a member",
+    "selectMemberError": "Choose a member to continue",
+    "saveSuccess": "%{count} participations was added to the event"
   },
   "no": {
-    "title": "Håndter deltakere",
-    "subtitle": "For %{event}",
-    "selectClub": "Velg en klubb",
-    "clubsSearchFormPlaceholder": "Søk etter klubber med navn",
-    "addClubsMembers": "Legg til medlemmer",
-    "clubsMembersSearchFormPlaceholder": "Søk etter medlemmer med fornavn eller etternavn",
-    "clubsMembersPlaceholderText": "Velg en klubb for å legge til deltakere",
-    "currentContestants": "Nåværende deltakere",
-    "contestantsSearchFormPlaceholder": "Søk etter deltakere med fornavn eller etternavn",
-    "column1Label": "Deltaker",
-    "column2Label": "Klubb",
-    "column3Label": "Våpen",
-    "column4Label": "Kalibre",
-    "editContestant": "Rediger deltaker",
-    "removeContestant": "Slett deltaker",
-    "tablePlaceholderText": "Ingen deltakere enda.",
-    "saveSuccess": "%{members} ble lagt til stevnet",
-    "formItem1Label": "Våpen",
+    "title": "Legg til deltakelser",
     "formItem1Placeholder": "Velg et våpen",
     "formItem2Label": "Kaliber",
     "formItem2Placeholder": "Skriv inn et kaliber",
-    "eventsContestantsActionsCreateSuccess": "%{member} ble lagt til stevnet",
     "formItemWeaponIdError": "Velg et våpen",
     "formItemCalibreError": "Skriv inn kaliber",
-
-    "columnLabelClubMember": "Deltaker",
-    "columnLabelClubName": "Klubb",
-    "columnLabelWeapon": "Våpen",
-    "columnLabelCalibre": "Kaliber"
+    "selectMemberLabel": "Velg et medlem",
+    "selectMemberError": "Velg et medlem for å fortsette",
+    "saveSuccess": "%{count} deltakelser ble lagt til stevnet"
   }
 }
 </i18n>
 
-<style>
-.weapons-form .v-label,
-.weapons-form .v-select__selection {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1rem;
-  color: rgba(0, 0, 0, 0.87);
-}
-</style>
-
 <template>
   <v-dialog
     v-model="visible"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-    content-class="pt-16"
+    content-class="pt-16 relative self-start mt-32"
+    :max-width="650"
   >
     <v-toolbar
       dark
@@ -99,361 +47,264 @@
         </v-icon>
       </v-btn>
 
-      <v-toolbar-title>
-        Håndter deltakere
+      <v-toolbar-title class="flex-1">
+        {{ $t("title") }}
       </v-toolbar-title>
-
-      <v-spacer />
 
       <v-toolbar-items>
         <v-btn
           text
-          data-testid="eventsContestantsManagerDialogSubmit"
+          data-testid="submit"
           :loading="eventsContestantsStateCreateManyIsLoading"
-          @click="eventsContestantsManagerDialogSubmit"
+          @click="submit"
         >
           {{ $t("save") }}
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
-    <div class="flex flex-col min-h-full bg-white">
-      <div class="flex w-full">
-        <div class="flex-1 border-r border-gray-300">
-          <v-list
-            nav
-            dense
-          >
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="flex justify-between items-center">
-                  {{ $t("selectClub") }}
-
-                  <v-progress-circular
-                    v-if="clubsStateListIsLoading"
-                    :size="24"
-                    color="primary"
-                    indeterminate
-                  />
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-divider class="my-2" />
-
-            <v-list-item-group
-              v-model="activeClubIndex"
-              color="primary"
+    <div class="bg-white pb-5">
+      <div class="p-5 border-border border-b border-solid mb-5">
+        <v-autocomplete
+          v-model="selectedClubsMemberId"
+          :items="clubsMembersStateList"
+          :label="$t('selectMemberLabel')"
+          :loading="clubsMembersStateListIsLoading"
+          :rules="[(v) => !!v || $t('selectMemberError')]"
+          data-testid="eventsContestantsManagerSelectMember"
+          item-value="id"
+          class="mb-5"
+          single-line
+          outlined
+          hide-details
+          append-icon="expand_more"
+        >
+          <template v-slot:prepend-item>
+            <v-btn
+              text
+              class="py-4 mb-2 w-full"
+              data-testid="clubsMembersCreateDialogOpenButton"
+              @click.stop="clubsMembersCreateDialogOpen"
             >
-              <v-list-item
-                v-for="(club, index) in clubsStateList"
-                :key="club.id"
-                data-testid="eventsContestantsManagerDialogSelectClubListItem"
-                @click="eventsContestantsManagerDialogSelectClub(club, index)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ club.name }}
-                  </v-list-item-title>
-                </v-list-item-content>
+              <v-icon left>
+                add
+              </v-icon>
+              {{ $t("create") }} {{ $t("member") }}
+            </v-btn>
+          </template>
 
-                <v-list-item-icon>
-                  <v-icon>
-                    chevron_right
-                  </v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </div>
-
-        <div class="flex-1 border-r border-gray-300">
-          <v-list
-            nav
-            dense
-          >
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="flex justify-between items-center">
-                  {{ $t("addClubsMembers") }}
-
-                  <v-progress-circular
-                    v-if="clubsMembersStateListIsLoading"
-                    :size="24"
-                    color="primary"
-                    indeterminate
-                  />
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-divider class="my-2" />
-
-            <v-list-item-group
-              v-model="activeClubMemberIndex"
-              color="primary"
-            >
-              <v-list-item
-                v-for="(clubMember, index) in clubsMembersStateList"
-                :key="clubMember.id"
-                data-testid="eventsContestantsManagerDialogSelectClubMemberListItem"
-                @click="eventsContestantsManagerDialogSelectClubMember(clubMember, index)"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ clubMember.firstName }} {{ clubMember.lastName }}
-                  </v-list-item-title>
-                </v-list-item-content>
-
-                <v-list-item-icon>
-                  <v-icon>
-                    chevron_right
-                  </v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </div>
-
-        <div class="flex-1 border-r border-gray-300 weapons-form">
-          <v-list
-            nav
-            dense
-          >
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="flex items-center justify-between -my-2">
-                  Legg til våpen
-
-                  <v-progress-circular
-                    v-if="weaponsStateListIsLoading"
-                    :size="24"
-                    color="primary"
-                    indeterminate
-                  />
-
-                  <v-btn
-                    icon
-                    color="primary"
-                    data-testid="eventsContestantsManagerDialogAddWeaponButton"
-                    :disabled="!hasSelectedMember"
-                    @click.stop="eventsContestantsManagerDialogAddWeapon(eventsContestantsSelectedMember.id)"
-                  >
-                    <v-icon>
-                      add
-                    </v-icon>
-                  </v-btn>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-divider class="my-2" />
-
+          <template v-slot:selection="{ item }">
             <div
-              v-for="(weapon, index) in weaponsForm[eventsContestantsSelectedMember.id]"
-              :key="index"
-              class="flex px-2"
+              class="py-2 flex items-center justify-between"
+              data-testid="eventsDivisionsSelectItem"
             >
-              <v-autocomplete
-                v-model="weapon.weaponId"
-                :loading="weaponsStateListIsLoading"
-                :items="weaponsStateList"
-                item-text="name"
-                item-value="id"
-                :label="$t('formItem1Placeholder')"
-                :rules="[(v) => !!v || $t('formItemWeaponIdError')]"
-                data-testid="eventsContestantsManagerDialogWeaponsFormIdSelect"
-                class="flex-2"
-                single-line
-                dense
-                required
-              />
+              <div class="flex-1">
+                {{ item.firstName }} {{ item.lastName }}
+                <div class="text-muted">
+                  {{ $t("member") }}
+                </div>
+              </div>
 
-              <v-select
-                v-model="weapon.condition"
-                :items="weaponsStateConditions"
-                :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
-                label="Tilstand"
-                data-testid="eventsContestantsManagerDialogWeaponsFormConditionSelect"
-                class="flex-1 mx-2"
-                style="min-width: 140px;"
-                single-line
-                dense
-                required
-              />
-
-              <v-text-field
-                v-model="weapon.calibre"
-                :label="$t('formItem2Label')"
-                :rules="[(v) => !!v || $t('formItemCalibreError')]"
-                data-testid="eventsContestantsManagerDialogWeaponsFormCalibreInput"
-                class="flex-1"
-                style="min-width: 70px;"
-                type="number"
-                single-line
-                dense
-                required
-              />
-
-              <v-btn
-                icon
-                color="primary"
-                data-testid="eventsContestantsManagerDialogRemoveWeaponButton"
-                @click.stop="eventsContestantsManagerDialogRemoveWeapon(eventsContestantsSelectedMember.id, index)"
-              >
-                <v-icon>
-                  remove
-                </v-icon>
-              </v-btn>
+              <div class="flex-1 text-sm">
+                {{ item.club.name }}
+                <div class="text-muted">
+                  {{ $t("club") }}
+                </div>
+              </div>
             </div>
+          </template>
 
-            <div v-if="!hasSelectedMember">
-              Velg et medlem for å legge til et våpen
+          <template v-slot:item="{ item }">
+            <div
+              class="py-2 flex items-center justify-between"
+              data-testid="eventsDivisionsSelectItem"
+            >
+              <div class="flex-1">
+                {{ item.firstName }} {{ item.lastName }}
+                <div class="text-muted leading-tight">
+                  {{ $t("member") }}
+                </div>
+              </div>
+
+              <div class="flex-1 text-sm">
+                {{ item.club.name }}
+                <div class="text-muted leading-tight">
+                  {{ $t("club") }}
+                </div>
+              </div>
             </div>
-          </v-list>
-        </div>
+          </template>
+        </v-autocomplete>
+
+        <v-btn
+          :disabled="!hasSelectedMember"
+          class="w-full"
+          color="white"
+          data-testid="addWeaponButton"
+          @click="addWeapon"
+        >
+          <v-icon left>
+            add
+          </v-icon>
+          {{ $t("add") }} {{ $t("weapon") }}
+        </v-btn>
       </div>
 
-      <!-- <v-divider class="my-2" />
-
-      <div class="text-center py-4">
-        Legger til
-      </div>
-
-      <v-data-table
-        ref="addingContestantsListTable"
-        :headers="addingContestantsListTableHeaders"
-        :items="addingContestantsListTableData"
-        :no-data-text="$t('tablePlaceholderText')"
-        disable-sort
-        data-testid="addingContestantsListTable"
+      <v-form
+        v-for="(weapon, index) in weaponsForm"
+        ref="forms"
+        :key="index"
+        :class="{ 'disabled': !hasSelectedMember }"
+        class="flex px-5 items-center mt-5 text-sm"
       >
-        <template v-slot:item.clubMember.firstName="{ item }">
-          {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
-        </template>
+        <v-autocomplete
+          v-model="weapon.weaponId"
+          :loading="weaponsStateListIsLoading"
+          :items="weaponsStateList"
+          item-text="name"
+          item-value="id"
+          :label="$t('formItem1Placeholder')"
+          :rules="[(v) => !!v || $t('formItemWeaponIdError')]"
+          data-testid="eventsContestantsManagerDialogWeaponsFormIdSelect"
+          class="flex-1"
+          single-line
+          hide-details
+          dense
+          required
+          outlined
+        >
+          <template v-slot:prepend-item>
+            <v-btn
+              text
+              class="py-4 mb-2 w-full"
+              data-testid="weaponsCreateDialogOpenButton"
+              @click.stop="weaponsCreateDialogOpen"
+            >
+              <v-icon left>
+                add
+              </v-icon>
+              {{ $t("create") }} {{ $t("weapon") }}
+            </v-btn>
+          </template>
 
-        <template v-slot:item.weapon.name="{ item }">
-          {{ item.weapon.name }} ({{ item.weapon.distance }})
-        </template>
-      </v-data-table> -->
+          <template v-slot:item="{ item }">
+            <div
+              class="py-2 flex items-center justify-between"
+              data-testid="eventsDivisionsSelectItem"
+            >
+              <div class="flex-2">
+                {{ item.name }}
+                <div class="text-muted leading-tight">
+                  {{ $t("weapon") }}
+                </div>
+              </div>
+
+              <div class="flex-1 text-sm ml-5">
+                {{ item.distance }} meter
+                <div class="text-muted leading-tight">
+                  {{ $t("distance") }}
+                </div>
+              </div>
+            </div>
+          </template>
+        </v-autocomplete>
+
+        <v-select
+          v-model="weapon.condition"
+          :items="weaponsStateConditions"
+          :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
+          label="Tilstand"
+          data-testid="eventsContestantsManagerDialogWeaponsFormConditionSelect"
+          class="flex-1 mx-3"
+          style="max-width: 200px;"
+          single-line
+          hide-details
+          dense
+          required
+          outlined
+        />
+
+        <v-text-field
+          v-model="weapon.calibre"
+          :label="$t('formItem2Label')"
+          :rules="[(v) => !!v || $t('formItemCalibreError')]"
+          data-testid="eventsContestantsManagerDialogWeaponsFormCalibreInput"
+          style="max-width: 7rem;"
+          type="number"
+          min="0"
+          single-line
+          hide-details
+          dense
+          required
+          outlined
+        />
+
+        <v-btn
+          icon
+          class="ml-2 -mr-1"
+          color="primary"
+          data-testid="removeWeaponButton"
+          @click.stop="removeWeapon(index)"
+        >
+          <v-icon>
+            remove
+          </v-icon>
+        </v-btn>
+      </v-form>
     </div>
-
-    <loading-dialog
-      v-model="eventsContestantsStateCreateManyIsLoading"
-    />
   </v-dialog>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import LoadingDialog from "@/components/LoadingDialog.vue"
+import eventsContestantsStub
+  from "./events.contestants.stub"
 
 export default Vue.extend({
   name: "EventsContestantsManagerDialog",
-
-  components: {
-    LoadingDialog
-  },
 
   props: {
     shown: { type: Boolean, default: false },
     event: { type: Object, required: true }
   },
 
-  data: function() {
+  data() {
     return {
       visible: this.shown,
-      activeClubIndex: null,
-      activeClubMemberIndex: null,
-      eventsContestantsSelectedMember: {},
-      weaponsForm: {},
-      cachedMembers: {},
+      selectedClubsMemberId: "",
+      weaponsForm: [{ ...eventsContestantsStub }],
       weaponsFormRules: {
         weaponId: { required: true, message: "Choose a weapon" },
         calibre: { required: true, message: "Enter a calibre" }
-      },
-
-      addingContestantsListTableHeaders: [{
-        value: "clubMember.firstName",
-        text: this.$t("columnLabelClubMember")
-      }, {
-        value: "clubMember.club.name",
-        text: this.$t("columnLabelClubName")
-      }, {
-        value: "weapon.name",
-        text: this.$t("columnLabelWeapon")
-      }, {
-        value: "calibre",
-        text: this.$t("columnLabelCalibre")
-      }]
+      }
     }
   },
 
   computed: {
-    ...mapState("clubs", {
-      clubsStateListIsLoading: "listIsLoading",
-      clubsStateList: "list"
-    }),
-
     ...mapState("clubs/members", {
       clubsMembersStateListIsLoading: "listIsLoading",
       clubsMembersStateList: "list"
     }),
-
     ...mapState("weapons", {
+      weaponsStateConditions: "conditions",
       weaponsStateListIsLoading: "listIsLoading",
-      weaponsStateList: "list",
-      weaponsStateConditions: "conditions"
+      weaponsStateList: "list"
     }),
-
     ...mapState("events/contestants", {
       eventsContestantsStateCreateManyIsLoading: "createManyIsLoading"
     }),
-
     hasSelectedMember(): boolean {
-      return Object.keys(this.eventsContestantsSelectedMember).length > 0
+      return this.selectedClubsMemberId !== ""
     }
-
-    // addingContestantsListTableData(): any {
-    //   const contestants = []
-    //   for(const memberId of Object.keys(this.weaponsForm)) {
-    //     const weapons = this.weaponsForm[memberId]
-    //     const clubMember = this.cachedMembers[memberId]
-    //     clubMember.club = this.clubsStateList.find(({ id }) => id === clubMember.clubId)
-
-    //     const contestant = {
-    //       clubMemberId: memberId,
-    //       clubMember,
-    //       eventId: this.event.id
-    //     }
-
-    //     weapons.forEach(({ weaponId, calibre, condition }) => {
-    //       const weapon = this.weaponsStateList.find(({ id }) => id === weaponId)
-
-    //       contestants.push({
-    //         ...contestant,
-    //         weaponId,
-    //         weapon,
-    //         condition,
-    //         calibre: parseInt(calibre)
-    //       })
-    //     })
-    //   }
-    //   return contestants
-    // }
   },
 
   watch: {
     visible(visible): void {
       this.$emit("update:shown", visible)
       if(!visible) return
-      this.clubsActionsList({
-        filter: {}, options: { limit: false }
-      })
-      this.weaponsActionsList({
-        filter: {}, options: { limit: false }
-      })
+      this.weaponsActionsList()
+      this.clubsMembersActionsList()
     },
     shown(visible): void {
       this.visible = visible
@@ -461,10 +312,6 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapActions("clubs", {
-      clubsActionsList: "list"
-    }),
-
     ...mapActions("clubs/members", {
       clubsMembersActionsList: "list"
     }),
@@ -477,56 +324,34 @@ export default Vue.extend({
       eventsContestantsActionsCreateMany: "createMany"
     }),
 
-    async eventsContestantsManagerDialogSelectClub(club, index): Promise<void> {
-      this.activeClubIndex = index
-      await this.clubsMembersActionsList({
-        filter: { clubId: club.id },
-        options: { limit: false },
-        persistFilter: true
-      })
-      this.eventsContestantsSelectedMember = {}
+    addWeapon(): void {
+      this.weaponsForm.push({ ...eventsContestantsStub })
     },
 
-    eventsContestantsManagerDialogSelectClubMember(member, index): void {
-      this.activeClubMemberIndex = index
-      this.eventsContestantsSelectedMember = member
-      this.cachedMembers[member.id] = member
+    removeWeapon(index): void {
+      this.weaponsForm.splice(index, 1)
     },
 
-    eventsContestantsManagerDialogAddWeapon(memberId): void {
-      const existingWeapons = this.weaponsForm[memberId]
-
-      if(!existingWeapons) {
-        Vue.set(this.weaponsForm, memberId, [{ weaponId: "", calibre: "" }])
+    async submit(): Promise<void> {
+      const validate = this.$refs.forms.map(({ validate }) => validate())
+      if(validate.includes(false)) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: this.$t("validationError")
+        })
         return
       }
 
-      this.weaponsForm[memberId].push({ weaponId: "", calibre: "" })
-    },
-
-    eventsContestantsManagerDialogRemoveWeapon(memberId, index): void {
-      this.weaponsForm[memberId].splice(index, 1)
-    },
-
-    async eventsContestantsManagerDialogSubmit(): Promise<void> {
-      const contestants = []
-
-      for(const memberId of Object.keys(this.weaponsForm)) {
-        const weapons = this.weaponsForm[memberId]
-
-        const contestant = {
-          clubMemberId: memberId,
-          eventId: this.event.id
-        }
-
-        weapons.forEach(({ weaponId, calibre }) => {
-          contestants.push({
-            ...contestant,
-            weaponId: weaponId,
-            calibre: parseInt(calibre)
-          })
-        })
-      }
+      const contestants = this.weaponsForm.map(({
+        weaponId,
+        calibre
+      }) => ({
+        clubMemberId: this.selectedClubsMemberId,
+        eventId: this.event.id,
+        weaponId: weaponId,
+        calibre: parseInt(calibre)
+      }))
 
       try {
         await this.eventsContestantsActionsCreateMany(contestants)
@@ -534,11 +359,11 @@ export default Vue.extend({
           type: "success",
           title: this.$t("success"),
           message: this.$t("saveSuccess", {
-            members: contestants.length
+            count: contestants.length
           })
         })
         this.close()
-        this.weaponsForm = {}
+        this.weaponsForm = [{ ...eventsContestantsStub }]
       } catch(e) {
         this.$notify({
           type: "error",
@@ -550,6 +375,16 @@ export default Vue.extend({
 
     close(): void {
       this.visible = false
+    },
+
+    weaponsCreateDialogOpen(): void {
+      this.close()
+      this.$emit("weaponsCreateDialogOpen", true)
+    },
+
+    clubsMembersCreateDialogOpen(): void {
+      this.close()
+      this.$emit("clubsMembersCreateDialogOpen", true)
     }
   }
 })

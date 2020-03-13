@@ -18,5 +18,9 @@
   "event": "Event",
   "division": "Division",
   "contestant": "Contestant",
-  "weapon": "Weapon"
+  "weapon": "Weapon",
+  "club": "Klubb",
+  "distance": "Distance",
+  "member": "Medlem",
+  "add": "Add"
 }

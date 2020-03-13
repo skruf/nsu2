@@ -18,5 +18,9 @@
   "event": "Stevne",
   "division": "Standplassliste",
   "contestant": "Deltaker",
-  "weapon": "Våpen"
+  "weapon": "Våpen",
+  "club": "Klubb",
+  "distance": "Distanse",
+  "member": "Medlem",
+  "add": "Legg til"
 }

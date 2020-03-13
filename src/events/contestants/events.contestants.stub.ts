@@ -24,5 +24,6 @@ export default {
   weaponId: "",
   eventId: "",
   divisionId: "",
-  clubMemberId: ""
+  clubMemberId: "",
+  colour: ""
 }

@@ -114,10 +114,6 @@
   grid-column: span 2;
 }
 
-.text-muted {
-  @apply opacity-50 text-sm;
-}
-
 .remove-contestant-overlay {
   @apply absolute z-10 inset-0 w-full h-full p-5 flex flex-col items-center justify-center text-white text-lg p-5;
   background-color: rgba(0, 0, 0, 0.8);
@@ -260,6 +256,20 @@
           dense
           @input="changeDivision"
         >
+          <template v-slot:prepend-item>
+            <v-btn
+              text
+              class="py-4 mb-2 w-full"
+              data-testid="eventsDivisionsCreateDialogOpenButton"
+              @click.stop="eventsDivisionsCreateDialogOpen"
+            >
+              <v-icon left>
+                add
+              </v-icon>
+              Ny standplass
+            </v-btn>
+          </template>
+
           <template v-slot:selection="{ item }">
             <div class="py-2 flex items-center w-full">
               <div class="flex-1">
@@ -298,20 +308,6 @@
                 </div>
               </div>
             </div>
-          </template>
-
-          <template v-slot:prepend-item>
-            <v-btn
-              text
-              class="py-4 mb-2 w-full"
-              data-testid="eventsDivisionsCreateDialogOpenButton"
-              @click.stop="eventsDivisionsCreateDialogOpen"
-            >
-              <v-icon left>
-                add
-              </v-icon>
-              Ny standplass
-            </v-btn>
           </template>
 
           <template v-slot:item="{ item }">
@@ -448,10 +444,8 @@
                 :data-contestantid="schedule[time][stand].id"
                 :draggable="true"
                 data-testid="assignedContestantCell"
-
                 @dragenter="addDragOverClass"
                 @dragleave="removeDragOverClass"
-
                 @dragstart="dragStartAssigned"
                 @dragover="dragOver"
                 @dragend="dragEnd"
@@ -465,7 +459,13 @@
                 </div> -->
 
                 <div class="">
-                  #{{ schedule[time][stand].number }} - {{ schedule[time][stand].clubMember.firstName }} {{ schedule[time][stand].clubMember.lastName }}
+                  <avatar
+                    class="mx-0"
+                    size="small"
+                    :colour="schedule[time][stand].colour"
+                    :value="schedule[time][stand].number"
+                  />
+                  {{ schedule[time][stand].clubMember.firstName }} {{ schedule[time][stand].clubMember.lastName }}
                   <!-- [{{ schedule[time][stand].clubMember.club.shortName }}] -->
                 </div>
 
@@ -604,9 +604,14 @@
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState, mapGetters } from "vuex"
+import Avatar from "@/components/Avatar.vue"
 
 export default Vue.extend({
   name: "EventsDivisionsScheduler",
+
+  components: {
+    Avatar
+  },
 
   data() {
     return {

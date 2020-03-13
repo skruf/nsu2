@@ -87,9 +87,11 @@ html {
 
 .v-btn:not(.v-btn--icon):not(.theme--dark) {
   padding: 4px 16px !important;
-  color: #3c4257;
+  /* color: #3c4257; */
   letter-spacing: 0.5px;
   text-transform: none;
+  height: 40px;
+  font-size: 0.925rem;
 }
 
 .v-btn--contained {
@@ -135,7 +137,7 @@ input[type=time]:invalid::-webkit-datetime-edit {
 .theme--light.v-text-field--outlined fieldset {
   /* border-color: var(--border-color); */
   border-width: 1px;
-  border-color: #2a2c4b3d;
+  /* border-color: #2a2c4b3d; */
 }
 
 .sortable-swap-highlight {
@@ -156,9 +158,15 @@ input[type=time]:invalid::-webkit-datetime-edit {
   border-color: var(--border-color) !important;
 }
 
+.v-data-table th {
+  font-size: 0.875rem;
+}
+
 .v-data-table td {
-  height: 3rem;
-  /* height: 2.75rem; */
+  /* height: 3rem; */
+  height: 2.75rem;
+  font-size: 0.925rem
+  /* font-size: 1rem; */
 }
 
 .v-data-table tbody tr.v-data-table__selected {
@@ -206,13 +214,6 @@ input[type=time]:invalid::-webkit-datetime-edit {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.v-data-table th {
-  font-size: 0.875rem;
-}
-.v-data-table td {
-  font-size: 0.925rem
-}
-
 .table-group-header {
   @apply text-left font-bold;
   padding-top: 0.75rem !important;
@@ -249,6 +250,18 @@ input[type=time]:invalid::-webkit-datetime-edit {
   @apply w-6 py-2 bg-gray-200 rounded text-xs font-semibold flex justify-center items-center;
   margin-left: 2px;
   margin-right: 2px;
+}
+
+.text-muted {
+  @apply opacity-50 text-sm;
+}
+
+.disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+.flex-2 {
+  flex: 2;
 }
 
 html .el-notification__content {
