@@ -1,6 +1,6 @@
 import { RxJsonSchema } from "rxdb"
-import { destroyMany, findMany, updateMany } from "@/db/queries"
 import { ClubsSchema, ClubsProperties } from "./clubs.types"
+import { db } from "@/db"
 
 const schema: RxJsonSchema<ClubsSchema> = {
   title: "Clubs schema",
@@ -55,15 +55,13 @@ const schema: RxJsonSchema<ClubsSchema> = {
 }
 
 const preRemove = async (data: ClubsProperties): Promise<void> => {
-  await destroyMany("clubs_members", { clubId: data.id })
+  await db.events
+    .find({ organizerId: data.id })
+    .update({ $set: { organizerId: undefined } })
 
-  const { items: events } = await findMany("events", {
-    organizerId: data.id
-  }, true)
-
-  await updateMany("events", events.map(
-    (event) => ({ ...event, organizerId: "" })
-  ))
+  await db.clubs_members
+    .find({ clubId: data.id })
+    .update({ $set: { clubId: undefined } })
 }
 
 export default {

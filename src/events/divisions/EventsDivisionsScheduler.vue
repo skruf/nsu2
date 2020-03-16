@@ -41,6 +41,11 @@
   background-color: green;
 } */
 
+.contestant-cell,
+.unassigned-contestants-cell {
+  position: relative;
+}
+
 .contestant-cell:hover,
 .unassigned-contestants-cell:hover {
   @apply bg-gray-100;
@@ -55,6 +60,10 @@
 .lane {
   @apply bg-white;
   height: 42px;
+}
+
+.time-labels {
+  @apply h-full;
 }
 
 .time {
@@ -79,7 +88,7 @@
 
 .cell,
 .lane {
-  min-width: 140px;
+  min-width: 160px;
 }
 
 .lane-labels {
@@ -97,7 +106,7 @@
 
 .unassigned-container {
   @apply flex-col min-w-0 mr-5 ml-0 overflow-y-auto;
-  max-width: 281px;
+  max-width: 321px;
 }
 
 .unassigned-contestants {
@@ -106,7 +115,7 @@
 }
 
 .unassigned-search-filter {
-  @apply border-t border-solid border-border;
+  @apply border-t border-b border-solid border-border mt-1;
 }
 
 .unassigned-contestants-no-data {
@@ -172,8 +181,8 @@
     "eventsDivisionsSearchFilterPlaceholder": "Søk etter standplasslister",
     "unAssignedSearchFilterLabel": "Søk etter deltakere",
     "divisionSelectLabel": "Standplassliste",
-    "unAssignedContestantsNoData": "Ingen ledige deltakere",
-    "unAssignedTitle": "Ledige deltakere"
+    "unAssignedContestantsNoData": "Ingen tilgjengelige deltakere",
+    "unAssignedTitle": "Tilgjengelige deltakere"
   }
 }
 </i18n>
@@ -271,86 +280,17 @@
           </template>
 
           <template v-slot:selection="{ item }">
-            <div class="py-2 flex items-center w-full">
-              <div class="flex-1">
-                {{ item.day | moment("dddd") }} kl. {{ item.startsAt }}
-                <!-- [{{ item.eventId }}] -->
-                <div class="text-muted">
-                  Dato: {{ item.day | moment("DD/MM/YYYY") }}
-                </div>
-              </div>
-
-              <div class="flex-1">
-                kl. {{ item.endsAt }}
-                <div class="text-muted">
-                  Siste start
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.distance }} meter
-                <div class="text-muted">
-                  Distanse
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.standsCount }}
-                <div class="text-muted">
-                  Baner
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.contestantsCount }}
-                <div class="text-muted">
-                  Deltakere
-                </div>
-              </div>
-            </div>
+            <events-divisions-scheduler-division-select-item
+              data-testid="eventsDivisionsSchedulerDivisionSelectSelection"
+              :division="item"
+            />
           </template>
 
           <template v-slot:item="{ item }">
-            <div
-              class="py-2 flex items-center"
-              data-testid="eventsDivisionsSelectItem"
+            <events-divisions-scheduler-division-select-item
+              data-testid="eventsDivisionsSchedulerDivisionSelectItem"
+              :division="item"
             >
-              <div class="flex-1">
-                {{ item.day | moment("dddd") }} kl. {{ item.startsAt }}
-                <!-- [{{ item.eventId }}] -->
-                <div class="text-muted">
-                  Dato: {{ item.day | moment("DD/MM/YYYY") }}
-                </div>
-              </div>
-
-              <div class="flex-1">
-                kl. {{ item.endsAt }}
-                <div class="text-muted">
-                  Siste start
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.distance }} meter
-                <div class="text-muted">
-                  Distanse
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.standsCount }}
-                <div class="text-muted">
-                  Baner
-                </div>
-              </div>
-
-              <div class="flex-1">
-                {{ item.contestantsCount }}
-                <div class="text-muted">
-                  Deltakere
-                </div>
-              </div>
-
               <v-menu>
                 <template v-slot:activator="{ on: { click }, attrs }">
                   <v-btn
@@ -398,7 +338,7 @@
                   </v-list-item>
                 </v-list>
               </v-menu>
-            </div>
+            </events-divisions-scheduler-division-select-item>
           </template>
         </v-select>
       </div>
@@ -458,13 +398,15 @@
                   [{{ schedule[time][stand].eventId }}]
                 </div> -->
 
-                <div class="">
-                  <avatar
-                    class="mx-0"
-                    size="small"
-                    :colour="schedule[time][stand].colour"
-                    :value="schedule[time][stand].number"
-                  />
+                <avatar
+                  class="mx-0 absolute left-0 top-0"
+                  style="border-radius:0;"
+                  size="small"
+                  :colour="schedule[time][stand].colour"
+                  :value="schedule[time][stand].number"
+                />
+
+                <div>
                   {{ schedule[time][stand].clubMember.firstName }} {{ schedule[time][stand].clubMember.lastName }}
                   <!-- [{{ schedule[time][stand].clubMember.club.shortName }}] -->
                 </div>
@@ -482,10 +424,8 @@
                 :data-time="time"
                 :data-stand="stand"
                 data-testid="addContestantCell"
-
                 @dragenter="addDragOverClass"
                 @dragleave="removeDragOverClass"
-
                 @dragover="dragOver"
                 @drop="dropAddOrUpdate"
                 @click="eventsContestantsCreateDialogOpen(time, stand)"
@@ -545,7 +485,11 @@
       </v-fade-transition>
 
       <div class="p-5 pt-4 pb-3">
-        {{ $t("unAssignedTitle") }}: {{ unAssigned.length }}
+        {{ $t("unAssignedTitle") }}
+      </div>
+
+      <div class="px-5 pb-3 text-sm">
+        Viser <strong>{{ unAssigned.length }}</strong> tilgjengelige deltakere som skyter med våpen på <strong>{{ eventsDivisionsStateSelected.distance }} meter</strong>. Det er totalt <strong>{{ getUnAssigned.length }}</strong> tilgjengelige deltakere på stevnet.
       </div>
 
       <v-text-field
@@ -576,16 +520,25 @@
           >
             <!-- <div class="text-muted">
               {{ contestant.id }}
-              ({{ contestant.divisionId }})
-              [({{ contestant.eventId }})]
+              {{ contestant.divisionId }}
+              {{ contestant.eventId }}
             </div> -->
 
+            <avatar
+              class="mx-0 absolute left-0 top-0"
+              style="border-radius:0;"
+              size="small"
+              :colour="contestant.colour"
+              :value="contestant.number"
+            />
+
             <div>
-              #{{ contestant.number }} - {{ contestant.clubMember.firstName }} {{ contestant.clubMember.lastName }}
+              {{ contestant.clubMember.firstName }} {{ contestant.clubMember.lastName }}
             </div>
 
             <div class="text-muted">
               {{ contestant.weapon.name }} ({{ contestant.weapon.condition.charAt(0) }})
+              <!-- {{ contestant.weapon.distance }} -->
             </div>
           </div>
         </template>
@@ -603,14 +556,17 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState, mapGetters } from "vuex"
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
+import EventsDivisionsSchedulerDivisionSelectItem
+  from "./EventsDivisionsSchedulerDivisionSelectItem.vue"
 
 export default Vue.extend({
   name: "EventsDivisionsScheduler",
 
   components: {
-    Avatar
+    Avatar,
+    EventsDivisionsSchedulerDivisionSelectItem
   },
 
   data() {
@@ -642,7 +598,8 @@ export default Vue.extend({
       getTimesByDivisionId: "timesByDivisionId",
       getStandsByDivisionId: "standsByDivisionId",
       getScheduleByDivisionId: "scheduleByDivisionId",
-      getUnAssignedByWeaponDistance: "unAssignedByWeaponDistance"
+      getUnAssignedByWeaponDistance: "unAssignedByWeaponDistance",
+      getUnAssigned: "unAssigned"
     }),
 
     isDragging(): boolean {
@@ -753,26 +710,26 @@ export default Vue.extend({
   },
 
   watch: {
-    stands: "resizeColumn",
-    eventsStateSelected: {
-      immediate: true,
-      async handler(): Promise<void> {
-        const divisions = await this.eventsDivisionsActionsList({
-          filter: { eventId: this.eventsStateSelected.id }
-        })
-        if(!divisions.items.length) return
-        const { id } = divisions.items[0]
-        this.changeDivision(id)
-      }
-    }
+    stands: "resizeColumn"
+  },
+
+  created() {
+    const divisions = this.eventsDivisionsStateList
+    if(!divisions.length) return
+    this.eventsDivisionsActionsSelect({ id: divisions[0].id })
+  },
+
+  beforeDestroy(): void {
+    this.eventsDivisionsMutationsSetSelected({})
   },
 
   methods: {
     ...mapActions("events/divisions", {
-      eventsDivisionsActionsList: "list",
       eventsDivisionsActionsSelect: "select"
     }),
-
+    ...mapMutations("events/divisions", {
+      eventsDivisionsMutationsSetSelected: "SET_SELECTED"
+    }),
     ...mapActions("events/contestants", {
       eventsContestantsActionsEditOne: "editOne",
       eventsContestantsActionsEditMany: "editMany"
@@ -794,12 +751,17 @@ export default Vue.extend({
     },
 
     getCell(e): HTMLElement {
-      return e.path.find((elem) => elem.className.includes("cell"))
+      if(!e) return
+      return e.path.find((elem) => (
+        elem.className &&
+        elem.className !== "" &&
+        elem.className.includes("cell"))
+      )
     },
 
     addDragOverClass(e: DragEvent): void {
       const cell: HTMLElement = this.getCell(e)
-      cell.classList.add("dragover")
+      if(cell) cell.classList.add("dragover")
     },
 
     removeDragOverClass(e: DragEvent): void {

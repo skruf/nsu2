@@ -52,7 +52,7 @@ export default Vue.extend({
 
   props: {
     shown: { type: Boolean, default: false },
-    clubMember: { type: Object, required: true }
+    member: { type: Object, required: true }
   },
 
   data: function() {
@@ -73,7 +73,7 @@ export default Vue.extend({
     shown(visible): void {
       this.visible = visible
     },
-    clubMember: {
+    member: {
       immediate: true,
       handler(data): void {
         this.form = { ...data }

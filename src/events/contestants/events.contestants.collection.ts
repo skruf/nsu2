@@ -102,8 +102,7 @@ const schema: RxJsonSchema = {
 //   }
 //   return color
 // }
-// const c = () => `hsl(${Math.random() * 360}, 100%, 90%)`
-const c = () => `#ececec`
+const getRandomColor = (): string => `hsl(${Math.random() * 360}, 100%, 90%)`
 
 // @TODO: auto-assign divisionId
 const assignNumber = async (data: EventsContestantsProperties): Promise<void> => {
@@ -131,18 +130,24 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
     return
   }
 
-  data.colour = c()
+  data.colour = getRandomColor()
   data.number = contestantsNextNumber[0].number + 1
 }
 
 const collator = new Intl.Collator("en", { usage: "sort" })
 
-const sortContestantByTime = (contestants) => contestants
-  .map(({ time }) => time)
-  .sort(collator.compare)
+const sortContestantByTime = (contestants) => (
+  contestants
+    .map(({ time }) => time)
+    .sort(collator.compare)
+)
 
-const getFirstTime = (contestants) => sortContestantByTime(contestants)[0]
-const getLastTime = (contestants) => sortContestantByTime(contestants)[contestants.length - 1]
+const getFirstTime = (contestants) => (
+  sortContestantByTime(contestants)[0]
+)
+const getLastTime = (contestants) => (
+  sortContestantByTime(contestants)[contestants.length - 1]
+)
 
 const assignTime = (contestants, division) => {
   if(!contestants.length) return division.startsAt
@@ -212,7 +217,8 @@ const updateDivision = async (contestants, division, data, doc): Promise<void> =
 
 // @TODO: update division start/end/standCount when un-assigning contestants
 const assignTimeAndStandAndUpdateDivision = async (
-  data: EventsContestantsProperties, doc: EventsContestantsDocument
+  data: EventsContestantsProperties,
+  doc: EventsContestantsDocument
 ): Promise<void> => {
   let division = null
   let contestants = null
@@ -235,6 +241,11 @@ const assignTimeAndStandAndUpdateDivision = async (
     if(!data.stand || data.stand === 0 || data.divisionId !== doc.divisionId) {
       data.stand = assignStand(contestants, division)
     }
+  }
+
+  if(data.divisionId && !(data.stand && data.time)) {
+    data.time = assignTime(contestants, division)
+    data.stand = assignStand(contestants, division)
   }
 
   await updateDivision(contestants, division, data, doc)

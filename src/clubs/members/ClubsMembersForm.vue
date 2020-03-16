@@ -95,38 +95,16 @@
       :items="clubsStateList"
       :loading="clubsStateListIsLoading"
       :label="$t('clubsMembersFormClubIdLabel')"
-      :rules="[(v) => !!v || $t('clubsMembersFormClubIdError')]"
       data-testid="clubsFormClubIdSelect"
       item-value="id"
       item-text="name"
       class="mb-3"
       outlined
-      required
     />
 
-    <v-snackbar
+    <error-validation-notification
       v-model="showValidationError"
-      color="error"
-      multi-line
-      right
-      top
-    >
-      <v-icon
-        color="white"
-        class="mr-4"
-      >
-        error
-      </v-icon>
-
-      {{ $t("validationError") }}
-
-      <v-btn
-        text
-        @click="showValidationError = false"
-      >
-        {{ $t("close") }}
-      </v-btn>
-    </v-snackbar>
+    />
   </v-form>
 </template>
 
@@ -134,9 +112,15 @@
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
 import clubsMembersStub from "./clubs.members.stub"
+import ErrorValidationNotification
+  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "ClubsMembersForm",
+
+  components: {
+    ErrorValidationNotification
+  },
 
   props: {
     value: { type: Object, default: (): object => clubsMembersStub },

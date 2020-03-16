@@ -16,10 +16,10 @@ export const populate = async (doc: EventsContestantsDocument): Promise<
   const member = await doc.populate("clubMemberId")
   const club = await member.populate("clubId")
   const contestant = doc.toJSON()
-  contestant.division = division ? division.toJSON() : null
+  contestant.division = division ? division.toJSON() : {}
   contestant.weapon = weapon.toJSON()
   contestant.clubMember = member.toJSON()
-  contestant.clubMember.club = club.toJSON()
+  contestant.clubMember.club = club ? club.toJSON() : {}
   return contestant
 }
 

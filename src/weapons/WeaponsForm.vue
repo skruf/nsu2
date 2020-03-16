@@ -79,13 +79,19 @@
       required
     />
 
-    <v-text-field
+    <v-select
       v-model="value.distance"
       :label="$t('weaponsFormDistanceLabel')"
       :rules="[(v) => !!v || $t('weaponsFormDistanceError')]"
-      type="number"
+      :items="[
+        { l: '25 meter', v: 25 },
+        { l: '50 meter', v: 50 },
+        { l: '100 meter', v: 100 }
+      ]"
+      item-text="l"
+      item-value="v"
       data-testid="weaponsFormDistanceInput"
-      hint="Antall meter"
+      append-icon="expand_more"
       outlined
       required
     />

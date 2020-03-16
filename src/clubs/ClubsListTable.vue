@@ -12,7 +12,7 @@
     "removeClub": "Remove club",
     "tablePlaceholderButton": "Create new?",
     "tablePlaceholderText": "No clubs yet.",
-    "clubsCreateDialogOpen": "Create club"
+    "createDialogOpen": "Create club"
   },
   "no": {
     "searchFormPlaceholder": "Søk etter klubber",
@@ -26,7 +26,7 @@
     "removeClub": "Slett klubb",
     "tablePlaceholderButton": "Opprett ny?",
     "tablePlaceholderText": "Ingen klubber enda.",
-    "clubsCreateDialogOpen": "Opprett klubb"
+    "createDialogOpen": "Opprett klubb"
   }
 }
 </i18n>
@@ -35,30 +35,30 @@
   <div>
     <div class="table-controls">
       <table-filter-search
-        v-model="clubsSearchFilter"
+        v-model="searchFilter"
         :label="$t('searchFormPlaceholder')"
-        data-testid="clubsSearchFilterInput"
+        data-testid="searchFilterInput"
       />
 
       <v-btn
         class="ml-auto"
         color="white"
-        data-testid="clubsCreateDialogOpenButton"
-        @click.stop="clubsCreateDialogOpen"
+        data-testid="createDialogOpenButton"
+        @click.stop="createDialogOpen"
       >
         <v-icon left>
           add
         </v-icon>
-        {{ $t("clubsCreateDialogOpen") }}
+        {{ $t("createDialogOpen") }}
       </v-btn>
     </div>
 
     <v-data-table
-      v-model="clubsSelection"
-      :headers="clubsHeaders"
-      :items="clubsStateList"
-      :search="clubsSearchFilter"
-      :loading="clubsStateListIsLoading"
+      v-model="selection"
+      :headers="headers"
+      :items="clubs"
+      :search="searchFilter"
+      :loading="loading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
@@ -66,7 +66,7 @@
       :headers-length="6"
       data-testid="clubsListTable"
       class="clickable"
-      @click:row="clubsTableRowClick"
+      @click:row="tableRowClick"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
@@ -87,7 +87,7 @@
           <v-list>
             <v-list-item
               data-testid="clubsListTableRowDropdownOpenEditDialog"
-              @click.stop="clubsEditDialogOpen(item)"
+              @click.stop="editDialogOpen(item)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon>
@@ -104,7 +104,7 @@
 
             <v-list-item
               data-testid="clubsListTableRowDropdownRemoveOne"
-              @click.stop="clubsRemoveOne(item)"
+              @click.stop="removeOne(item)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon color="red">
@@ -124,7 +124,7 @@
         <v-menu>
           <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
-              :disabled="!clubsHasSelection"
+              :disabled="!hasSelection"
               data-testid="clubsListTableHeaderDropdown"
               small
               icon
@@ -140,7 +140,7 @@
           <v-list>
             <v-list-item
               data-testid="clubsListTableHeaderDropdownRemoveMany"
-              @click.stop="clubsRemoveMany(clubsSelection)"
+              @click.stop="removeMany(selection)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon color="red">
@@ -161,7 +161,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState } from "vuex"
 import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
@@ -171,11 +170,16 @@ export default Vue.extend({
     TableFilterSearch
   },
 
+  props: {
+    clubs: { type: Array, default: (): [] => [] },
+    loading: { type: Boolean, default: true }
+  },
+
   data() {
     return {
-      clubsSelection: [],
-      clubsSearchFilter: "",
-      clubsHeaders: [{
+      selection: [],
+      searchFilter: "",
+      headers: [{
         value: "shortName",
         text: this.$t("columnShortNameLabel")
       }, {
@@ -201,43 +205,29 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapState("clubs", {
-      clubsStateListIsLoading: "listIsLoading",
-      clubsStateList: "list"
-    }),
-
-    clubsHasSelection(): boolean {
-      return this.clubsSelection.length > 0
+    hasSelection(): boolean {
+      return this.selection.length > 0
     }
   },
 
-  created() {
-    // @TODO: observer
-    this.clubsActionsList()
-  },
-
   methods: {
-    ...mapActions("clubs", {
-      clubsActionsList: "list"
-    }),
-
-    clubsCreateDialogOpen(): void {
-      this.$emit("clubsCreateDialogOpen")
+    createDialogOpen(): void {
+      this.$emit("createDialogOpen")
     },
 
-    clubsEditDialogOpen(club): void {
-      this.$emit("clubsEditDialogOpen", club)
+    editDialogOpen(club): void {
+      this.$emit("editDialogOpen", club)
     },
 
-    clubsRemoveOne(club): void {
-      this.$emit("clubsRemoveOne", club)
+    removeOne(club): void {
+      this.$emit("removeOne", club)
     },
 
-    clubsRemoveMany(clubs): void {
-      this.$emit("clubsRemoveMany", clubs)
+    removeMany(clubs): void {
+      this.$emit("removeMany", clubs)
     },
 
-    clubsTableRowClick(club): void {
+    tableRowClick(club): void {
       this.$router.push(`/clubs/${club.id}`)
     }
   }

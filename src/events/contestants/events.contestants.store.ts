@@ -12,8 +12,11 @@ const getters = {
   assignedByDivisionId: (_, { assigned }) => (divisionId) => (
     assigned.filter((item) => item.divisionId === divisionId)
   ),
-  unAssignedByWeaponDistance: ({ list }) => (weaponDistance) => (
-    list.filter((c) => !c.stand && !c.time && c.weapon.distance === weaponDistance)
+  unAssigned: ({ list }) => (
+    list.filter((c) => !c.stand && !c.time)
+  ),
+  unAssignedByWeaponDistance: (_, { unAssigned }) => (weaponDistance) => (
+    unAssigned.filter((c) => c.weapon.distance === weaponDistance)
   ),
   timesByDivisionId: (_, { assignedByDivisionId }) => (divisionId) => (
     [ ...new Set(assignedByDivisionId(divisionId).sort((a, b) => (

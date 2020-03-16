@@ -17,7 +17,7 @@ export declare type Collection = (
   "ranges"
 )
 
-type Filter<T> = RxQueryOptions<T> | { [P in keyof T]?: T[P] }
+export type Filter<T> = RxQueryOptions<T> | { [P in keyof T]?: T[P] }
 
 export const count = async <T>(
   collection: Collection,

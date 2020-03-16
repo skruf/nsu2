@@ -1,6 +1,6 @@
 import { RxJsonSchema } from "rxdb"
-import { destroyMany } from "@/db/queries"
 import { ClubsMembersProperties } from "./clubs.members.types"
+import { destroyMany } from '@/db/queries'
 
 const schema: RxJsonSchema = {
   title: "Clubs members schema",
@@ -36,8 +36,7 @@ const schema: RxJsonSchema = {
   required: [
     "firstName",
     "lastName",
-    "country",
-    "clubId"
+    "country"
   ]
 }
 

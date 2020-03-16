@@ -44,7 +44,7 @@
       required
     />
 
-    <v-select
+    <!-- <v-select
       v-model="value.divisionId"
       :items="eventsDivisionsStateList"
       :loading="eventsDivisionsStateListIsLoading"
@@ -53,7 +53,7 @@
       item-value="id"
       data-testid="eventsContestantsFormDivisionIdSelect"
       outlined
-    />
+    /> -->
 
     <error-validation-notification
       :shown.sync="showValidationError"
@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import Vue from "vue"
-import moment from "moment"
+// import moment from "moment"
 import { mapState, mapActions } from "vuex"
 import eventsContestantsStub from "./events.contestants.stub"
 import ErrorValidationNotification
@@ -89,10 +89,10 @@ export default Vue.extend({
       weaponsStateListIsLoading: "listIsLoading",
       weaponsStateList: "list"
     }),
-    ...mapState("events/divisions", {
-      eventsDivisionsStateListIsLoading: "listIsLoading",
-      eventsDivisionsStateList: "list"
-    })
+    // ...mapState("events/divisions", {
+    //   eventsDivisionsStateListIsLoading: "listIsLoading",
+    //   eventsDivisionsStateList: "list"
+    // })
   },
 
   watch: {
@@ -109,10 +109,9 @@ export default Vue.extend({
     this.weaponsActionsList({
       filter: {}, options: { limit: false }
     })
-    this.eventsDivisionsActionsList({
-      filter: { eventId: this.value.eventId },
-      options: { limit: false }
-    })
+    // this.eventsDivisionsActionsList({
+    //   filter: { eventId: this.value.eventId }
+    // })
   },
 
   methods: {
@@ -120,9 +119,9 @@ export default Vue.extend({
       weaponsActionsList: "list"
     }),
 
-    ...mapActions("events/divisions", {
-      eventsDivisionsActionsList: "list"
-    }),
+    // ...mapActions("events/divisions", {
+    //   eventsDivisionsActionsList: "list"
+    // }),
 
     submit(cb): void {
       this.$refs.localForm.validate()
@@ -134,9 +133,9 @@ export default Vue.extend({
       this.$refs.localForm.reset()
     },
 
-    formatDivision({ day, time, distance }): string {
-      return `${moment(day).format("ddd, DD/MMM")} - ${distance} meter`
-    }
+    // formatDivision({ day, time, distance }): string {
+    //   return `${moment(day).format("ddd, DD/MMM")} - ${distance} meter`
+    // }
   }
 })
 </script>

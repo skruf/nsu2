@@ -100,15 +100,15 @@
       </template>
 
       <template v-slot:item.rangeId="{ item }">
-        {{ item.range ? item.range.name : "-" }}
+        {{ item.range && item.range.name }}
       </template>
 
       <template v-slot:item.organizerId="{ item }">
-        {{ item.club ? item.club.shortName : "-" }}
+        {{ item.club && item.club.shortName }}
       </template>
 
       <template v-slot:item.categoryId="{ item }">
-        {{ item.category ? item.category.name : "-" }}
+        {{ item.category && item.category.name }}
       </template>
 
       <template v-slot:item.actions="{ item }">

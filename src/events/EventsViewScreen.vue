@@ -212,10 +212,7 @@
       </v-menu>
     </v-app-bar>
 
-    <div
-      class="relative bg-white border-t border-border border-solid px-6 print:hidden"
-      style="box-shadow: 1px 2px 10px -7px #00000078;"
-    >
+    <div class="tab-container">
       <v-tabs
         v-model="activeTab"
         background-color="transparent"
@@ -310,9 +307,12 @@ export default Vue.extend({
   watch: {
     "$route.params.eventId": {
       immediate: true,
-      handler: function(id): void {
+      handler(id): void {
         this.eventsActionsSelect({ id })
         this.eventsContestantsActionsList({
+          filter: { eventId: id }
+        })
+        this.eventsDivisionsActionsList({
           filter: { eventId: id }
         })
       }
@@ -324,8 +324,13 @@ export default Vue.extend({
       eventsActionsSelect: "select",
       eventsActionsRemoveOne: "removeOne"
     }),
+
     ...mapActions("events/contestants", {
       eventsContestantsActionsList: "list"
+    }),
+
+    ...mapActions("events/divisions", {
+      eventsDivisionsActionsList: "list"
     }),
 
     eventsRangeOpenMap(): void {

@@ -1,7 +1,6 @@
 import { RxJsonSchema } from "rxdb"
 import { db } from "@/db"
 import { EventsDivisionsProperties } from "./events.divisions.types"
-import eventsDivisionsService from "./events.divisions.service"
 
 const schema: RxJsonSchema = {
   title: "Events divisions schema",
@@ -48,12 +47,9 @@ const schema: RxJsonSchema = {
   ]
 }
 
-const preInsert = async (data: EventsDivisionsProperties): Promise<void> => {
-  if(!data.autoAssign) return
-  await eventsDivisionsService.autoAssign(data)
-}
-
-const preRemove = async (data: EventsDivisionsProperties): Promise<void> => {
+const preRemove = async (
+  data: EventsDivisionsProperties
+): Promise<void> => {
   await db.events_contestants
     .find({ divisionId: data.id })
     .update({
@@ -71,10 +67,6 @@ export default {
     schema: schema
   },
   middlewares: {
-    preInsert: {
-      handle: preInsert,
-      parallel: false
-    },
     preRemove: {
       handle: preRemove,
       parallel: false

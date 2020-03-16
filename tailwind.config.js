@@ -13,8 +13,14 @@ module.exports = {
           800: "#424242",
           900: "#212121",
         },
-        primary: "#b3315f",
-        border: "#dce3e6"
+        border: "#dce3e6",
+        primary: "#181F48",
+        secondary: "#424242",
+        accent: "#003c9e",
+        error: "#FF5252",
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FFC107"
       },
       height: {
         inherit: "inherit"

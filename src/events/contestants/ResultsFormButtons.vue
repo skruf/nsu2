@@ -24,6 +24,9 @@ button::after {
   z-index: -1;
   pointer-events: none
 }
+.btn.active {
+  @apply bg-primary text-white;
+}
 </style>
 
 <template>
@@ -58,9 +61,9 @@ button::after {
             :key="sum"
             ref="button"
             v-ripple
-            :class="{ 'bg-gray-300': isSet(hit, sum) }"
+            :class="{ 'active': isSet(hit, sum) }"
             type="button"
-            class="rounded-none relative w-full h-full hit bg-transparent mx-0"
+            class="btn rounded-none relative w-full h-full hit bg-transparent mx-0"
             :data-testid="`ResultsFormButtonsSumButton${hit}-${sum}`"
             @click="setHit(hit, sum)"
           >

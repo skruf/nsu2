@@ -221,7 +221,7 @@ export default Vue.extend({
 
   methods: {
     ...mapActions("events/contestants", {
-      eventsContestantsActionsList: "list",
+      // eventsContestantsActionsList: "list",
       eventsContestantsActionsEditMany: "editMany"
     }),
 

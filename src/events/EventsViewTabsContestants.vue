@@ -19,14 +19,14 @@
   <div class="">
     <events-contestants-list-table
       :event="event"
-      @eventsContestantsManageDialogOpen="eventsContestantsManageDialogOpen"
+      @eventsContestantsCreateDialogOpen="eventsContestantsCreateDialogOpen"
       @eventsContestantsEditDialogOpen="eventsContestantsEditDialogOpen"
       @eventsContestantsRemoveOne="eventsContestantsRemoveOne"
       @eventsContestantsRemoveMany="eventsContestantsRemoveMany"
     />
 
-    <events-contestants-manager-dialog
-      :shown.sync="eventsContestantsManageDialogShow"
+    <events-contestants-create-dialog
+      :shown.sync="eventsContestantsCreateDialogShow"
       :event="event"
       @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
       @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
@@ -52,8 +52,8 @@ import Vue from "vue"
 import { mapActions, mapState } from "vuex"
 import EventsContestantsListTable
   from "./contestants/EventsContestantsListTable.vue"
-import EventsContestantsManagerDialog
-  from "./contestants/EventsContestantsManagerDialog.vue"
+import EventsContestantsCreateDialog
+  from "./contestants/EventsContestantsCreateDialog.vue"
 import EventsContestantsEditDialog
   from "./contestants/EventsContestantsEditDialog.vue"
 import ClubsMembersCreateDialog
@@ -66,7 +66,7 @@ export default Vue.extend({
 
   components: {
     EventsContestantsListTable,
-    EventsContestantsManagerDialog,
+    EventsContestantsCreateDialog,
     EventsContestantsEditDialog,
     ClubsMembersCreateDialog,
     WeaponsCreateDialog
@@ -79,7 +79,7 @@ export default Vue.extend({
   data: () => ({
     clubsMembersCreateDialogShown: false,
     weaponsCreateDialogShown: false,
-    eventsContestantsManageDialogShow: false,
+    eventsContestantsCreateDialogShow: false,
     eventsContestantsEditDialogShow: false,
     eventsContestantsEditContestant: {}
   }),
@@ -105,8 +105,8 @@ export default Vue.extend({
       this.weaponsCreateDialogShown = true
     },
 
-    eventsContestantsManageDialogOpen(): void {
-      this.eventsContestantsManageDialogShow = true
+    eventsContestantsCreateDialogOpen(): void {
+      this.eventsContestantsCreateDialogShow = true
     },
 
     eventsContestantsEditDialogOpen(contestant): void {

@@ -99,27 +99,21 @@ export default (options?: Options) => {
 
   if(config.list) {
     state.listIsLoading = false
-    state.listFilter = {}
+    // state.listFilter = {}
     state.list = []
 
     mutations.SET_LIST_LOADING = (state, loading): void => {
       state.listIsLoading = loading
     }
-    mutations.SET_LIST_FILTER = (state, listFilter): void => {
-      state.listFilter = listFilter
-    }
+    // mutations.SET_LIST_FILTER = (state, listFilter): void => {
+    //   state.listFilter = listFilter
+    // }
 
-    // filter undefined = loopage
-    actions.list = async function({ commit, state }, params = {}): Promise<any> {
-      const { filter, persistFilter } = params
+    actions.list = async function({ commit }, params = {}): Promise<any> {
+      const { filter } = params
       commit("SET_LIST_LOADING", true)
-
-      const listFilter = _cloneDeep(filter) || state.listFilter
-
-      if(persistFilter) commit("SET_LIST_FILTER", state, listFilter)
-
+      const listFilter = _cloneDeep(filter)
       const results = await config.list(listFilter)
-
       commit("SET_LIST", results.items)
       commit("SET_COUNT", results.count)
       commit("SET_LIST_LOADING", false)
@@ -221,7 +215,7 @@ export default (options?: Options) => {
       await config.removeOne(item)
       commit("REMOVE_ONE", item)
       commit("SET_REMOVE_LOADING", false)
-      if(actions.list) await actions.list({ commit, state })
+      // if(actions.list) await actions.list({ commit, state })
       return true
     }
   }
@@ -252,7 +246,7 @@ export default (options?: Options) => {
       await config.removeMany(items)
       commit("REMOVE_MANY", items)
       commit("SET_REMOVE_MANY_LOADING", false)
-      if(actions.list) await actions.list({ commit, state })
+      // if(actions.list) await actions.list({ commit, state })
       return true
     }
   }

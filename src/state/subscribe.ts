@@ -5,15 +5,10 @@ export default (store) => {
     after: (action, state) => {
       const { type, payload } = action
 
-      // console.log(`${type} - ${JSON.stringify(payload)}`)
-
       if(
         type === "events/divisions/create" ||
         type === "events/divisions/editOne"
       ) {
-        // @TODO: fix auto assign while editing
-        // console.log("payload.autoAssign")
-        // console.log(payload.autoAssign)
         if(!payload.autoAssign) return
         dispatch(
           "events/contestants/list",
@@ -35,6 +30,16 @@ export default (store) => {
         )
       }
 
+      if(
+        type === "clubs/removeOne" ||
+        type === "clubs/removeMany"
+      ) {
+        dispatch(
+          "clubs/members/list",
+          {},
+          { root: true }
+        )
+      }
     }
   })
 }

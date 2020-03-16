@@ -135,7 +135,7 @@
   "calibre": 45,
   "weaponId": "4",
   "clubMemberId": "2",
-  "total": 100,
+  "total": 83,
   "hits": [
     { "hit": 1, "sum": 10 },
     { "hit": 2, "sum": 10 },

@@ -94,45 +94,17 @@
           </template>
 
           <template v-slot:selection="{ item }">
-            <div
-              class="py-2 flex items-center justify-between"
-              data-testid="eventsDivisionsSelectItem"
-            >
-              <div class="flex-1">
-                {{ item.firstName }} {{ item.lastName }}
-                <div class="text-muted">
-                  {{ $t("member") }}
-                </div>
-              </div>
-
-              <div class="flex-1 text-sm">
-                {{ item.club.name }}
-                <div class="text-muted">
-                  {{ $t("club") }}
-                </div>
-              </div>
-            </div>
+            <events-contestants-create-dialog-member-select-item
+              data-testid="eventsContestantsCreateDialogMemberSelectSelection"
+              :member="item"
+            />
           </template>
 
           <template v-slot:item="{ item }">
-            <div
-              class="py-2 flex items-center justify-between"
-              data-testid="eventsDivisionsSelectItem"
-            >
-              <div class="flex-1">
-                {{ item.firstName }} {{ item.lastName }}
-                <div class="text-muted leading-tight">
-                  {{ $t("member") }}
-                </div>
-              </div>
-
-              <div class="flex-1 text-sm">
-                {{ item.club.name }}
-                <div class="text-muted leading-tight">
-                  {{ $t("club") }}
-                </div>
-              </div>
-            </div>
+            <events-contestants-create-dialog-member-select-item
+              data-testid="eventsContestantsCreateDialogMemberSelectItem"
+              :member="item"
+            />
           </template>
         </v-autocomplete>
 
@@ -165,7 +137,7 @@
           item-value="id"
           :label="$t('formItem1Placeholder')"
           :rules="[(v) => !!v || $t('formItemWeaponIdError')]"
-          data-testid="eventsContestantsManagerDialogWeaponsFormIdSelect"
+          data-testid="eventsContestantsCreateDialogWeaponsFormIdSelect"
           class="flex-1"
           single-line
           hide-details
@@ -214,7 +186,7 @@
           :items="weaponsStateConditions"
           :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
           label="Tilstand"
-          data-testid="eventsContestantsManagerDialogWeaponsFormConditionSelect"
+          data-testid="eventsContestantsCreateDialogWeaponsFormConditionSelect"
           class="flex-1 mx-3"
           style="max-width: 200px;"
           single-line
@@ -228,7 +200,7 @@
           v-model="weapon.calibre"
           :label="$t('formItem2Label')"
           :rules="[(v) => !!v || $t('formItemCalibreError')]"
-          data-testid="eventsContestantsManagerDialogWeaponsFormCalibreInput"
+          data-testid="eventsContestantsCreateDialogWeaponsFormCalibreInput"
           style="max-width: 7rem;"
           type="number"
           min="0"
@@ -260,9 +232,15 @@ import Vue from "vue"
 import { mapActions, mapState } from "vuex"
 import eventsContestantsStub
   from "./events.contestants.stub"
+import EventsContestantsCreateDialogMemberSelectItem
+  from "./EventsContestantsCreateDialogMemberSelectItem.vue"
 
 export default Vue.extend({
-  name: "EventsContestantsManagerDialog",
+  name: "EventsContestantsCreateDialog",
+
+  components: {
+    EventsContestantsCreateDialogMemberSelectItem
+  },
 
   props: {
     shown: { type: Boolean, default: false },

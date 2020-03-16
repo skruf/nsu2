@@ -43,44 +43,38 @@
         item-text="l"
         item-value="v"
         data-testid="eventsContestantsResultsTableGroupBySelect"
-        class="flex-1 mr-5 max-w-sm"
         single-line
         dense
         outlined
         hide-details
         clearable
         append-icon="expand_more"
+        class="mr-5"
       />
 
       <v-form
         ref="filterForm"
-        class="flex items-center ml-auto max-w-xl"
+        class="flex items-center ml-auto"
       >
-        <table-filter-select
+        <events-contestants-filter-clubs
           v-model="eventsContestantsTableFilter.clubIds"
-          v-slot="item"
-          :items="eventsContestantsStateList.map(({ clubMember }) => clubMember.club)"
+          class="mr-5"
+          :contestants="eventsContestantsStateList"
           :loading="eventsContestantsStateListIsLoading"
-          :item-text="({ name, shortName }) => `${name} (${shortName})`"
-          data-testid="eventsContestantsResultsListTableFilterClub"
-          class="flex-1 mx-5"
-          label="Vis klubb"
-        >
-          {{ item.shortName }}
-        </table-filter-select>
+        />
 
-        <table-filter-select
+        <events-contestants-filter-weapons
           v-model="eventsContestantsTableFilter.weaponIds"
-          v-slot="item"
-          :items="eventsContestantsStateList.map(({ weapon }) => weapon)"
+          :contestants="eventsContestantsStateList"
           :loading="eventsContestantsStateListIsLoading"
-          item-text="name"
-          data-testid="eventsContestantsResultsListTableFilterWeapon"
-          class="flex-1"
-          label="Vis våpen"
-        >
-          {{ item.name }}
-        </table-filter-select>
+        />
+
+        <events-contestants-filter-divisions
+          v-model="eventsContestantsTableFilter.divisionIds"
+          class="ml-5"
+          :contestants="eventsContestantsStateList"
+          :loading="eventsContestantsStateListIsLoading"
+        />
       </v-form>
     </div>
 
@@ -124,11 +118,10 @@
 
       <template v-slot:item.weaponId="{ item }">
         {{ item.weapon.name }} ({{ item.weapon.condition.charAt(0) }})
-        <!-- ({{ item.weapon.distance }}m) - {{ item.weapon.id }} -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">
-        <template v-if="item.division">
+        <template v-if="item.division && item.division.day">
           {{ item.division.day | moment("ddd, DD/MMM") }} - {{ item.division.distance }} meter
         </template>
       </template>
@@ -233,6 +226,7 @@
             <div class="flex items-center">
               Deltaker:
               <avatar
+                class="ml-2"
                 :colour="c.colour"
                 :value="c.number"
               />
@@ -249,12 +243,12 @@
             colspan="100%"
             data-testid="eventsContestantsResultsTableGroupByDivisionTd"
           >
-            <template v-if="c.division">
+            <template v-if="c.division && c.division.day">
               {{ $t("division") }}: {{ c.division.day | moment("DD/MMM") }} - {{ c.division.distance }} meter
             </template>
 
             <template v-else>
-              {{ $t("division") }}: ikke tildelt
+              {{ $t("division") }}: Ikke tildelt
             </template>
           </td>
         </template>
@@ -319,18 +313,24 @@
 <script lang="ts">
 import { mapState, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
-import TableFilterSelect
-  from "@/components/TableFilterSelect.vue"
 import EventsContestantsNotes
   from "./EventsContestantsNotes.vue"
+import EventsContestantsFilterDivisions
+  from "./EventsContestantsFilterDivisions.vue"
+import EventsContestantsFilterClubs
+  from "./EventsContestantsFilterClubs.vue"
+import EventsContestantsFilterWeapons
+  from "./EventsContestantsFilterWeapons.vue"
 
 export default {
   name: "EventsContestantsResultsListTable",
 
   components: {
-    TableFilterSelect,
     EventsContestantsNotes,
-    Avatar
+    Avatar,
+    EventsContestantsFilterDivisions,
+    EventsContestantsFilterClubs,
+    EventsContestantsFilterWeapons
   },
 
   props: {
@@ -342,7 +342,8 @@ export default {
       eventsContestantsResultsNotesShown: false,
       eventsContestantsTableFilter: {
         weaponIds: [],
-        clubIds: []
+        clubIds: [],
+        divisionIds: []
       },
       eventsContestantsResultsSearchFilter: "",
       eventsContestantsResultsTableGroupBy: "weaponId",
@@ -364,6 +365,7 @@ export default {
       }, {
         value: "divisionId",
         text: "Standplassliste",
+        filter: this.divisionFilter,
         sortable: false
       }, {
         value: "notes",
@@ -439,9 +441,16 @@ export default {
       this.$emit("eventsContestantsResultsInputDialogOpen", contestant)
     },
 
+    eventsContestantsResultsNotesOpen(contestant): void {
+      this.eventsContestantsResultsNotesShown = true
+      this.eventsContestantsMutationsSelect(contestant)
+    },
+
     clubFilter(_, __, { clubMember }): boolean {
       return this.eventsContestantsTableFilter.clubIds.length
-        ? this.eventsContestantsTableFilter.clubIds.includes(clubMember.clubId)
+        ? this.eventsContestantsTableFilter.clubIds.includes(
+          clubMember.clubId || "Ikke tildelt"
+        )
         : true
     },
 
@@ -451,9 +460,12 @@ export default {
         : true
     },
 
-    eventsContestantsResultsNotesOpen(contestant): void {
-      this.eventsContestantsResultsNotesShown = true
-      this.eventsContestantsMutationsSelect(contestant)
+    divisionFilter(_, __, { divisionId }): boolean {
+      return this.eventsContestantsTableFilter.divisionIds.length
+        ? this.eventsContestantsTableFilter.divisionIds.includes(
+          divisionId || "Ikke tildelt"
+        )
+        : true
     }
   }
 }

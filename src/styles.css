@@ -28,6 +28,11 @@ html {
   background-color: var(--bg-color);
 }
 
+.tab-container {
+  @apply relative bg-white border-t border-border border-solid px-6;
+  box-shadow: 1px 2px 10px -7px #00000078;
+}
+
 .tab-wrapper {
   height: 100%;
   display: flex; 
@@ -55,7 +60,7 @@ html {
 .screen-bar {
   flex: initial !important;
   background-color: #fff !important;
-  @apply p-2;
+  @apply py-2 px-5;
 }
 
 .screen-wrapper {
@@ -68,7 +73,7 @@ html {
 
 .container,
 .screen-wrapper {
-  @apply m-5 bg-white relative rounded-lg;
+  @apply m-6 bg-white relative rounded-lg;
   box-shadow: 1px 2px 10px -7px #00000070;
   /* box-shadow: 0 7px 14px 0 rgba(60,66,87, 0.12), 0 3px 6px 0 rgba(0,0,0, 0.12); */
 }
@@ -92,6 +97,10 @@ html {
   text-transform: none;
   height: 40px;
   font-size: 0.925rem;
+}
+
+.v-btn.v-size--small:not(.v-btn--icon):not(.theme--dark) {
+  font-size: 0.875rem;
 }
 
 .v-btn--contained {
@@ -264,6 +273,15 @@ input[type=time]:invalid::-webkit-datetime-edit {
   flex: 2;
 }
 
+/* .v-item-group,
+.v-window__container {
+  transition: none;
+} */
+
+.v-window * {
+  transition: none;
+}
+
 html .el-notification__content {
   text-align: initial;
 }
@@ -288,6 +306,7 @@ html .container {
   .v-navigation-drawer,
   .no-print,
   .table-controls,
+  .tab-container,
   .print\:hidden {
     display: none !important;
   }

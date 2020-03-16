@@ -182,9 +182,7 @@ export default {
       handler: function(): void {
         if(!this.event) return
         this.eventsDivisionsActionsList({
-          filter: { eventId: this.event.id },
-          options: { limit: false },
-          persistFilter: true
+          filter: { eventId: this.event.id }
         })
       }
     }

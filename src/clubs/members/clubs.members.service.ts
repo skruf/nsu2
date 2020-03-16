@@ -1,10 +1,11 @@
 import {
   insert, findMany, destroyOne,
-  destroyMany, updateOne
+  destroyMany, updateOne, Filter
 } from "@/db/queries"
 import { filterInputUtil } from "@/utils"
-import { ClubsMembersProperties, ClubsMembersDocument } from "./clubs.members.types"
 import clubsMembersStub from "./clubs.members.stub"
+import { ClubsMembersProperties, ClubsMembersDocument }
+  from "./clubs.members.types"
 
 const populate = async (doc: ClubsMembersDocument): Promise<ClubsMembersProperties> => {
   const club = await doc.populate("clubId")
@@ -13,7 +14,8 @@ const populate = async (doc: ClubsMembersDocument): Promise<ClubsMembersProperti
   return member
 }
 
-const list = async (filter: ClubsMembersProperties | {}): Promise<{
+// Filter<ClubsMembersProperties>
+const list = async (filter: any | {}): Promise<{
   items: ClubsMembersProperties[],
   count: number
 }> => {

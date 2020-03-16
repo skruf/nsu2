@@ -56,17 +56,42 @@
         class="mr-5"
       />
 
-      <events-contestants-list-table-filters
-        v-model="eventsContestantsTableFilter"
-        :contestants="eventsContestantsStateList"
-        :loading="eventsContestantsStateListIsLoading"
-      />
+      <v-form
+        ref="filterForm"
+        class="flex items-center ml-auto"
+      >
+        <events-contestants-filter-members
+          v-model="eventsContestantsTableFilter.clubMemberIds"
+          :contestants="eventsContestantsStateList"
+          :loading="eventsContestantsStateListIsLoading"
+        />
+
+        <events-contestants-filter-clubs
+          v-model="eventsContestantsTableFilter.clubIds"
+          class="mx-5"
+          :contestants="eventsContestantsStateList"
+          :loading="eventsContestantsStateListIsLoading"
+        />
+
+        <events-contestants-filter-weapons
+          v-model="eventsContestantsTableFilter.weaponIds"
+          :contestants="eventsContestantsStateList"
+          :loading="eventsContestantsStateListIsLoading"
+        />
+
+        <events-contestants-filter-divisions
+          v-model="eventsContestantsTableFilter.divisionIds"
+          class="ml-5"
+          :contestants="eventsContestantsStateList"
+          :loading="eventsContestantsStateListIsLoading"
+        />
+      </v-form>
 
       <v-btn
         class="ml-5"
         color="white"
         data-testid="eventsContestantsListTableOpenManageDialogButton"
-        @click.stop="eventsContestantsManageDialogOpen"
+        @click.stop="eventsContestantsCreateDialogOpen"
       >
         <v-icon left>
           add
@@ -79,7 +104,7 @@
       v-model="eventsContestantsSelection"
       :class="{ 'is-grouped': isntGrouped }"
       :headers="eventsContestantsHeaders"
-      :items="eventsContestantsStateListIsLoading ? [] : eventsContestantsStateList"
+      :items="eventsContestantsStateList"
       :search="eventsContestantsSearchFilter"
       :loading="eventsContestantsStateListIsLoading"
       :loading-text="$t('loading')"
@@ -117,7 +142,7 @@
       </template>
 
       <template v-slot:item.divisionId="{ item }">
-        <template v-if="item.division">
+        <template v-if="item.division && item.division.day">
           {{ item.division.day | moment("ddd, DD/MMM") }} - {{ item.division.distance }} meter
         </template>
       </template>
@@ -157,12 +182,12 @@
             colspan="100%"
             data-testid="eventsContestantsTableGroupByDivisionTd"
           >
-            <template v-if="c.division">
+            <template v-if="c.division && c.division.day">
               {{ $t("division") }}: {{ c.division.day | moment("DD/MMM") }} - {{ c.division.distance }} meter
             </template>
 
             <template v-else>
-              {{ $t("division") }}: ikke tildelt
+              {{ $t("division") }}: Ikke tildelt
             </template>
           </td>
         </template>
@@ -273,15 +298,24 @@
 <script lang="ts">
 import { mapState } from "vuex"
 import Avatar from "@/components/Avatar.vue"
-import EventsContestantsListTableFilters
-  from "./EventsContestantsListTableFilters.vue"
+import EventsContestantsFilterDivisions
+  from "./EventsContestantsFilterDivisions.vue"
+import EventsContestantsFilterClubs
+  from "./EventsContestantsFilterClubs.vue"
+import EventsContestantsFilterWeapons
+  from "./EventsContestantsFilterWeapons.vue"
+import EventsContestantsFilterMembers
+  from "./EventsContestantsFilterMembers.vue"
 
 export default {
   name: "EventsContestantsListTable",
 
   components: {
     Avatar,
-    EventsContestantsListTableFilters,
+    EventsContestantsFilterDivisions,
+    EventsContestantsFilterClubs,
+    EventsContestantsFilterWeapons,
+    EventsContestantsFilterMembers
   },
 
   props: {
@@ -293,7 +327,8 @@ export default {
       eventsContestantsTableFilter: {
         clubMemberIds: [],
         weaponIds: [],
-        clubIds: []
+        clubIds: [],
+        divisionIds: []
       },
       eventsContestantsSearchFilter: "",
       eventsContestantsTableGroupBy: [],
@@ -315,7 +350,8 @@ export default {
         text: this.$t("columnLabelCalibre")
       }, {
         value: "divisionId",
-        text: this.$t("columnLabelDivision")
+        text: this.$t("columnLabelDivision"),
+        filter: this.divisionFilter
       }, {
         value: "stand",
         text: this.$t("columnLabelStand")
@@ -350,7 +386,9 @@ export default {
 
     clubFilter(_, __, { clubMember }): boolean {
       return this.eventsContestantsTableFilter.clubIds.length
-        ? this.eventsContestantsTableFilter.clubIds.includes(clubMember.clubId)
+        ? this.eventsContestantsTableFilter.clubIds.includes(
+          clubMember.clubId || "Ikke tildelt"
+        )
         : true
     },
 
@@ -360,8 +398,16 @@ export default {
         : true
     },
 
-    eventsContestantsManageDialogOpen(): void {
-      this.$emit("eventsContestantsManageDialogOpen")
+    divisionFilter(_, __, { divisionId }): boolean {
+      return this.eventsContestantsTableFilter.divisionIds.length
+        ? this.eventsContestantsTableFilter.divisionIds.includes(
+          divisionId || "Ikke tildelt"
+        )
+        : true
+    },
+
+    eventsContestantsCreateDialogOpen(): void {
+      this.$emit("eventsContestantsCreateDialogOpen")
     },
 
     eventsContestantsEditDialogOpen(contestant): void {

@@ -46,7 +46,7 @@ export default Vue.extend({
     items: { type: Array, required: true },
     dataTestid: { type: String, required: false, default: "" }
   },
-  data: function() {
+  data() {
     return {
       selection: []
     }

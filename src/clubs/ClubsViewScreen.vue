@@ -9,13 +9,13 @@
     "range": "Shooting Range",
     "phoneNumber": "Phone",
     "clubsOpenWebsite": "Open website",
-    "clubsMembersOpenCreateDialog": "Create member",
+    "membersOpenCreateDialog": "Create member",
     "clubsRemoveOneConfirmation": "This will remove %{clubName} and its %{memberCount} members permanently. Continue?",
     "clubsActionsRemoveOneSuccess": "%{clubName} was removed from the database",
-    "clubsMembersRemoveOneConfirmation": "This will remove %{fullName} from the club. Continue?",
-    "clubsMembersActionsRemoveOne": "%{fullName} has been removed from the clubs database",
-    "clubsMembersRemoveManyConfirmation": "This will remove %{clubMembersCount} members from the club. Continue?",
-    "clubsMembersActionsRemoveManySuccess": "%{clubMembersCount} members has been removed from the clubs database"
+    "membersRemoveOneConfirmation": "This will remove %{fullName} from the club. Continue?",
+    "membersActionsRemoveOne": "%{fullName} has been removed from the clubs database",
+    "membersRemoveManyConfirmation": "This will remove %{clubMembersCount} members from the club. Continue?",
+    "membersActionsRemoveManySuccess": "%{clubMembersCount} members has been removed from the clubs database"
   },
   "no": {
     "breadcrumb1Label": "Klubber",
@@ -26,13 +26,13 @@
     "range": "Skyttebane",
     "phoneNumber": "Telefon",
     "clubsOpenWebsite": "Åpne nettside",
-    "clubsMembersOpenCreateDialog": "Opprett medlem",
+    "membersOpenCreateDialog": "Opprett medlem",
     "clubsRemoveOneConfirmation": "Dette vil fjerne %{clubName} og deres %{memberCount} medlemmer permanent. Fortsette?",
     "clubsActionsRemoveOneSuccess": "%{clubName} og deres %{members} ble fjernet fra databasen",
-    "clubsMembersRemoveOneConfirmation": "Dette vil fjerne %{fullName} fra klubben. Fortsette?",
-    "clubsMembersActionsRemoveOne": "%{fullName} ble fjernet fra klubbens database",
-    "clubsMembersRemoveManyConfirmation": "Dette vil fjerne %{clubMembersCount} medlemmer fra klubben. Fortsette?",
-    "clubsMembersActionsRemoveManySuccess": "%{clubMembersCount} medlemmer ble fjernet fra klubbens database"
+    "membersRemoveOneConfirmation": "Dette vil fjerne %{fullName} fra klubben. Fortsette?",
+    "membersActionsRemoveOne": "%{fullName} ble fjernet fra klubbens database",
+    "membersRemoveManyConfirmation": "Dette vil fjerne %{clubMembersCount} medlemmer fra klubben. Fortsette?",
+    "membersActionsRemoveManySuccess": "%{clubMembersCount} medlemmer ble fjernet fra klubbens database"
   }
 }
 </i18n>
@@ -148,16 +148,14 @@
       </v-menu>
     </v-app-bar>
 
-    <div
-      v-loading="clubsMembersRemoveIsLoading"
-      class="container"
-    >
-      <clubs-members-list-table
-        :club="clubsStateSelected"
-        @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
-        @clubsMembersEditDialogOpen="clubsMembersEditDialogOpen"
-        @clubsMembersRemoveOne="clubsMembersRemoveOne"
-        @clubsMembersRemoveMany="clubsMembersRemoveMany"
+    <div class="container">
+      <members-list-table
+        :members="members"
+        :loading="membersIsLoading"
+        @createDialogOpen="membersCreateDialogOpen"
+        @editDialogOpen="membersEditDialogOpen"
+        @removeOne="membersRemoveOne"
+        @removeMany="membersRemoveMany"
       />
     </div>
 
@@ -166,27 +164,27 @@
       :club="clubsStateSelected"
     />
 
-    <clubs-members-create-dialog
-      :shown.sync="clubsMembersCreateDialogShown"
+    <members-create-dialog
+      :shown.sync="membersCreateDialogShown"
       :club="clubsStateSelected"
     />
 
-    <clubs-members-edit-dialog
-      :shown.sync="clubsMembersEditDialogShown"
+    <members-edit-dialog
+      :shown.sync="membersEditDialogShown"
       :club="clubsStateSelected"
-      :club-member="clubsMembersEditItem"
+      :member="membersEditItem"
     />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState } from "vuex"
+import { mapActions, mapState, mapGetters } from "vuex"
 import DataGrid from "@/components/DataGrid.vue"
 import ClubsEditDialog from "./ClubsEditDialog.vue"
-import ClubsMembersListTable from "./members/ClubsMembersListTable.vue"
-import ClubsMembersCreateDialog from "./members/ClubsMembersCreateDialog.vue"
-import ClubsMembersEditDialog from "./members/ClubsMembersEditDialog.vue"
+import MembersListTable from "./members/ClubsMembersListTable.vue"
+import MembersCreateDialog from "./members/ClubsMembersCreateDialog.vue"
+import MembersEditDialog from "./members/ClubsMembersEditDialog.vue"
 
 export default Vue.extend({
   name: "ClubsViewScreen",
@@ -194,16 +192,16 @@ export default Vue.extend({
   components: {
     DataGrid,
     ClubsEditDialog,
-    ClubsMembersListTable,
-    ClubsMembersCreateDialog,
-    ClubsMembersEditDialog
+    MembersListTable,
+    MembersCreateDialog,
+    MembersEditDialog
   },
 
   data: () => ({
-    clubsMembersCreateDialogShown: false,
     clubsEditDialogShown: false,
-    clubsMembersEditDialogShown: false,
-    clubsMembersEditItem: {}
+    membersCreateDialogShown: false,
+    membersEditDialogShown: false,
+    membersEditItem: {}
   }),
 
   computed: {
@@ -211,19 +209,31 @@ export default Vue.extend({
       clubsStateSelectedIsLoading: "selectedIsLoading",
       clubsStateRemoveOneIsLoading: "removeOneIsLoading",
       clubsStateSelected: "selected",
-      clubsMembersRemoveOneIsLoading: "removeOneIsLoading",
-      clubsMembersRemoveManyIsLoading: "removeManyIsLoading"
     }),
+    ...mapState("clubs/members", {
+      membersStateListIsLoading: "listIsLoading",
+      membersStateList: "list",
+      membersStateRemoveOneIsLoading: "removeOneIsLoading",
+      membersStateRemoveManyIsLoading: "removeManyIsLoading"
+    }),
+    ...mapGetters("clubs/members", {
+      getListByClubId: "listByClubId"
+    }),
+    members() {
+      const clubId = this.$route.params.clubId
+      return clubId ? this.getListByClubId(clubId) : []
+    },
     clubsIsLoading(): boolean {
       return (
-        this.clubsStateSelectedIsLoading ||
-        this.clubsStateRemoveOneIsLoading
+        this.clubsStateSelectedIsLoading
+        // this.clubsStateRemoveOneIsLoading
       )
     },
-    clubsMembersRemoveIsLoading(): boolean {
+    membersIsLoading(): boolean {
       return (
-        this.clubsMembersRemoveOneIsLoading ||
-        this.clubsMembersRemoveManyIsLoading
+        this.membersStateListIsLoading
+        // this.membersStateRemoveOneIsLoading ||
+        // this.membersStateRemoveManyIsLoading
       )
     }
   },
@@ -231,8 +241,10 @@ export default Vue.extend({
   watch: {
     "$route.params.clubId": {
       immediate: true,
-      handler: function(id): void {
+      handler(id): Promise<void> {
         this.clubsActionsSelect({ id })
+        if(this.membersStateList.length) return
+        this.membersActionsList()
       }
     }
   },
@@ -244,21 +256,22 @@ export default Vue.extend({
     }),
 
     ...mapActions("clubs/members", {
-      clubsMembersActionsRemoveOne: "removeOne",
-      clubsMembersActionsRemoveMany: "removeMany"
+      membersActionsList: "list",
+      membersActionsRemoveOne: "removeOne",
+      membersActionsRemoveMany: "removeMany"
     }),
 
     clubsEditDialogOpen(): void {
       this.clubsEditDialogShown = true
     },
 
-    clubsMembersCreateDialogOpen(): void {
-      this.clubsMembersCreateDialogShown = true
+    membersCreateDialogOpen(): void {
+      this.membersCreateDialogShown = true
     },
 
-    clubsMembersEditDialogOpen(member): void {
-      this.clubsMembersEditDialogShown = true
-      this.clubsMembersEditItem = member
+    membersEditDialogOpen(member): void {
+      this.membersEditDialogShown = true
+      this.membersEditItem = member
     },
 
     async clubsRemoveOne(club): Promise<void> {
@@ -299,12 +312,12 @@ export default Vue.extend({
       }
     },
 
-    async clubsMembersRemoveOne(clubMember): Promise<void> {
+    async membersRemoveOne(clubMember): Promise<void> {
       const fullName = `${clubMember.firstName} ${clubMember.lastName}`
 
       try {
         await this.$confirm(
-          this.$t("clubsMembersRemoveOneConfirmation", { fullName: fullName }),
+          this.$t("membersRemoveOneConfirmation", { fullName: fullName }),
           this.$t("warning"), {
             confirmButtonText: this.$t("confirmButtonText"),
             cancelButtonText: this.$t("cancel"),
@@ -317,11 +330,11 @@ export default Vue.extend({
       }
 
       try {
-        await this.clubsMembersActionsRemoveOne(clubMember)
+        await this.membersActionsRemoveOne(clubMember)
         this.$notify({
           type: "success",
           title: this.$t("success"),
-          message: this.$t("clubsMembersActionsRemoveOne", { fullName })
+          message: this.$t("membersActionsRemoveOne", { fullName })
         })
       } catch(e) {
         this.$notify({
@@ -332,12 +345,12 @@ export default Vue.extend({
       }
     },
 
-    async clubsMembersRemoveMany(clubMembers): Promise<void> {
+    async membersRemoveMany(clubMembers): Promise<void> {
       const clubMembersCount = clubMembers.length
 
       try {
         await this.$confirm(
-          this.$t("clubsMembersRemoveManyConfirmation", {
+          this.$t("membersRemoveManyConfirmation", {
             clubMembersCount
           }),
           this.$t("warning"), {
@@ -352,11 +365,11 @@ export default Vue.extend({
       }
 
       try {
-        await this.clubsMembersActionsRemoveMany(clubMembers)
+        await this.membersActionsRemoveMany(clubMembers)
         this.$notify({
           type: "success",
           title: this.$t("success"),
-          message: this.$t("clubsMembersActionsRemoveManySuccess", {
+          message: this.$t("membersActionsRemoveManySuccess", {
             clubMembersCount
           })
         })

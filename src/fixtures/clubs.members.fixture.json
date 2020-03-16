@@ -4,8 +4,7 @@
   "lastName": "Dunk",
   "emailAddress": "ola@dunk.no",
   "country": "Norge",
-  "phoneNumber": "40444404",
-  "clubId": "1"
+  "phoneNumber": "40444404"
 }, {
   "id" : "2",
   "firstName": "Petter",
@@ -52,8 +51,7 @@
   "lastName": "Byrd",
   "emailAddress": "darrell.byrd34@example.com",
   "country": "Norge",
-  "phoneNumber": "(479)-164-9939",
-  "clubId": "2"
+  "phoneNumber": "(479)-164-9939"
 }, {
   "id" : "8",
   "firstName": "Darlene",
