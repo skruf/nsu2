@@ -1,7 +1,8 @@
 {
-  "pluginsFile": "tests/e2e/plugins/index.js",
+  "pluginsFile": "tests/plugins/index.js",
   "viewportWidth": 1200,
   "viewportHeight": 1300,
   "baseUrl": "http://localhost:8080/#",
-  "projectId": "cwf48k"
+  "projectId": "cwf48k",
+  "defaultCommandTimeout": 10000
 }

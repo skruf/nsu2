@@ -1,35 +1,35 @@
 <i18n>
 {
   "en": {
-    "weaponsFormNumberLabel": "Number",
+    "weaponsFormNumberLabel": "Number (*)",
     "weaponsFormNumberPlaceholder": "Enter a class number",
     "weaponsFormNumberError": "Number is a required field",
-    "weaponsFormNameLabel": "Name",
+    "weaponsFormNameLabel": "Name (*)",
     "weaponsFormNamePlaceholder": "Enter a name",
     "weaponsFormNameError": "Name is a required field",
-    "weaponsFormCategoryLabel": "Category",
+    "weaponsFormCategoryLabel": "Category (*)",
     "weaponsFormCategoryPlaceholder": "Select a category",
     "weaponsFormCategoryError": "Category is a required field",
-    "weaponsFormConditionLabel": "Condition",
+    "weaponsFormConditionLabel": "Condition (*)",
     "weaponsFormConditionPlaceholder": "Select a condition",
     "weaponsFormConditionError": "Condition is a required field",
-    "weaponsFormDistanceLabel": "Distance in meters",
+    "weaponsFormDistanceLabel": "Distance in meters (*)",
     "weaponsFormDistanceError": "Distance is a required field"
   },
   "no": {
-    "weaponsFormNumberLabel": "Nummer",
+    "weaponsFormNumberLabel": "Nummer (*)",
     "weaponsFormNumberPlaceholder": "Skriv et nummer",
     "weaponsFormNumberError": "Nummer er et påkrevd felt",
-    "weaponsFormNameLabel": "Navn",
+    "weaponsFormNameLabel": "Navn (*)",
     "weaponsFormNamePlaceholder": "Skriv et navn",
     "weaponsFormNameError": "Navn er et påkrevd felt",
-    "weaponsFormCategoryLabel": "Kategori",
+    "weaponsFormCategoryLabel": "Kategori (*)",
     "weaponsFormCategoryPlaceholder": "Velg en kategori",
     "weaponsFormCategoryError": "Kategori er et påkrevd felt",
-    "weaponsFormConditionLabel": "Tilstand",
+    "weaponsFormConditionLabel": "Tilstand (*)",
     "weaponsFormConditionPlaceholder": "Velg en tilstand",
     "weaponsFormConditionError": "Tilstand er et påkrevd felt",
-    "weaponsFormDistanceLabel": "Avstand i meter",
+    "weaponsFormDistanceLabel": "Avstand i meter (*)",
     "weaponsFormDistanceError": "Avstand er et påkrevd felt"
   }
 }

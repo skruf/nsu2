@@ -2,11 +2,11 @@
 {
   "en": {
     "dialogTitle": "Create member",
-    "clubsMembersActionsCreateSuccess": "%{clubsMemberName} was successfully added to the database"
+    "clubsMembersActionsCreateSuccess": "%{fullName} was successfully added to the database"
   },
   "no": {
     "dialogTitle": "Opprett medlem",
-    "clubsMembersActionsCreateSuccess": "%{clubsMemberName} ble lagt til i databasen"
+    "clubsMembersActionsCreateSuccess": "%{fullName} ble lagt til i databasen"
   }
 }
 </i18n>
@@ -85,6 +85,8 @@ export default Vue.extend({
     }),
 
     submit(): void {
+      const fullName = `${this.form.firstName} ${this.form.lastName}`
+
       this.$refs.clubsMembersForm.submit(async () => {
         try {
           await this.clubsMembersActionsCreate(this.form)
@@ -92,7 +94,7 @@ export default Vue.extend({
             type: "success",
             title: this.$t("success"),
             message: this.$t("clubsMembersActionsCreateSuccess", {
-              clubsMemberName: this.form.name
+              fullName
             })
           })
           this.clear()

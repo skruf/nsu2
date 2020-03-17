@@ -2,11 +2,11 @@
 {
   "en": {
     "dialogTitle": "Edit member",
-    "clubsMembersActionsEditOneSuccess": "%{clubsMemberName} was successfully updated in the database"
+    "clubsMembersActionsEditOneSuccess": "%{fullName} was successfully updated in the database"
   },
   "no": {
     "dialogTitle": "Rediger medlem",
-    "clubsMembersActionsEditOneSuccess": "%{clubsMemberName} ble redigert i databasen"
+    "clubsMembersActionsEditOneSuccess": "%{fullName} ble redigert i databasen"
   }
 }
 </i18n>
@@ -87,6 +87,8 @@ export default Vue.extend({
     }),
 
     submit(): void {
+      const fullName = `${this.form.firstName} ${this.form.lastName}`
+
       this.$refs.clubsMembersForm.submit(async () => {
         try {
           await this.clubsMembersActionsEditOne(this.form)
@@ -94,7 +96,7 @@ export default Vue.extend({
             type: "success",
             title: this.$t("success"),
             message: this.$t("clubsMembersActionsEditOneSuccess", {
-              clubsMemberName: this.form.name
+              fullName
             })
           })
           this.close()

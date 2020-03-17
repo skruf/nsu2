@@ -10,12 +10,6 @@ const routes = [{
     import(/* webpackChunkName: "events" */ "./events/EventsListScreen.vue")
   )
 }, {
-  path: "/events/categories",
-  name: "EventsCategoriesListScreen",
-  component: (): any => (
-    import(/* webpackChunkName: "events" */ "./events/categories/EventsCategoriesListScreen.vue")
-  )
-}, {
   path: "/events/:eventId",
   name: "EventsViewScreen",
   component: (): any => (

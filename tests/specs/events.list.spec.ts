@@ -1,10 +1,10 @@
-import { randomArrayItemUtil } from "../../../src/utils"
+import { randomArrayItemUtil } from "../../src/utils"
 import {
   eventsFixture,
   eventsCategoriesFixture,
   clubsFixture,
   rangesFixture
-} from "../../../src/fixtures"
+} from "../../src/fixtures"
 
 const inputEventsForm = (event) => {
   if(event.title) {

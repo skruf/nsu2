@@ -2,23 +2,23 @@
 {
   "en": {
     "title": "Add participations",
-    "formItem1Placeholder": "Choose a weapon",
-    "formItem2Label": "Calibre",
+    "formItem1Placeholder": "Choose a weapon (*)",
+    "formItem2Label": "Calibre mm (*)",
     "formItem2Placeholder": "Enter a calibre",
     "formItemWeaponIdError": "Choose a weapon",
     "formItemCalibreError": "Enter a calibre",
-    "selectMemberLabel": "Choose a member",
+    "selectMemberLabel": "Choose a member (*)",
     "selectMemberError": "Choose a member to continue",
     "saveSuccess": "%{count} participations was added to the event"
   },
   "no": {
     "title": "Legg til deltakelser",
-    "formItem1Placeholder": "Velg et våpen",
-    "formItem2Label": "Kaliber",
+    "formItem1Placeholder": "Velg et våpen (*)",
+    "formItem2Label": "Kaliber mm (*)",
     "formItem2Placeholder": "Skriv inn et kaliber",
     "formItemWeaponIdError": "Velg et våpen",
     "formItemCalibreError": "Skriv inn kaliber",
-    "selectMemberLabel": "Velg et medlem",
+    "selectMemberLabel": "Velg et medlem (*)",
     "selectMemberError": "Velg et medlem for å fortsette",
     "saveSuccess": "%{count} deltakelser ble lagt til stevnet"
   }
@@ -29,7 +29,7 @@
   <v-dialog
     v-model="visible"
     content-class="pt-16 relative self-start mt-32"
-    :max-width="650"
+    :max-width="700"
   >
     <v-toolbar
       dark
@@ -185,10 +185,9 @@
           v-model="weapon.condition"
           :items="weaponsStateConditions"
           :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
-          label="Tilstand"
+          label="Tilstand (*)"
           data-testid="eventsContestantsCreateDialogWeaponsFormConditionSelect"
           class="flex-1 mx-3"
-          style="max-width: 200px;"
           single-line
           hide-details
           dense
@@ -201,7 +200,7 @@
           :label="$t('formItem2Label')"
           :rules="[(v) => !!v || $t('formItemCalibreError')]"
           data-testid="eventsContestantsCreateDialogWeaponsFormCalibreInput"
-          style="max-width: 7rem;"
+          class="flex-1"
           type="number"
           min="0"
           single-line

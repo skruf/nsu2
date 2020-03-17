@@ -37,13 +37,13 @@
       <table-filter-search
         v-model="searchFilter"
         :label="$t('searchFormPlaceholder')"
-        data-testid="searchFilterInput"
+        data-testid="clubsSearchFilterInput"
       />
 
       <v-btn
         class="ml-auto"
         color="white"
-        data-testid="createDialogOpenButton"
+        data-testid="clubsCreateDialogOpenButton"
         @click.stop="createDialogOpen"
       >
         <v-icon left>

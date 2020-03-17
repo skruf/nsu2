@@ -1,16 +1,16 @@
 <i18n>
 {
   "en": {
-    "title": "Notes for %{contestantDetails}",
-    "eventsContestantsResultsNotesInputLabel": "Enter a note",
+    "title": "Notes for contestant %{contestantDetails}",
+    "eventsContestantsResultsNotesInputLabel": "Enter a note (*)",
     "eventsContestantsResultsNotesInputError": "Cannot be empty",
     "editDialogTitle": "Edit note",
     "editNoteError": "Field is required",
     "editNotePlaceholder": "Enter a note"
   },
   "no": {
-    "title": "Notater for %{contestantDetails}",
-    "eventsContestantsResultsNotesInputLabel": "Skriv inn et notat",
+    "title": "Notater for deltaker %{contestantDetails}",
+    "eventsContestantsResultsNotesInputLabel": "Skriv inn et notat (*)",
     "eventsContestantsResultsNotesInputError": "Må utfylles",
     "editDialogTitle": "Rediger notat",
     "editNoteError": "Feltet er påkrevd",
@@ -62,7 +62,7 @@
             <v-toolbar-title class="pl-0 flex-1">
               <template v-if="hasContestant">
                 {{ $t("title", {
-                  contestantDetails: `${eventsContestantsStateSelected.clubMember.firstName} ${eventsContestantsStateSelected.clubMember.lastName}`
+                  contestantDetails: eventsContestantsStateSelected.number
                 }) }}
               </template>
             </v-toolbar-title>

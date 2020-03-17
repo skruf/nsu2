@@ -1,42 +1,42 @@
 <i18n>
 {
   "en": {
-    "rangesFormNameLabel": "Name",
+    "rangesFormNameLabel": "Name (*)",
     "rangesFormNamePlaceholder": "Enter a name",
     "rangesFormNameError": "Name is a required field",
-    "rangesFormAreaLabel": "Area",
+    "rangesFormAreaLabel": "Area (*)",
     "rangesFormAreaPlaceholder": "Enter an area",
     "rangesFormAreaError": "Area is a required field",
     "rangesFormStreetAddressLabel": "Address",
     "rangesFormStreetAddressPlaceholder": "Enter a address",
-    "rangesFormCountryLabel": "Country",
+    "rangesFormCountryLabel": "Country (*)",
     "rangesFormCountryPlaceholder": "Select a country",
     "rangesFormCountryError": "Country is a required field",
     "rangesFormLatLabel": "Latitude",
     "rangesFormLatPlaceholder": "Enter coordinates",
     "rangesFormLngLabel": "Longitude",
     "rangesFormLngPlaceholder": "Enter coordinates",
-    "rangesFormTypeLabel": "Type",
+    "rangesFormTypeLabel": "Type (*)",
     "rangesFormTypePlaceholder": "Select a type",
     "rangesFormTypeError": "Type is a required field"
   },
   "no": {
-    "rangesFormNameLabel": "Navn",
+    "rangesFormNameLabel": "Navn (*)",
     "rangesFormNamePlaceholder": "Skriv et navn",
     "rangesFormNameError": "Navn er et påkrevd felt",
-    "rangesFormAreaLabel": "Område",
+    "rangesFormAreaLabel": "Område (*)",
     "rangesFormAreaPlaceholder": "Skriv et område",
     "rangesFormAreaError": "Område er et påkrevd felt",
     "rangesFormStreetAddressLabel": "Adresse",
     "rangesFormStreetAddressPlaceholder": "Skriv en adresse",
-    "rangesFormCountryLabel": "Land",
+    "rangesFormCountryLabel": "Land (*)",
     "rangesFormCountryPlaceholder": "Velg et land",
     "rangesFormCountryError": "Land er et påkrevd felt",
     "rangesFormLatLabel": "Breddegrad",
     "rangesFormLatPlaceholder": "Skriv inn koordinater",
     "rangesFormLngLabel": "Lengdegrad",
     "rangesFormLngPlaceholder": "Skriv inn koordinater",
-    "rangesFormTypeLabel": "Type",
+    "rangesFormTypeLabel": "Type (*)",
     "rangesFormTypePlaceholder": "Velg en type",
     "rangesFormTypeError": "Type er et påkrevd felt"
   }
@@ -50,6 +50,28 @@
       :label="$t('rangesFormNameLabel')"
       :rules="[(v) => !!v || $t('rangesFormNameError')]"
       data-testid="rangesFormNameInput"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-select
+      v-model="value.type"
+      :items="rangesStateTypes"
+      :label="$t('rangesFormTypeLabel')"
+      :rules="[(v) => !!v || $t('rangesFormTypeError')]"
+      data-testid="rangesFormTypeSelect"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-select
+      v-model="value.country"
+      :items="rangesStateCountries"
+      :label="$t('rangesFormCountryLabel')"
+      :rules="[(v) => !!v || $t('rangesFormCountryError')]"
+      data-testid="rangesFormCountrySelect"
       class="mb-3"
       outlined
       required
@@ -73,17 +95,6 @@
       outlined
     />
 
-    <v-select
-      v-model="value.country"
-      :items="rangesStateCountries"
-      :label="$t('rangesFormCountryLabel')"
-      :rules="[(v) => !!v || $t('rangesFormCountryError')]"
-      data-testid="rangesFormCountrySelect"
-      class="mb-3"
-      outlined
-      required
-    />
-
     <div class="flex mb-3">
       <v-text-field
         v-model="value.lat"
@@ -101,17 +112,6 @@
         outlined
       />
     </div>
-
-    <v-select
-      v-model="value.type"
-      :items="rangesStateTypes"
-      :label="$t('rangesFormTypeLabel')"
-      :rules="[(v) => !!v || $t('rangesFormTypeError')]"
-      data-testid="rangesFormTypeSelect"
-      class="mb-3"
-      outlined
-      required
-    />
 
     <error-validation-notification
       v-model="showValidationError"

@@ -7,14 +7,13 @@ declare namespace Cypress {
     random(): Chainable
     searchTable(value: string, inputId: string, tableId: string): Chainable,
     pickFromSelect(testid: string, value: string): Chainable,
-    datePickerPickFirst(testid: string): Chainable,
-    datePickerPickLast(testid: string): Chainable,
-
-    pickFromDatePicker(testid: string, value: string): Chainable
+    pickFromDatePicker(testid: string, value: string): Chainable,
+    seed: (collection: string, data: object) => Chainable<number>
   }
 }
 
 interface Window {
   ipc: any
   ready: boolean
+  db: any
 }

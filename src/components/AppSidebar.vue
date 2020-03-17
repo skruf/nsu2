@@ -136,7 +136,6 @@ export default Vue.extend({
       isOpen: false,
       items: [
         { title: this.$t("events"), icon: require("@/assets/icons/events.svg"), to: "/events" },
-        { title: this.$t("categories"), icon: require("@/assets/icons/categories.svg"), to: "/events/categories", exact: true },
         { title: this.$t("clubs"), icon: require("@/assets/icons/clubs.svg"), to: "/clubs" },
         { title: this.$t("weapons"), icon: require("@/assets/icons/weapons.svg"), to: "/weapons" },
         { title: this.$t("ranges"), icon: require("@/assets/icons/ranges.svg"), to: "/ranges" },

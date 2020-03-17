@@ -1,8 +1,8 @@
-import { randomArrayItemUtil } from "../../../src/utils"
+import { randomArrayItemUtil } from "../../src/utils"
 import {
   eventsFixture,
   eventsDivisionsFixture
-} from "../../../src/fixtures"
+} from "../../src/fixtures"
 
 const event = eventsFixture[1]
 

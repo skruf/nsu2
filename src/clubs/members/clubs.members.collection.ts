@@ -35,8 +35,7 @@ const schema: RxJsonSchema = {
   },
   required: [
     "firstName",
-    "lastName",
-    "country"
+    "lastName"
   ]
 }
 

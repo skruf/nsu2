@@ -1,5 +1,5 @@
-import { rangesFixture } from "../../../src/fixtures"
-import { randomArrayItemUtil } from "../../../src/utils"
+import { rangesFixture } from "../../src/fixtures"
+import { randomArrayItemUtil } from "../../src/utils"
 
 describe("ranges.list", () => {
   beforeEach(() => {

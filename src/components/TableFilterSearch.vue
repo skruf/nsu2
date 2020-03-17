@@ -1,6 +1,5 @@
 <template>
   <div class="w-full max-w-xs">
-    <!-- @keyup.enter="rangesActionsList()" -->
     <v-text-field
       v-model="search"
       v-bind="$attrs"

@@ -20,11 +20,18 @@ Vue.prototype.openExternalUrl = openExternalUrlUtil
 Vue.prototype.print = printUtil
 
 ;(async (): Promise<void> => {
+  // const s = performance.now()
   const db = await init()
+  // const e = performance.now()
+  // console.log("Call to doSomething took " + (e - s) + " milliseconds.")
+
+  if(process.env.NODE_ENV === "development") {
+    // const dbTestUtil = require("@/utils/db.test.util").default
+    // await dbTestUtil.seedAll(db)
+  }
 
   if(process.env.NODE_ENV !== "production") {
-    const dbTestUtil = require("@/utils/db.test.util").default
-    await dbTestUtil.seed(db)
+    window.db = db
     window.ready = true
   }
 

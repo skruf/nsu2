@@ -37,7 +37,7 @@
       <table-filter-search
         v-model="searchFilter"
         :label="$t('searchFormPlaceholder')"
-        data-testid="searchFilterInput"
+        data-testid="clubsMembersSearchFilterInput"
       />
 
       <v-btn

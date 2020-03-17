@@ -1,12 +1,12 @@
 <i18n>
 {
   "en": {
-    "eventsCategoriesFormNameLabel": "Name",
+    "eventsCategoriesFormNameLabel": "Name (*)",
     "eventsCategoriesFormNamePlaceholder": "Enter a name",
     "eventsCategoriesFormNameError": "Name is a required field"
   },
   "no": {
-    "eventsCategoriesFormNameLabel": "Navn",
+    "eventsCategoriesFormNameLabel": "Navn (*)",
     "eventsCategoriesFormNamePlaceholder": "Skriv et navn",
     "eventsCategoriesFormNameError": "Navn er et påkrevd felt"
   }
@@ -24,38 +24,24 @@
       required
     />
 
-    <v-snackbar
+    <error-validation-notification
       v-model="showValidationError"
-      color="error"
-      multi-line
-      right
-      top
-    >
-      <v-icon
-        color="white"
-        class="mr-4"
-      >
-        error
-      </v-icon>
-
-      {{ $t("validationError") }}
-
-      <v-btn
-        text
-        @click="showValidationError = false"
-      >
-        {{ $t("close") }}
-      </v-btn>
-    </v-snackbar>
+    />
   </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import eventsCategoriesStub from "./events.categories.stub"
+import ErrorValidationNotification
+  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "EventsCategoriesForm",
+
+  components: {
+    ErrorValidationNotification
+  },
 
   props: {
     value: { type: Object, default: (): object => eventsCategoriesStub }

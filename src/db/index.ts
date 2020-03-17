@@ -5,9 +5,12 @@ import router from "@/router"
 import config from "@/app.config"
 import rangesCollection from "@/ranges/ranges.collection"
 import clubsCollection from "@/clubs/clubs.collection"
-import clubsMembersCollection from "@/clubs/members/clubs.members.collection"
-import weaponsCollection from "@/weapons/weapons.collection"
-import eventsCollection from "@/events/events.collection"
+import clubsMembersCollection
+  from "@/clubs/members/clubs.members.collection"
+import weaponsCollection
+  from "@/weapons/weapons.collection"
+import eventsCollection
+  from "@/events/events.collection"
 import eventsCategoriesCollection
   from "@/events/categories/events.categories.collection"
 import eventsDivisionsCollection

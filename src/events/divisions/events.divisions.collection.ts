@@ -42,7 +42,7 @@ const schema: RxJsonSchema = {
   required: [
     "day",
     "distance",
-    // "standsCount",
+    "standsCount",
     "eventId"
   ]
 }

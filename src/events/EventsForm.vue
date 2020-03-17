@@ -1,7 +1,7 @@
 <i18n>
 {
   "en": {
-    "eventsFormTitleLabel": "Title",
+    "eventsFormTitleLabel": "Title (*)",
     "eventsFormTitlePlaceholder": "Enter a title",
     "eventsFormTitleError": "Title is a required field",
     "eventsFormDatesLabel": "Start / End",
@@ -19,13 +19,17 @@
     "eventsFormRangeError": "Range is a required field",
     "eventsFormApprobatedLabel": "Approbated",
     "eventsFormApprobatedActiveText": "Is officially approbated",
-    "eventsFormStartsAtLabel": "Starts at",
+    "eventsFormStartsAtLabel": "Starts at (*)",
     "eventsFormStartsAtError": "Start is a required field",
-    "eventsFormEndsAtLabel": "Ends at",
-    "eventsFormEndsAtError": "End is a required field"
+    "eventsFormEndsAtLabel": "Ends at (*)",
+    "eventsFormEndsAtError": "End is a required field",
+    "eventsCategoriesRemoveOneConfirmation": "This will remove %{eventsCategoryName} and events that used this category permanently. Continue?",
+    "eventsCategoriesActionsRemoveOneSuccess": "%{eventsCategoryName} was removed from the database",
+    "eventsCategoriesRemoveManyConfirmation": "This will remove %{eventsCategoriesCount} categories and events that used these categories permanently. Continue?",
+    "eventsCategoriesActionsRemoveManySuccess": "%{eventsCategoriesCount} eventsCategories has been removed from the database"
   },
   "no": {
-    "eventsFormTitleLabel": "Tittel",
+    "eventsFormTitleLabel": "Tittel (*)",
     "eventsFormTitlePlaceholder": "Skriv inn tittel",
     "eventsFormTitleError": "Tittel er et påkrevd felt",
     "eventsFormDatesLabel": "Start / Slutt",
@@ -43,10 +47,14 @@
     "eventsFormRangeError": "Skyttebane er et påkrevd felt",
     "eventsFormApprobatedLabel": "Approbert",
     "eventsFormApprobatedActiveText": "Er offisielt approbert",
-    "eventsFormStartsAtLabel": "Starter den",
+    "eventsFormStartsAtLabel": "Starter den (*)",
     "eventsFormStartsAtError": "Starter er et påkrevet felt",
-    "eventsFormEndsAtLabel": "Slutter den",
-    "eventsFormEndsAtError": "Slutter er et påkrevet felt"
+    "eventsFormEndsAtLabel": "Slutter den (*)",
+    "eventsFormEndsAtError": "Slutter er et påkrevet felt",
+    "eventsCategoriesRemoveOneConfirmation": "Dette vil fjerne %{eventsCategoryName} og stevner som brukte denne kategorien permanent. Fortsette?",
+    "eventsCategoriesActionsRemoveOneSuccess": "%{eventsCategoryName} ble fjernet fra databasen",
+    "eventsCategoriesRemoveManyConfirmation": "Dette vil fjerne %{eventsCategoriesCount} kategorier og stevner som brukte denne kategorien permanent. Fortsette?",
+    "eventsCategoriesActionsRemoveManySuccess": "%{eventsCategoriesCount} kategorier ble fjernet fra databasen"
   }
 }
 </i18n>
@@ -63,7 +71,7 @@
       required
     />
 
-    <div class="flex">
+    <div class="flex mb-3">
       <date-picker
         v-model="value.startsAt"
         :label="$t('eventsFormStartsAtLabel')"
@@ -83,17 +91,86 @@
       />
     </div>
 
-    <v-select
+    <v-autocomplete
       v-model="value.categoryId"
       :items="eventsCategoriesStateList"
-      :loading="eventsCategoriesStateListIsLoading"
       :label="$t('eventsFormCategoryLabel')"
+      :loading="eventsCategoriesIsLoading"
       data-testid="eventsFormCategorySelect"
       item-text="name"
       item-value="id"
       class="mb-3"
       outlined
-    />
+      append-icon="expand_more"
+    >
+      <template v-slot:prepend-item>
+        <v-btn
+          text
+          class="py-4 mb-2 w-full"
+          data-testid="eventsCategoriesCreateDialogOpenButton"
+          @click.stop="eventsCategoriesCreateDialogOpen"
+        >
+          <v-icon left>
+            add
+          </v-icon>
+          {{ $t("create") }} {{ $t("category") }}
+        </v-btn>
+      </template>
+
+      <template v-slot:item="{ item }">
+        <div class="flex justify-between items-center">
+          {{ item.name }}
+
+          <v-menu>
+            <template v-slot:activator="{ on: { click }, attrs }">
+              <v-btn
+                data-testid="eventsCategoriesSelectDropdown"
+                small
+                icon
+                v-bind="attrs"
+                @click.stop="click"
+              >
+                <v-icon>
+                  more_horiz
+                </v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item
+                data-testid="eventsCategoriesEditDialogOpen"
+                @click.stop="eventsCategoriesEditDialogOpen(item)"
+              >
+                <v-list-item-title class="flex items-center">
+                  <v-icon>
+                    edit
+                  </v-icon>
+                  <span class="ml-2">
+                    {{ $t("edit") }} {{ $t("category") }}
+                  </span>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-divider />
+
+              <v-list-item
+                data-testid="eventsCategoriesRemoveOne"
+                @click.stop="eventsCategoriesRemoveOne(item)"
+              >
+                <v-list-item-title class="flex items-center">
+                  <v-icon color="red">
+                    delete_forever
+                  </v-icon>
+                  <span class="ml-2 red--text">
+                    {{ $t("remove") }} {{ $t("category") }}
+                  </span>
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </template>
+    </v-autocomplete>
 
     <v-select
       v-model="value.organizerId"
@@ -128,6 +205,17 @@
     <error-validation-notification
       v-model="showValidationError"
     />
+
+    <events-categories-create-dialog
+      :shown.sync="eventsCategoriesCreateDialogShown"
+      @created="setCategory"
+    />
+
+    <events-categories-edit-dialog
+      :shown.sync="eventsCategoriesEditDialogShown"
+      :events-category="eventsCategoriesEditDialogEventsCategory"
+      @edited="setCategory"
+    />
   </v-form>
 </template>
 
@@ -138,13 +226,19 @@ import eventsStub from "./events.stub"
 import DatePicker from "@/components/DatePicker.vue"
 import ErrorValidationNotification
   from "@/components/ErrorValidationNotification.vue"
+import EventsCategoriesCreateDialog
+  from "./categories/EventsCategoriesCreateDialog.vue"
+import EventsCategoriesEditDialog
+  from "./categories/EventsCategoriesEditDialog.vue"
 
 export default Vue.extend({
   name: "EventsForm",
 
   components: {
     DatePicker,
-    ErrorValidationNotification
+    ErrorValidationNotification,
+    EventsCategoriesCreateDialog,
+    EventsCategoriesEditDialog
   },
 
   props: {
@@ -152,7 +246,10 @@ export default Vue.extend({
   },
 
   data: () => ({
-    showValidationError: false
+    showValidationError: false,
+    eventsCategoriesCreateDialogShown: false,
+    eventsCategoriesEditDialogShown: false,
+    eventsCategoriesEditDialogEventsCategory: {}
   }),
 
   computed: {
@@ -168,8 +265,18 @@ export default Vue.extend({
 
     ...mapState("events/categories", {
       eventsCategoriesStateListIsLoading: "listIsLoading",
-      eventsCategoriesStateList: "list"
-    })
+      eventsCategoriesStateList: "list",
+      eventsCategoriesStateRemoveOneIsLoading: "removeOneIsLoading",
+      eventsCategoriesStateRemoveManyIsLoading: "removeManyIsLoading"
+    }),
+
+    eventsCategoriesIsLoading(): boolean {
+      return (
+        this.eventsCategoriesStateRemoveOneIsLoading ||
+        this.eventsCategoriesStateRemoveManyIsLoading ||
+        this.eventsCategoriesStateListIsLoading
+      )
+    }
   },
 
   watch: {
@@ -183,7 +290,6 @@ export default Vue.extend({
   },
 
   created() {
-    // @TODO: check if stale
     this.clubsActionsList()
     this.rangesActionsList()
     this.eventsCategoriesActionsList()
@@ -199,7 +305,9 @@ export default Vue.extend({
     }),
 
     ...mapActions("events/categories", {
-      eventsCategoriesActionsList: "list"
+      eventsCategoriesActionsList: "list",
+      eventsCategoriesActionsRemoveOne: "removeOne",
+      eventsCategoriesActionsRemoveMany: "removeMany"
     }),
 
     submit(cb): void {
@@ -210,6 +318,93 @@ export default Vue.extend({
 
     resetFields(): void {
       this.$refs.localForm.reset()
+    },
+
+    eventsCategoriesCreateDialogOpen(): void {
+      this.eventsCategoriesCreateDialogShown = true
+    },
+
+    eventsCategoriesEditDialogOpen(eventsCategory): void {
+      this.eventsCategoriesEditDialogShown = true
+      this.eventsCategoriesEditDialogEventsCategory = eventsCategory
+    },
+
+    async eventsCategoriesRemoveOne(eventsCategory): Promise<void> {
+      const eventsCategoryName = eventsCategory.name
+
+      try {
+        await this.$confirm(
+          this.$t("eventsCategoriesRemoveOneConfirmation", {
+            eventsCategoryName
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsCategoriesActionsRemoveOne(eventsCategory)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsCategoriesActionsRemoveOneSuccess", {
+            eventsCategoryName
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    async eventsCategoriesRemoveMany(eventsCategories): Promise<void> {
+      const count = eventsCategories.length
+
+      try {
+        await this.$confirm(
+          this.$t("eventsCategoriesRemoveManyConfirmation", {
+            eventsCategoriesCount: count
+          }),
+          this.$t("warning"), {
+            confirmButtonText: this.$t("confirmButtonText"),
+            cancelButtonText: this.$t("cancel"),
+            customClass: "dangerous-confirmation",
+            type: "warning"
+          }
+        )
+      } catch(e) {
+        return
+      }
+
+      try {
+        await this.eventsCategoriesActionsRemoveMany(eventsCategories)
+        this.$notify({
+          type: "success",
+          title: this.$t("success"),
+          message: this.$t("eventsCategoriesActionsRemoveManySuccess", {
+            eventsCategoriesCount: count
+          })
+        })
+      } catch(e) {
+        this.$notify({
+          type: "error",
+          title: "Oops!",
+          message: e.message
+        })
+      }
+    },
+
+    setCategory(category): void {
+      this.value.categoryId = category.id
     }
   }
 })

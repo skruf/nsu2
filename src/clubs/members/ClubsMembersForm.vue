@@ -1,10 +1,10 @@
 <i18n>
 {
   "en": {
-    "clubsMembersFormFirstNameLabel": "First Name",
+    "clubsMembersFormFirstNameLabel": "First Name (*)",
     "clubsMembersFormFirstNamePlaceholder": "Enter a first name",
     "clubsMembersFormFirstNameError": "First name is a required field",
-    "clubsMembersFormLastNameLabel": "Last Name",
+    "clubsMembersFormLastNameLabel": "Last Name (*)",
     "clubsMembersFormLastNamePlaceholder": "Enter a last name",
     "clubsMembersFormLastNameError": "Last name is a required field",
     "clubsMembersFormEmailAddressLabel": "Email Address",
@@ -20,10 +20,10 @@
     "clubsMembersFormClubIdError": "Select a club"
   },
   "no": {
-    "clubsMembersFormFirstNameLabel": "Fornavn",
+    "clubsMembersFormFirstNameLabel": "Fornavn (*)",
     "clubsMembersFormFirstNamePlaceholder": "Skriv inn fornavn",
     "clubsMembersFormFirstNameError": "Fornavn er et påkrevd felt",
-    "clubsMembersFormLastNameLabel": "Etternavn",
+    "clubsMembersFormLastNameLabel": "Etternavn (*)",
     "clubsMembersFormLastNamePlaceholder": "Skriv inn etternavn",
     "clubsMembersFormLastNameError": "Etternavn er et påkrevd felt",
     "clubsMembersFormEmailAddressLabel": "Epost adresse",
@@ -83,11 +83,9 @@
       v-model="value.country"
       :items="clubsMembersStateCountries"
       :label="$t('clubsMembersFormCountryLabel')"
-      :rules="[(v) => !!v || $t('clubsMembersFormCountryError')]"
       data-testid="clubsMembersFormCountrySelect"
       class="mb-3"
       outlined
-      required
     />
 
     <v-select

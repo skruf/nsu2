@@ -1,4 +1,4 @@
-import { eventsFixture } from "../../../src/fixtures"
+import { eventsFixture } from "../../src/fixtures"
 
 const event = eventsFixture[1]
 

@@ -173,7 +173,8 @@
     "unAssignedSearchFilterLabel": "Search for contestants",
     "divisionSelectLabel": "Division",
     "unAssignedContestantsNoData": "No unassigned contestants",
-    "unAssignedTitle": "Unassigned contestants"
+    "unAssignedTitle": "Unassigned contestants",
+    "divisionsPlaceholder": "No divisions yet."
   },
   "no": {
     "eventsDivisionsListTableNoDataText": "Ingen deltakere enda",
@@ -182,7 +183,8 @@
     "unAssignedSearchFilterLabel": "Søk etter deltakere",
     "divisionSelectLabel": "Standplassliste",
     "unAssignedContestantsNoData": "Ingen tilgjengelige deltakere",
-    "unAssignedTitle": "Tilgjengelige deltakere"
+    "unAssignedTitle": "Tilgjengelige deltakere",
+    "divisionsPlaceholder": "Ingen standplasslister enda."
   }
 }
 </i18n>
@@ -275,7 +277,7 @@
               <v-icon left>
                 add
               </v-icon>
-              Ny standplass
+              {{ $t("create") }} {{ $t("division") }}
             </v-btn>
           </template>
 
@@ -444,7 +446,7 @@
         class="placeholder-container"
       >
         <div class="text-muted">
-          Ingen standplasslister enda.
+          {{ $t("divisionsPlaceholder") }}
         </div>
 
         <v-btn
@@ -456,7 +458,7 @@
           <v-icon left>
             add
           </v-icon>
-          Ny standplass
+          {{ $t("create") }} {{ $t("division") }}
         </v-btn>
       </div>
     </div>

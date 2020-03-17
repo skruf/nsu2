@@ -1,5 +1,5 @@
-import { clubsFixture } from "../../../src/fixtures"
-import { randomArrayItemUtil } from "../../../src/utils"
+import { randomArrayItemUtil } from "../../src/utils"
+import { clubsFixture } from "../../src/fixtures"
 
 const inputClubsForm = (club) => {
   if(club.name) {
@@ -43,6 +43,7 @@ describe("clubs.list", () => {
   beforeEach(() => {
     cy.visit("/clubs")
     cy.startup()
+    cy.seed("clubs", clubsFixture)
   })
 
   it("Search", () => {

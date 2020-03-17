@@ -1,3 +1,4 @@
+
 describe("app", () => {
   beforeEach(() => {
     cy.visit("/")
@@ -5,5 +6,6 @@ describe("app", () => {
   })
 
   it("App starts without crashing", () => {
+    //
   })
 })

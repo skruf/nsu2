@@ -1,6 +1,7 @@
 import {
-  clubsFixture, clubsMembersFixture
-} from "../../../src/fixtures"
+  clubsFixture,
+  clubsMembersFixture
+} from "../../src/fixtures"
 // import { randomArrayItemUtil } from "../../../src/utils"
 
 const club = clubsFixture[0]
@@ -11,6 +12,8 @@ describe("clubs.view", () => {
   beforeEach(() => {
     cy.visit(`/clubs/${club.id}`)
     cy.startup()
+    cy.seed("clubs", clubsFixture)
+    cy.seed("clubs_members", clubsMembersFixture)
   })
 
   it("Details", () => {

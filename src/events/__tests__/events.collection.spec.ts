@@ -5,7 +5,7 @@ let db = null
 
 const setup = async (): Promise<void> => {
   db = await init()
-  await dbTestUtil.seed(db)
+  await dbTestUtil.seedAll(db)
 }
 
 const cleanup = async (): Promise<void> => {

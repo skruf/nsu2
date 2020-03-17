@@ -33,6 +33,8 @@ export default (store) => {
       if(
         type === "clubs/removeOne" ||
         type === "clubs/removeMany"
+        // type === "clubs/members/create" ||
+        // type === "clubs/members/editOne"
       ) {
         dispatch(
           "clubs/members/list",
@@ -40,6 +42,19 @@ export default (store) => {
           { root: true }
         )
       }
+
+      if(
+        type === "events/categories/editOne" ||
+        type === "events/categories/removeOne" ||
+        type === "events/categories/removeMany"
+      ) {
+        dispatch(
+          "events/list",
+          {},
+          { root: true }
+        )
+      }
+
     }
   })
 }

@@ -1,5 +1,5 @@
-import { weaponsFixture } from "../../../src/fixtures"
-import { randomArrayItemUtil } from "../../../src/utils"
+import { weaponsFixture } from "../../src/fixtures"
+import { randomArrayItemUtil } from "../../src/utils"
 
 describe("weapons.list", () => {
   beforeEach(() => {

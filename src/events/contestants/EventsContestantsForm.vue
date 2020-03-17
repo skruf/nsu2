@@ -1,16 +1,16 @@
 <i18n>
 {
   "en": {
-    "eventsContestantsFormWeaponIdPlaceholder": "Weapon",
+    "eventsContestantsFormWeaponIdLabel": "Weapon (*)",
     "eventsContestantsFormWeaponIdError": "Weapon is a required field",
-    "eventsContestantsFormCalibreLabel": "Calibre",
+    "eventsContestantsFormCalibreLabel": "Calibre (*)",
     "eventsContestantsFormCalibreError": "Calibre is a required field",
     "eventsContestantsFormDivisionIdLabel": "Division"
   },
   "no": {
-    "eventsContestantsFormWeaponIdPlaceholder": "Våpen",
+    "eventsContestantsFormWeaponIdLabel": "Våpen (*)",
     "eventsContestantsFormWeaponIdError": "Våpen er et påkrevd felt",
-    "eventsContestantsFormCalibreLabel": "Kaliber",
+    "eventsContestantsFormCalibreLabel": "Kaliber (*)",
     "eventsContestantsFormCalibreError": "Kaliber er et påkrevd felt",
     "eventsContestantsFormDivisionIdLabel": "Standplassliste"
   }
@@ -25,7 +25,7 @@
       :loading="weaponsStateListIsLoading"
       item-text="name"
       item-value="id"
-      :label="$t('eventsContestantsFormWeaponIdPlaceholder')"
+      :label="$t('eventsContestantsFormWeaponIdLabel')"
       :rules="[(v) => !!v || $t('eventsContestantsFormWeaponIdError')]"
       data-testid="eventsContestantsFormWeaponIdSelect"
       class="mb-3"

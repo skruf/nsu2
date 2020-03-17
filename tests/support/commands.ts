@@ -1,11 +1,12 @@
+import { seed } from "../../src/utils/db.test.util"
+
 Cypress.Commands.add("getById", (testId) => (
   cy.get(`[data-testid="${testId}"]`)
 ))
 
 Cypress.Commands.add("startup", () => {
-  cy.window({ timeout: 10000 })
+  cy.window()
     .should("have.property", "ready", true)
-  cy.wait(1000)
 })
 
 Cypress.Commands.add("acceptConfirmation", (
@@ -25,6 +26,7 @@ Cypress.Commands.add("random", { prevSubject: true }, (subject) => (
 
 Cypress.Commands.add("searchTable", (searchValue, inputId, tableId) => {
   cy.getById(inputId)
+    .find("input")
     .type(`${searchValue}{enter}`)
   cy.getById(tableId)
     .within(() => {
@@ -34,6 +36,7 @@ Cypress.Commands.add("searchTable", (searchValue, inputId, tableId) => {
         })
     })
   cy.getById(inputId)
+    .find("input")
     .clear()
 })
 
@@ -50,37 +53,8 @@ Cypress.Commands.add("pickFromDatePicker", (testid, date) => {
     .click()
 })
 
-Cypress.Commands.add("datePickerPickFirst", (testid) => {
-  cy.getById(testid)
-    .click({ force: true })
-    .within(() => {
-      cy.get(".v-btn")
-        .first()
-        .click()
-      cy.getById("datePickerSaveButton")
-        .first()
-        .click()
-    })
-})
-
-Cypress.Commands.add("datePickerPickLast", (testid) => {
-  cy.getById(testid)
-    .click({ force: true })
-    .within(() => {
-      cy.get(".v-btn")
-        .last()
-        .click()
-      cy.getById("datePickerSaveButton")
-        .first()
-        .click()
-    })
-
-  // cy.getById(testid)
-  //   .click({ force: true })
-  // cy.get(".v-date-picker-table .v-btn")
-  //   .last()
-  //   .click()
-  // cy.getById("datePickerSaveButton")
-  //   .first()
-  //   .click()
+Cypress.Commands.add("seed", (collection, data) => {
+  cy.window().then(async ({ db }) => {
+    await seed(db, collection, data)
+  })
 })

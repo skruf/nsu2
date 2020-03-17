@@ -90,7 +90,7 @@ html {
   text-decoration: underline;
 }
 
-.v-btn:not(.v-btn--icon):not(.theme--dark) {
+.v-btn:not(.v-btn--icon):not(.theme--dark):not(.v-date-picker-table__current) {
   padding: 4px 16px !important;
   /* color: #3c4257; */
   letter-spacing: 0.5px;
