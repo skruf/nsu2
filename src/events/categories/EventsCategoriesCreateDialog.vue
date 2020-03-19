@@ -83,21 +83,13 @@ export default Vue.extend({
       this.$refs.eventsCategoriesForm.submit(async () => {
         try {
           await this.eventsCategoriesActionsCreate(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("eventsCategoriesActionsCreateSuccess", {
-              eventsCategoryName: this.form.name
-            })
-          })
+          this.$success(this.$t("eventsCategoriesActionsCreateSuccess", {
+            eventsCategoryName: this.form.name
+          }))
           this.clear()
           this.close()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

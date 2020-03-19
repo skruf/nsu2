@@ -51,11 +51,10 @@
       </v-btn>
     </v-app-bar>
 
-    <div
-      v-loading="eventsRemoveIsLoading"
-      class="container"
-    >
+    <div class="container">
       <events-list-table
+        :events="eventsStateList"
+        :loading="loading"
         @eventsCreateDialogOpen="eventsCreateDialogOpen"
         @eventsEditDialogOpen="eventsEditDialogOpen"
         @eventsRemoveOne="eventsRemoveOne"
@@ -71,15 +70,18 @@
       :shown.sync="eventsEditDialogShown"
       :event="eventsEditDialogEvent"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapMutations, mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
 import EventsListTable from "./EventsListTable.vue"
 import EventsCreateDialog from "./EventsCreateDialog.vue"
 import EventsEditDialog from "./EventsEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "EventsListScreen",
@@ -87,7 +89,8 @@ export default Vue.extend({
   components: {
     EventsListTable,
     EventsCreateDialog,
-    EventsEditDialog
+    EventsEditDialog,
+    Confirm
   },
 
   data: () => ({
@@ -98,48 +101,26 @@ export default Vue.extend({
 
   computed: {
     ...mapState("events", {
-      // eventsStateFetchMode: "fetchMode",
+      eventsStateListIsLoading: "listIsLoading",
+      eventsStateList: "list",
       eventsStateRemoveOneIsLoading: "removeOneIsLoading",
       eventsStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
 
-    eventsRemoveIsLoading(): boolean {
+    loading(): boolean {
       return (
+        this.eventsStateListIsLoading ||
         this.eventsStateRemoveOneIsLoading ||
         this.eventsStateRemoveManyIsLoading
       )
-    },
-
-    // breadcrumbLabel(): string {
-    //   if(this.eventsStateFetchMode === "history") {
-    //     return this.$t("past")
-    //   }
-    //   if(this.eventsStateFetchMode === "upcoming") {
-    //     return this.$t("upcoming")
-    //   }
-    //   return "All"
-    // }
+    }
   },
 
   created() {
     this.eventsActionsList()
   },
 
-  // watch: {
-  //   "$route.query.filter": {
-  //     immediate: true,
-  //     handler: function(mode): void {
-  //       this.eventsMutationsSetFetchMode(mode)
-  //       this.eventsActionsList()
-  //     }
-  //   }
-  // },
-
   methods: {
-    // ...mapMutations("events", {
-    //   eventsMutationsSetFetchMode: "SET_FETCH_MODE"
-    // }),
-
     ...mapActions("events", {
       eventsActionsList: "list",
       eventsActionsRemoveOne: "removeOne",
@@ -156,73 +137,38 @@ export default Vue.extend({
     },
 
     async eventsRemoveOne(event): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("eventsRemoveOneConfirmation", {
-            eventTitle: event.title
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsRemoveOneConfirmation", {
+          eventTitle: event.title
+        })
+      )) return
 
       try {
         await this.eventsActionsRemoveOne(event)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsActionsRemoveOneSuccess", {
-            eventTitle: event.title
-          })
-        })
+        this.$success(this.$t("eventsActionsRemoveOneSuccess", {
+          eventTitle: event.title
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async eventsRemoveMany(events): Promise<void> {
       const count = events.length
-      try {
-        await this.$confirm(
-          this.$t("eventsRemoveManyConfirmation", {
-            eventsCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsRemoveManyConfirmation", {
+          eventsCount: count
+        })
+      )) return
 
       try {
         await this.eventsActionsRemoveMany(events)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsActionsRemoveManySuccess", {
-            eventsCount: count
-          })
-        })
+        this.$success(this.$t("eventsActionsRemoveManySuccess", {
+          eventsCount: count
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

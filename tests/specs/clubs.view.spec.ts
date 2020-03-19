@@ -2,18 +2,28 @@ import {
   clubsFixture,
   clubsMembersFixture
 } from "../../src/fixtures"
-// import { randomArrayItemUtil } from "../../../src/utils"
+
+const inputClubsMembersForm = (member) => {
+  cy.getById("clubsMembersFormFirstNameInput")
+    .clear()
+    .type(member.firstName)
+  cy.getById("clubsMembersFormLastNameInput")
+    .clear()
+    .type(member.lastName)
+  cy.getById("clubsMembersFormEmailAddressInput")
+    .clear()
+    .type(member.emailAddress)
+  cy.pickFromSelect("clubsMembersFormCountrySelect", member.country)
+}
 
 const club = clubsFixture[0]
-const member = clubsMembersFixture
-  .find(({ clubId }) => clubId === club.id)
 
 describe("clubs.view", () => {
-  beforeEach(() => {
-    cy.visit(`/clubs/${club.id}`)
+  before(() => {
     cy.startup()
-    cy.seed("clubs", clubsFixture)
+    cy.seed("clubs", [ club ])
     cy.seed("clubs_members", clubsMembersFixture)
+    cy.visit(`/#/clubs/${club.id}`)
   })
 
   it("Details", () => {
@@ -25,6 +35,8 @@ describe("clubs.view", () => {
   })
 
   it("Search", () => {
+    const member = clubsMembersFixture
+      .find(({ clubId }) => clubId === club.id)
     cy.searchTable(
       member.firstName,
       "clubsMembersSearchFilterInput",
@@ -33,19 +45,17 @@ describe("clubs.view", () => {
   })
 
   it("Create club member", () => {
+    const member = {
+      firstName: "Roger",
+      lastName: "Hansen",
+      emailAddress: "roger@hansen.com"
+    }
     cy.getById("clubsMembersCreateDialogOpenButton")
       .click()
-    cy.getById("clubsMembersFormFirstNameInput")
-      .type(member.firstName)
-    cy.getById("clubsMembersFormLastNameInput")
-      .type(member.lastName)
-    cy.getById("clubsMembersFormEmailAddressInput")
-      .type(member.emailAddress)
-    cy.getById("clubsMembersFormCountrySelect")
-      .click({ force: true })
-    cy.get(".v-menu__content .v-list-item")
-      .first()
-      .click({ force: true })
+    cy.getById("clubsMembersCreateDialogForm")
+      .within(() => {
+        inputClubsMembersForm(member)
+      })
     cy.getById("clubsMembersCreateDialogSubmitButton")
       .click()
     cy.getById("clubsMembersListTable")
@@ -59,39 +69,37 @@ describe("clubs.view", () => {
   it("Delete club member", () => {
     cy.getById("clubsMembersListTableRowDropdown")
       .last()
-      .click({ force: true })
+      .click()
     cy.getById("clubsMembersListTableRowDropdownRemoveOne")
       .first()
-      .click({ force: true })
-    cy.acceptConfirmation()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
   })
 
   it("Edit club member", () => {
-    const firstNameUpdated = "Andreas"
-    const lastNameUpdated = " Nilsen (updated)"
-    const emailAddressUpdated = "updated@email.com"
+    const member = {
+      firstName: "Andreas",
+      lastName: "Nilsen (updated)",
+      emailAddress: "updated@email.com"
+    }
     cy.getById("clubsMembersListTableRowDropdown")
       .first()
-      .click({ force: true })
+      .click()
     cy.getById("clubsMembersListTableRowDropdownOpenEditDialog")
       .first()
-      .click({ force: true })
-    cy.getById("clubsMembersFormFirstNameInput")
-      .clear()
-      .type(firstNameUpdated)
-    cy.getById("clubsMembersFormLastNameInput")
-      .clear()
-      .type(lastNameUpdated)
-    cy.getById("clubsMembersFormEmailAddressInput")
-      .clear()
-      .type(emailAddressUpdated)
+      .click()
+    cy.getById("clubsMembersEditDialogForm")
+      .within(() => {
+        inputClubsMembersForm(member)
+      })
     cy.getById("clubsMembersEditDialogSubmitButton")
       .click()
     cy.getById("clubsMembersListTable")
-      .contains(firstNameUpdated)
+      .contains(member.firstName)
     cy.getById("clubsMembersListTable")
-      .contains(lastNameUpdated)
+      .contains(member.lastName)
     cy.getById("clubsMembersListTable")
-      .contains(emailAddressUpdated)
+      .contains(member.emailAddress)
   })
 })

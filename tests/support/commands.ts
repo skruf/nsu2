@@ -4,11 +4,6 @@ Cypress.Commands.add("getById", (testId) => (
   cy.get(`[data-testid="${testId}"]`)
 ))
 
-Cypress.Commands.add("startup", () => {
-  cy.window()
-    .should("have.property", "ready", true)
-})
-
 Cypress.Commands.add("acceptConfirmation", (
   options: Partial<Cypress.ClickOptions>
 ) => {
@@ -53,8 +48,25 @@ Cypress.Commands.add("pickFromDatePicker", (testid, date) => {
     .click()
 })
 
-Cypress.Commands.add("seed", (collection, data) => {
-  cy.window().then(async ({ db }) => {
-    await seed(db, collection, data)
+Cypress.Commands.add("startup", () => {
+  cy.unseed()
+  cy.visit("/")
+  cy.window()
+    .should("have.property", "db")
+})
+
+Cypress.Commands.add("unseed", () => {
+  Cypress.on("window:before:load", async (win: any) => {
+    const collections = await win.indexedDB.databases()
+    await Promise.all(collections.map(({ name }) => {
+      return win.indexedDB.deleteDatabase(name)
+    }))
   })
+})
+
+Cypress.Commands.add("seed", (collection, data) => {
+  cy.window()
+    .then(async ({ db }) => {
+      await seed(db, collection, data)
+    })
 })

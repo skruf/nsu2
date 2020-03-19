@@ -112,34 +112,20 @@
         outlined
       />
     </div>
-
-    <error-validation-notification
-      v-model="showValidationError"
-    />
   </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapState } from "vuex"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 import rangesStub from "./ranges.stub"
 
 export default Vue.extend({
   name: "RangesForm",
 
-  components: {
-    ErrorValidationNotification
-  },
-
   props: {
     value: { type: Object, default: (): object => rangesStub }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: mapState("ranges", {
     rangesStateCountries: "countries",
@@ -150,7 +136,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

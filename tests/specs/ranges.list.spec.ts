@@ -1,10 +1,20 @@
 import { rangesFixture } from "../../src/fixtures"
 import { randomArrayItemUtil } from "../../src/utils"
 
+const inputRangeForm = (range) => {
+  cy.getById("rangesFormNameInput")
+    .type(range.name)
+  cy.getById("rangesFormAreaInput")
+    .type(range.area)
+  cy.pickFromSelect("rangesFormCountrySelect", range.country)
+  cy.pickFromSelect("rangesFormTypeSelect", range.type)
+}
+
 describe("ranges.list", () => {
-  beforeEach(() => {
-    cy.visit("/ranges")
+  before(() => {
     cy.startup()
+    cy.seed("ranges", rangesFixture)
+    cy.visit(`/#/ranges`)
   })
 
   it("Search", () => {
@@ -17,15 +27,18 @@ describe("ranges.list", () => {
   })
 
   it("Create a range", () => {
-    const range = randomArrayItemUtil(rangesFixture)
+    const range = {
+      name: "Testbane",
+      area: "Oslo, 0258",
+      country: "Norge",
+      type: "Innebane"
+    }
     cy.getById("rangesCreateDialogOpenButton")
       .click()
-    cy.getById("rangesFormNameInput")
-      .type(range.name)
-    cy.getById("rangesFormAreaInput")
-      .type(range.area)
-    cy.pickFromSelect("rangesFormCountrySelect", range.country)
-    cy.pickFromSelect("rangesFormTypeSelect", range.type)
+    cy.getById("rangesCreateDialogForm")
+      .within(() => {
+        inputRangeForm(range)
+      })
     cy.getById("rangesCreateDialogSubmitButton")
       .click()
     cy.getById("rangesListTable")
@@ -41,33 +54,36 @@ describe("ranges.list", () => {
   it("Delete one range", () => {
     cy.getById("rangesListTableRowDropdown")
       .first()
-      .click({ force: true })
+      .click()
     cy.getById("rangesListTableRowDropdownRemoveOne")
       .first()
-      .click({ force: true })
-    cy.acceptConfirmation()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
   })
 
   it("Edit one range", () => {
-    const updatedName = "Korpåsen"
-    const updatedStreetAddress = "Sannergata 21"
+    const range = {
+      name: "Testbane oppdatert",
+      area: "Bergen, 4020",
+      country: "Norge",
+      type: "Utebane"
+    }
     cy.getById("rangesListTableRowDropdown")
       .first()
-      .click({ force: true })
+      .click()
     cy.getById("rangesListTableRowDropdownOpenEditDialog")
       .first()
-      .click({ force: true })
-    cy.getById("rangesFormNameInput")
-      .clear()
-      .type(updatedName)
-    cy.getById("rangesFormStreetAddressInput")
-      .clear()
-      .type(updatedStreetAddress)
+      .click()
+    cy.getById("rangesEditDialogForm")
+      .within(() => {
+        inputRangeForm(range)
+      })
     cy.getById("rangesEditDialogSubmitButton")
       .click()
     cy.getById("rangesListTable")
-      .contains(updatedName)
+      .contains(range.name)
     cy.getById("rangesListTable")
-      .contains(updatedStreetAddress)
+      .contains(range.area)
   })
 })

@@ -35,7 +35,7 @@
   <div>
     <div class="table-controls">
       <table-filter-search
-        v-model="weaponsSearchFilter"
+        v-model="search"
         :label="$t('searchFormPlaceholder')"
         data-testid="weaponsSearchFilterInput"
       />
@@ -51,11 +51,11 @@
     </div>
 
     <v-data-table
-      v-model="weaponsSelection"
-      :headers="weaponsHeaders"
-      :items="weaponsStateList"
-      :search="weaponsSearchFilter"
-      :loading="weaponsStateListIsLoading"
+      v-model="selection"
+      :headers="headers"
+      :items="weapons"
+      :search="search"
+      :loading="loading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
@@ -129,7 +129,7 @@
         <v-menu>
           <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
-              :disabled="!weaponsHasSelection"
+              :disabled="!hasSelection"
               data-testid="weaponsListTableHeaderDropdown"
               small
               icon
@@ -145,7 +145,7 @@
           <v-list>
             <v-list-item
               data-testid="weaponsListTableHeaderDropdownRemoveMany"
-              @click.stop="weaponsRemoveMany(weaponsSelection)"
+              @click.stop="weaponsRemoveMany(selection)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon color="red">
@@ -166,7 +166,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState } from "vuex"
 import TableFilterSearch
   from "@/components/TableFilterSearch.vue"
 
@@ -177,11 +176,16 @@ export default Vue.extend({
     TableFilterSearch
   },
 
+  props: {
+    weapons: { type: Array, required: true },
+    loading: { type: Boolean, default: false }
+  },
+
   data: function() {
     return {
-      weaponsSelection: [],
-      weaponsSearchFilter: "",
-      weaponsHeaders: [{
+      selection: [],
+      search: "",
+      headers: [{
         value: "name",
         text: this.$t("weaponsListTableColumnNameLabel")
       }, {
@@ -205,25 +209,12 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapState("weapons", {
-      weaponsStateListIsLoading: "listIsLoading",
-      weaponsStateList: "list"
-    }),
-
-    weaponsHasSelection(): boolean {
-      return this.weaponsSelection.length > 0
+    hasSelection(): boolean {
+      return this.selection.length > 0
     }
   },
 
-  created() {
-    this.weaponsActionsList()
-  },
-
   methods: {
-    ...mapActions("weapons", {
-      weaponsActionsList: "list"
-    }),
-
     weaponsCreateDialogOpen(): void {
       this.$emit("weaponsCreateDialogOpen")
     },

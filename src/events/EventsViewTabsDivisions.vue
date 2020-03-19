@@ -52,17 +52,26 @@
         add contestant.. {{ eventsContestantsCreateDialogShowTimeAndStand.time }} / {{ eventsContestantsCreateDialogShowTimeAndStand.stand }}
       </div>
     </action-dialog>
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import ActionDialog from "@/components/ActionDialog.vue"
-import EventsDivisionsCreateDialog from "./divisions/EventsDivisionsCreateDialog.vue"
-import EventsDivisionsEditDialog from "./divisions/EventsDivisionsEditDialog.vue"
-import EventsDivisionsScheduler from "./divisions/EventsDivisionsScheduler.vue"
-import EventsContestantsEditDialog from "./contestants/EventsContestantsEditDialog.vue"
+import ActionDialog
+  from "@/components/ActionDialog.vue"
+import EventsDivisionsCreateDialog
+  from "./divisions/EventsDivisionsCreateDialog.vue"
+import EventsDivisionsEditDialog
+  from "./divisions/EventsDivisionsEditDialog.vue"
+import EventsDivisionsScheduler
+  from "./divisions/EventsDivisionsScheduler.vue"
+import EventsContestantsEditDialog
+  from "./contestants/EventsContestantsEditDialog.vue"
+import Confirm
+  from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "EventsViewTabsDivisions",
@@ -72,7 +81,8 @@ export default Vue.extend({
     EventsDivisionsCreateDialog,
     EventsDivisionsEditDialog,
     EventsDivisionsScheduler,
-    EventsContestantsEditDialog
+    EventsContestantsEditDialog,
+    Confirm
   },
 
   props: {
@@ -120,37 +130,19 @@ export default Vue.extend({
     },
 
     async eventsDivisionsRemoveOne(division): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("eventsDivisionsRemoveOneConfirmation", {
-            divisionName: division.name
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsDivisionsRemoveOneConfirmation", {
+          divisionName: division.name
+        })
+      )) return
 
       try {
         await this.eventsDivisionsActionsRemoveOne(division)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsDivisionsRemoveOneSuccess", {
-            divisionName: division.name
-          })
-        })
+        this.$success(this.$t("eventsDivisionsRemoveOneSuccess", {
+          divisionName: division.name
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

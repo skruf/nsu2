@@ -23,39 +23,25 @@
       outlined
       required
     />
-
-    <error-validation-notification
-      v-model="showValidationError"
-    />
   </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import eventsCategoriesStub from "./events.categories.stub"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "EventsCategoriesForm",
-
-  components: {
-    ErrorValidationNotification
-  },
 
   props: {
     value: { type: Object, default: (): object => eventsCategoriesStub }
   },
 
-  data: () => ({
-    showValidationError: false
-  }),
-
   methods: {
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

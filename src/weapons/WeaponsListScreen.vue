@@ -43,11 +43,10 @@
       </v-btn>
     </v-app-bar>
 
-    <div
-      v-loading="weaponsRemoveIsLoading"
-      class="container"
-    >
+    <div class="container">
       <weapons-list-table
+        :weapons="weaponsStateList"
+        :loading="loading"
         @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
         @weaponsEditDialogOpen="weaponsEditDialogOpen"
         @weaponsRemoveOne="weaponsRemoveOne"
@@ -63,6 +62,8 @@
       :shown.sync="weaponsEditDialogShown"
       :weapon="weaponsEditDialogWeapon"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -72,6 +73,7 @@ import { mapState, mapActions } from "vuex"
 import WeaponsListTable from "./WeaponsListTable.vue"
 import WeaponsCreateDialog from "./WeaponsCreateDialog.vue"
 import WeaponsEditDialog from "./WeaponsEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "WeaponsListScreen",
@@ -79,7 +81,8 @@ export default Vue.extend({
   components: {
     WeaponsListTable,
     WeaponsCreateDialog,
-    WeaponsEditDialog
+    WeaponsEditDialog,
+    Confirm
   },
 
   data: () => ({
@@ -90,19 +93,27 @@ export default Vue.extend({
 
   computed: {
     ...mapState("weapons", {
+      weaponsStateListIsLoading: "listIsLoading",
+      weaponsStateList: "list",
       weaponsStateRemoveOneIsLoading: "removeOneIsLoading",
       weaponsStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
-    weaponsRemoveIsLoading(): boolean {
+    loading(): boolean {
       return (
+        this.weaponsStateListIsLoading ||
         this.weaponsStateRemoveOneIsLoading ||
         this.weaponsStateRemoveManyIsLoading
       )
     }
   },
 
+  created() {
+    this.weaponsActionsList()
+  },
+
   methods: {
     ...mapActions("weapons", {
+      weaponsActionsList: "list",
       weaponsActionsRemoveOne: "removeOne",
       weaponsActionsRemoveMany: "removeMany",
     }),
@@ -117,74 +128,38 @@ export default Vue.extend({
     },
 
     async weaponsRemoveOne(weapon): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("weaponsRemoveOneConfirmation", {
-            weaponsName: weapon.name
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("weaponsRemoveOneConfirmation", {
+          weaponsName: weapon.name
+        })
+      )) return
 
       try {
         await this.weaponsActionsRemoveOne(weapon)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("weaponsActionsRemoveOneSuccess", {
-            weaponsName: weapon.name
-          })
-        })
+        this.$success(this.$t("weaponsActionsRemoveOneSuccess", {
+          weaponsName: weapon.name
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async weaponsRemoveMany(weapons): Promise<void> {
       const count = weapons.length
 
-      try {
-        await this.$confirm(
-          this.$t("weaponsRemoveManyConfirmation", {
-            weaponsCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("weaponsRemoveManyConfirmation", {
+          weaponsCount: count
+        })
+      )) return
 
       try {
         await this.weaponsActionsRemoveMany(weapons)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("weaponsActionsRemoveManySuccess", {
-            weaponsCount: count
-          })
-        })
+        this.$success(this.$t("weaponsActionsRemoveManySuccess", {
+          weaponsCount: count
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

@@ -121,9 +121,9 @@
       </template>
 
       <template v-slot:item.divisionId="{ item }">
-        <template v-if="item.division && item.division.day">
-          {{ item.division.day | moment("ddd, DD/MMM") }} - {{ item.division.distance }} meter
-        </template>
+        <events-divisions-label
+          :division="item.division"
+        />
       </template>
 
       <template v-slot:item.notes="{ item }">
@@ -243,13 +243,10 @@
             colspan="100%"
             data-testid="eventsContestantsResultsTableGroupByDivisionTd"
           >
-            <template v-if="c.division && c.division.day">
-              {{ $t("division") }}: {{ c.division.day | moment("DD/MMM") }} - {{ c.division.distance }} meter
-            </template>
-
-            <template v-else>
-              {{ $t("division") }}: Ikke tildelt
-            </template>
+            <events-divisions-label
+              :division="c.division"
+              :prefix="true"
+            />
           </td>
         </template>
 
@@ -321,6 +318,8 @@ import EventsContestantsFilterClubs
   from "./EventsContestantsFilterClubs.vue"
 import EventsContestantsFilterWeapons
   from "./EventsContestantsFilterWeapons.vue"
+import EventsDivisionsLabel
+  from "../divisions/EventsDivisionsLabel.vue"
 
 export default {
   name: "EventsContestantsResultsListTable",
@@ -330,7 +329,8 @@ export default {
     Avatar,
     EventsContestantsFilterDivisions,
     EventsContestantsFilterClubs,
-    EventsContestantsFilterWeapons
+    EventsContestantsFilterWeapons,
+    EventsDivisionsLabel
   },
 
   props: {

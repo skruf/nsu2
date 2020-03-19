@@ -99,10 +99,6 @@
       class="mb-3"
       outlined
     />
-
-    <error-validation-notification
-      v-model="showValidationError"
-    />
   </v-form>
 </template>
 
@@ -110,24 +106,14 @@
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
 import clubsMembersStub from "./clubs.members.stub"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "ClubsMembersForm",
-
-  components: {
-    ErrorValidationNotification
-  },
 
   props: {
     value: { type: Object, default: (): object => clubsMembersStub },
     club: { type: Object, required: false, default: (): null => null }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: {
     ...mapState("clubs/members", {
@@ -142,10 +128,10 @@ export default Vue.extend({
   watch: {
     club: {
       immediate: true,
-      async handler(): Promise<void> {
-        this.localForm = this.form
-        await this.clubsActionsList()
-        if(this.club) this.form.clubId = this.club.id
+      handler(): void {
+        this.clubsActionsList()
+        if(!this.club) return
+        this.value.clubId = this.club.id
       }
     },
     value: {
@@ -164,7 +150,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

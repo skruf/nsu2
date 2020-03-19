@@ -104,10 +104,6 @@
       :label="$t('eventsDivisionsFormAutoAssignLabel')"
       data-testid="eventsDivisionsFormAutoAssignSwitch"
     />
-
-    <error-validation-notification
-      v-model="showValidationError"
-    />
   </v-form>
 </template>
 
@@ -116,24 +112,17 @@ import Vue from "vue"
 import { mapState } from "vuex"
 import eventsDivisionsStub from "./events.divisions.stub"
 import DatePicker from "@/components/DatePicker.vue"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "EventsDivisionsForm",
 
   components: {
-    DatePicker,
-    ErrorValidationNotification
+    DatePicker
   },
 
   props: {
     value: { type: Object, default: (): object => eventsDivisionsStub }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: {
     ...mapState("events/divisions", {
@@ -157,7 +146,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

@@ -44,6 +44,8 @@
     <weapons-create-dialog
       :shown.sync="weaponsCreateDialogShown"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -60,6 +62,8 @@ import ClubsMembersCreateDialog
   from "@/clubs/members/ClubsMembersCreateDialog.vue"
 import WeaponsCreateDialog
   from "@/weapons/WeaponsCreateDialog.vue"
+import Confirm
+  from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "EventsViewTabsContestants",
@@ -69,7 +73,8 @@ export default Vue.extend({
     EventsContestantsCreateDialog,
     EventsContestantsEditDialog,
     ClubsMembersCreateDialog,
-    WeaponsCreateDialog
+    WeaponsCreateDialog,
+    Confirm
   },
 
   props: {
@@ -117,73 +122,38 @@ export default Vue.extend({
     async eventsContestantsRemoveOne(contestant): Promise<void> {
       const fullName = `${contestant.clubMember.firstName} ${contestant.clubMember.lastName}`
 
-      try {
-        await this.$confirm(
-          this.$t("eventsContestantsActionsRemoveOneConfirmation", {
-            clubMemberFullName: fullName
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsContestantsActionsRemoveOneConfirmation", {
+          clubMemberFullName: fullName
+        })
+      )) return
 
       try {
         await this.eventsContestantsActionsRemoveOne(contestant)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsContestantsActionsRemoveOneSuccess", {
-            clubMemberFullName: fullName
-          })
-        })
+        this.$success(this.$t("eventsContestantsActionsRemoveOneSuccess", {
+          clubMemberFullName: fullName
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async eventsContestantsRemoveMany(contestants): Promise<void> {
       const count = contestants.length
-      try {
-        await this.$confirm(
-          this.$t("eventsContestantsActionsRemoveManyConfirmation", {
-            contestantsCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsContestantsActionsRemoveManyConfirmation", {
+          contestantsCount: count
+        })
+      )) return
 
       try {
         await this.eventsContestantsActionsRemoveMany(contestants)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsContestantsActionsRemoveManySuccess", {
-            contestantsCount: count
-          })
-        })
+        this.$success(this.$t("eventsContestantsActionsRemoveManySuccess", {
+          contestantsCount: count
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

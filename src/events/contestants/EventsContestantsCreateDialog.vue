@@ -312,11 +312,7 @@ export default Vue.extend({
     async submit(): Promise<void> {
       const validate = this.$refs.forms.map(({ validate }) => validate())
       if(validate.includes(false)) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: this.$t("validationError")
-        })
+        this.$error(this.$t("validationError"))
         return
       }
 
@@ -332,21 +328,13 @@ export default Vue.extend({
 
       try {
         await this.eventsContestantsActionsCreateMany(contestants)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("saveSuccess", {
-            count: contestants.length
-          })
-        })
+        this.$success(this.$t("saveSuccess", {
+          count: contestants.length
+        }))
         this.close()
         this.weaponsForm = [{ ...eventsContestantsStub }]
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 

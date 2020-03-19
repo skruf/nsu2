@@ -36,7 +36,7 @@ RxDB.plugin(RxDBSchemaCheckModule)
 
 let adapter: string
 
-if(config.env !== "production") {
+if(config.env !== "production" || process.env.VUE_APP_SEED) {
   adapter = "memory"
   RxDB.plugin(require("pouchdb-adapter-memory"))
 } else {

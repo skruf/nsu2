@@ -95,30 +95,6 @@
       outlined
       required
     />
-
-    <v-snackbar
-      v-model="showValidationError"
-      color="error"
-      multi-line
-      right
-      top
-    >
-      <v-icon
-        color="white"
-        class="mr-4"
-      >
-        error
-      </v-icon>
-
-      {{ $t("validationError") }}
-
-      <v-btn
-        text
-        @click="showValidationError = false"
-      >
-        {{ $t("close") }}
-      </v-btn>
-    </v-snackbar>
   </v-form>
 </template>
 
@@ -133,10 +109,6 @@ export default Vue.extend({
   props: {
     value: { type: Object, default: (): object => weaponsStub }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: mapState("weapons", {
     weaponsStateCategories: "categories",
@@ -157,7 +129,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

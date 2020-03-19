@@ -31,6 +31,7 @@
     <clubs-form
       ref="clubsForm"
       v-model="form"
+      data-testid="clubsEditDialogForm"
     />
   </action-dialog>
 </template>
@@ -89,20 +90,12 @@ export default Vue.extend({
       this.$refs.clubsForm.submit(async () => {
         try {
           await this.clubsActionsEditOne(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("clubsActionsEditOneSuccess", {
-              clubsName: this.form.name
-            })
-          })
+          this.$success(this.$t("clubsActionsEditOneSuccess", {
+            clubsName: this.form.name
+          }))
           this.close()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

@@ -19,7 +19,6 @@
 <script lang="ts">
 import _uniqueBy from "lodash.uniqby"
 import Vue from "vue"
-import moment from "moment"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 
@@ -65,7 +64,7 @@ export default Vue.extend({
   methods: {
     divisionName(division): string {
       return division && division.day && division.distance
-        ? `${moment(division.day).format("ddd, DD/MMM")} - ${division.distance} meter`
+        ? `${this.$date(division.day).format("dddd DD MMM")} - ${division.distance} meter`
         : "Ikke tildelt"
     }
   }

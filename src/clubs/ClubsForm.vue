@@ -1,12 +1,15 @@
 <i18n>
 {
   "en": {
-    "nameLabel": "Name",
+    "nameLabel": "Name (*)",
     "namePlaceholder": "Name",
     "nameError": "Name is a required field",
-    "shortNameLabel": "Short name",
+    "shortNameLabel": "Short name (*)",
     "shortNamePlaceholder": "Enter a short name",
     "shortNameError": "Short name is a required field",
+    "areaLabel": "Area (*)",
+    "areaPlaceholder": "Enter an area",
+    "areaError": "Area is a required field",
     "leaderFullNameLabel": "Leader",
     "leaderFullNamePlaceholder": "Enter a name",
     "emailAddressLabel": "Email",
@@ -15,9 +18,6 @@
     "phoneNumberPlaceholder": "Enter a Phone Number",
     "streetAddressLabel": "Address",
     "streetAddressPlaceholder": "Enter an address",
-    "areaLabel": "Area",
-    "areaPlaceholder": "Enter an area",
-    "areaError": "Area is a required field",
     "countryLabel": "Country",
     "countryPlaceholder": "Select a country",
     "countryError": "Country is a required field",
@@ -33,6 +33,9 @@
     "shortNameLabel": "Kortnavn",
     "shortNamePlaceholder": "Skriv inn ett kortnavn",
     "shortNameError": "Kortnavn er et påkrevet felt",
+    "areaLabel": "Område",
+    "areaPlaceholder": "Skriv inn et område",
+    "areaError": "Område er et påkrevet felt",
     "leaderFullNameLabel": "Leder",
     "leaderFullNamePlaceholder": "Skriv inn et navn",
     "emailAddressLabel": "Epost",
@@ -41,9 +44,6 @@
     "phoneNumberPlaceholder": "Skriv inn ett telefonnummer",
     "streetAddressLabel": "Adresse",
     "streetAddressPlaceholder": "Skriv inn en adresse",
-    "areaLabel": "Område",
-    "areaPlaceholder": "Skriv inn et område",
-    "areaError": "Område er et påkrevet felt",
     "countryLabel": "Land",
     "countryPlaceholder": "Velg et land",
     "countryError": "Land er et påkrevet felt",
@@ -74,6 +74,17 @@
       :rules="[(v) => !!v || $t('shortNameError')]"
       :placeholder="$t('shortNamePlaceholder')"
       data-testid="clubsFormShortNameInput"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-text-field
+      v-model="value.area"
+      :label="$t('areaLabel')"
+      :rules="[(v) => !!v || $t('areaError')]"
+      :placeholder="$t('areaPlaceholder')"
+      data-testid="clubsFormAreaInput"
       class="mb-3"
       outlined
       required
@@ -115,17 +126,6 @@
       outlined
     />
 
-    <v-text-field
-      v-model="value.area"
-      :label="$t('areaLabel')"
-      :rules="[(v) => !!v || $t('areaError')]"
-      :placeholder="$t('areaPlaceholder')"
-      data-testid="clubsFormAreaInput"
-      class="mb-3"
-      outlined
-      required
-    />
-
     <v-select
       v-model="value.country"
       :items="clubsStateCountries"
@@ -159,30 +159,6 @@
       class="mb-3"
       outlined
     />
-
-    <v-snackbar
-      v-model="showValidationError"
-      color="error"
-      multi-line
-      right
-      top
-    >
-      <v-icon
-        color="white"
-        class="mr-4"
-      >
-        error
-      </v-icon>
-
-      {{ $t("validationError") }}
-
-      <v-btn
-        text
-        @click="showValidationError = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </v-form>
 </template>
 
@@ -197,10 +173,6 @@ export default Vue.extend({
   props: {
     value: { type: Object, default: () => clubsStub }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: {
     ...mapState("clubs", {
@@ -224,7 +196,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {

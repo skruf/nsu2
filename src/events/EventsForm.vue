@@ -202,10 +202,6 @@
       data-testid="eventsFormApprobatedSwitch"
     />
 
-    <error-validation-notification
-      v-model="showValidationError"
-    />
-
     <events-categories-create-dialog
       :shown.sync="eventsCategoriesCreateDialogShown"
       @created="setCategory"
@@ -216,6 +212,8 @@
       :events-category="eventsCategoriesEditDialogEventsCategory"
       @edited="setCategory"
     />
+
+    <confirm ref="confirm" />
   </v-form>
 </template>
 
@@ -224,21 +222,20 @@ import Vue from "vue"
 import { mapState, mapActions } from "vuex"
 import eventsStub from "./events.stub"
 import DatePicker from "@/components/DatePicker.vue"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 import EventsCategoriesCreateDialog
   from "./categories/EventsCategoriesCreateDialog.vue"
 import EventsCategoriesEditDialog
   from "./categories/EventsCategoriesEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "EventsForm",
 
   components: {
     DatePicker,
-    ErrorValidationNotification,
     EventsCategoriesCreateDialog,
-    EventsCategoriesEditDialog
+    EventsCategoriesEditDialog,
+    Confirm
   },
 
   props: {
@@ -246,7 +243,6 @@ export default Vue.extend({
   },
 
   data: () => ({
-    showValidationError: false,
     eventsCategoriesCreateDialogShown: false,
     eventsCategoriesEditDialogShown: false,
     eventsCategoriesEditDialogEventsCategory: {}
@@ -313,7 +309,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {
@@ -332,74 +328,38 @@ export default Vue.extend({
     async eventsCategoriesRemoveOne(eventsCategory): Promise<void> {
       const eventsCategoryName = eventsCategory.name
 
-      try {
-        await this.$confirm(
-          this.$t("eventsCategoriesRemoveOneConfirmation", {
-            eventsCategoryName
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsCategoriesRemoveOneConfirmation", {
+          eventsCategoryName
+        })
+      )) return
 
       try {
         await this.eventsCategoriesActionsRemoveOne(eventsCategory)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsCategoriesActionsRemoveOneSuccess", {
-            eventsCategoryName
-          })
-        })
+        this.$success(this.$t("eventsCategoriesActionsRemoveOneSuccess", {
+          eventsCategoryName
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async eventsCategoriesRemoveMany(eventsCategories): Promise<void> {
       const count = eventsCategories.length
 
-      try {
-        await this.$confirm(
-          this.$t("eventsCategoriesRemoveManyConfirmation", {
-            eventsCategoriesCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsCategoriesRemoveManyConfirmation", {
+          eventsCategoriesCount: count
+        })
+      )) return
 
       try {
         await this.eventsCategoriesActionsRemoveMany(eventsCategories)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsCategoriesActionsRemoveManySuccess", {
-            eventsCategoriesCount: count
-          })
-        })
+        this.$success(this.$t("eventsCategoriesActionsRemoveManySuccess", {
+          eventsCategoriesCount: count
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 

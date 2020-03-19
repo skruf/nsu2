@@ -54,35 +54,20 @@
       data-testid="eventsContestantsFormDivisionIdSelect"
       outlined
     /> -->
-
-    <error-validation-notification
-      :shown.sync="showValidationError"
-    />
   </v-form>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-// import moment from "moment"
 import { mapState, mapActions } from "vuex"
 import eventsContestantsStub from "./events.contestants.stub"
-import ErrorValidationNotification
-  from "@/components/ErrorValidationNotification.vue"
 
 export default Vue.extend({
   name: "EventsContestantsForm",
 
-  components: {
-    ErrorValidationNotification
-  },
-
   props: {
     value: { type: Object, default: (): object => eventsContestantsStub }
   },
-
-  data: () => ({
-    showValidationError: false
-  }),
 
   computed: {
     ...mapState("weapons", {
@@ -126,7 +111,7 @@ export default Vue.extend({
     submit(cb): void {
       this.$refs.localForm.validate()
         ? cb()
-        : this.showValidationError = true
+        : this.$error(this.$t("validationError"))
     },
 
     resetFields(): void {
@@ -134,7 +119,7 @@ export default Vue.extend({
     },
 
     // formatDivision({ day, time, distance }): string {
-    //   return `${moment(day).format("ddd, DD/MMM")} - ${distance} meter`
+    //   return `${this.$date(day).format("ddd, DD/MMM")} - ${distance} meter`
     // }
   }
 })

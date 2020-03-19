@@ -97,22 +97,13 @@ export default Vue.extend({
           ...this.eventsContestant,
           ...this.form
         })
-
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("submitSuccess", {
-            number: this.eventsContestant.number
-          })
-        })
+        this.$success(this.$t("submitSuccess", {
+          number: this.eventsContestant.number
+        }))
         this.close()
         this.$refs.resultsFormButtons.clear()
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 

@@ -31,6 +31,7 @@
     <weapons-form
       ref="weaponsForm"
       v-model="form"
+      data-testid="weaponsEditDialogForm"
     />
   </action-dialog>
 </template>
@@ -90,20 +91,12 @@ export default Vue.extend({
       this.$refs.weaponsForm.submit(async () => {
         try {
           await this.weaponsActionsEditOne(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("weaponsActionsEditOneSuccess", {
-              weaponsName: this.form.name
-            })
-          })
+          this.$success(this.$t("weaponsActionsEditOneSuccess", {
+            weaponsName: this.form.name
+          }))
           this.close()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

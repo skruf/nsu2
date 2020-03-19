@@ -1,10 +1,21 @@
 import { weaponsFixture } from "../../src/fixtures"
 import { randomArrayItemUtil } from "../../src/utils"
 
+const inputWeaponsForm = (weapon) => {
+  cy.getById("weaponsFormNumberInput")
+    .type(weapon.number)
+  cy.getById("weaponsFormNameInput")
+    .type(weapon.name)
+  cy.pickFromSelect("weaponsFormCategorySelect", weapon.category)
+  cy.pickFromSelect("weaponsFormConditionSelect", weapon.condition)
+  cy.pickFromSelect("weaponsFormDistanceInput", String(weapon.distance))
+}
+
 describe("weapons.list", () => {
-  beforeEach(() => {
-    cy.visit("/weapons")
+  before(() => {
     cy.startup()
+    cy.seed("weapons", weaponsFixture)
+    cy.visit(`/#/weapons`)
   })
 
   it("Search", () => {
@@ -16,37 +27,14 @@ describe("weapons.list", () => {
     )
   })
 
-  it("Sort weapons", () => {
-    cy.getById("weaponsListTableColumnNameText")
-      .click()
-    cy.getById("weaponsListTableColumnNameText")
-      .click()
-  })
-
-  it("Paginate weapons", () => {
-    cy.get(".v-data-footer .v-select")
-      .click()
-    cy.get(".v-list-item")
-      .first()
-      .click()
-    cy.get(".v-data-footer .v-btn")
-      .last()
-      .click()
-  })
-
   it("Create weapons", () => {
     const weapon = randomArrayItemUtil(weaponsFixture)
     cy.getById("weaponsCreateDialogOpenButton")
       .click()
-    cy.getById("weaponsFormNumberInput")
-      .type(weapon.number)
-    cy.getById("weaponsFormNameInput")
-      .type(weapon.name)
-    cy.pickFromSelect("weaponsFormCategorySelect", weapon.category)
-    cy.pickFromSelect("weaponsFormConditionSelect", weapon.condition)
-    cy.getById("weaponsFormDistanceInput")
-      .clear()
-      .type(weapon.distance)
+    cy.getById("weaponsCreateDialogForm")
+      .within(() => {
+        inputWeaponsForm(weapon)
+      })
     cy.getById("weaponsCreateDialogSubmitButton")
       .click()
     cy.getById("weaponsListTable")
@@ -65,40 +53,61 @@ describe("weapons.list", () => {
       .click()
     cy.getById("weaponsListTableRowDropdownRemoveOne")
       .first()
-      .click({ force: true })
-    cy.acceptConfirmation()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
   })
 
   it("Edit weapon", () => {
-    const number = "123 (updated)"
-    const name = "Nuclear Warhead (updated)"
+    const weapon = {
+      number: "123 (updated)",
+      name: "Nuclear Warhead (updated)",
+      distance: "50 meter"
+    }
     cy.getById("weaponsListTableRowDropdown")
       .first()
       .click()
     cy.getById("weaponsListTableRowDropdownOpenEditDialog")
       .first()
       .click()
-    cy.getById("weaponsFormNumberInput")
-      .clear()
-      .type(number)
-    cy.getById("weaponsFormNameInput")
-      .clear()
-      .type(name)
+    cy.getById("weaponsEditDialogForm")
+      .within(() => {
+        inputWeaponsForm(weapon)
+      })
     cy.getById("weaponsEditDialogSubmitButton")
       .click()
     cy.getById("weaponsListTable")
-      .contains(number)
+      .contains(weapon.number)
     cy.getById("weaponsListTable")
-      .contains(name)
+      .contains(weapon.name)
+  })
+
+  it("Sort weapons", () => {
+    cy.getById("weaponsListTableColumnNameText")
+      .click()
+    cy.getById("weaponsListTableColumnNameText")
+      .click()
+  })
+
+  it("Paginate weapons", () => {
+    cy.get(".v-data-footer .v-select")
+      .click({ force: true })
+    cy.get(".v-menu__content .v-list-item")
+      .first()
+      .click({ force: true })
+    cy.get(".v-data-footer .v-btn")
+      .last()
+      .click({ force: true })
   })
 
   it("Delete many weapons", () => {
     cy.get("thead .v-input--selection-controls__ripple")
-      .click()
+      .click({ force: true })
     cy.getById("weaponsListTableHeaderDropdown")
       .click()
     cy.getById("weaponsListTableHeaderDropdownRemoveMany")
       .click()
-    cy.acceptConfirmation()
+    cy.getById("confirmAgree")
+      .click()
   })
 })

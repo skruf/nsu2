@@ -43,11 +43,10 @@
       </v-btn>
     </v-app-bar>
 
-    <div
-      v-loading="rangesRemoveIsLoading"
-      class="container"
-    >
+    <div class="container">
       <ranges-list-table
+        :ranges="rangesStateList"
+        :loading="loading"
         @rangesCreateDialogOpen="rangesCreateDialogOpen"
         @rangesEditDialogOpen="rangesEditDialogOpen"
         @rangesRemoveOne="rangesRemoveOne"
@@ -63,6 +62,8 @@
       :shown.sync="rangesEditDialogShown"
       :range="rangesEditDialogRange"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -72,6 +73,7 @@ import { mapActions, mapState } from "vuex"
 import RangesListTable from "@/ranges/RangesListTable.vue"
 import RangesCreateDialog from "@/ranges/RangesCreateDialog.vue"
 import RangesEditDialog from "@/ranges/RangesEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "RangesListScreen",
@@ -79,7 +81,8 @@ export default Vue.extend({
   components: {
     RangesListTable,
     RangesCreateDialog,
-    RangesEditDialog
+    RangesEditDialog,
+    Confirm
   },
 
   data: () => ({
@@ -89,20 +92,28 @@ export default Vue.extend({
   }),
 
   computed: {
-    ...mapState("weapons", {
-      weaponsStateRemoveOneIsLoading: "removeOneIsLoading",
-      weaponsStateRemoveManyIsLoading: "removeManyIsLoading"
+    ...mapState("ranges", {
+      rangesStateListIsLoading: "listIsLoading",
+      rangesStateList: "list",
+      rangesStateRemoveOneIsLoading: "removeOneIsLoading",
+      rangesStateRemoveManyIsLoading: "removeManyIsLoading"
     }),
-    rangesRemoveIsLoading(): boolean {
+    loading(): boolean {
       return (
-        this.weaponsStateRemoveOneIsLoading ||
-        this.weaponsStateRemoveManyIsLoading
+        this.rangesStateListIsLoading ||
+        this.rangesStateRemoveOneIsLoading ||
+        this.rangesStateRemoveManyIsLoading
       )
     }
   },
 
+  created() {
+    this.rangesActionsList()
+  },
+
   methods: {
     ...mapActions("ranges", {
+      rangesActionsList: "list",
       rangesActionsRemoveOne: "removeOne",
       rangesActionsRemoveMany: "removeMany"
     }),
@@ -117,72 +128,38 @@ export default Vue.extend({
     },
 
     async rangesRemoveOne(range): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("rangesRemoveOneConfirmation", { rangeName: range.name }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("rangesRemoveOneConfirmation", {
+          rangeName: range.name
+        })
+      )) return
 
       try {
         await this.rangesActionsRemoveOne(range)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("rangesActionsRemoveOneSuccess", {
-            rangeName: range.name
-          })
-        })
+        this.$success(this.$t("rangesActionsRemoveOneSuccess", {
+          rangeName: range.name
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async rangesRemoveMany(): Promise<void> {
       const count = this.rangesSelection.length
 
-      try {
-        await this.$confirm(
-          this.$t("rangesRemoveManyConfirmation", {
-            rangesCount: count
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("rangesRemoveManyConfirmation", {
+          rangesCount: count
+        })
+      )) return
 
       try {
         await this.rangesActionsRemoveMany(this.rangesSelection)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("rangesActionsRemoveManySuccess", {
-            rangesCount: count
-          })
-        })
+        this.$success(this.$t("rangesActionsRemoveManySuccess", {
+          rangesCount: count
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

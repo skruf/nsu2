@@ -1,4 +1,4 @@
-import { queryHelperUtil } from "@/utils"
+// import { queryHelperUtil } from "@/utils"
 import _cloneDeep from "lodash.clonedeep"
 
 interface Options {
@@ -150,12 +150,13 @@ export default (options?: Options) => {
 
     mutations.ADD_ONE = (state, item) => {
       state.list.unshift(item)
+      // state.list = [ item, ...state.list ]
       state.count += 1
 
-      const options = queryHelperUtil(state)
-      if(state.list.length > options.limit) {
-        state.list.pop()
-      }
+      // const options = queryHelperUtil(state)
+      // if(state.list.length > options.limit) {
+      //   state.list.pop()
+      // }
     }
 
     actions.create = async ({ commit }, item) => {

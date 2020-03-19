@@ -63,7 +63,6 @@ input[type=date]::-webkit-calendar-picker-indicator {
 
 <script lang="ts">
 import Vue from "vue"
-import moment from "moment"
 
 export default Vue.extend({
   name: "DatePicker",
@@ -86,7 +85,7 @@ export default Vue.extend({
   computed: {
     input(): string {
       return this.value !== ""
-        ? moment(this.value).format(this.format)
+        ? this.$date(this.value).format(this.format)
         : ""
     }
   },

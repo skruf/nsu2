@@ -31,6 +31,7 @@
     <ranges-form
       ref="rangesForm"
       v-model="form"
+      data-testid="rangesEditDialogForm"
     />
   </action-dialog>
 </template>
@@ -90,20 +91,12 @@ export default Vue.extend({
       this.$refs.rangesForm.submit(async () => {
         try {
           await this.rangesActionsEditOne(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("rangesActionsEditOneSuccess", {
-              rangesName: this.form.name
-            })
-          })
+          this.$success(this.$t("rangesActionsEditOneSuccess", {
+            rangesName: this.form.name
+          }))
           this.close()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

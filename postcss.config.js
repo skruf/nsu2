@@ -1,6 +1,19 @@
+// const glob = require("glob")
+// const path = require("path")
+
 module.exports = {
   plugins: [
     require("tailwindcss")("./tailwind.config.js"),
+
+    // require("@fullhuman/postcss-purgecss")({
+    //   paths: glob.sync([
+    //     path.join(__dirname, './public/index.html'),
+    //     path.join(__dirname, './**/*.vue'),
+    //     path.join(__dirname, './src/**/*.js'),
+    //     path.join(__dirname, './node_modules/vuetify/src/**/*.ts')
+    //   ])
+    // })
+
     // require("@fullhuman/postcss-purgecss")({
     //   content: [
     //     "./src/**/*.html",

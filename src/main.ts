@@ -1,11 +1,10 @@
 import Vue from "vue"
 import vuetify from "./plugins/vuetify"
-import "roboto-fontface/css/roboto/roboto-fontface.css"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
 import "./styles.css"
 
-import "./plugins/moment"
-import "./plugins/element"
+import Dayjs from "./plugins/dayjs"
+import Toasted from "./plugins/toasted"
 
 import { init } from "./db"
 import i18n from "./i18n"
@@ -19,21 +18,20 @@ Vue.config.productionTip = false
 Vue.prototype.openExternalUrl = openExternalUrlUtil
 Vue.prototype.print = printUtil
 
+Vue.use(Dayjs)
+Vue.use(Toasted)
+
 ;(async (): Promise<void> => {
-  // const s = performance.now()
   const db = await init()
-  // const e = performance.now()
-  // console.log("Call to doSomething took " + (e - s) + " milliseconds.")
 
-  if(process.env.NODE_ENV === "development") {
-    // const dbTestUtil = require("@/utils/db.test.util").default
-    // await dbTestUtil.seedAll(db)
+  if(process.env.VUE_APP_SEED) {
+    const dbTestUtil = require("@/utils/db.test.util").default
+    await dbTestUtil.seedAll(db)
   }
 
-  if(process.env.NODE_ENV !== "production") {
-    window.db = db
-    window.ready = true
-  }
+  // if(process.env.NODE_ENV !== "production") {
+  // window.db = db
+  // }
 
   new Vue({
     i18n,

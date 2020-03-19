@@ -35,7 +35,7 @@
   <div>
     <div class="table-controls">
       <table-filter-search
-        v-model="rangesSearchFilter"
+        v-model="search"
         :label="$t('searchFormPlaceholder')"
         data-testid="rangesSearchFilterInput"
       />
@@ -54,11 +54,11 @@
     </div>
 
     <v-data-table
-      v-model="rangesSelection"
-      :headers="rangesHeaders"
-      :items="rangesStateList"
-      :search="rangesSearchFilter"
-      :loading="rangesStateListIsLoading"
+      v-model="selection"
+      :headers="headers"
+      :items="ranges"
+      :search="search"
+      :loading="loading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
@@ -66,7 +66,7 @@
       :headers-length="6"
       data-testid="rangesListTable"
       class="clickable no-print-first-td no-print-last-td"
-      @click:row="rangesTableRowClick"
+      @click:row="click"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>
@@ -124,7 +124,7 @@
         <v-menu>
           <template v-slot:activator="{ on: { click }, attrs }">
             <v-btn
-              :disabled="!rangesHasSelection"
+              :disabled="!hasSelection"
               data-testid="rangesListTableHeaderDropdown"
               small
               icon
@@ -140,7 +140,7 @@
           <v-list>
             <v-list-item
               data-testid="rangesListTableHeaderDropdownRemoveMany"
-              @click.stop="rangesRemoveMany(rangesSelection)"
+              @click.stop="rangesRemoveMany(selection)"
             >
               <v-list-item-title class="flex items-center">
                 <v-icon color="red">
@@ -161,7 +161,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState } from "vuex"
 import TableFilterSearch
   from "@/components/TableFilterSearch.vue"
 
@@ -172,11 +171,16 @@ export default Vue.extend({
     TableFilterSearch
   },
 
+  props: {
+    ranges: { type: Array, required: true },
+    loading: { type: Boolean, default: false }
+  },
+
   data() {
     return {
-      rangesSelection: [],
-      rangesSearchFilter: "",
-      rangesHeaders: [{
+      selection: [],
+      search: "",
+      headers: [{
         value: "name",
         text: this.$t("rangesListTableColumnNameLabel")
       }, {
@@ -200,25 +204,12 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapState("ranges", {
-      rangesStateListIsLoading: "listIsLoading",
-      rangesStateList: "list"
-    }),
-
-    rangesHasSelection(): boolean {
-      return this.rangesSelection.length > 0
+    hasSelection(): boolean {
+      return this.selection.length > 0
     }
   },
 
-  created() {
-    this.rangesActionsList()
-  },
-
   methods: {
-    ...mapActions("ranges", {
-      rangesActionsList: "list"
-    }),
-
     rangesCreateDialogOpen(): void {
       this.$emit("rangesCreateDialogOpen")
     },
@@ -235,7 +226,7 @@ export default Vue.extend({
       this.$emit("rangesRemoveMany", ranges)
     },
 
-    rangesTableRowClick(range): void {
+    click(range): void {
       this.$router.push(`/ranges/${range.id}`)
     }
   }

@@ -151,6 +151,8 @@
       :shown.sync="rangesEditDialogShown"
       :range="rangesStateSelected"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -164,6 +166,7 @@ import { mapActions, mapState } from "vuex"
 import DataGrid from "@/components/DataGrid.vue"
 import MapView from "@/components/MapView.vue"
 import RangesEditDialog from "@/ranges/RangesEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "RangesViewScreen",
@@ -171,7 +174,8 @@ export default Vue.extend({
   components: {
     RangesEditDialog,
     DataGrid,
-    MapView
+    MapView,
+    Confirm
   },
 
   data: () => ({
@@ -212,38 +216,20 @@ export default Vue.extend({
     },
 
     async rangesRemoveOne(range): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("rangesRemoveOneConfirmation", {
-            rangeName: range.name
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("rangesRemoveOneConfirmation", {
+          rangeName: range.name
+        })
+      )) return
 
       try {
         await this.rangesActionsRemoveOne(range)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("rangesActionsRemoveOneSuccess", {
-            rangeName: range.name
-          })
-        })
+        this.$success(this.$t("rangesActionsRemoveOneSuccess", {
+          rangeName: range.name
+        }))
         this.$router.push("/ranges")
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

@@ -100,22 +100,12 @@ export default Vue.extend({
       this.$refs.eventsContestantsForm.submit(async () => {
         try {
           await this.eventsContestantsActionsEditOne(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("eventsContestantsActionsEditOneSuccess", {
-              eventsContestantName: this.eventsContestantName
-            })
-          })
+          this.$success(this.$t("eventsContestantsActionsEditOneSuccess", {
+            eventsContestantName: this.eventsContestantName
+          }))
           this.close()
         } catch(e) {
-          console.error(e)
-          console.error(e.message)
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

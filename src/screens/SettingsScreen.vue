@@ -82,6 +82,8 @@
         </v-btn>
       </div>
     </div>
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -90,9 +92,14 @@ import Vue from "vue"
 import config from "@/app.config"
 import i18n from "@/i18n"
 import { reset } from "@/db"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "SettingsScreen",
+
+  components: {
+    Confirm
+  },
 
   data: () => ({
     languages: [
@@ -132,18 +139,11 @@ export default Vue.extend({
     },
 
     async resetApp(): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("appResetConfirmation"),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-        await reset()
-      } catch(e) {}
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("appResetConfirmation")
+      )) return
+
+      await reset()
     }
   }
 })

@@ -31,6 +31,7 @@
     <clubs-members-form
       ref="clubsMembersForm"
       v-model="form"
+      data-testid="clubsMembersCreateDialogForm"
     />
   </action-dialog>
 </template>
@@ -55,7 +56,7 @@ export default Vue.extend({
     club: { type: Object, required: false, default: (): null => null }
   },
 
-  data: function() {
+  data() {
     return {
       visible: this.shown,
       form: { ...clubsMembersStub }
@@ -72,6 +73,8 @@ export default Vue.extend({
     },
     shown(visible): void {
       this.visible = visible
+      if(!this.club) return
+      this.form.clubId = this.club.id
     },
     club(club): void {
       if(!club) return
@@ -90,27 +93,20 @@ export default Vue.extend({
       this.$refs.clubsMembersForm.submit(async () => {
         try {
           await this.clubsMembersActionsCreate(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("clubsMembersActionsCreateSuccess", {
-              fullName
-            })
-          })
-          this.clear()
+          this.$success(this.$t("clubsMembersActionsCreateSuccess", {
+            fullName
+          }))
           this.close()
+          this.clear()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },
 
     clear(): void {
-      this.$refs.clubsMembersForm.resetFields()
+      this.form = { ...clubsMembersStub }
+      // this.$refs.clubsMembersForm.resetFields()
     },
 
     close(): void {

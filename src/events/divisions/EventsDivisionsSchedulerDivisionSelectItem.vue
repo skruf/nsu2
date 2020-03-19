@@ -1,11 +1,11 @@
 <template>
   <div class="py-2 flex items-center w-full">
     <div class="flex-1">
-      {{ division.day | moment("dddd") }}
+      {{ division.day | date("dddd") }}
       <!-- kl. {{ division.startsAt }} -->
       <!-- [{{ division.eventId }}] -->
       <div class="text-muted">
-        {{ division.day | moment("DD/MM/YYYY") }}
+        {{ division.day | date }}
       </div>
     </div>
 

@@ -39,7 +39,7 @@
   <div>
     <div class="table-controls">
       <table-filter-search
-        v-model="eventsSearchFilter"
+        v-model="search"
         :label="$t('searchFormPlaceholder')"
         data-testid="eventsSearchFilterInput"
       />
@@ -58,17 +58,17 @@
     </div>
 
     <v-data-table
-      v-model="eventsSelection"
-      :headers="eventsHeaders"
-      :items="eventsStateList"
-      :search="eventsSearchFilter"
-      :loading="eventsStateListIsLoading"
+      v-model="selection"
+      :headers="headers"
+      :items="events"
+      :search="search"
+      :loading="loading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
       data-testid="eventsListTable"
       class="clickable"
-      @click:row="eventsRowClick"
+      @click:row="click"
     >
       <template v-slot:item.title="{ item }">
         <div
@@ -94,9 +94,9 @@
       </template>
 
       <template v-slot:item.startsAt="{ item }">
-        {{ item.startsAt | moment("MMM, D") }}
+        {{ item.startsAt | date }}
         -
-        {{ item.endsAt | moment("MMM, D") }}
+        {{ item.endsAt | date }}
       </template>
 
       <template v-slot:item.rangeId="{ item }">
@@ -166,7 +166,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { mapActions, mapState } from "vuex"
 import TableFilterSearch from "@/components/TableFilterSearch.vue"
 
 export default Vue.extend({
@@ -176,11 +175,16 @@ export default Vue.extend({
     TableFilterSearch
   },
 
+  props: {
+    events: { type: Array, required: true },
+    loading: { type: Boolean, default: false }
+  },
+
   data() {
     return {
-      eventsSelection: [],
-      eventsSearchFilter: "",
-      eventsHeaders: [{
+      selection: [],
+      search: "",
+      headers: [{
         value: "title",
         text: this.$t("columnTitleApprobatedLabel")
       }, {
@@ -203,18 +207,7 @@ export default Vue.extend({
     }
   },
 
-  computed: {
-    ...mapState("events", {
-      eventsStateListIsLoading: "listIsLoading",
-      eventsStateList: "list"
-    })
-  },
-
   methods: {
-    ...mapActions("events", {
-      eventsActionsList: "list"
-    }),
-
     eventsCreateDialogOpen(): void {
       this.$emit("eventsCreateDialogOpen")
     },
@@ -231,7 +224,7 @@ export default Vue.extend({
       this.$emit("eventsRemoveMany", events)
     },
 
-    eventsRowClick(event): void {
+    click(event): void {
       this.$router.push(`/events/${event.id}`)
     }
   }

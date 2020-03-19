@@ -89,21 +89,13 @@ export default Vue.extend({
       this.$refs.eventsDivisionsForm.submit(async () => {
         try {
           await this.eventsDivisionsActionsEditOne(this.form)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("eventsDivisionsActionsEditOneSuccess", {
-              divisionDay: this.form.day,
-              divisionStartsAt: this.form.startsAt
-            })
-          })
+          this.$success(this.$t("eventsDivisionsActionsEditOneSuccess", {
+            divisionDay: this.form.day,
+            divisionStartsAt: this.form.startsAt
+          }))
           this.close()
         } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
+          this.$error(e.message)
         }
       })
     },

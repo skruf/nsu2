@@ -40,10 +40,10 @@ const inputClubsForm = (club) => {
 }
 
 describe("clubs.list", () => {
-  beforeEach(() => {
-    cy.visit("/clubs")
+  before(() => {
     cy.startup()
     cy.seed("clubs", clubsFixture)
+    cy.visit("/#/clubs")
   })
 
   it("Search", () => {
@@ -64,9 +64,12 @@ describe("clubs.list", () => {
     }
     cy.getById("clubsCreateDialogOpenButton")
       .click()
-    inputClubsForm(club)
+    cy.getById("clubsCreateDialogForm")
+      .within(() => {
+        inputClubsForm(club)
+      })
     cy.getById("clubsCreateDialogButtonSubmit")
-      .click({ force: true })
+      .click()
     cy.getById("clubsListTable")
       .contains(club.name)
     cy.getById("clubsListTable")
@@ -76,11 +79,12 @@ describe("clubs.list", () => {
   it("Delete club", () => {
     cy.getById("clubsListTableRowDropdown")
       .first()
-      .click({ force: true })
+      .click()
     cy.getById("clubsListTableRowDropdownRemoveOne")
       .first()
-      .click({ force: true })
-    cy.acceptConfirmation()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
   })
 
   it("Edit club", () => {
@@ -90,11 +94,14 @@ describe("clubs.list", () => {
     }
     cy.getById("clubsListTableRowDropdown")
       .first()
-      .click({ force: true })
+      .click()
     cy.getById("clubsListTableRowDropdownOpenEditDialog")
       .first()
-      .click({ force: true })
-    inputClubsForm(club)
+      .click()
+    cy.getById("clubsEditDialogForm")
+      .within(() => {
+        inputClubsForm(club)
+      })
     cy.getById("clubsEditDialogSubmitButton")
       .click()
     cy.getById("clubsListTable")

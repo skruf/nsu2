@@ -117,6 +117,8 @@
       :shown.sync="membersEditDialogShown"
       :member="membersEditItem"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -132,6 +134,7 @@ import MembersCreateDialog
   from "./members/ClubsMembersCreateDialog.vue"
 import MembersEditDialog
   from "./members/ClubsMembersEditDialog.vue"
+import Confirm from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "ClubsListScreen",
@@ -142,7 +145,8 @@ export default Vue.extend({
     ClubsEditDialog,
     MembersListTable,
     MembersCreateDialog,
-    MembersEditDialog
+    MembersEditDialog,
+    Confirm
   },
 
   data: () => ({
@@ -227,38 +231,22 @@ export default Vue.extend({
     },
 
     async clubsRemoveOne(club): Promise<void> {
-      try {
-        await this.$confirm(
-          this.$t("clubsRemoveOneConfirmation", {
-            club: club.name,
-            clubMemberCount: club.membersCount
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("clubsRemoveOneConfirmation", {
+          club: club.name,
+          clubMemberCount: club.membersCount
+        })
+      )) return
 
-        try {
-          await this.clubsActionsRemoveOne(club)
-          this.$notify({
-            type: "success",
-            title: this.$t("success"),
-            message: this.$t("clubsRemoveOneSuccess", {
-              clubName: club.name,
-              clubMemberCount: club.membersCount
-            })
-          })
-        } catch(e) {
-          this.$notify({
-            type: "error",
-            title: "Oops!",
-            message: e.message
-          })
-        }
-      } catch(e) {}
+      try {
+        await this.clubsActionsRemoveOne(club)
+        this.$success(this.$t("clubsRemoveOneSuccess", {
+          clubName: club.name,
+          clubMemberCount: club.membersCount
+        }))
+      } catch(e) {
+        this.$error(e.message)
+      }
     },
 
     async clubsRemoveMany(clubs): Promise<void> {
@@ -267,109 +255,59 @@ export default Vue.extend({
         (total, { membersCount }) => total + membersCount, 0
       )
 
-      try {
-        await this.$confirm(
-          this.$t("clubsRemoveManyConfirmation", {
-            clubsCount,
-            clubMemberCount
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("clubsRemoveManyConfirmation", {
+          clubsCount,
+          clubMemberCount
+        })
+      )) return
 
       try {
         await this.clubsActionsRemoveMany(clubs)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("clubsActionsRemoveManySuccess", {
-            clubsCount,
-            clubMemberCount
-          })
-        })
+        this.$success(this.$t("clubsActionsRemoveManySuccess", {
+          clubsCount,
+          clubMemberCount
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async membersRemoveOne(clubMember): Promise<void> {
       const fullName = `${clubMember.firstName} ${clubMember.lastName}`
 
-      try {
-        await this.$confirm(
-          this.$t("membersRemoveOneConfirmation", { fullName }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("membersRemoveOneConfirmation", {
+          fullName
+        })
+      )) return
 
       try {
         await this.membersActionsRemoveOne(clubMember)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("membersActionsRemoveOne", { fullName })
-        })
+        this.$success(this.$t("membersActionsRemoveOne", {
+          fullName
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
     async membersRemoveMany(clubMembers): Promise<void> {
       const clubMembersCount = clubMembers.length
 
-      try {
-        await this.$confirm(
-          this.$t("membersRemoveManyConfirmation", {
-            clubMembersCount
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("membersRemoveManyConfirmation", {
+          clubMembersCount
+        })
+      )) return
 
       try {
         await this.membersActionsRemoveMany(clubMembers)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("membersActionsRemoveManySuccess", {
-            clubMembersCount
-          })
-        })
+        this.$success(this.$t("membersActionsRemoveManySuccess", {
+          clubMembersCount
+        }))
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     }
   }

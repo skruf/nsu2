@@ -3,8 +3,6 @@
 
 :root {
   --border-color: #dce3e6;
-  /* --border-color: #e9f0f3; */
-  /* --bg-color: #fff; */
   --bg-color: #f2f3f7;
 }
 
@@ -17,7 +15,9 @@ html {
   font-family: "Rubik";
   font-style: normal;
   font-weight: 400;
-  src: local("Rubik"), url("./assets/fonts/Rubik-Regular.ttf") format("truetype");
+  src: local("Rubik"),
+    url("./assets/fonts/Rubik-Regular.ttf")
+    format("truetype");
 }
 
 *:not(.material-icons) {
@@ -293,6 +293,30 @@ html .theme--dark.v-icon {
 html .container {
   max-width: initial;
   width: auto;
+}
+
+.toasted-container.top-right {
+  top: 1% !important;
+  right: 2% !important;
+}
+
+.toasted-container .toasted {
+  max-width: 350px !important;
+  padding: 12px 20px !important;
+  align-items: flex-start !important;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) !important;
+  border-radius: 0.25rem !important;
+  padding-left: 50px !important;
+  position: relative;
+  font-size: 1rem !important;
+  line-height: 1.2rem !important;
+}
+
+.toasted-container .toasted i {
+  margin-right: 1rem !important;
+  position: absolute;
+  left: 20px;
+  top: 10px;
 }
 
 @tailwind utilities;

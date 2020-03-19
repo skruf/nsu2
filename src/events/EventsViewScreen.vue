@@ -46,7 +46,7 @@
 <template>
   <div class="screen">
     <v-app-bar
-      class="screen-bar print:hidden"
+      class="screen-bar"
       height="auto"
       flat
     >
@@ -86,8 +86,7 @@
           </div>
 
           <div v-if="printMode === 'deadline'">
-            kl. {{ Date.now() | moment("add", "1 hour", "HH:MM") }}
-            <!-- - ddd, DD/MMM -->
+            kl. {{ deadline }}
           </div>
 
           <div v-if="printMode === 'final'">
@@ -97,10 +96,10 @@
 
         <data-grid v-if="!eventsStateSelectedIsLoading">
           <template slot="Start">
-            {{ eventsStateSelected.startsAt | moment("YYYY-MM-DD") }}
+            {{ eventsStateSelected.startsAt | date }}
           </template>
           <template slot="Slutt">
-            {{ eventsStateSelected.endsAt | moment("YYYY-MM-DD") }}
+            {{ eventsStateSelected.endsAt | date }}
           </template>
           <template
             v-if="eventsStateSelected.category"
@@ -257,6 +256,8 @@
       :shown.sync="eventsEditDialogShow"
       :event="eventsStateSelected"
     />
+
+    <confirm ref="confirm" />
   </div>
 </template>
 
@@ -272,6 +273,8 @@ import EventsViewTabsResults
   from "./EventsViewTabsResults.vue"
 import EventsEditDialog
   from "./EventsEditDialog.vue"
+import Confirm
+  from "@/components/Confirm.vue"
 
 export default Vue.extend({
   name: "EventsViewScreen",
@@ -281,7 +284,8 @@ export default Vue.extend({
     EventsViewTabsDivisions,
     EventsViewTabsResults,
     EventsEditDialog,
-    DataGrid
+    DataGrid,
+    Confirm
   },
 
   data: () => ({
@@ -301,6 +305,9 @@ export default Vue.extend({
         this.eventsStateSelectedIsLoading ||
         this.eventsStateRemoveOneIsLoading
       )
+    },
+    deadline(): string {
+      return this.$date(Date.now()).add("1", "hour").format("HH:MM")
     }
   },
 
@@ -344,38 +351,21 @@ export default Vue.extend({
 
     async eventsRemoveOne(): Promise<void> {
       const event = this.eventsStateSelected
-      try {
-        await this.$confirm(
-          this.$t("eventsRemoveOneConfirmation", {
-            eventTitle: event.title
-          }),
-          this.$t("warning"), {
-            confirmButtonText: this.$t("confirmButtonText"),
-            cancelButtonText: this.$t("cancel"),
-            customClass: "dangerous-confirmation",
-            type: "warning"
-          }
-        )
-      } catch(e) {
-        return
-      }
+
+      if(!await this.$refs.confirm.dangerous(
+        this.$t("eventsRemoveOneConfirmation", {
+          eventTitle: event.title
+        })
+      )) return
 
       try {
         await this.eventsActionsRemoveOne(event)
-        this.$notify({
-          type: "success",
-          title: this.$t("success"),
-          message: this.$t("eventsActionsRemoveOneSuccess", {
-            eventTitle: event.title
-          })
-        })
+        this.$success(this.$t("eventsActionsRemoveOneSuccess", {
+          eventTitle: event.title
+        }))
         this.$router.push("/")
       } catch(e) {
-        this.$notify({
-          type: "error",
-          title: "Oops!",
-          message: e.message
-        })
+        this.$error(e.message)
       }
     },
 
