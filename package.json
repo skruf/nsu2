@@ -10,21 +10,29 @@
   },
   "main": "main.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
-    "dev": "concurrently 'yarn run serve' 'electron .'",
-    "dev:web": "yarn run serve",
-    "dev:test": "cypress open",
-    "pack:web": "yarn run build",
-    "pack:app": "yarn run build && yarn run pack",
-    "publish:linux": "yarn run build && yarn run publish -- --linux",
-    "publish:mac": "yarn run build && yarn run publish -- --mac",
-    "publish:win": "yarn run build && yarn run publish -- --win",
+    "build:staging": "vue-cli-service build --mode staging",
+    "build:prod": "vue-cli-service build --mode production",
+
+    "web:dev": "vue-cli-service serve",
+    "web:dev:test": "cypress open",
+    "web:test:e2e": "vue-cli-service test:e2e",
+
+    "web:pack:staging": "yarn run build:staging",
+    "web:pack:prod": "yarn run build:prod",
+
+    "app:dev": "concurrently 'vue-cli-service serve' 'electron .'",
+    "app:pack:staging": "yarn run build:staging && yarn run app:pack",
+    "app:pack:prod": "yarn run build:prod && yarn run app:pack",
+
+    "app:deploy:linux": "yarn run build:prod && yarn run app:publish -- --linux",
+    "app:deploy:mac": "yarn run build:prod && yarn run app:publish -- --mac",
+    "app:deploy:win": "yarn run build:prod && yarn run app:publish -- --win",
+
+    "app:pack": "electron-builder --dir",
+    "app:publish": "electron-builder --publish always",
+    "app:postinstall": "electron-builder install-app-deps",
+
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
-    "pack": "electron-builder --dir",
-    "publish": "electron-builder --publish always",
-    "postinstall": "electron-builder install-app-deps",
     "clean": "rimraf ./bundle ./build ./cache",
     "lint": "vue-cli-service lint"
   },

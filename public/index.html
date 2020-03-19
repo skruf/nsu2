@@ -6,11 +6,61 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>NSU Stevnebehandler</title>
+    <style>
+      .spinner-container {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.5);
+        z-index: 9;
+      }
+      .spinner-container .spinner {
+        margin-top: -10vh;
+        height: 150px;
+        width: 150px;
+        border: 2px solid #181f4810;
+        border-top-color: #181f48;
+        border-radius: 100%;
+        animation: rotation 0.8s infinite linear 0.25s;
+        opacity: 0;
+      }
+      .spinner-container p {
+        position: absolute;
+        margin-top: -4.9vh;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 500;
+        font-family: system-ui, sans-serif !important;
+      }
+      @keyframes rotation {
+        from {
+          opacity: 1;
+          transform: rotate(0deg);
+        }
+        to {
+          opacity: 1;
+          transform: rotate(369deg);
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>Vennligst skru på Javascript for å fortsette</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Laster..</p>
+      </div>
+    </div>
   </body>
 </html>
