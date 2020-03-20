@@ -273,11 +273,6 @@ input[type=time]:invalid::-webkit-datetime-edit {
   flex: 2;
 }
 
-/* .v-item-group,
-.v-window__container {
-  transition: none;
-} */
-
 .v-window * {
   transition: none;
 }
@@ -392,11 +387,6 @@ html .container {
   .no-print-first-td th:not(.table-group-header):first-child,
   .no-print-last-td td:not(.table-group-header):last-child,
   .no-print-last-td th:not(.table-group-header):last-child {
-    display: none;
-  }
-
-  .results-table td:not(.table-group-header):nth-child(4),
-  .results-table th:not(.table-group-header):nth-child(4) {
     display: none;
   }
 

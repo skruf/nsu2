@@ -29,6 +29,17 @@
 }
 </i18n>
 
+<style>
+@media print {
+  .results-table.is-grouped td:not(.table-group-header):nth-child(4),
+  .results-table.is-grouped th:not(.table-group-header):nth-child(4),
+  .results-table.not-grouped td:not(.table-group-header):nth-child(5),
+  .results-table.not-grouped th:not(.table-group-header):nth-child(5) {
+    display: none;
+  }
+}
+</style>
+
 <template>
   <div class="relative container">
     <div class="table-controls">
@@ -80,7 +91,10 @@
 
     <v-data-table
       v-model="eventsContestantsResultsSelection"
-      :class="{ 'is-grouped': isntGrouped }"
+      :class="{
+        'is-grouped': isntGrouped,
+        'not-grouped': !isntGrouped
+      }"
       :headers="eventsContestantsResultsHeaders"
       :items="results"
       :search="eventsContestantsResultsSearchFilter"
@@ -180,7 +194,7 @@
 
       <template v-slot:item.rank="{ item }">
         <div class="font-bold text-black flex items-center justify-center">
-          <v-img
+          <!-- <v-img
             v-if="item.rank === 1"
             src="https://image.flaticon.com/icons/svg/340/340334.svg"
             max-width="22px"
@@ -196,11 +210,11 @@
             v-if="item.rank === 3"
             src="https://image.flaticon.com/icons/svg/340/340335.svg"
             max-width="22px"
-          />
+          /> -->
 
-          <template v-if="item.rank > 3 || item.rank === 0">
-            {{ item.rank }}
-          </template>
+          <!-- <template v-if="item.rank > 3 || item.rank === 0"> -->
+          {{ item.rank }}
+          <!-- </template> -->
         </div>
       </template>
 
@@ -401,7 +415,7 @@ export default {
     }),
 
     isntGrouped(): boolean {
-      return this.eventsContestantsResultsTableGroupBy === []
+      return !!this.eventsContestantsResultsTableGroupBy
     },
 
     results() {
@@ -410,7 +424,7 @@ export default {
       const sorted = [ ...this.eventsContestantsStateList ]
         .sort((a, b) => b.total - a.total)
 
-      if(this.isntGrouped) return sorted
+      if(this.eventsContestantsResultsTableGroupBy === []) return sorted
 
       const grouped = sorted.reduce((groups, contestant) => {
         const groupBy = contestant[this.eventsContestantsResultsTableGroupBy]

@@ -1,7 +1,7 @@
 <template>
   <table-filter-select
-    v-model="selection"
     v-slot="item"
+    v-model="selection"
     :items="weapons"
     :loading="loading"
     :item-text="weaponName"
@@ -10,7 +10,7 @@
     hide-details
     dense
     class="flex-1"
-    label="Vis deltaker"
+    label="Vis våpen"
   >
     {{ weaponName(item) }}
   </table-filter-select>

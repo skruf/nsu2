@@ -19,6 +19,12 @@
 }
 </i18n>
 
+<style scoped>
+.notes-panel {
+  @apply flex flex-col bg-white text-black absolute right-0 inset-y-0 h-full w-full max-w-sm;
+}
+</style>
+
 <style>
 .v-overlay__content {
   @apply h-full w-full;
@@ -41,7 +47,7 @@
       >
         <div
           v-if="visible && hasContestant"
-          class="flex flex-col bg-white text-black absolute right-0 inset-y-0 h-full w-full max-w-sm"
+          class="notes-panel"
           @click.stop
         >
           <v-toolbar

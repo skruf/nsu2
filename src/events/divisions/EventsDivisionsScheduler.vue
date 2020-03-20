@@ -34,11 +34,9 @@
 
 .cell.dragover:not(.unassigned-contestants-cell) {
   @apply bg-gray-100;
-  /* background-color: rgba(0, 0, 0, 0.8); */
 }
 
 /* .contestant-cell.dragging {
-  background-color: green;
 } */
 
 .contestant-cell,
@@ -130,6 +128,7 @@
 
 .contestant-print-container {
   @apply w-full bg-white items-center justify-center flex-wrap;
+  margin-top: -65px;
 }
 .contestant-print-cell {
   break-before: page;
@@ -141,10 +140,16 @@
   /* width: 21cm; */
   /* height: 29.7cm; */
 }
+.contestant-print-cell-wrapper {
+  @apply max-w-md w-full mx-auto flex flex-col justify-center;
+}
+.contestant-print-cell-container {
+  display: flex;
+  flex: initial;
+}
 .contestant-print-cell-key {
   min-width: 8rem;
 }
-
 .placeholder-container {
   @apply border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64;
 }
@@ -200,10 +205,10 @@
           <div
             v-if="schedule[time] && schedule[time][stand]"
             :key="`${time}-${stand}`"
-            class="contestant-print-cell items-center"
+            class="contestant-print-cell"
           >
-            <div class="max-w-md w-full mx-auto flex flex-col justify-center">
-              <div class="flex flex-initial">
+            <div class="contestant-print-cell-wrapper">
+              <div class="contestant-print-cell-container">
                 <div class="contestant-print-cell-key">
                   Nr:
                 </div>
@@ -212,7 +217,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-initial">
+              <div class="contestant-print-cell-container">
                 <div class="contestant-print-cell-key">
                   Dato:
                 </div>
@@ -221,7 +226,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-initial">
+              <div class="contestant-print-cell-container">
                 <div class="contestant-print-cell-key">
                   Tid:
                 </div>
@@ -230,7 +235,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-initial">
+              <div class="contestant-print-cell-container">
                 <div class="contestant-print-cell-key">
                   Bane:
                 </div>
@@ -239,7 +244,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-initial">
+              <div class="contestant-print-cell-container">
                 <div class="contestant-print-cell-key">
                   Våpen:
                 </div>

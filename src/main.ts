@@ -12,6 +12,7 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./state"
 import { openExternalUrlUtil, printUtil } from "@/utils"
+import config from "./app.config"
 
 Vue.config.productionTip = false
 
@@ -24,14 +25,14 @@ Vue.use(Toasted)
 ;(async (): Promise<void> => {
   const db = await init()
 
-  if(process.env.VUE_APP_SEED) {
+  if(config.seed) {
     const dbTestUtil = require("@/utils/db.test.util").default
     await dbTestUtil.seedAll(db)
   }
 
-  // if(process.env.NODE_ENV !== "production") {
-  // window.db = db
-  // }
+  if(config.env !== "production") {
+    window.db = db
+  }
 
   new Vue({
     i18n,

@@ -73,7 +73,7 @@
             class="text-base leading-none opacity-75 ml-8 self-start"
             :to="`/ranges/${eventsStateSelected.range.id}`"
           >
-            {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.streetAddress }} {{ eventsStateSelected.range.area }}
+            {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.area }}
           </router-link>
         </div>
 
