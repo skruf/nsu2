@@ -29,6 +29,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
         outlined
         v-bind="attrs"
         v-on="on"
+        @keydown.enter="$refs.datePickerMenu.save(v)"
       />
     </template>
 
@@ -37,27 +38,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
       data-testid="datePicker"
       no-title
       scrollable
-    >
-      <v-spacer />
-
-      <v-btn
-        text
-        color="primary"
-        data-testid="datePickerCancelButton"
-        @click="datePickerMenuShown = false"
-      >
-        {{ $t("cancel") }}
-      </v-btn>
-
-      <v-btn
-        text
-        color="primary"
-        data-testid="datePickerSaveButton"
-        @click="$refs.datePickerMenu.save(v)"
-      >
-        OK
-      </v-btn>
-    </v-date-picker>
+      @input="$refs.datePickerMenu.save(v)"
+    />
   </v-menu>
 </template>
 

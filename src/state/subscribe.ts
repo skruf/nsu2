@@ -7,9 +7,11 @@ export default (store) => {
 
       if(
         type === "events/divisions/create" ||
-        type === "events/divisions/editOne"
+        type === "events/divisions/editOne" ||
+        type === "events/divisions/removeOne" ||
+        type === "events/divisions/removeMany"
       ) {
-        if(!payload.autoAssign) return
+        // if(!payload.autoAssign) return
         dispatch(
           "events/contestants/list",
           { filter: { eventId: state.events.selected.id } },

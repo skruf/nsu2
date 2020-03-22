@@ -2,6 +2,6 @@ export default {
   number: "",
   name: "",
   category: "",
-  condition: "",
+  // condition: "",
   distance: 0
 }

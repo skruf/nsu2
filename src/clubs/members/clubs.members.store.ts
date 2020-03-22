@@ -13,8 +13,8 @@ const getters = {
   listByClubId: ({ list }) => (id) => (
     list.filter(({ clubId }) => clubId === id)
   ),
-  listNoClub: (_, { listByClubId }) => (
-    listByClubId(undefined)
+  listNoClub: ({ list }) => (
+    list.filter(({ clubId }) => !clubId || clubId === "")
   )
 }
 

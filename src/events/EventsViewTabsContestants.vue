@@ -16,7 +16,7 @@
 </i18n>
 
 <template>
-  <div class="">
+  <div>
     <events-contestants-list-table
       :event="event"
       @eventsContestantsCreateDialogOpen="eventsContestantsCreateDialogOpen"
@@ -28,21 +28,11 @@
     <events-contestants-create-dialog
       :shown.sync="eventsContestantsCreateDialogShow"
       :event="event"
-      @clubsMembersCreateDialogOpen="clubsMembersCreateDialogOpen"
-      @weaponsCreateDialogOpen="weaponsCreateDialogOpen"
     />
 
     <events-contestants-edit-dialog
       :shown.sync="eventsContestantsEditDialogShow"
       :events-contestant="eventsContestantsEditContestant"
-    />
-
-    <clubs-members-create-dialog
-      :shown.sync="clubsMembersCreateDialogShown"
-    />
-
-    <weapons-create-dialog
-      :shown.sync="weaponsCreateDialogShown"
     />
 
     <confirm ref="confirm" />
@@ -58,10 +48,6 @@ import EventsContestantsCreateDialog
   from "./contestants/EventsContestantsCreateDialog.vue"
 import EventsContestantsEditDialog
   from "./contestants/EventsContestantsEditDialog.vue"
-import ClubsMembersCreateDialog
-  from "@/clubs/members/ClubsMembersCreateDialog.vue"
-import WeaponsCreateDialog
-  from "@/weapons/WeaponsCreateDialog.vue"
 import Confirm
   from "@/components/Confirm.vue"
 
@@ -72,8 +58,6 @@ export default Vue.extend({
     EventsContestantsListTable,
     EventsContestantsCreateDialog,
     EventsContestantsEditDialog,
-    ClubsMembersCreateDialog,
-    WeaponsCreateDialog,
     Confirm
   },
 
@@ -82,8 +66,6 @@ export default Vue.extend({
   },
 
   data: () => ({
-    clubsMembersCreateDialogShown: false,
-    weaponsCreateDialogShown: false,
     eventsContestantsCreateDialogShow: false,
     eventsContestantsEditDialogShow: false,
     eventsContestantsEditContestant: {}
@@ -101,14 +83,6 @@ export default Vue.extend({
       eventsContestantsActionsRemoveOne: "removeOne",
       eventsContestantsActionsRemoveMany: "removeMany"
     }),
-
-    clubsMembersCreateDialogOpen(): void {
-      this.clubsMembersCreateDialogShown = true
-    },
-
-    weaponsCreateDialogOpen(): void {
-      this.weaponsCreateDialogShown = true
-    },
 
     eventsContestantsCreateDialogOpen(): void {
       this.eventsContestantsCreateDialogShow = true

@@ -14,7 +14,8 @@
     "build:prod": "vue-cli-service build --mode production",
 
     "web:dev": "vue-cli-service serve",
-    "web:dev:test": "cypress open",
+    "web:dev:test": "VUE_APP_SEED=false vue-cli-service serve",
+    "web:dev:cy": "cypress open",
     "web:test:e2e": "vue-cli-service test:e2e",
 
     "web:pack:staging": "yarn run build:staging",

@@ -1,18 +1,18 @@
 <i18n>
 {
   "en": {
-    "eventsDivisionsRemoveOneConfirmation": "This will remove %{divisionName} permanently. Continue?",
-    "eventsDivisionsRemoveOneSuccess": "%{divisionName} was removed from the database"
+    "eventsDivisionsRemoveOneConfirmation": "This will remove %{day} %{time} - %{distance} meters permanently. Continue?",
+    "eventsDivisionsRemoveOneSuccess": "%{day} %{time} - %{distance} meters was removed from the database"
   },
   "no": {
-    "eventsDivisionsRemoveOneConfirmation": "Dette vil fjerne %{divisionName} permanent. Fortsette?",
-    "eventsDivisionsRemoveOneSuccess": "%{divisionName} ble fjernet fra databasen"
+    "eventsDivisionsRemoveOneConfirmation": "Dette vil fjerne %{day} %{time} - %{distance} meter permanent. Fortsette?",
+    "eventsDivisionsRemoveOneSuccess": "%{day} %{time} - %{distance} meter ble fjernet fra databasen"
   }
 }
 </i18n>
 
 <template>
-  <div class="">
+  <div>
     <events-divisions-scheduler
       @eventsDivisionsCreateDialogOpen="eventsDivisionsCreateDialogOpen"
       @eventsDivisionsEditDialogOpen="eventsDivisionsEditDialogOpen"
@@ -36,10 +36,9 @@
       :division="eventsDivisionsEditDialogDivision"
     />
 
-    <action-dialog :shown.sync="eventsContestantsCreateDialogShow">
+    <!-- <action-dialog :shown.sync="eventsContestantsCreateDialogShow">
       <template v-slot:title>
         Add contestant
-        <!-- {{ $t("dialogTitle") }} -->
       </template>
 
       <template v-slot:actions>
@@ -51,7 +50,7 @@
       <div>
         add contestant.. {{ eventsContestantsCreateDialogShowTimeAndStand.time }} / {{ eventsContestantsCreateDialogShowTimeAndStand.stand }}
       </div>
-    </action-dialog>
+    </action-dialog> -->
 
     <confirm ref="confirm" />
   </div>
@@ -60,8 +59,8 @@
 <script lang="ts">
 import Vue from "vue"
 import { mapActions, mapState } from "vuex"
-import ActionDialog
-  from "@/components/ActionDialog.vue"
+// import ActionDialog
+//   from "@/components/ActionDialog.vue"
 import EventsDivisionsCreateDialog
   from "./divisions/EventsDivisionsCreateDialog.vue"
 import EventsDivisionsEditDialog
@@ -77,7 +76,7 @@ export default Vue.extend({
   name: "EventsViewTabsDivisions",
 
   components: {
-    ActionDialog,
+    // ActionDialog,
     EventsDivisionsCreateDialog,
     EventsDivisionsEditDialog,
     EventsDivisionsScheduler,
@@ -130,17 +129,19 @@ export default Vue.extend({
     },
 
     async eventsDivisionsRemoveOne(division): Promise<void> {
+      const texts = {
+        day: division.day,
+        time: division.time,
+        distance: division.distance
+      }
+
       if(!await this.$refs.confirm.dangerous(
-        this.$t("eventsDivisionsRemoveOneConfirmation", {
-          divisionName: division.name
-        })
+        this.$t("eventsDivisionsRemoveOneConfirmation", texts)
       )) return
 
       try {
         await this.eventsDivisionsActionsRemoveOne(division)
-        this.$success(this.$t("eventsDivisionsRemoveOneSuccess", {
-          divisionName: division.name
-        }))
+        this.$success(this.$t("eventsDivisionsRemoveOneSuccess", texts))
       } catch(e) {
         this.$error(e.message)
       }

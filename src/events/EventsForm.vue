@@ -106,7 +106,7 @@
       <template v-slot:prepend-item>
         <v-btn
           text
-          class="py-4 mb-2 w-full"
+          class="mb-2 w-full"
           data-testid="eventsCategoriesCreateDialogOpenButton"
           @click.stop="eventsCategoriesCreateDialogOpen"
         >
@@ -365,6 +365,7 @@ export default Vue.extend({
 
     setCategory(category): void {
       this.value.categoryId = category.id
+      console.log(this.value)
     }
   }
 })

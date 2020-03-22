@@ -55,7 +55,7 @@ export default Vue.extend({
     shown: { type: Boolean, default: false }
   },
 
-  data: function() {
+  data() {
     return {
       visible: this.shown,
       form: { ...weaponsStub }
@@ -83,10 +83,11 @@ export default Vue.extend({
     submit(): void {
       this.$refs.weaponsForm.submit(async () => {
         try {
-          await this.weaponsActionsCreate(this.form)
+          const weapon = await this.weaponsActionsCreate(this.form)
           this.$success(this.$t("weaponsActionsCreateSuccess", {
             weaponsName: this.form.name
           }))
+          this.$emit("weaponCreated", weapon)
           this.clear()
           this.close()
         } catch(e) {

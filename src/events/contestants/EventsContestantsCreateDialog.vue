@@ -71,9 +71,11 @@
           :label="$t('selectMemberLabel')"
           :loading="clubsMembersStateListIsLoading"
           :rules="[(v) => !!v || $t('selectMemberError')]"
+          :filter="clubMemberFilter"
           data-testid="eventsContestantsManagerSelectMember"
           item-value="id"
           class="mb-5"
+          autofocus
           single-line
           outlined
           hide-details
@@ -82,7 +84,7 @@
           <template v-slot:prepend-item>
             <v-btn
               text
-              class="py-4 mb-2 w-full"
+              class="mb-2 w-full"
               data-testid="clubsMembersCreateDialogOpenButton"
               @click.stop="clubsMembersCreateDialogOpen"
             >
@@ -148,9 +150,9 @@
           <template v-slot:prepend-item>
             <v-btn
               text
-              class="py-4 mb-2 w-full"
+              class="mb-2 w-full"
               data-testid="weaponsCreateDialogOpenButton"
-              @click.stop="weaponsCreateDialogOpen"
+              @click.stop="weaponsCreateDialogOpen(index)"
             >
               <v-icon left>
                 add
@@ -161,7 +163,7 @@
 
           <template v-slot:item="{ item }">
             <div
-              class="py-2 flex items-center justify-between"
+              class="py-2 flex items-center justify-between whitespace-no-wrap"
               data-testid="eventsDivisionsSelectItem"
             >
               <div class="flex-2">
@@ -223,6 +225,16 @@
         </v-btn>
       </v-form>
     </div>
+
+    <clubs-members-create-dialog
+      :shown.sync="clubsMembersCreateDialogShown"
+      @memberCreated="memberCreated"
+    />
+
+    <weapons-create-dialog
+      :shown.sync="weaponsCreateDialogShown"
+      @weaponCreated="weaponCreated"
+    />
   </v-dialog>
 </template>
 
@@ -233,12 +245,22 @@ import eventsContestantsStub
   from "./events.contestants.stub"
 import EventsContestantsCreateDialogMemberSelectItem
   from "./EventsContestantsCreateDialogMemberSelectItem.vue"
+import WeaponsCreateDialog
+  from "@/weapons/WeaponsCreateDialog.vue"
+import ClubsMembersCreateDialog
+  from "@/clubs/members/ClubsMembersCreateDialog.vue"
+
+const strIncludes = (v: string, q: string): boolean => (
+  v.toLowerCase().includes(q.toLowerCase())
+)
 
 export default Vue.extend({
   name: "EventsContestantsCreateDialog",
 
   components: {
-    EventsContestantsCreateDialogMemberSelectItem
+    EventsContestantsCreateDialogMemberSelectItem,
+    WeaponsCreateDialog,
+    ClubsMembersCreateDialog
   },
 
   props: {
@@ -249,7 +271,10 @@ export default Vue.extend({
   data() {
     return {
       visible: this.shown,
+      weaponsCreateDialogShown: false,
+      clubsMembersCreateDialogShown: false,
       selectedClubsMemberId: "",
+      weaponsFormIndex: null,
       weaponsForm: [{ ...eventsContestantsStub }],
       weaponsFormRules: {
         weaponId: { required: true, message: "Choose a weapon" },
@@ -306,6 +331,7 @@ export default Vue.extend({
     },
 
     removeWeapon(index): void {
+      if(this.weaponsForm.length === 1) return
       this.weaponsForm.splice(index, 1)
     },
 
@@ -318,12 +344,14 @@ export default Vue.extend({
 
       const contestants = this.weaponsForm.map(({
         weaponId,
-        calibre
+        calibre,
+        condition
       }) => ({
         clubMemberId: this.selectedClubsMemberId,
         eventId: this.event.id,
-        weaponId: weaponId,
-        calibre: parseInt(calibre)
+        weaponId,
+        calibre: parseInt(calibre),
+        condition
       }))
 
       try {
@@ -335,6 +363,7 @@ export default Vue.extend({
         this.weaponsForm = [{ ...eventsContestantsStub }]
       } catch(e) {
         this.$error(e.message)
+        console.error(e)
       }
     },
 
@@ -342,14 +371,29 @@ export default Vue.extend({
       this.visible = false
     },
 
-    weaponsCreateDialogOpen(): void {
-      this.close()
-      this.$emit("weaponsCreateDialogOpen", true)
+    weaponsCreateDialogOpen(weaponsFormIndex: number): void {
+      this.weaponsFormIndex = weaponsFormIndex
+      this.weaponsCreateDialogShown = true
+    },
+
+    weaponCreated(weapon): void {
+      this.weaponsForm[this.weaponsFormIndex].weaponId = weapon.id
+    },
+
+    clubMemberFilter(item, queryText: string): boolean {
+      if(strIncludes(`${item.firstName} ${item.lastName}`, queryText)) return true
+      if(!item.club) return false
+      if(strIncludes(item.club.name, queryText)) return true
+      if(strIncludes(item.club.shortName, queryText)) return true
+      return false
     },
 
     clubsMembersCreateDialogOpen(): void {
-      this.close()
-      this.$emit("clubsMembersCreateDialogOpen", true)
+      this.clubsMembersCreateDialogShown = true
+    },
+
+    memberCreated(member): void {
+      this.selectedClubsMemberId = member.id
     }
   }
 })

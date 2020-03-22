@@ -109,7 +109,7 @@
               v-for="(note, i) in eventsContestantsStateSelected.notes"
               :key="i"
               v-ripple
-              class="px-5 py-4 border-border border-solid border-b last:border-b-0 hover:bg-gray-100 cursor-pointer"
+              class="break-words px-5 py-4 border-border border-solid border-b last:border-b-0 hover:bg-gray-100 cursor-pointer"
               data-testid="eventsContestantsResultsNotesListItem"
               @click="openEditDialog(note, i)"
             >
@@ -223,7 +223,7 @@ export default Vue.extend({
       this.showEditDialog = true
     },
     submitNewNote(newNote: string): void {
-      this.notes.push(newNote)
+      this.notes.unshift(newNote)
       this.newNote = ""
       this.updateNotes()
     },
@@ -234,7 +234,6 @@ export default Vue.extend({
       this.showEditDialog = false
     },
     deleteNote(editNoteIndex: number): void {
-      // this.notes[i] = undefined
       this.notes.splice(editNoteIndex, 1)
       this.updateNotes()
       this.showEditDialog = false

@@ -13,28 +13,21 @@ const inputEventsForm = (event) => {
       .type(event.title)
   }
   if(event.startsAt) {
-    cy.pickFromDatePicker("eventsFormStartsAtInput", event.startsAt)
+    cy.getById("eventsFormStartsAtInput")
+      .pickDate(event.startsAt)
   }
   if(event.endsAt) {
-    cy.pickFromDatePicker("eventsFormEndsAtInput", event.endsAt)
+    cy.getById("eventsFormEndsAtInput")
+      .pickDate(event.endsAt)
   }
   if(event.category) {
-    const category = eventsCategoriesFixture.find(
-      ({ id }) => id === event.categoryId
-    )
-    cy.pickFromSelect("eventsFormCategorySelect", category.name)
+    cy.pickFromSelect("eventsFormCategorySelect", event.category)
   }
   if(event.organizer) {
-    const organizer = clubsFixture.find(
-      ({ id }) => id === event.organizerId
-    )
-    cy.pickFromSelect("eventsFormOrganizerSelect", organizer.name)
+    cy.pickFromSelect("eventsFormOrganizerSelect", event.organizer)
   }
   if(event.range) {
-    const range = rangesFixture.find(
-      ({ id }) => id === event.rangeId
-    )
-    cy.pickFromSelect("eventsFormRangeSelect", range.name)
+    cy.pickFromSelect("eventsFormRangeSelect", event.range)
   }
   if(event.approbated) {
     cy.getById("eventsFormApprobatedSwitch")
@@ -42,10 +35,18 @@ const inputEventsForm = (event) => {
   }
 }
 
+const club = clubsFixture[0]
+const range = rangesFixture[0]
+const category = eventsCategoriesFixture[0]
+
 describe("events.list", () => {
-  beforeEach(() => {
-    cy.visit("/events")
+  before(() => {
     cy.startup()
+    cy.seed("clubs", [ club ])
+    cy.seed("ranges", [ range ])
+    cy.seed("events_categories", [ category ])
+    cy.seed("events", eventsFixture)
+    cy.visit("/#/events")
   })
 
   it("Search", () => {
@@ -58,31 +59,25 @@ describe("events.list", () => {
   })
 
   it("Create event", () => {
-    // const event = {
-    //   title: "Test event",
-    //   startsAt: "01.02.2020",
-    //   endsAt: "06.02.2020"
-    // }
-
-    const event = randomArrayItemUtil(eventsFixture)
-
+    const event = {
+      title: "Test event",
+      startsAt: "01.02.2020",
+      endsAt: "06.02.2020",
+      category: category.name,
+      organizer: club.name,
+      range: range.name,
+      approbated: false
+    }
     cy.getById("eventsCreateDialogOpenButton")
       .click()
-    inputEventsForm(event)
+    cy.getById("eventsCreateDialogForm")
+      .within(() => {
+        inputEventsForm(event)
+      })
     cy.getById("eventsCreateDialogSubmitButton")
       .click()
     cy.getById("eventsListTable")
       .contains(event.title)
-  })
-
-  it("Delete event from table dropdown", () => {
-    cy.getById("eventsListTableRowDropdown")
-      .first()
-      .click({ force: true })
-    cy.getById("eventsListTableRowDropdownRemoveOne")
-      .first()
-      .click({ force: true })
-    cy.acceptConfirmation()
   })
 
   it("Edit event from table dropdown", () => {
@@ -95,10 +90,24 @@ describe("events.list", () => {
     cy.getById("eventsListTableRowDropdownEditDialogOpen")
       .first()
       .click({ force: true })
-    inputEventsForm(event)
+    cy.getById("eventsEditDialogForm")
+      .within(() => {
+        inputEventsForm(event)
+      })
     cy.getById("eventsEditDialogSubmitButton")
       .click()
     cy.getById("eventsListTable")
       .contains(event.title)
+  })
+
+  it("Delete event from table dropdown", () => {
+    cy.getById("eventsListTableRowDropdown")
+      .first()
+      .click({ force: true })
+    cy.getById("eventsListTableRowDropdownRemoveOne")
+      .first()
+      .click({ force: true })
+    cy.getById("confirmAgree")
+      .click()
   })
 })

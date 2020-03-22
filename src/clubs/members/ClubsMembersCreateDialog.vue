@@ -92,10 +92,11 @@ export default Vue.extend({
 
       this.$refs.clubsMembersForm.submit(async () => {
         try {
-          await this.clubsMembersActionsCreate(this.form)
+          const member = await this.clubsMembersActionsCreate(this.form)
           this.$success(this.$t("clubsMembersActionsCreateSuccess", {
             fullName
           }))
+          this.$emit("memberCreated", member)
           this.close()
           this.clear()
         } catch(e) {
@@ -105,8 +106,8 @@ export default Vue.extend({
     },
 
     clear(): void {
-      this.form = { ...clubsMembersStub }
       // this.$refs.clubsMembersForm.resetFields()
+      this.form = { ...clubsMembersStub }
     },
 
     close(): void {

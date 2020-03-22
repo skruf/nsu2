@@ -1,6 +1,6 @@
 import { RxJsonSchema } from "rxdb"
-// import { WeaponsProperties, } from "./weapons.types"
-// import { destroyMany } from "@/db/queries"
+import { WeaponsProperties } from "./weapons.types"
+import { destroyMany } from "@/db/queries"
 
 const schema: RxJsonSchema = {
   title: "Weapons schema",
@@ -24,10 +24,10 @@ const schema: RxJsonSchema = {
       type: "string",
       index: true
     },
-    condition: {
-      type: "string",
-      index: true
-    },
+    // condition: {
+    //   type: "string",
+    //   index: true
+    // },
     distance: {
       type: "number",
       index: true
@@ -37,26 +37,26 @@ const schema: RxJsonSchema = {
     "number",
     "name",
     "category",
-    "condition",
+    // "condition",
     "distance"
   ]
 }
 
-// const preRemove = async (data: WeaponsProperties) => {
-//   await destroyMany("events_participants_weapons", {
-//     classId: data.id
-//   })
-// }
+const preRemove = async (data: WeaponsProperties) => {
+  await destroyMany("events_contestants", {
+    weaponId: data.id
+  })
+}
 
 export default {
   collection: {
     name: "weapons",
     schema: schema
   },
-  // middlewares: {
-  //   preRemove: {
-  //     handle: preRemove,
-  //     parallel: false
-  //   }
-  // }
+  middlewares: {
+    preRemove: {
+      handle: preRemove,
+      parallel: false
+    }
+  }
 }

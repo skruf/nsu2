@@ -107,7 +107,6 @@
       :must-sort="true"
       :group-desc="true"
       :items-per-page="100"
-      :headers-length="6"
       sort-by="total"
       data-testid="eventsContestantsResultsListTable"
       class="no-print-last-td results-table"
@@ -131,7 +130,7 @@
       </template>
 
       <template v-slot:item.weaponId="{ item }">
-        {{ item.weapon.name }} ({{ item.weapon.condition.charAt(0) }})
+        {{ item.weapon.name }} ({{ item.condition.charAt(0) }})
       </template>
 
       <template v-slot:item.divisionId="{ item }">

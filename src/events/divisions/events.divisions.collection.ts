@@ -1,6 +1,7 @@
 import { RxJsonSchema } from "rxdb"
 import { db } from "@/db"
-import { EventsDivisionsProperties } from "./events.divisions.types"
+import { EventsDivisionsProperties }
+  from "./events.divisions.types"
 
 const schema: RxJsonSchema = {
   title: "Events divisions schema",

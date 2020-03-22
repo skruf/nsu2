@@ -15,7 +15,6 @@ describe("events.view", () => {
   })
 
   it.skip("Print details", () => {
-    cy.wait(10000)
     cy.getById("eventsPrintButton")
       .click()
   })

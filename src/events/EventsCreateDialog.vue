@@ -31,6 +31,7 @@
     <events-form
       ref="eventsForm"
       v-model="form"
+      data-testid="eventsCreateDialogForm"
     />
   </action-dialog>
 </template>

@@ -89,10 +89,11 @@ export default Vue.extend({
     submit(): void {
       this.$refs.eventsCategoriesForm.submit(async () => {
         try {
-          await this.eventsCategoriesActionsEditOne(this.form)
+          const category = await this.eventsCategoriesActionsEditOne(this.form)
           this.$success(this.$t("eventsCategoriesActionsEditOneSuccess", {
             eventsCategoryName: this.form.name
           }))
+          this.$emit("edited", category)
           this.close()
         } catch(e) {
           this.$error(e.message)

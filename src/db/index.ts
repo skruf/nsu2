@@ -56,7 +56,7 @@ interface CollectionConfig {
 
 const configureCollection = async (
   db: Database,
-  config: CollectionConfig
+  config: any // CollectionConfig
 ): Promise<void> => {
   if(!db) return
 

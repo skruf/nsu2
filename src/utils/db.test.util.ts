@@ -20,13 +20,9 @@ export const seed = (db, collection, fixtures) => {
     updatedAt: timestamp
   }))
 
-  return Promise.all(
-    docs.map((doc) => doc.save())
+  return promiseSequenceUtil(
+    docs.map((doc: any) => () => doc.save())
   )
-
-  // return promiseSequenceUtil(
-  //   docs.map((doc: any) => () => doc.save())
-  // )
 }
 
 export const seedWeapons = (db, refs?) => {

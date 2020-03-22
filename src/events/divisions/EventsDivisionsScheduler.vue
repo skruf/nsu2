@@ -97,10 +97,13 @@
   grid-template-columns: inherit;
 }
 
-.add-cell:hover > * {
+.add-cell {
+  cursor: default;
+}
+/* .add-cell:hover > * {
   @apply opacity-100;
   color: blue;
-}
+} */
 
 .unassigned-container {
   @apply flex-col min-w-0 mr-5 ml-0 overflow-y-auto;
@@ -132,23 +135,22 @@
 }
 .contestant-print-cell {
   break-before: page;
-  @apply items-center justify-center inline-flex flex-col w-1/2 bg-white border border-solid border-border;
-  min-height: 7.42cm;
-  max-height: 7.42cm;
-  /* min-height: 7.425cm; */
-  /* max-height: 7.425cm; */
-  /* width: 21cm; */
-  /* height: 29.7cm; */
+  @apply items-center justify-center inline-flex flex-col w-1/3 bg-white border-b border-r border-solid border-border;
+  min-height: 37mm;
+  max-height: 37mm;
+}
+.contestant-print-cell:nth-child(3n) {
+  @apply border-r-0;
 }
 .contestant-print-cell-wrapper {
-  @apply max-w-md w-full mx-auto flex flex-col justify-center;
+  @apply max-w-xs w-full mx-auto flex flex-col justify-center;
 }
 .contestant-print-cell-container {
   display: flex;
   flex: initial;
 }
 .contestant-print-cell-key {
-  min-width: 8rem;
+  min-width: 6rem;
 }
 .placeholder-container {
   @apply border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64;
@@ -179,7 +181,7 @@
     "divisionSelectLabel": "Division",
     "unAssignedContestantsNoData": "No unassigned contestants",
     "unAssignedTitle": "Unassigned contestants",
-    "divisionsPlaceholder": "No divisions yet."
+    "divisionsPlaceholder": "No divisions selected. Pick one above or create a new."
   },
   "no": {
     "eventsDivisionsListTableNoDataText": "Ingen deltakere enda",
@@ -189,7 +191,7 @@
     "divisionSelectLabel": "Standplassliste",
     "unAssignedContestantsNoData": "Ingen tilgjengelige deltakere",
     "unAssignedTitle": "Tilgjengelige deltakere",
-    "divisionsPlaceholder": "Ingen standplasslister enda."
+    "divisionsPlaceholder": "Ingen valgt standplasslister. Velg en ovenfor eller opprett ny."
   }
 }
 </i18n>
@@ -249,7 +251,9 @@
                   Våpen:
                 </div>
                 <div>
-                  {{ schedule[time][stand].weapon.name }} ({{ schedule[time][stand].weapon.condition }})
+                  <events-contestants-weapon-label
+                    :contestant="schedule[time][stand]"
+                  />
                 </div>
               </div>
             </div>
@@ -275,7 +279,7 @@
           <template v-slot:prepend-item>
             <v-btn
               text
-              class="py-4 mb-2 w-full"
+              class="mb-2 w-full"
               data-testid="eventsDivisionsCreateDialogOpenButton"
               @click.stop="eventsDivisionsCreateDialogOpen"
             >
@@ -399,12 +403,6 @@
                 @drop="dropSwap"
                 @click="eventsContestantsEditDialogOpen(schedule[time][stand])"
               >
-                <!-- <div class="text-muted">
-                  {{ schedule[time][stand].id }}
-                  ({{ schedule[time][stand].divisionId }})
-                  [{{ schedule[time][stand].eventId }}]
-                </div> -->
-
                 <avatar
                   class="mx-0 absolute left-0 top-0"
                   style="border-radius:0;"
@@ -414,17 +412,20 @@
                 />
 
                 <div>
-                  {{ schedule[time][stand].clubMember.firstName }} {{ schedule[time][stand].clubMember.lastName }}
-                  <!-- [{{ schedule[time][stand].clubMember.club.shortName }}] -->
+                  <events-contestants-name-label
+                    :contestant="schedule[time][stand]"
+                  />
                 </div>
 
                 <div class="text-muted">
-                  {{ schedule[time][stand].weapon.name }} ({{ schedule[time][stand].weapon.condition.charAt(0) }})
-                  <!-- {{ schedule[time][stand].weapon.distance }} -->
+                  <events-contestants-weapon-label
+                    :contestant="schedule[time][stand]"
+                  />
                 </div>
               </div>
 
-              <button
+              <!-- @click="eventsContestantsCreateDialogOpen(time, stand)" -->
+              <div
                 v-else
                 :key="`${time}-${stand}`"
                 class="cell add-cell"
@@ -435,12 +436,11 @@
                 @dragleave="removeDragOverClass"
                 @dragover="dragOver"
                 @drop="dropAddOrUpdate"
-                @click="eventsContestantsCreateDialogOpen(time, stand)"
               >
                 <v-icon small>
                   add
                 </v-icon>
-              </button>
+              </div>
             </template>
           </template>
         </div>
@@ -456,7 +456,7 @@
 
         <v-btn
           text
-          class="py-4 mb-2"
+          class="mb-2"
           data-testid="eventsDivisionsCreateDialogOpenButton"
           @click.stop="eventsDivisionsCreateDialogOpen"
         >
@@ -525,12 +525,6 @@
             @dragend="dragEnd"
             @click="eventsContestantsEditDialogOpen(contestant)"
           >
-            <!-- <div class="text-muted">
-              {{ contestant.id }}
-              {{ contestant.divisionId }}
-              {{ contestant.eventId }}
-            </div> -->
-
             <avatar
               class="mx-0 absolute left-0 top-0"
               style="border-radius:0;"
@@ -540,12 +534,15 @@
             />
 
             <div>
-              {{ contestant.clubMember.firstName }} {{ contestant.clubMember.lastName }}
+              <events-contestants-name-label
+                :contestant="contestant"
+              />
             </div>
 
             <div class="text-muted">
-              {{ contestant.weapon.name }} ({{ contestant.weapon.condition.charAt(0) }})
-              <!-- {{ contestant.weapon.distance }} -->
+              <events-contestants-weapon-label
+                :contestant="contestant"
+              />
             </div>
           </div>
         </template>
@@ -567,13 +564,19 @@ import { mapActions, mapState, mapGetters, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
 import EventsDivisionsSchedulerDivisionSelectItem
   from "./EventsDivisionsSchedulerDivisionSelectItem.vue"
+import EventsContestantsNameLabel
+  from "../contestants/EventsContestantsNameLabel.vue"
+import EventsContestantsWeaponLabel
+  from "../contestants/EventsContestantsWeaponLabel.vue"
 
 export default Vue.extend({
   name: "EventsDivisionsScheduler",
 
   components: {
     Avatar,
-    EventsDivisionsSchedulerDivisionSelectItem
+    EventsDivisionsSchedulerDivisionSelectItem,
+    EventsContestantsNameLabel,
+    EventsContestantsWeaponLabel
   },
 
   data() {
@@ -900,12 +903,10 @@ export default Vue.extend({
     },
 
     eventsContestantsCreateDialogOpen(time: string, stand: string): void {
-      // @TODO: assign time / stand when choosing division
       this.$emit("eventsContestantsCreateDialogOpen", { time, stand })
     },
 
     eventsContestantsEditDialogOpen(contestant): void {
-      // @TODO: assign time / stand when choosing division
       this.$emit("eventsContestantsEditDialogOpen", contestant)
     }
   }

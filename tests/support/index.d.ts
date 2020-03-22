@@ -7,7 +7,7 @@ declare namespace Cypress {
     random(): Chainable
     searchTable(value: string, inputId: string, tableId: string): Chainable,
     pickFromSelect(testid: string, value: string): Chainable,
-    pickFromDatePicker(testid: string, value: string): Chainable,
+    pickDate(value: string): Chainable,
     seed: (collection: string, data: object) => Chainable<number>,
     unseed: () => Chainable<number>
   }

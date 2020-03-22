@@ -3,202 +3,173 @@
   "number": "5 (MLAIC)",
   "name": "Cominazzo",
   "category": "Håndvåpen",
-  "condition": "Orginal & Replika",
   "distance": 25
 }, {
   "id" : "2",
   "number": "106 (Norsk)",
   "name": "Nelson",
   "category": "Håndvåpen",
-  "condition": "Orginal",
   "distance": 25
 }, {
   "id" : "3",
   "number": "107 (Norsk)",
   "name": "Tordenskjold",
   "category": "Håndvåpen",
-  "condition": "Replika",
   "distance": 25
 }, {
   "id" : "4",
   "number": "6 (MLAIC)",
   "name": "Kuchenreuter",
   "category": "Håndvåpen",
-  "condition": "Replika",
   "distance": 25
 }, {
   "id" : "5",
   "number": "7 (MLAIC)",
   "name": "Colt",
   "category": "Håndvåpen",
-  "condition": "Orginal",
   "distance": 25
 }, {
   "id" : "6",
   "number": "12 (MLAIC)",
   "name": "Mariette",
   "category": "Håndvåpen",
-  "condition": "Replika",
   "distance": 25
 }, {
   "id" : "7",
   "number": "28 (MLAIC)",
   "name": "Tanzutsu",
   "category": "Håndvåpen",
-  "condition": "Orginal & Replika",
   "distance": 25
 }, {
   "id" : "8",
   "number": "193 (Nordisk)",
   "name": "Smith & Wesson",
   "category": "Håndvåpen",
-  "condition": "Orginal & Replika",
   "distance": 25
 }, {
   "id" : "9",
   "number": "108 (Norsk)",
   "name": "Buntline",
   "category": "Håndvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "10",
   "number": "23 (MLAIC)",
   "name": "Donald Malson",
   "category": "Håndvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "11",
   "number": "1",
   "name": "Miquelet",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "12",
   "number": "2",
   "name": "Maximilian",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 100
 }, {
   "id" : "13",
   "number": "3",
   "name": "Minie",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 100
 }, {
   "id" : "14",
   "number": "4",
   "name": "Whitworth",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 100
 }, {
   "id" : "15",
   "number": "8",
   "name": "Valkyrie",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 100
 }, {
   "id" : "16",
   "number": "14",
   "name": "Tanegashima",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "17",
   "number": "15",
   "name": "Vetterli",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "18",
   "number": "16",
   "name": "Hizadai",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "19",
   "number": "36",
   "name": "Pennsylvania",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "20",
   "number": "37",
   "name": "Lamarmora",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "21",
   "number": "999",
   "name": "Remington original",
   "category": "Langvåpen",
-  "condition": "Orginal",
   "distance": 100
 }, {
   "id" : "22",
   "number": "998",
   "name": "Remington Match",
   "category": "Langvåpen",
-  "condition": "Replika",
   "distance": 100
 }, {
   "id" : "23",
   "number": "997",
   "name": "12,17*44 Remington",
   "category": "Langvåpen",
-  "condition": "Orginal",
   "distance": 50
 }, {
   "id" : "24",
   "number": "996",
   "name": "18 lødig militær kammerlader 100m",
   "category": "Langvåpen",
-  "condition": "Orginal",
   "distance": 100
 }, {
   "id" : "25",
   "number": "995",
   "name": "18 lødig militær kammerlader 50m",
   "category": "Langvåpen",
-  "condition": "Orginal",
   "distance": 50
 }, {
   "id" : "26",
   "number": "994",
   "name": "4 linjers kammerlader",
   "category": "Langvåpen",
-  "condition": "Orginal",
   "distance": 50
 }, {
   "id" : "27",
   "number": "993",
   "name": "Bakladet perkusjon",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 100
 }, {
   "id" : "28",
   "number": "992",
   "name": "Jarmann",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }, {
   "id" : "29",
   "number": "991",
   "name": "Perkusjons muskett",
   "category": "Langvåpen",
-  "condition": "Orginal & Replika",
   "distance": 50
 }]

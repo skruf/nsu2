@@ -1,7 +1,7 @@
 <template>
   <table-filter-select
-    v-model="selection"
     v-slot="item"
+    v-model="selection"
     :items="clubs"
     :loading="loading"
     :item-text="clubName"

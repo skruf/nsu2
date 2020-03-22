@@ -90,12 +90,16 @@ html {
   text-decoration: underline;
 }
 
-.v-btn:not(.v-btn--icon):not(.theme--dark):not(.v-date-picker-table__current) {
+.v-btn {
+  text-transform: capitalize;
+  letter-spacing: 0.01rem;
+}
+
+.v-btn:not(.v-btn--icon):not(.theme--dark):not(.v-date-picker-table .v-btn) {
   padding: 4px 16px !important;
-  /* color: #3c4257; */
   letter-spacing: 0.5px;
   text-transform: none;
-  height: 40px;
+  min-height: 40px;
   font-size: 0.925rem;
 }
 
@@ -154,10 +158,7 @@ input[type=time]:invalid::-webkit-datetime-edit {
 }
 
 .table-controls {
-  /* @apply flex justify-between items-center pb-5 pt-2; */
-  @apply flex p-5 border-b border-border border-solid;
-  /* mb-2 */
-  /* border-bottom: 1px solid var(--border-color); */
+  @apply flex items-center p-5 border-b border-border border-solid;
 }
 
 .v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row),

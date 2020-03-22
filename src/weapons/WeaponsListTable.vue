@@ -60,7 +60,6 @@
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
       :items-per-page="100"
-      :headers-length="6"
       data-testid="weaponsListTable"
     >
       <template v-slot:header.name="{ header }">

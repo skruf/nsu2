@@ -27,6 +27,9 @@ const schema: RxJsonSchema = {
       type: "number",
       index: true
     },
+    condition: {
+      type: "string"
+    },
     hits: {
       type: "array",
       default: [],
@@ -88,21 +91,14 @@ const schema: RxJsonSchema = {
   required: [
     "number",
     "calibre",
+    "condition",
     "weaponId",
     "eventId",
     "clubMemberId"
   ]
 }
 
-// function getRandomColor() {
-//   const letters = "789ABCD"
-//   let color = "#"
-//   for (let i = 0; i < 6; i++) {
-//     color += letters[Math.floor(Math.random() * 6)]
-//   }
-//   return color
-// }
-const getRandomColor = (): string => `hsl(${Math.random() * 360}, 100%, 90%)`
+const getRandomColor = (): string => `hsl(${Math.random() * 360}, 100%, 20%)`
 
 // @TODO: auto-assign divisionId
 const assignNumber = async (data: EventsContestantsProperties): Promise<void> => {

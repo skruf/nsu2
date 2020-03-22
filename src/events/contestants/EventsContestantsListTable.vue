@@ -90,7 +90,7 @@
       <v-btn
         class="ml-5"
         color="white"
-        data-testid="eventsContestantsListTableOpenManageDialogButton"
+        data-testid="addContestantsToEventButton"
         @click.stop="eventsContestantsCreateDialogOpen"
       >
         <v-icon left>
@@ -113,7 +113,6 @@
       :show-group-by="false"
       :group-by="eventsContestantsTableGroupBy"
       :items-per-page="100"
-      :headers-length="8"
       sort-by="time"
       data-testid="eventsContestantsListTable"
       class="no-print-first-td no-print-last-td"
@@ -133,8 +132,7 @@
       </template>
 
       <template v-slot:item.weaponId="{ item }">
-        {{ item.weapon.name }} ({{ item.weapon.condition.charAt(0) }})
-        <!-- ({{ item.weapon.distance }}m) - {{ item.weapon.id }} -->
+        {{ item.weapon.name }} ({{ item.condition.charAt(0) }})
       </template>
 
       <template v-slot:item.calibre="{ item }">

@@ -63,7 +63,6 @@
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
       :items-per-page="100"
-      :headers-length="6"
       data-testid="clubsListTable"
       class="clickable"
       @click:row="tableRowClick"

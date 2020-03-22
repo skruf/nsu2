@@ -21,6 +21,7 @@ export default {
   total: 0,
   notes: [],
   calibre: "",
+  condition: "",
   weaponId: "",
   eventId: "",
   divisionId: "",

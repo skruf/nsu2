@@ -68,7 +68,7 @@
       required
     />
 
-    <v-select
+    <!-- <v-select
       v-model="value.condition"
       :items="weaponsStateConditions"
       :label="$t('weaponsFormConditionLabel')"
@@ -77,7 +77,7 @@
       class="mb-3"
       outlined
       required
-    />
+    /> -->
 
     <v-select
       v-model="value.distance"

@@ -12,6 +12,7 @@ export declare interface EventsContestantsProperties {
   time: string
   stand: number
   calibre: number
+  condition: string
   hits: { hit: number, sum: number }[]
   total: number
   notes: string[]

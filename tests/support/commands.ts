@@ -41,11 +41,11 @@ Cypress.Commands.add("pickFromSelect", (testid, value) => {
     .type(`${value}{enter}`, { force: true })
 })
 
-Cypress.Commands.add("pickFromDatePicker", (testid, date) => {
-  cy.getById(testid)
-    .type(date.split(".").reverse().join("-"))
-  cy.getById("datePickerSaveButton")
+Cypress.Commands.add("pickDate", { prevSubject: true }, (subject, value) => {
+  cy.get(subject)
     .click()
+    .type(value.split(".").reverse().join("-"))
+    .trigger("keydown", { key: "Enter" })
 })
 
 Cypress.Commands.add("startup", () => {

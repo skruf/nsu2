@@ -1,11 +1,11 @@
 <template>
   <table-filter-select
-    v-model="selection"
     v-slot="item"
+    v-model="selection"
     :items="divisions"
     :loading="loading"
     :item-text="divisionName"
-    data-testid="eventsContestantsListTableFilterClubMember"
+    data-testid="eventsContestantsListTableFilterDivision"
     single-line
     hide-details
     dense

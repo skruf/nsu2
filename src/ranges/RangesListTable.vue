@@ -63,7 +63,6 @@
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
       :items-per-page="100"
-      :headers-length="6"
       data-testid="rangesListTable"
       class="clickable no-print-first-td no-print-last-td"
       @click:row="click"

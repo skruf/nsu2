@@ -66,6 +66,8 @@
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
+      sort-by="startsAt"
+      sort-desc
       data-testid="eventsListTable"
       class="clickable"
       @click:row="click"
