@@ -57,7 +57,7 @@
             {{ clubsStateSelected.leaderFullName }}
           </template>
           <template slot="Område">
-            {{ clubsStateSelected.area }}
+            {{ clubsStateSelected.zipCode }}, {{ clubsStateSelected.area }}
           </template>
           <template
             v-if="clubsStateSelected.streetAddress"

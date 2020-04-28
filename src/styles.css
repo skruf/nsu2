@@ -91,7 +91,7 @@ html {
 }
 
 .v-btn {
-  text-transform: capitalize;
+  text-transform: none;
   letter-spacing: 0.01rem;
 }
 
@@ -173,10 +173,8 @@ input[type=time]:invalid::-webkit-datetime-edit {
 }
 
 .v-data-table td {
-  /* height: 3rem; */
   height: 2.75rem;
-  font-size: 0.925rem
-  /* font-size: 1rem; */
+  font-size: 0.925rem;
 }
 
 .v-data-table tbody tr.v-data-table__selected {
@@ -257,7 +255,7 @@ input[type=time]:invalid::-webkit-datetime-edit {
 }
 
 .hit {
-  @apply w-6 py-2 bg-gray-200 rounded text-xs font-semibold flex justify-center items-center;
+  @apply w-6 text-xs font-semibold flex justify-center items-center;
   margin-left: 2px;
   margin-right: 2px;
 }
@@ -327,13 +325,26 @@ html .container {
   .no-print,
   .table-controls,
   .tab-container,
-  .print\:hidden {
+  .print\:hidden,
+  .v-menu__content {
     display: none !important;
   }
 
-  html {
-    font-size: 75%;
+  .v-toolbar__content {
+    @apply px-0;
   }
+
+  /* .v-data-table td {
+    font-size: 1rem;
+  } */
+
+  /* .v-data-table td {
+    vertical-align: text-top;
+  } */
+
+  /* html {
+    font-size: 80%;
+  } */
 
   body { 
     overflow: visible;
@@ -392,6 +403,6 @@ html .container {
   }
 
   .hit {
-    @apply w-4 bg-transparent rounded-none;
+    @apply w-4;
   }
 }

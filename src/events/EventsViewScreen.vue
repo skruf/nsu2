@@ -44,7 +44,10 @@
 </i18n>
 
 <template>
-  <div class="screen">
+  <div
+    class="screen"
+    :class="`print-mode-${printMode}`"
+  >
     <v-app-bar
       class="screen-bar"
       height="auto"
@@ -85,11 +88,11 @@
             {{ $t("printResultsDeadline") }}
           </div>
 
-          <div v-if="printMode === 'deadline'">
+          <div v-if="printMode === 'resultsDeadline'">
             kl. {{ deadline }}
           </div>
 
-          <div v-if="printMode === 'final'">
+          <div v-if="printMode === 'resultsFinal'">
             {{ $t("printResultsFinal") }}
           </div>
         </div>
@@ -118,7 +121,7 @@
         </data-grid>
       </v-toolbar-title>
 
-      <template v-if="activeTab === 2">
+      <template v-if="activeTab === 1 || activeTab === 2">
         <v-menu>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -132,23 +135,45 @@
           </template>
 
           <v-list>
-            <v-list-item
-              data-testid="eventsViewDropdownOpenEditDialog"
-              @click="printResultsDeadline"
-            >
-              <v-list-item-title>
-                {{ $t("printResultsDeadline") }}
-              </v-list-item-title>
-            </v-list-item>
+            <template v-if="activeTab === 1">
+              <v-list-item
+                data-testid="eventsPrintDivisionSchedule"
+                @click="printDivisionSchedule"
+              >
+                <v-list-item-title>
+                  Standplassliste
+                </v-list-item-title>
+              </v-list-item>
 
-            <v-list-item
-              data-testid="eventsViewDropdownRemoveOne"
-              @click="printResultsFinal"
-            >
-              <v-list-item-title>
-                {{ $t("printResultsFinal") }}
-              </v-list-item-title>
-            </v-list-item>
+              <v-list-item
+                data-testid="eventsPrintDivisionStickers"
+                @click="printDivisionStickers"
+              >
+                <v-list-item-title>
+                  Klistrelapper
+                </v-list-item-title>
+              </v-list-item>
+            </template>
+
+            <template v-if="activeTab === 2">
+              <v-list-item
+                data-testid="eventsPrintResultsDeadline"
+                @click="printResultsDeadline"
+              >
+                <v-list-item-title>
+                  {{ $t("printResultsDeadline") }}
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-list-item
+                data-testid="eventsPrintResultsFinal"
+                @click="printResultsFinal"
+              >
+                <v-list-item-title>
+                  {{ $t("printResultsFinal") }}
+                </v-list-item-title>
+              </v-list-item>
+            </template>
           </v-list>
         </v-menu>
       </template>
@@ -291,7 +316,8 @@ export default Vue.extend({
   data: () => ({
     activeTab: 0,
     eventsEditDialogShow: false,
-    printMode: ""
+    printMode: "",
+    deadline: ""
   }),
 
   computed: {
@@ -305,9 +331,6 @@ export default Vue.extend({
         this.eventsStateSelectedIsLoading ||
         this.eventsStateRemoveOneIsLoading
       )
-    },
-    deadline(): string {
-      return this.$date(Date.now()).add("1", "hour").format("HH:MM")
     }
   },
 
@@ -369,15 +392,33 @@ export default Vue.extend({
       }
     },
 
+    printDivisionSchedule(): void {
+      this.printMode = "divisionSchedule"
+      this.$nextTick(() => {
+        this.print()
+      })
+    },
+
+    printDivisionStickers(): void {
+      this.printMode = "divisionStickers"
+      this.$nextTick(() => {
+        this.print()
+      })
+    },
+
     printResultsDeadline(): void {
-      this.printMode = "deadline"
+      this.printMode = "resultsDeadline"
+      this.deadline = this.$date(Date.now())
+        .add("1", "hour")
+        .format("HH:MM")
+
       this.$nextTick(() => {
         this.print()
       })
     },
 
     printResultsFinal(): void {
-      this.printMode = "final"
+      this.printMode = "resultsFinal"
       this.$nextTick(() => {
         this.print()
       })

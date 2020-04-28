@@ -9,6 +9,7 @@ export declare interface ClubsSchema {
   emailAddress?: string
   phoneNumber?: string
   streetAddress?: string
+  zipCode: string
   area: string
   country?: string
   websiteUrl?: string

@@ -4,7 +4,10 @@
     "searchFormPlaceholder": "Search for members",
     "columnFirstNameLabel": "First Name",
     "columnLastNameLabel": "Last Name",
-    "columnEmailAddressLabel": "Email Address",
+    "columnEmailAddressLabel": "Email",
+
+    "columnStreetAddressLabel": "Address",
+
     "columnPhoneNumberLabel": "Phone Number",
     "columnCountryLabel": "Country",
     "removeSelected": "Remove selected",
@@ -19,6 +22,9 @@
     "columnFirstNameLabel": "Fornavn",
     "columnLastNameLabel": "Etternavn",
     "columnEmailAddressLabel": "E-post",
+
+    "columnStreetAddressLabel": "Adresse",
+
     "columnPhoneNumberLabel": "Telefon",
     "columnCountryLabel": "Land",
     "removeSelected": "Slett valgte",
@@ -189,6 +195,9 @@ export default Vue.extend({
       }, {
         value: "phoneNumber",
         text: this.$t("columnPhoneNumberLabel")
+      }, {
+        value: "streetAddress",
+        text: this.$t("columnStreetAddressLabel")
       }, {
         value: "country",
         text: this.$t("columnCountryLabel")

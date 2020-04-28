@@ -22,6 +22,9 @@ const schema: RxJsonSchema = {
     emailAddress: {
       type: "string"
     },
+    streetAddress: {
+      type: "string"
+    },
     country: {
       type: "string"
     },

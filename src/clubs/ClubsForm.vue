@@ -7,6 +7,9 @@
     "shortNameLabel": "Short name (*)",
     "shortNamePlaceholder": "Enter a short name",
     "shortNameError": "Short name is a required field",
+    "zipCodeLabel": "Zip Code (*)",
+    "zipCodePlaceholder": "Enter a zip code",
+    "zipCodeError": "Zip Code is a required field",
     "areaLabel": "Area (*)",
     "areaPlaceholder": "Enter an area",
     "areaError": "Area is a required field",
@@ -33,6 +36,9 @@
     "shortNameLabel": "Kortnavn",
     "shortNamePlaceholder": "Skriv inn ett kortnavn",
     "shortNameError": "Kortnavn er et påkrevet felt",
+    "zipCodeLabel": "Postnummer (*)",
+    "zipCodePlaceholder": "Skriv inn et postnummer",
+    "zipCodeError": "Postnummer er et påkrevet felt",
     "areaLabel": "Område",
     "areaPlaceholder": "Skriv inn et område",
     "areaError": "Område er et påkrevet felt",
@@ -80,6 +86,17 @@
     />
 
     <v-text-field
+      v-model="value.zipCode"
+      :label="$t('zipCodeLabel')"
+      :rules="[(v) => !!v || $t('zipCodeError')]"
+      :placeholder="$t('zipCodePlaceholder')"
+      data-testid="clubsFormZipCodeInput"
+      class="mb-3"
+      outlined
+      required
+    />
+
+    <v-text-field
       v-model="value.area"
       :label="$t('areaLabel')"
       :rules="[(v) => !!v || $t('areaError')]"
@@ -117,13 +134,14 @@
       outlined
     />
 
-    <v-text-field
+    <v-textarea
       v-model="value.streetAddress"
       :label="$t('streetAddressLabel')"
       :placeholder="$t('streetAddressPlaceholder')"
       data-testid="clubsFormStreetAddressInput"
       class="mb-3"
       outlined
+      rows="2"
     />
 
     <v-select

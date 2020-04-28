@@ -196,10 +196,12 @@ export default Vue.extend({
       }, {
         value: "distance",
         text: this.$t("weaponsListTableColumnDistanceLabel")
-      }, {
-        value: "condition",
-        text: this.$t("weaponsListTableColumnConditionLabel")
-      }, {
+      },
+      // {
+      //   value: "condition",
+      //   text: this.$t("weaponsListTableColumnConditionLabel")
+      // },
+      {
         value: "actions",
         sortable: false,
         align: "right"

@@ -67,6 +67,10 @@
       class="clickable"
       @click:row="tableRowClick"
     >
+      <template v-slot:item.zipCode="{ item }">
+        {{ item.zipCode }}, {{ item.area }}
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <v-menu>
           <template v-slot:activator="{ on: { click }, attrs }">
@@ -185,7 +189,7 @@ export default Vue.extend({
         value: "name",
         text: this.$t("columnNameLabel")
       }, {
-        value: "area",
+        value: "zipCode",
         text: this.$t("columnAreaLabel")
       }, {
         value: "leaderFullName",

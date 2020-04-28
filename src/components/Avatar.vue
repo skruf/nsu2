@@ -1,11 +1,15 @@
 <style scoped>
 .avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  @apply w-4 text-center mr-2 inline-block rounded font-semibold text-xs bg-primary text-white;
+  @apply inline-flex items-center justify-center w-4 text-center mr-2 inline-block rounded font-semibold text-xs bg-primary text-white;
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+@media print {
+  .avatar {
+    @apply py-0 mr-0 w-auto bg-transparent;
+    color: inherit;
+  }
 }
 </style>
 

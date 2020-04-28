@@ -5,6 +5,7 @@ export default {
   emailAddress: "",
   phoneNumber: "",
   streetAddress: "",
+  zipCode: "",
   area: "",
   country: "",
   websiteUrl: "",

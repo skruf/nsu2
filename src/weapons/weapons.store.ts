@@ -1,10 +1,12 @@
 import weaponsService from "./weapons.service"
 import extend from "@/state/extensions"
-import { weaponsCategoriesFixture, weaponsConditionsFixture } from "@/fixtures"
+import { weaponsCategoriesFixture, weaponsConditionsFixture }
+  from "@/fixtures"
 
 const state = {
   categories: weaponsCategoriesFixture,
-  conditions: weaponsConditionsFixture
+  conditions: weaponsConditionsFixture,
+  sortBy: "name"
 }
 const mutations = {}
 const actions = {}

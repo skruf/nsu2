@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
   eventsFixture,
   eventsCategoriesFixture,
@@ -72,91 +74,103 @@ describe("events.view.contestants", () => {
     cy.seed("events_contestants", contestants)
     cy.seed("events_divisions", divisions)
     cy.visit(`/events/${event.id}`)
-    // cy.getById("eventsContestantsListTable")
-    // .contains("Laster..")
-
-    cy.get("tbody")
-      .its("length")
-      .should("be", 1)
-    cy.get("tbody")
-      .its("length")
-      .should("be.gt", 2)
-
-    // cy.getById("eventsContestantsListTable")
-    //   .within(() => {
-    //     cy.get("tbody tr")
-    //       .its("length")
-    //       .should("be.gt", 2)
-    //   })
+    cy.getById("eventsContestantsListTable")
+      .within(() => {
+        cy.get(".v-data-table__progress")
+          .should("not.exist")
+      })
   })
 
-  it.skip("Filter", () => {
-    cy.getById("eventsContestantsListTableFilterClubMember")
-      .click()
-    cy.get(".v-menu__content .v-list-item")
-      .first()
-      .click()
-  })
-
-  it.skip("Group by", () => {
-    cy.getById("eventsContestantsTableGroupByContestantButton").click()
+  it("Group by", () => {
+    cy.pickFromSelect("eventsContestantsTableGroupBySelect", "D")
     cy.getById("eventsContestantsTableGroupByContestantTd")
       .should("be.visible")
-
-    cy.getById("eventsContestantsTableGroupByDivisionButton").click()
-    cy.getById("eventsContestantsTableGroupByDivisionTd")
-      .should("be.visible")
-
-    cy.getById("eventsContestantsTableGroupByNoneButton").click()
+    cy.get(".table-controls")
+      .contains("clear")
+      .click()
     cy.getById("eventsContestantsTableGroupByContestantTd")
       .should("not.be.visible")
     cy.getById("eventsContestantsTableGroupByDivisionTd")
       .should("not.be.visible")
+    cy.getById("eventsContestantsTableGroupByWeaponTd")
+      .should("not.be.visible")
   })
 
-  it.only("Add contestant to event", () => {
-    // .as("waitForData")
-    // cy.wait("@waitForData")
+  it("Add contestant to event", () => {
+    const member = {
+      firstName: "Test",
+      lastName: "Testersen",
+    }
+
+    const weapon = {
+      name: "The atom bomb",
+      number: "123",
+      category: "Langhold",
+      distance: "100 meter"
+    }
+
+    const contestant = {
+      condition: "Orginal",
+      calibre: "9999"
+    }
 
     cy.getById("addContestantsToEventButton")
+      .click()
+    cy.getById("eventsContestantsManagerSelectMember")
+      .click()
+    cy.getById("clubsMembersCreateDialogOpenButton")
+      .click()
+    cy.getById("clubsMembersCreateDialogForm")
+      .within(() => {
+        cy.getById("clubsMembersFormFirstNameInput")
+          .type(member.firstName)
+        cy.getById("clubsMembersFormLastNameInput")
+          .type(member.lastName)
+      })
+    cy.getById("clubsMembersCreateDialogSubmitButton")
+      .click()
+    cy.getById("eventsContestantsCreateDialogMemberSelectItem")
+      .first()
       .click()
     cy.getById("eventsContestantsCreateDialogWeaponsFormIdSelect")
       .click()
     cy.getById("weaponsCreateDialogOpenButton")
       .click()
+    cy.getById("weaponsFormNumberInput")
+      .type(weapon.number)
+    cy.getById("weaponsFormNameInput")
+      .type(weapon.name)
+    cy.pickFromSelect("weaponsFormCategorySelect", weapon.category)
+    cy.pickFromSelect("weaponsFormDistanceInput", weapon.distance)
+    cy.getById("weaponsCreateDialogSubmitButton")
+      .click()
+    cy.pickFromSelect("eventsContestantsCreateDialogWeaponsFormConditionSelect", contestant.condition)
+    cy.getById("eventsContestantsCreateDialogWeaponsFormCalibreInput")
+      .type(contestant.calibre)
+    cy.getById("submitContestantButton")
+      .click()
+    cy.getById("eventsContestantsListTable")
+      .and("contain", member.firstName)
+      .and("contain", weapon.name)
+      .and("contain", contestant.calibre)
   })
 
-  // it("Should be able to add a contestant to an event", () => {
-  //   const selectMember = () => {
-  //     cy.getById("eventsContestantsManagerDialogSelectClubListItem")
-  //       .random()
-  //       .click()
-  //     cy.wait(500)
-  //     cy.getById("eventsContestantsManagerDialogSelectClubMemberListItem")
-  //       .random()
-  //       .click()
-  //     cy.wait(500)
-  //   }
-
-  //   const addWeapon = () => {
-  //     cy.getById("eventsContestantsManagerDialogAddWeaponButton")
-  //       .click()
-  //     cy.getById("eventsContestantsManagerDialogWeaponsFormIdSelect")
-  //       .last()
-  //       .click()
-  //     cy.get(".v-list-item--link")
-  //       .random()
-  //       .click()
-  //     cy.getById("eventsContestantsManagerDialogWeaponsFormCalibreInput")
-  //       .last()
-  //       .type(`${Math.floor(Math.random() * 50)}`)
-  //   }
-
-  //   cy.getById("eventsContestantsListTableOpenManageDialogButton")
-  //     .click()
-  //   selectMember()
-  //   addWeapon()
-  //   cy.getById("eventsContestantsManagerDialogSubmit")
-  //     .click()
-  // })
+  it.skip("Filter", () => {
+    cy.getById("eventsContestantsListTableFilterClubMember")
+      .click()
+    cy.get(".v-menu__content .v-list-item__title")
+      .first()
+      .then((item) => {
+        const i = Cypress.$(item)
+        const text = i.text()
+        i.click()
+        cy.getById("eventsContestantsListTable")
+          .within(() => {
+            cy.get("tr")
+              .each((tr, index) => {
+                if(index !== 0) cy.wrap(tr).contains(text)
+              })
+          })
+      })
+  })
 })

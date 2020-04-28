@@ -1,42 +1,44 @@
 <i18n>
 {
   "en": {
-    "clubsMembersFormFirstNameLabel": "First Name (*)",
-    "clubsMembersFormFirstNamePlaceholder": "Enter a first name",
-    "clubsMembersFormFirstNameError": "First name is a required field",
-    "clubsMembersFormLastNameLabel": "Last Name (*)",
-    "clubsMembersFormLastNamePlaceholder": "Enter a last name",
-    "clubsMembersFormLastNameError": "Last name is a required field",
-    "clubsMembersFormEmailAddressLabel": "Email Address",
-    "clubsMembersFormEmailAddressPlaceholder": "Enter a email address",
-    "clubsMembersFormEmailAddressError": "Email is a required field",
-    "clubsMembersFormPhoneNumberLabel": "Phone Number",
-    "clubsMembersFormPhoneNumberPlaceholder": "Enter a phone number",
-    "clubsMembersFormCountryLabel": "Country",
-    "clubsMembersFormCountryPlaceholder": "Select a country",
-    "clubsMembersFormCountryError": "Country is a required field",
-    "clubsMembersFormClubIdLabel": "Club",
-    "clubsMembersFormClubIdPlaceholder": "Please select a club",
-    "clubsMembersFormClubIdError": "Select a club"
+    "firstNameLabel": "First Name (*)",
+    "firstNamePlaceholder": "Enter a first name",
+    "firstNameError": "First name is a required field",
+    "lastNameLabel": "Last Name (*)",
+    "lastNamePlaceholder": "Enter a last name",
+    "lastNameError": "Last name is a required field",
+    "emailAddressLabel": "Email Address",
+    "emailAddressPlaceholder": "Enter a email address",
+    "emailAddressError": "Email is a required field",
+    "streetAddressLabel": "Street Address",
+    "phoneNumberLabel": "Phone Number",
+    "phoneNumberPlaceholder": "Enter a phone number",
+    "countryLabel": "Country",
+    "countryPlaceholder": "Select a country",
+    "countryError": "Country is a required field",
+    "clubIdLabel": "Club",
+    "clubIdPlaceholder": "Please select a club",
+    "clubIdError": "Select a club"
   },
   "no": {
-    "clubsMembersFormFirstNameLabel": "Fornavn (*)",
-    "clubsMembersFormFirstNamePlaceholder": "Skriv inn fornavn",
-    "clubsMembersFormFirstNameError": "Fornavn er et påkrevd felt",
-    "clubsMembersFormLastNameLabel": "Etternavn (*)",
-    "clubsMembersFormLastNamePlaceholder": "Skriv inn etternavn",
-    "clubsMembersFormLastNameError": "Etternavn er et påkrevd felt",
-    "clubsMembersFormEmailAddressLabel": "Epost adresse",
-    "clubsMembersFormEmailAddressPlaceholder": "Skriv inn en e-post adresse",
-    "clubsMembersFormEmailAddressError": "Epost adresse er et påkrevd felt",
-    "clubsMembersFormPhoneNumberLabel": "Telefonnummer",
-    "clubsMembersFormPhoneNumberPlaceholder": "Skriv inn et telefonnummer",
-    "clubsMembersFormCountryLabel": "Land",
-    "clubsMembersFormCountryPlaceholder": "Velg et land",
-    "clubsMembersFormCountryError": "Lang er et påkrevd felt",
-    "clubsMembersFormClubIdLabel": "Klubb",
-    "clubsMembersFormClubIdPlaceholder": "Velg en klubb",
-    "clubsMembersFormClubIdError": "Klubb er et påkrevd felt"
+    "firstNameLabel": "Fornavn (*)",
+    "firstNamePlaceholder": "Skriv inn fornavn",
+    "firstNameError": "Fornavn er et påkrevd felt",
+    "lastNameLabel": "Etternavn (*)",
+    "lastNamePlaceholder": "Skriv inn etternavn",
+    "lastNameError": "Etternavn er et påkrevd felt",
+    "emailAddressLabel": "Epost adresse",
+    "emailAddressPlaceholder": "Skriv inn en e-post adresse",
+    "emailAddressError": "Epost adresse er et påkrevd felt",
+    "streetAddressLabel": "Adresse",
+    "phoneNumberLabel": "Telefonnummer",
+    "phoneNumberPlaceholder": "Skriv inn et telefonnummer",
+    "countryLabel": "Land",
+    "countryPlaceholder": "Velg et land",
+    "countryError": "Lang er et påkrevd felt",
+    "clubIdLabel": "Klubb",
+    "clubIdPlaceholder": "Velg en klubb",
+    "clubIdError": "Klubb er et påkrevd felt"
   }
 }
 </i18n>
@@ -45,9 +47,9 @@
   <v-form ref="localForm">
     <v-text-field
       v-model="value.firstName"
-      :label="$t('clubsMembersFormFirstNameLabel')"
-      :rules="[(v) => !!v || $t('clubsMembersFormFirstNameError')]"
-      data-testid="clubsMembersFormFirstNameInput"
+      :label="$t('firstNameLabel')"
+      :rules="[(v) => !!v || $t('firstNameError')]"
+      data-testid="firstNameInput"
       class="mb-3"
       outlined
       required
@@ -55,9 +57,9 @@
 
     <v-text-field
       v-model="value.lastName"
-      :label="$t('clubsMembersFormLastNameLabel')"
-      :rules="[(v) => !!v || $t('clubsMembersFormLastNameError')]"
-      data-testid="clubsMembersFormLastNameInput"
+      :label="$t('lastNameLabel')"
+      :rules="[(v) => !!v || $t('lastNameError')]"
+      data-testid="lastNameInput"
       class="mb-3"
       outlined
       required
@@ -65,25 +67,34 @@
 
     <v-text-field
       v-model="value.emailAddress"
-      :label="$t('clubsMembersFormEmailAddressLabel')"
-      data-testid="clubsMembersFormEmailAddressInput"
+      :label="$t('emailAddressLabel')"
+      data-testid="emailAddressInput"
       class="mb-3"
       outlined
     />
 
     <v-text-field
       v-model="value.phoneNumber"
-      :label="$t('clubsMembersFormPhoneNumberLabel')"
-      data-testid="clubsMembersFormPhoneNumberInput"
+      :label="$t('phoneNumberLabel')"
+      data-testid="phoneNumberInput"
       class="mb-3"
       outlined
+    />
+
+    <v-textarea
+      v-model="value.streetAddress"
+      :label="$t('streetAddressLabel')"
+      data-testid="streetAddressInput"
+      class="mb-3"
+      outlined
+      rows="2"
     />
 
     <v-select
       v-model="value.country"
       :items="clubsMembersStateCountries"
-      :label="$t('clubsMembersFormCountryLabel')"
-      data-testid="clubsMembersFormCountrySelect"
+      :label="$t('countryLabel')"
+      data-testid="CountrySelect"
       class="mb-3"
       outlined
     />
@@ -92,7 +103,7 @@
       v-model="value.clubId"
       :items="clubsStateList"
       :loading="clubsStateListIsLoading"
-      :label="$t('clubsMembersFormClubIdLabel')"
+      :label="$t('clubIdLabel')"
       data-testid="clubsFormClubIdSelect"
       item-value="id"
       item-text="name"

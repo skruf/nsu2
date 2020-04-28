@@ -6,6 +6,7 @@ export declare interface ClubsMembersSchema {
   firstName: string
   lastName: string
   emailAddress?: string
+  streetAddress?: string
   phoneNumber?: string
   country?: string
   clubId: string

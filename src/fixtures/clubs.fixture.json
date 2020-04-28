@@ -6,7 +6,8 @@
   "emailAddress": "svartkrutt@nop.no",
   "phoneNumber": "404 22 404",
   "streetAddress": "Postboks 92 Sentrum",
-  "area": "0101, Oslo",
+  "zipCode": "0101",
+  "area": "Oslo",
   "country": "Norge",
   "websiteUrl": "https://www.nop.no",
   "rangeId": "1"
@@ -17,7 +18,8 @@
   "leaderFullName": "Frode Høybråten",
   "emailAddress": "frode.hoybraten@lilleborg.no",
   "streetAddress": "",
-  "area": "1903, Gan",
+  "zipCode": "1903",
+  "area": "Gan",
   "country": "Norge",
   "rangeId": "2"
 }, {
@@ -27,6 +29,7 @@
   "leaderFullName": "Per Erik Andersson",
   "emailAddress": "pererikandersson51@gmail.com",
   "streetAddress": "",
+  "zipCode": "1234",
   "area": "Oslo",
   "country": "Norge",
   "rangeId": "3"
@@ -37,7 +40,8 @@
   "leaderFullName": "Asle G. Resi",
   "emailAddress": "",
   "streetAddress": "Olav Aukrustsvei 58 a",
-  "area": "0785 Oslo",
+  "zipCode": "0785",
+  "area": "Oslo",
   "country": "Norge",
   "rangeId": "4"
 }, {
@@ -47,7 +51,8 @@
   "leaderFullName": "Odd Flomark",
   "emailAddress": "",
   "streetAddress": "Munkerudåsen 22G",
-  "area": "1165 Oslo",
+  "zipCode": "1165",
+  "area": "Oslo",
   "country": "Norge",
   "rangeId": "5"
 }, {
@@ -57,7 +62,8 @@
   "leaderFullName": "",
   "emailAddress": "post@zeropk.com",
   "streetAddress": "Postboks 79",
-  "area": "1338 Sandvika",
+  "zipCode": "1338",
+  "area": "Sandvika",
   "country": "Norge",
   "rangeId": "6"
 }, {
@@ -67,7 +73,8 @@
   "leaderFullName": "Tor Ryden",
   "emailAddress": "",
   "streetAddress": "Rødskrubbgrenda 5",
-  "area": "1352 Kolsås",
+  "zipCode": "1352",
+  "area": "Kolsås",
   "country": "Norge",
   "rangeId": "7"
 }, {
@@ -77,7 +84,8 @@
   "leaderFullName": "",
   "emailAddress": "",
   "streetAddress": "Markalleen 68 A",
-  "area": "1368 Stabekk",
+  "zipCode": "1368",
+  "area": "Stabekk",
   "country": "Norge",
   "rangeId": "8"
 }, {
@@ -87,7 +95,8 @@
   "leaderFullName": "Per Erik Andersson",
   "emailAddress": "pererikandersson51@gmail.com",
   "streetAddress": "Gamle Drammensvei 357",
-  "area": "1383 Asker",
+  "zipCode": "1383",
+  "area": "Asker",
   "country": "Norge",
   "rangeId": "9"
 }, {
@@ -97,7 +106,8 @@
   "leaderFullName": "Tor Otto Madsen",
   "emailAddress": "post@sandefjordpaintball.no",
   "streetAddress": "Postboks 31",
-  "area": "3290 Stavern",
+  "zipCode": "3290",
+  "area": "Stavern",
   "country": "Norge",
   "rangeId": "10"
 }]

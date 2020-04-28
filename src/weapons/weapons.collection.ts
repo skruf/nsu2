@@ -42,7 +42,7 @@ const schema: RxJsonSchema = {
   ]
 }
 
-const preRemove = async (data: WeaponsProperties) => {
+const preRemove = async (data: WeaponsProperties): Promise<void> => {
   await destroyMany("events_contestants", {
     weaponId: data.id
   })

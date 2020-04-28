@@ -24,11 +24,8 @@ const schema: RxJsonSchema = {
       index: true
     },
     calibre: {
-      type: "number",
+      type: "string",
       index: true
-    },
-    condition: {
-      type: "string"
     },
     hits: {
       type: "array",
@@ -49,13 +46,17 @@ const schema: RxJsonSchema = {
       type: "number",
       index: true
     },
-    notes: {
-      type: "array",
-      default: [],
-      items: {
-        type: "string"
-      }
+    note: {
+      type: "string",
+      default: ""
     },
+    // notes: {
+    //   type: "array",
+    //   default: [],
+    //   items: {
+    //     type: "string"
+    //   }
+    // },
     weaponId: {
       type: "string",
       ref: "weapons",
@@ -91,7 +92,6 @@ const schema: RxJsonSchema = {
   required: [
     "number",
     "calibre",
-    "condition",
     "weaponId",
     "eventId",
     "clubMemberId"

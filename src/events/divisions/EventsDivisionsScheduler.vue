@@ -12,10 +12,14 @@
   grid-gap: 1px;
 }
 
+.grid,
+.time-labels {
+  padding-top: 43px;
+}
+
 .grid {
   overflow-x: auto;
   position: relative;
-  padding-top: 43px;
   margin-left: 1px;
 }
 
@@ -51,7 +55,11 @@
 
 .cell,
 .time {
-  @apply h-20;
+  min-height: 5rem;
+}
+
+.top-left-corner {
+  @apply absolute top-0 left-0 right-0;
 }
 
 .top-left-corner,
@@ -61,7 +69,7 @@
 }
 
 .time-labels {
-  @apply h-full;
+  @apply h-full relative;
 }
 
 .time {
@@ -129,31 +137,79 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.contestant-print-container {
+.contestant-sticker-container {
   @apply w-full bg-white items-center justify-center flex-wrap;
-  margin-top: -65px;
+  margin-top: -84px;
+  display: none;
 }
-.contestant-print-cell {
+.contestant-sticker-cell {
   break-before: page;
-  @apply items-center justify-center inline-flex flex-col w-1/3 bg-white border-b border-r border-solid border-border;
+  @apply items-center justify-center inline-flex flex-col w-1/3 bg-white border-b border-r border-solid border-border text-sm p-3;
   min-height: 37mm;
   max-height: 37mm;
 }
-.contestant-print-cell:nth-child(3n) {
+.contestant-sticker-cell:nth-child(3n) {
   @apply border-r-0;
 }
-.contestant-print-cell-wrapper {
+.contestant-sticker-cell-wrapper {
   @apply max-w-xs w-full mx-auto flex flex-col justify-center;
 }
-.contestant-print-cell-container {
+.contestant-sticker-cell-container {
   display: flex;
   flex: initial;
 }
-.contestant-print-cell-key {
-  min-width: 6rem;
+.contestant-sticker-cell-key {
+  min-width: 4.5rem;
 }
 .placeholder-container {
   @apply border-border border-t border-solid p-5 flex flex-col items-center justify-center h-64;
+}
+
+@media print {
+  .cell,
+  .lane {
+    min-width: 0;
+  }
+  .top-left-corner,
+  .time,
+  .lane,
+  .cell {
+    @apply border-border border-r border-b border-solid;
+  }
+  .time:last-child,
+  .cell:last-child {
+    border-radius: 0;
+  }
+  .print-mode-divisionStickers .contestant-sticker-container {
+    display: block;
+  }
+  .print-mode-divisionStickers .schedule-container {
+    display: none;
+  }
+  .print-mode-divisionSchedule .schedule-container {
+    @apply absolute inset-x-0 top-0 w-full z-10 m-0 rounded-none border-0 border-t;
+  }
+  .grid {
+    @apply ml-0;
+  }
+  .time-labels,
+  .lane-labels,
+  .grid,
+  .unassigned-contestants {
+    grid-gap: 0px;
+  }
+  .grid,
+  .time-labels {
+    padding-top: 41px;
+  }
+  .add-cell .v-icon {
+    display: none;
+  }
+
+  .time:last-child,
+  .lane:last-child {
+    display: none;
+  }
 }
 </style>
 
@@ -168,6 +224,16 @@
 
 .unassigned-search-filter .v-label {
   font-size: 0.9rem;
+}
+
+@media print {
+  .schedule-container .v-text-field--outlined fieldset {
+    border: none;
+  }
+  .schedule-container .v-text-field--outlined .v-input__append-inner,
+  .schedule-container .v-input .v-label {
+    display: none;
+  }
 }
 </style>
 
@@ -200,18 +266,18 @@
   <div class="flex items-start">
     <div
       v-if="hasDivision && hasSchedule"
-      class="contestant-print-container hidden print:block"
+      class="contestant-sticker-container"
     >
       <template v-for="time of times">
         <template v-for="stand of stands">
           <div
             v-if="schedule[time] && schedule[time][stand]"
             :key="`${time}-${stand}`"
-            class="contestant-print-cell"
+            class="contestant-sticker-cell"
           >
-            <div class="contestant-print-cell-wrapper">
-              <div class="contestant-print-cell-container">
-                <div class="contestant-print-cell-key">
+            <div class="contestant-sticker-cell-wrapper">
+              <div class="contestant-sticker-cell-container">
+                <div class="contestant-sticker-cell-key">
                   Nr:
                 </div>
                 <div>
@@ -219,8 +285,8 @@
                 </div>
               </div>
 
-              <div class="contestant-print-cell-container">
-                <div class="contestant-print-cell-key">
+              <div class="contestant-sticker-cell-container">
+                <div class="contestant-sticker-cell-key">
                   Dato:
                 </div>
                 <div>
@@ -228,8 +294,8 @@
                 </div>
               </div>
 
-              <div class="contestant-print-cell-container">
-                <div class="contestant-print-cell-key">
+              <div class="contestant-sticker-cell-container">
+                <div class="contestant-sticker-cell-key">
                   Tid:
                 </div>
                 <div>
@@ -237,8 +303,8 @@
                 </div>
               </div>
 
-              <div class="contestant-print-cell-container">
-                <div class="contestant-print-cell-key">
+              <div class="contestant-sticker-cell-container">
+                <div class="contestant-sticker-cell-key">
                   Bane:
                 </div>
                 <div>
@@ -246,13 +312,14 @@
                 </div>
               </div>
 
-              <div class="contestant-print-cell-container">
-                <div class="contestant-print-cell-key">
+              <div class="contestant-sticker-cell-container">
+                <div class="contestant-sticker-cell-key">
                   Våpen:
                 </div>
                 <div>
                   <events-contestants-weapon-label
                     :contestant="schedule[time][stand]"
+                    :show-calibre="false"
                   />
                 </div>
               </div>
@@ -262,7 +329,7 @@
       </template>
     </div>
 
-    <div class="container schedule-container flex print:hidden">
+    <div class="container schedule-container flex">
       <div class="p-5">
         <v-select
           :value="eventsDivisionsStateSelected.id"
@@ -404,7 +471,7 @@
                 @click="eventsContestantsEditDialogOpen(schedule[time][stand])"
               >
                 <avatar
-                  class="mx-0 absolute left-0 top-0"
+                  class="mx-0 absolute left-0 top-0 print:static"
                   style="border-radius:0;"
                   size="small"
                   :colour="schedule[time][stand].colour"

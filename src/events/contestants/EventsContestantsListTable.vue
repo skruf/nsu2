@@ -132,11 +132,8 @@
       </template>
 
       <template v-slot:item.weaponId="{ item }">
-        {{ item.weapon.name }} ({{ item.condition.charAt(0) }})
-      </template>
-
-      <template v-slot:item.calibre="{ item }">
-        {{ item.calibre }}mm
+        {{ item.weapon.name }}
+        <!-- ({{ item.condition.charAt(0) }}) -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">

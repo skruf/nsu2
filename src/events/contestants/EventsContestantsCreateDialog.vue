@@ -3,7 +3,7 @@
   "en": {
     "title": "Add participations",
     "formItem1Placeholder": "Choose a weapon (*)",
-    "formItem2Label": "Calibre mm (*)",
+    "formItem2Label": "Calibre (*)",
     "formItem2Placeholder": "Enter a calibre",
     "formItemWeaponIdError": "Choose a weapon",
     "formItemCalibreError": "Enter a calibre",
@@ -14,7 +14,7 @@
   "no": {
     "title": "Legg til deltakelser",
     "formItem1Placeholder": "Velg et våpen (*)",
-    "formItem2Label": "Kaliber mm (*)",
+    "formItem2Label": "Kaliber (*)",
     "formItem2Placeholder": "Skriv inn et kaliber",
     "formItemWeaponIdError": "Velg et våpen",
     "formItemCalibreError": "Skriv inn kaliber",
@@ -54,7 +54,7 @@
       <v-toolbar-items>
         <v-btn
           text
-          data-testid="submit"
+          data-testid="submitContestantButton"
           :loading="eventsContestantsStateCreateManyIsLoading"
           @click="submit"
         >
@@ -140,7 +140,7 @@
           :label="$t('formItem1Placeholder')"
           :rules="[(v) => !!v || $t('formItemWeaponIdError')]"
           data-testid="eventsContestantsCreateDialogWeaponsFormIdSelect"
-          class="flex-1"
+          class="flex-1 mr-2"
           single-line
           hide-details
           dense
@@ -183,26 +183,12 @@
           </template>
         </v-autocomplete>
 
-        <v-select
-          v-model="weapon.condition"
-          :items="weaponsStateConditions"
-          :rules="[(v) => !!v || $t('weaponsFormConditionError')]"
-          label="Tilstand (*)"
-          data-testid="eventsContestantsCreateDialogWeaponsFormConditionSelect"
-          class="flex-1 mx-3"
-          single-line
-          hide-details
-          dense
-          required
-          outlined
-        />
-
         <v-text-field
           v-model="weapon.calibre"
           :label="$t('formItem2Label')"
           :rules="[(v) => !!v || $t('formItemCalibreError')]"
           data-testid="eventsContestantsCreateDialogWeaponsFormCalibreInput"
-          class="flex-1"
+          class="flex-1 ml-2"
           type="number"
           min="0"
           single-line
@@ -289,7 +275,6 @@ export default Vue.extend({
       clubsMembersStateList: "list"
     }),
     ...mapState("weapons", {
-      weaponsStateConditions: "conditions",
       weaponsStateListIsLoading: "listIsLoading",
       weaponsStateList: "list"
     }),
@@ -344,14 +329,12 @@ export default Vue.extend({
 
       const contestants = this.weaponsForm.map(({
         weaponId,
-        calibre,
-        condition
+        calibre
       }) => ({
         clubMemberId: this.selectedClubsMemberId,
         eventId: this.event.id,
         weaponId,
-        calibre: parseInt(calibre),
-        condition
+        calibre: parseInt(calibre)
       }))
 
       try {

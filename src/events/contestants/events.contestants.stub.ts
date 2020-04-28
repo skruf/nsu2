@@ -19,7 +19,7 @@ export default {
     { hit: 13, sum: 0 }
   ],
   total: 0,
-  notes: [],
+  note: "",
   calibre: "",
   condition: "",
   weaponId: "",

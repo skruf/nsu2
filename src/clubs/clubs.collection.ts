@@ -32,9 +32,12 @@ const schema: RxJsonSchema<ClubsSchema> = {
     streetAddress: {
       type: "string"
     },
-    area: {
+    zipCode: {
       type: "string",
       index: true
+    },
+    area: {
+      type: "string"
     },
     country: {
       type: "string"
@@ -50,6 +53,7 @@ const schema: RxJsonSchema<ClubsSchema> = {
   required: [
     "name",
     "shortName",
+    "zipCode",
     "area"
   ]
 }

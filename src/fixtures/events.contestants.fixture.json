@@ -4,8 +4,7 @@
   "divisionId": "1",
   "time": "08:00",
   "stand": 1,
-  "calibre": 30,
-  "condition": "Replica",
+  "calibre": "30mm",
   "weaponId": "1",
   "clubMemberId": "1",
   "total": 10,
@@ -24,37 +23,15 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 1 }
   ],
-  "notes": [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nulla.",
-    "Praesent sed pharetra justo, sed rhoncus justo. Donec accumsan elit vitae iaculis fermentum. Vivamus enim turpis, suscipit eget convallis quis, blandit eget lorem. Vestibulum vitae erat non ligula sodales pellentesque eget et erat. Nullam egestas.",
-    "Nullam eu dignissim est."
-  ]
+  "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis urna a sapien vulputate, sit amet luctus ligula volutpat."
 }, {
   "id" : "2",
   "eventId": "1",
   "divisionId": "1",
   "time": "08:00",
   "stand": 2,
-  "calibre": 45,
-  "condition": "Replica",
-  "weaponId": "3",
+  "calibre": "45mm",
+  "weaponId": "4",
   "clubMemberId": "10",
   "total": 62,
   "hits": [
@@ -72,18 +49,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": [
-    "Test notat 1",
-    "Test notat 2"
-  ]
+  "note": "Test notat"
 }, {
   "id" : "3",
   "eventId": "1",
   "divisionId": "1",
   "time": "08:00",
   "stand": 3,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "2",
   "clubMemberId": "11",
   "total": 79,
@@ -102,16 +75,15 @@
     { "hit": 12, "sum": 10 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "4",
   "eventId": "1",
   "divisionId": "1",
   "time": "08:00",
   "stand": 4,
-  "calibre": 45,
-  "condition": "Replica",
-  "weaponId": "3",
+  "calibre": "45mm",
+  "weaponId": "4",
   "clubMemberId": "2",
   "total": 60,
   "hits": [
@@ -129,15 +101,14 @@
     { "hit": 12, "sum": 3 },
     { "hit": 13, "sum": 7 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "5",
   "eventId": "1",
   "divisionId": "1",
   "time": "09:00",
   "stand": 1,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "4",
   "clubMemberId": "2",
   "total": 83,
@@ -156,16 +127,15 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 3 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "6",
   "eventId": "1",
   "divisionId": "1",
   "time": "09:00",
   "stand": 2,
-  "calibre": 45,
-  "condition": "Replica",
-  "weaponId": "3",
+  "calibre": "45mm",
+  "weaponId": "4",
   "clubMemberId": "5",
   "total": 58,
   "hits": [
@@ -183,15 +153,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "7",
   "eventId": "1",
   "divisionId": "1",
   "time": "09:00",
   "stand": 3,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "6",
   "total": 37,
@@ -210,15 +179,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "8",
   "eventId": "1",
   "divisionId": "1",
   "time": "09:00",
   "stand": 4,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "7",
   "total": 91,
@@ -237,15 +205,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "9",
   "eventId": "1",
   "divisionId": "1",
   "time": "10:00",
   "stand": 1,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "1",
   "total": 78,
@@ -264,15 +231,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "10",
   "eventId": "1",
   "divisionId": "1",
   "time": "10:00",
   "stand": 2,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "10",
   "total": 11,
@@ -291,15 +257,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "11",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "10:00",
   "stand": 3,
-  "calibre": 45,
-  "condition": "Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "4",
   "total": 67,
@@ -318,15 +283,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "12",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "10:00",
   "stand": 4,
-  "condition": "Replica",
-  "calibre": 45,
+  "calibre": "45mm",
   "weaponId": "7",
   "clubMemberId": "5",
   "total": 48,
@@ -345,15 +309,14 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "13",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "11:00",
   "stand": 1,
-  "condition": "Replica",
-  "calibre": 45,
+  "calibre": "45mm",
   "weaponId": "2",
   "clubMemberId": "8",
   "total": 27,
@@ -372,16 +335,15 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "14",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "11:00",
   "stand": 2,
-  "condition": "Replica",
-  "calibre": 45,
-  "weaponId": "3",
+  "calibre": "45mm",
+  "weaponId": "4",
   "clubMemberId": "2",
   "total": 44,
   "hits": [
@@ -399,16 +361,15 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "15",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "11:00",
   "stand": 3,
-  "condition": "Replica",
-  "calibre": 45,
-  "weaponId": "6",
+  "calibre": "45mm",
+  "weaponId": "8",
   "clubMemberId": "3",
   "total": 78,
   "hits": [
@@ -426,15 +387,14 @@
     { "hit": 12, "sum": 3 },
     { "hit": 13, "sum": 1 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "16",
   "eventId": "1",
-  "divisionId": "3",
+  "divisionId": "4",
   "time": "11:00",
   "stand": 4,
-  "condition": "Replica",
-  "calibre": 45,
+  "calibre": "45mm",
   "weaponId": "4",
   "clubMemberId": "5",
   "total": 10,
@@ -453,15 +413,14 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 1 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "17",
   "eventId": "1",
   "divisionId": "4",
   "time": "12:00",
   "stand": 1,
-  "condition": "Replica",
-  "calibre": 45,
+  "calibre": "45mm",
   "weaponId": "14",
   "clubMemberId": "1",
   "total": 10,
@@ -480,15 +439,14 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 1 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "18",
   "eventId": "1",
   "divisionId": "4",
   "time": "15:00",
   "stand": 8,
-  "condition": "Replica",
-  "calibre": 45,
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "8",
   "total": 10,
@@ -507,15 +465,14 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 1 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "19",
   "eventId": "1",
   "divisionId": "4",
   "time": "10:00",
   "stand": 1,
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "13",
   "clubMemberId": "3",
   "total": 62,
@@ -534,324 +491,293 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "notes": []
+  "note": ""
 }, {
   "id" : "20",
   "eventId": "1",
   "divisionId": "4",
   "time": "10:00",
   "stand": 2,
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "15",
   "clubMemberId": "3",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "35",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "5",
   "clubMemberId": "1",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "36",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "4",
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "37",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
-  "weaponId": "3",
+  "calibre": "45mm",
+  "weaponId": "4",
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "38",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "7",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "39",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "9",
   "clubMemberId": "9",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "40",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
-  "weaponId": "6",
+  "calibre": "45mm",
+  "weaponId": "8",
   "clubMemberId": "2",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "41",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "7",
   "clubMemberId": "3",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "42",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "4",
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "43",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original & Replica",
+  "calibre": "45mm",
   "weaponId": "2",
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "44",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "8",
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "21",
   "eventId": "1",
-  "calibre": 30,
-  "condition": "Original",
-  "weaponId": "3",
+  "calibre": "30mm",
+  "weaponId": "4",
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "22",
   "eventId": "1",
-  "calibre": 10,
-  "condition": "Original",
+  "calibre": "10mm",
   "weaponId": "4",
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "23",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "5",
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "24",
   "eventId": "1",
-  "calibre": 35,
-  "condition": "Original",
+  "calibre": "35mm",
   "weaponId": "1",
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "25",
   "eventId": "1",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "2",
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "26",
   "eventId": "2",
-  "calibre": 90,
-  "condition": "Original",
-  "weaponId": "3",
-  "clubMemberId": "7",
-  "total": 0,
-  "hits": [],
-  "notes": [ "testest" ]
-}, {
-  "id" : "27",
-  "eventId": "2",
-  "calibre": 30,
-  "condition": "Original",
+  "calibre": "90mm",
   "weaponId": "4",
   "clubMemberId": "7",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": "Test notat"
+}, {
+  "id" : "27",
+  "eventId": "2",
+  "calibre": "30mm",
+  "weaponId": "4",
+  "clubMemberId": "7",
+  "total": 0,
+  "hits": [],
+  "note": ""
 }, {
   "id" : "28",
   "eventId": "2",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "15",
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "29",
   "eventId": "2",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "12",
   "clubMemberId": "2",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "30",
   "eventId": "2",
-  "calibre": 90,
-  "condition": "Original",
+  "calibre": "90mm",
   "weaponId": "14",
   "clubMemberId": "3",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "31",
   "eventId": "2",
-  "calibre": 65,
-  "condition": "Original",
+  "calibre": "65mm",
   "weaponId": "8",
   "clubMemberId": "24",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "32",
   "eventId": "2",
-  "calibre": 75,
-  "condition": "Original",
+  "calibre": "75mm",
   "weaponId": "4",
   "clubMemberId": "25",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "33",
   "eventId": "2",
-  "calibre": 25,
-  "condition": "Original",
+  "calibre": "25mm",
   "weaponId": "10",
   "clubMemberId": "26",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "34",
   "eventId": "2",
-  "calibre": 45,
-  "condition": "Original",
+  "calibre": "45mm",
   "weaponId": "12",
   "clubMemberId": "27",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id": "45",
   "eventId": "2",
-  "calibre": 25,
-  "condition": "Original",
-  "weaponId": "6",
+  "calibre": "25mm",
+  "weaponId": "8",
   "clubMemberId": "28",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "46",
   "eventId": "2",
-  "calibre": 25,
-  "condition": "Original",
+  "calibre": "25mm",
   "weaponId": "7",
   "clubMemberId": "29",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "47",
   "eventId": "2",
   "divisionId": "7",
   "time": "08:00",
   "stand": 1,
-  "calibre": 25,
-  "condition": "Original",
-  "weaponId": "3",
+  "calibre": "25mm",
+  "weaponId": "4",
   "clubMemberId": "27",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "48",
   "eventId": "2",
   "divisionId": "7",
   "time": "08:00",
   "stand": 2,
-  "calibre": 25,
-  "condition": "Original",
+  "calibre": "25mm",
   "weaponId": "5",
   "clubMemberId": "26",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "49",
   "eventId": "2",
-  "calibre": 50,
-  "condition": "Original",
+  "calibre": "50mm",
   "weaponId": "11",
   "clubMemberId": "20",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }, {
   "id" : "50",
   "eventId": "2",
-  "calibre": 50,
-  "condition": "Original",
+  "calibre": "50mm",
   "weaponId": "9",
   "clubMemberId": "22",
   "total": 0,
   "hits": [],
-  "notes": []
+  "note": ""
 }]

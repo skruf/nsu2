@@ -3,6 +3,7 @@ export default {
   lastName: "",
   emailAddress: "",
   phoneNumber: "",
+  streetAddress: "",
   country: "",
   clubId: ""
 }

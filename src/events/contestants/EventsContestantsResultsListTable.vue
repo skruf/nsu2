@@ -30,12 +30,23 @@
 </i18n>
 
 <style>
+.results-table td:not(.table-group-header):nth-child(3),
+.results-table th:not(.table-group-header):nth-child(3) {
+  display: none;
+}
 @media print {
+  .results-table td:not(.table-group-header):nth-child(3),
+  .results-table th:not(.table-group-header):nth-child(3) {
+    display: table-cell;
+  }
   .results-table.is-grouped td:not(.table-group-header):nth-child(4),
   .results-table.is-grouped th:not(.table-group-header):nth-child(4),
   .results-table.not-grouped td:not(.table-group-header):nth-child(5),
   .results-table.not-grouped th:not(.table-group-header):nth-child(5) {
     display: none;
+  }
+  .results-hits {
+    display: block !important;
   }
 }
 </style>
@@ -60,19 +71,19 @@
         hide-details
         clearable
         append-icon="expand_more"
-        class="mr-5"
+        class="mr-5 flex-none"
       />
 
       <v-form
         ref="filterForm"
-        class="flex items-center ml-auto"
+        class="flex items-center ml-auto flex-none"
       >
-        <events-contestants-filter-clubs
+        <!-- <events-contestants-filter-clubs
           v-model="eventsContestantsTableFilter.clubIds"
           class="mr-5"
           :contestants="eventsContestantsStateList"
           :loading="eventsContestantsStateListIsLoading"
-        />
+        /> -->
 
         <events-contestants-filter-weapons
           v-model="eventsContestantsTableFilter.weaponIds"
@@ -109,11 +120,18 @@
       :items-per-page="100"
       sort-by="total"
       data-testid="eventsContestantsResultsListTable"
-      class="no-print-last-td results-table"
+      class="results-table"
     >
+      <template v-slot:item.rank="{ item }">
+        <div class="font-bold text-black">
+          {{ item.rank }}
+        </div>
+      </template>
+
       <template v-slot:item.number="{ item }">
         <div class="flex items-center">
           <avatar
+            class="print:hidden"
             :colour="item.colour"
             :value="item.number"
           />
@@ -124,13 +142,12 @@
       </template>
 
       <template v-slot:item.clubMember.club.shortName="{ item }">
-        <router-link :to="`/clubs/${item.clubMember.club.id}`">
-          {{ item.clubMember.club.shortName }}
-        </router-link>
+        {{ item.clubMember.club.shortName }}
       </template>
 
       <template v-slot:item.weaponId="{ item }">
-        {{ item.weapon.name }} ({{ item.condition.charAt(0) }})
+        {{ item.weapon.name }}
+        <!-- ({{ item.condition.charAt(0) }}) -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">
@@ -139,34 +156,26 @@
         />
       </template>
 
-      <template v-slot:item.notes="{ item }">
-        <div class="-mx-3">
-          <v-btn
-            text
-            small
-            color="primary"
-            class="no-print"
-            data-testid="eventsContestantsResultsNotesOpenButton"
-            @click="eventsContestantsResultsNotesOpen(item)"
-          >
-            {{ item.notes ? item.notes.length : 0 }} notater
-          </v-btn>
-        </div>
-      </template>
-
       <template v-slot:item.hits="{ item }">
-        <div
+        <v-btn
           v-if="item.hits && item.hits.length"
-          class="mx-auto w-full max-w-xs flex justify-center"
+          text
+          small
+          color="primary"
+          class="mx-auto block results-hits"
+          data-testid="eventsContestantsResultsInputDialogOpen"
+          @click.stop="eventsContestantsResultsInputDialogOpen(item)"
         >
-          <span
-            v-for="h in item.hits"
-            :key="h.hit"
-            class="hit"
-          >
-            {{ h.sum }}
-          </span>
-        </div>
+          <div class="mx-auto w-full max-w-xs flex justify-center">
+            <span
+              v-for="h in item.hits"
+              :key="h.hit"
+              class="hit"
+            >
+              {{ h.sum }}
+            </span>
+          </div>
+        </v-btn>
 
         <div
           v-else
@@ -176,7 +185,7 @@
             text
             small
             color="primary"
-            class="mx-auto block no-print"
+            class="mx-auto block"
             data-testid="eventsContestantsResultsInputDialogOpen"
             @click="eventsContestantsResultsInputDialogOpen(item)"
           >
@@ -191,29 +200,28 @@
         </span>
       </template>
 
-      <template v-slot:item.rank="{ item }">
-        <div class="font-bold text-black flex items-center justify-center">
-          <!-- <v-img
-            v-if="item.rank === 1"
-            src="https://image.flaticon.com/icons/svg/340/340334.svg"
-            max-width="22px"
-          />
+      <template v-slot:item.note="{ item }">
+        <div class="flex justify-end">
+          <div class="hidden print:block">
+            {{ item.note }}
+          </div>
 
-          <v-img
-            v-if="item.rank === 2"
-            src="https://image.flaticon.com/icons/svg/340/340333.svg"
-            max-width="22px"
-          />
+          <v-btn
+            text
+            small
+            color="primary"
+            class="-mr-3"
+            data-testid="eventsContestantsResultsNotesOpenButton"
+            @click="eventsContestantsResultsNotesOpen(item)"
+          >
+            <template v-if="!!item.note">
+              Se notatet
+            </template>
 
-          <v-img
-            v-if="item.rank === 3"
-            src="https://image.flaticon.com/icons/svg/340/340335.svg"
-            max-width="22px"
-          /> -->
-
-          <!-- <template v-if="item.rank > 3 || item.rank === 0"> -->
-          {{ item.rank }}
-          <!-- </template> -->
+            <template v-else>
+              Legg til notat
+            </template>
+          </v-btn>
         </div>
       </template>
 
@@ -273,62 +281,29 @@
           </td>
         </template>
       </template>
-
-      <template v-slot:item.actions="{ item }">
-        <v-menu
-          bottom
-          left
-          class="no-print"
-        >
-          <template v-slot:activator="{ on: { click }, attrs }">
-            <v-btn
-              data-testid="eventsContestantsTableRowMenuButton"
-              small
-              icon
-              v-bind="attrs"
-              @click.stop="click"
-            >
-              <v-icon>
-                more_horiz
-              </v-icon>
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-item
-              :disabled="!item.hits || !item.hits.length"
-              data-testid="eventsContestantsResultsInputDialogOpenListItem"
-              @click.stop="eventsContestantsResultsInputDialogOpen(item)"
-            >
-              <v-list-item-title class="flex items-center">
-                <v-icon>
-                  edit
-                </v-icon>
-                <span class="ml-2">
-                  {{ $t("editResults") }}
-                </span>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </template>
     </v-data-table>
 
-    <events-contestants-notes
+    <events-contestants-note
       :shown.sync="eventsContestantsResultsNotesShown"
     />
+
+    <!-- <events-contestants-notes
+      :shown.sync="eventsContestantsResultsNotesShown"
+    /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { mapState, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
-import EventsContestantsNotes
-  from "./EventsContestantsNotes.vue"
+// import EventsContestantsNotes
+//   from "./EventsContestantsNotes.vue"
+import EventsContestantsNote
+  from "./EventsContestantsNote.vue"
 import EventsContestantsFilterDivisions
   from "./EventsContestantsFilterDivisions.vue"
-import EventsContestantsFilterClubs
-  from "./EventsContestantsFilterClubs.vue"
+// import EventsContestantsFilterClubs
+//   from "./EventsContestantsFilterClubs.vue"
 import EventsContestantsFilterWeapons
   from "./EventsContestantsFilterWeapons.vue"
 import EventsDivisionsLabel
@@ -338,10 +313,11 @@ export default {
   name: "EventsContestantsResultsListTable",
 
   components: {
-    EventsContestantsNotes,
+    // EventsContestantsNotes,
+    EventsContestantsNote,
     Avatar,
     EventsContestantsFilterDivisions,
-    EventsContestantsFilterClubs,
+    // EventsContestantsFilterClubs,
     EventsContestantsFilterWeapons,
     EventsDivisionsLabel
   },
@@ -362,6 +338,10 @@ export default {
       eventsContestantsResultsTableGroupBy: "weaponId",
       eventsContestantsResultsSelection: [],
       eventsContestantsResultsHeaders: [{
+        value: "rank",
+        text: "Plass",
+        sortable: false
+      }, {
         value: "number",
         text: "Deltaker",
         sortable: false
@@ -381,10 +361,6 @@ export default {
         filter: this.divisionFilter,
         sortable: false
       }, {
-        value: "notes",
-        text: "Notater",
-        sortable: false
-      }, {
         value: "hits",
         text: "Treff",
         sortable: false,
@@ -393,16 +369,13 @@ export default {
         value: "total",
         text: "Totalt",
         sortable: false,
-        align: "right"
+        align: "center"
       }, {
-        value: "rank",
-        text: "Rank",
+        value: "note",
+        text: "Notat",
         sortable: false,
-        align: "right"
-      }, {
-        value: "actions",
-        sortable: false,
-        align: "right"
+        align: "right",
+        width: 225
       }]
     }
   },
@@ -421,7 +394,40 @@ export default {
       const groupedResults = []
 
       const sorted = [ ...this.eventsContestantsStateList ]
-        .sort((a, b) => b.total - a.total)
+        .sort((a, b) => {
+          // if(a.total === b.total) {
+
+          //   const ca: Record<string, number> = {}
+          //   a.hits.forEach(({ sum }) => {
+          //     if(!ca[sum]) ca[sum] = 1
+          //     else ca[sum] += 1
+          //   })
+
+          //   const cb: Record<string, number> = {}
+          //   b.hits.forEach(({ sum }) => {
+          //     if(!cb[sum]) cb[sum] = 1
+          //     else cb[sum] += 1
+          //   })
+
+          //   console.log(`${a.total} - ${b.total}`)
+
+          //   console.log(ca)
+          //   console.log(cb)
+          //   console.log("-----------")
+
+          //   // console.log("Qweqwe")
+          // }
+
+          return b.total - a.total
+        })
+
+      // .reduce((acc, curr, index, arr) => {
+      //   const counts: Record<string, number> = {}
+      //   curr.hits.forEach(({ sum }) => {
+      //     if(!counts[sum]) counts[sum] = 1
+      //     else counts[sum] += 1
+      //   })
+      // }, [])
 
       if(this.eventsContestantsResultsTableGroupBy === []) return sorted
 

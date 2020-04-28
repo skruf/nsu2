@@ -38,7 +38,6 @@
       :label="$t('eventsContestantsFormCalibreLabel')"
       :rules="[(v) => !!v || $t('eventsContestantsFormCalibreError')]"
       data-testid="eventsContestantsFormCalibreInput"
-      type="number"
       class="mb-3"
       outlined
       required
