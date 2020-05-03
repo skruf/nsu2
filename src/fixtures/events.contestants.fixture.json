@@ -23,7 +23,7 @@
     { "hit": 12, "sum": 1 },
     { "hit": 13, "sum": 1 }
   ],
-  "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis urna a sapien vulputate, sit amet luctus ligula volutpat."
+  "note": "23mm"
 }, {
   "id" : "2",
   "eventId": "1",
@@ -49,7 +49,7 @@
     { "hit": 12, "sum": 5 },
     { "hit": 13, "sum": 4 }
   ],
-  "note": "Test notat"
+  "note": "4mm"
 }, {
   "id" : "3",
   "eventId": "1",
@@ -449,23 +449,15 @@
   "calibre": "45mm",
   "weaponId": "1",
   "clubMemberId": "8",
-  "total": 10,
+  "total": 5,
   "hits": [
     { "hit": 1, "sum": 1 },
     { "hit": 2, "sum": 1 },
     { "hit": 3, "sum": 1 },
     { "hit": 4, "sum": 1 },
-    { "hit": 5, "sum": 1 },
-    { "hit": 6, "sum": 1 },
-    { "hit": 7, "sum": 1 },
-    { "hit": 8, "sum": 1 },
-    { "hit": 9, "sum": 1 },
-    { "hit": 10, "sum": 1 },
-    { "hit": 11, "sum": 1 },
-    { "hit": 12, "sum": 1 },
-    { "hit": 13, "sum": 1 }
+    { "hit": 5, "sum": 1 }
   ],
-  "note": ""
+  "note": "DNF"
 }, {
   "id" : "19",
   "eventId": "1",
@@ -503,7 +495,7 @@
   "clubMemberId": "3",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "35",
   "eventId": "1",
@@ -512,7 +504,7 @@
   "clubMemberId": "1",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "36",
   "eventId": "1",
@@ -521,7 +513,7 @@
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "37",
   "eventId": "1",
@@ -530,7 +522,7 @@
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "38",
   "eventId": "1",
@@ -539,7 +531,7 @@
   "clubMemberId": "7",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "39",
   "eventId": "1",
@@ -548,7 +540,7 @@
   "clubMemberId": "9",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "40",
   "eventId": "1",
@@ -557,7 +549,7 @@
   "clubMemberId": "2",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "41",
   "eventId": "1",
@@ -566,7 +558,7 @@
   "clubMemberId": "3",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "42",
   "eventId": "1",
@@ -575,7 +567,7 @@
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "43",
   "eventId": "1",
@@ -584,7 +576,7 @@
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "44",
   "eventId": "1",
@@ -593,7 +585,7 @@
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "21",
   "eventId": "1",
@@ -602,7 +594,7 @@
   "clubMemberId": "4",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "22",
   "eventId": "1",
@@ -611,7 +603,7 @@
   "clubMemberId": "5",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "23",
   "eventId": "1",
@@ -620,7 +612,7 @@
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "24",
   "eventId": "1",
@@ -629,7 +621,7 @@
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "25",
   "eventId": "1",
@@ -638,7 +630,7 @@
   "clubMemberId": "6",
   "total": 0,
   "hits": [],
-  "note": ""
+  "note": "DNS"
 }, {
   "id" : "26",
   "eventId": "2",
@@ -647,7 +639,7 @@
   "clubMemberId": "7",
   "total": 0,
   "hits": [],
-  "note": "Test notat"
+  "note": "25mm"
 }, {
   "id" : "27",
   "eventId": "2",

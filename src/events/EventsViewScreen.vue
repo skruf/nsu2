@@ -17,8 +17,8 @@
     "results": "Results",
     "eventsRemoveOneConfirmation": "This will remove %{eventTitle} permanently. Continue?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} was removed from the database",
-    "printResultsDeadline": "Deadline",
-    "printResultsFinal": "Final"
+    "printResultsDeadline": "With a deadline",
+    "printResultsFinal": "Final results"
   },
   "no": {
     "breadcrumb1Label": "Stevner",
@@ -37,8 +37,8 @@
     "results": "Resultater",
     "eventsRemoveOneConfirmation": "Dette vil fjerne %{eventTitle} permanent. Fortsette?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} ble fjernet fra databasen",
-    "printResultsDeadline": "Klagefrist",
-    "printResultsFinal": "Utløpt"
+    "printResultsDeadline": "Med klagefrist",
+    "printResultsFinal": "Endelige resultater"
   }
 }
 </i18n>

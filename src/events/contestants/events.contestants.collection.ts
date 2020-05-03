@@ -50,13 +50,6 @@ const schema: RxJsonSchema = {
       type: "string",
       default: ""
     },
-    // notes: {
-    //   type: "array",
-    //   default: [],
-    //   items: {
-    //     type: "string"
-    //   }
-    // },
     weaponId: {
       type: "string",
       ref: "weapons",

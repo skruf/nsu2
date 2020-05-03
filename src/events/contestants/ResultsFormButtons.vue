@@ -62,9 +62,10 @@ button::after {
             ref="button"
             v-ripple
             :class="{ 'active': isSet(hit, sum) }"
+            :data-testid="`ResultsFormButtonsSumButton${hit}-${sum}`"
             type="button"
             class="btn relative w-full h-full hit py-2 bg-transparent mx-0"
-            :data-testid="`ResultsFormButtonsSumButton${hit}-${sum}`"
+            style="max-width:none;min-width:0;"
             @click="setHit(hit, sum)"
           >
             {{ sum }}

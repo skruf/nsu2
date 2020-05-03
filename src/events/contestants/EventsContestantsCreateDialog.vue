@@ -189,8 +189,6 @@
           :rules="[(v) => !!v || $t('formItemCalibreError')]"
           data-testid="eventsContestantsCreateDialogWeaponsFormCalibreInput"
           class="flex-1 ml-2"
-          type="number"
-          min="0"
           single-line
           hide-details
           dense

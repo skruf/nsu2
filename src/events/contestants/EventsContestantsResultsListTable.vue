@@ -78,13 +78,6 @@
         ref="filterForm"
         class="flex items-center ml-auto flex-none"
       >
-        <!-- <events-contestants-filter-clubs
-          v-model="eventsContestantsTableFilter.clubIds"
-          class="mr-5"
-          :contestants="eventsContestantsStateList"
-          :loading="eventsContestantsStateListIsLoading"
-        /> -->
-
         <events-contestants-filter-weapons
           v-model="eventsContestantsTableFilter.weaponIds"
           :contestants="eventsContestantsStateList"
@@ -157,35 +150,33 @@
       </template>
 
       <template v-slot:item.hits="{ item }">
-        <v-btn
-          v-if="item.hits && item.hits.length"
-          text
-          small
-          color="primary"
-          class="mx-auto block results-hits"
-          data-testid="eventsContestantsResultsInputDialogOpen"
-          @click.stop="eventsContestantsResultsInputDialogOpen(item)"
-        >
-          <div class="mx-auto w-full max-w-xs flex justify-center">
-            <span
-              v-for="h in item.hits"
-              :key="h.hit"
-              class="hit"
-            >
-              {{ h.sum }}
-            </span>
-          </div>
-        </v-btn>
-
-        <div
-          v-else
-          class="mx-auto w-full max-w-xs"
-        >
+        <div class="mx-auto w-full max-w-sm">
           <v-btn
+            v-if="item.hits && item.hits.length"
             text
             small
             color="primary"
-            class="mx-auto block"
+            class="block px-0 results-hits"
+            data-testid="eventsContestantsResultsInputDialogOpen"
+            @click.stop="eventsContestantsResultsInputDialogOpen(item)"
+          >
+            <div class="flex justify-start">
+              <span
+                v-for="h in item.hits"
+                :key="h.hit"
+                class="hit"
+              >
+                {{ h.sum }}
+              </span>
+            </div>
+          </v-btn>
+
+          <v-btn
+            v-else
+            text
+            small
+            color="primary"
+            class="block px-2"
             data-testid="eventsContestantsResultsInputDialogOpen"
             @click="eventsContestantsResultsInputDialogOpen(item)"
           >
@@ -215,7 +206,7 @@
             @click="eventsContestantsResultsNotesOpen(item)"
           >
             <template v-if="!!item.note">
-              Se notatet
+              Endre notat
             </template>
 
             <template v-else>
@@ -226,7 +217,7 @@
       </template>
 
       <template v-slot:header.hits>
-        <div class="mx-auto w-full max-w-xs flex justify-center">
+        <div class="mx-auto w-full max-w-sm flex justify-start">
           <span
             v-for="h in Array.from({ length: 13 }, (_, i) => i + 1)"
             :key="h"
@@ -286,24 +277,16 @@
     <events-contestants-note
       :shown.sync="eventsContestantsResultsNotesShown"
     />
-
-    <!-- <events-contestants-notes
-      :shown.sync="eventsContestantsResultsNotesShown"
-    /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { mapState, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
-// import EventsContestantsNotes
-//   from "./EventsContestantsNotes.vue"
 import EventsContestantsNote
   from "./EventsContestantsNote.vue"
 import EventsContestantsFilterDivisions
   from "./EventsContestantsFilterDivisions.vue"
-// import EventsContestantsFilterClubs
-//   from "./EventsContestantsFilterClubs.vue"
 import EventsContestantsFilterWeapons
   from "./EventsContestantsFilterWeapons.vue"
 import EventsDivisionsLabel
@@ -313,11 +296,9 @@ export default {
   name: "EventsContestantsResultsListTable",
 
   components: {
-    // EventsContestantsNotes,
     EventsContestantsNote,
     Avatar,
     EventsContestantsFilterDivisions,
-    // EventsContestantsFilterClubs,
     EventsContestantsFilterWeapons,
     EventsDivisionsLabel
   },
@@ -363,8 +344,7 @@ export default {
       }, {
         value: "hits",
         text: "Treff",
-        sortable: false,
-        align: "right"
+        sortable: false
       }, {
         value: "total",
         text: "Totalt",
@@ -375,7 +355,7 @@ export default {
         text: "Notat",
         sortable: false,
         align: "right",
-        width: 225
+        width: 80
       }]
     }
   },
