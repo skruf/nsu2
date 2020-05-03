@@ -108,10 +108,6 @@
 .add-cell {
   cursor: default;
 }
-/* .add-cell:hover > * {
-  @apply opacity-100;
-  color: blue;
-} */
 
 .unassigned-container {
   @apply flex-col min-w-0 mr-5 ml-0 overflow-y-auto;
@@ -200,15 +196,13 @@
   }
   .grid,
   .time-labels {
-    padding-top: 41px;
+    padding-top: 42px;
   }
   .add-cell .v-icon {
     display: none;
   }
-
-  .time:last-child,
-  .lane:last-child {
-    display: none;
+  .time span {
+    opacity: 1 !important;
   }
 }
 </style>
@@ -491,7 +485,6 @@
                 </div>
               </div>
 
-              <!-- @click="eventsContestantsCreateDialogOpen(time, stand)" -->
               <div
                 v-else
                 :key="`${time}-${stand}`"
@@ -650,7 +643,9 @@ export default Vue.extend({
     return {
       unAssignedSearchFilter: "",
       dragContestantId: null,
-      dragType: ""
+      dragType: "",
+      isPrinting: false,
+      mql: null
     }
   },
 
@@ -687,12 +682,11 @@ export default Vue.extend({
       return Object.keys(this.eventsDivisionsStateSelected).length > 1
     },
 
+    // @TODO: handle last time 24:00
+    // @TODO: handle minutes (ie. 10:00 + 10:30)
     times() {
       if(!this.eventsDivisionsStateSelected) return
       const times = this.getTimesByDivisionId(this.eventsDivisionsStateSelected.id)
-
-      // @TODO: handle last time 24:00
-      // @TODO: handle minutes (ie. 10:00 + 10:30)
 
       const { startsAt } = this.eventsDivisionsStateSelected
       let firstHour = parseInt(startsAt, 10)
@@ -732,12 +726,13 @@ export default Vue.extend({
       let newFirstHour: string | number = firstHour - 1
       if(newFirstHour < 10) newFirstHour = `0${newFirstHour}`
 
-      return [
-        `${newFirstHour}:00`,
-        ...timeline,
-        `${newLastHour}:00`
-        // `${newLastHour}:${lastTime[1]}`
-      ]
+      return this.isPrinting
+        ? timeline
+        : [
+          `${newFirstHour}:00`,
+          ...timeline,
+          `${newLastHour}:00`
+        ]
     },
 
     stands() {
@@ -750,10 +745,13 @@ export default Vue.extend({
       let lastStand = Math.max(...stands)
       if(lastStand < standsCount) lastStand = standsCount
 
-      return [
-        ...Array.from({ length: lastStand }, (v, k) => k + 1),
-        lastStand + 1
-      ]
+      const scheduleStands = Array.from({ length: lastStand }, (v, k) => k + 1)
+      return this.isPrinting
+        ? scheduleStands
+        : [
+          ...scheduleStands,
+          lastStand + 1
+        ]
     },
 
     schedule(): object {
@@ -791,6 +789,8 @@ export default Vue.extend({
   },
 
   created() {
+    this.mql = window.matchMedia("print")
+    this.mql.addListener(this.onPrinting)
     const divisions = this.eventsDivisionsStateList
     if(!divisions.length) return
     this.eventsDivisionsActionsSelect({ id: divisions[0].id })
@@ -798,9 +798,16 @@ export default Vue.extend({
 
   beforeDestroy(): void {
     this.eventsDivisionsMutationsSetSelected({})
+    this.mql.removeListener(this.onPrinting)
   },
 
   methods: {
+    onPrinting(e: MediaQueryList | MediaQueryListEvent): void {
+      this.isPrinting = e.matches
+      this._update(this._render())
+      this.setGridTemplateColumns()
+    },
+
     ...mapActions("events/divisions", {
       eventsDivisionsActionsSelect: "select"
     }),
@@ -816,14 +823,18 @@ export default Vue.extend({
       this.eventsDivisionsActionsSelect({ id })
     },
 
+    setGridTemplateColumns(): void {
+      this.$refs.grid.style.gridTemplateColumns = "1fr "
+        .repeat(this.stands.length)
+        .slice(0, -1)
+    },
+
     resizeColumn(): void {
       if(!this.hasDivision) return
       const stands = this.stands
       if(!stands) return
       this.$nextTick(() => {
-        this.$refs.grid.style.gridTemplateColumns = "1fr "
-          .repeat(stands.length)
-          .slice(0, -1)
+        this.setGridTemplateColumns()
       })
     },
 
