@@ -201,7 +201,8 @@
   .add-cell .v-icon {
     display: none;
   }
-  .time span {
+  .time span,
+  .lane span {
     opacity: 1 !important;
   }
 }

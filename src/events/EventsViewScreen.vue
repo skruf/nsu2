@@ -394,9 +394,7 @@ export default Vue.extend({
 
     printDivisionSchedule(): void {
       this.printMode = "divisionSchedule"
-      // this.$nextTick(() => {
       this.print()
-      // })
     },
 
     printDivisionStickers(): void {

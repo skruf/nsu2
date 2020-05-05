@@ -25,7 +25,7 @@
 
 <style scoped>
 .map-container {
-  height: calc(100vh - 112px);
+  height: calc(100vh - 120px);
 }
 </style>
 

@@ -30,6 +30,10 @@
 </i18n>
 
 <style>
+.hits-column {
+  @apply mx-auto w-full;
+  max-width: 24rem !important;
+}
 .results-table td:not(.table-group-header):nth-child(3),
 .results-table th:not(.table-group-header):nth-child(3) {
   display: none;
@@ -140,7 +144,6 @@
 
       <template v-slot:item.weaponId="{ item }">
         {{ item.weapon.name }}
-        <!-- ({{ item.condition.charAt(0) }}) -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">
@@ -150,7 +153,7 @@
       </template>
 
       <template v-slot:item.hits="{ item }">
-        <div class="mx-auto w-full max-w-sm">
+        <div class="hits-column">
           <v-btn
             v-if="item.hits && item.hits.length"
             text
@@ -206,7 +209,8 @@
             @click="eventsContestantsResultsNotesOpen(item)"
           >
             <template v-if="!!item.note">
-              Endre notat
+              {{ item.note }}
+              <!-- Endre notat -->
             </template>
 
             <template v-else>
@@ -217,7 +221,7 @@
       </template>
 
       <template v-slot:header.hits>
-        <div class="mx-auto w-full max-w-sm flex justify-start">
+        <div class="hits-column flex-none flex justify-start">
           <span
             v-for="h in Array.from({ length: 13 }, (_, i) => i + 1)"
             :key="h"
@@ -375,28 +379,27 @@ export default {
 
       const sorted = [ ...this.eventsContestantsStateList ]
         .sort((a, b) => {
-          // if(a.total === b.total) {
+          if(a.total > 0 && b.total > 0 && a.total === b.total) {
+            const ca: Record<string, number> = {}
+            a.hits.forEach(({ sum }) => {
+              if(!ca[sum]) ca[sum] = 1
+              else ca[sum] += 1
+            })
 
-          //   const ca: Record<string, number> = {}
-          //   a.hits.forEach(({ sum }) => {
-          //     if(!ca[sum]) ca[sum] = 1
-          //     else ca[sum] += 1
-          //   })
+            const cb: Record<string, number> = {}
+            b.hits.forEach(({ sum }) => {
+              if(!cb[sum]) cb[sum] = 1
+              else cb[sum] += 1
+            })
 
-          //   const cb: Record<string, number> = {}
-          //   b.hits.forEach(({ sum }) => {
-          //     if(!cb[sum]) cb[sum] = 1
-          //     else cb[sum] += 1
-          //   })
+            const aaa = Math.max(...Object.keys(ca).map(Number))
+            const bbb = Math.max(...Object.keys(cb).map(Number))
 
-          //   console.log(`${a.total} - ${b.total}`)
-
-          //   console.log(ca)
-          //   console.log(cb)
-          //   console.log("-----------")
-
-          //   // console.log("Qweqwe")
-          // }
+            if(bbb === aaa) {
+              return cb[bbb] - ca[aaa]
+            }
+            return bbb - aaa
+          }
 
           return b.total - a.total
         })

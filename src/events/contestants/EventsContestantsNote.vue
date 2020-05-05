@@ -28,16 +28,14 @@
       </v-btn>
     </template>
 
-    <v-textarea
+    <v-text-field
       v-if="hasContestant"
       v-model="note"
       :placeholder="this.$t('placeholder')"
       hide-details
       data-testid="eventsContestantsResultsNotesEditInput"
       class="-mt-6 pt-0"
-      auto-grow
       autofocus
-      light
     />
   </action-dialog>
 </template>
