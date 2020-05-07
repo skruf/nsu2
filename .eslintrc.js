@@ -55,6 +55,9 @@ module.exports = {
     "@typescript-eslint/no-var-requires": 0,
     "array-bracket-spacing": 0,
     "comma-dangle": 0,
-    "@typescript-eslint/member-delimiter-style": 0
+    "@typescript-eslint/member-delimiter-style": 0,
+    "vue/no-parsing-error": [2, {
+      "invalid-first-character-of-tag-name": false
+    }]
   }
 }

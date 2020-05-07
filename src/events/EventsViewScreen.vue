@@ -17,8 +17,10 @@
     "results": "Results",
     "eventsRemoveOneConfirmation": "This will remove %{eventTitle} permanently. Continue?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} was removed from the database",
-    "printResultsDeadline": "With a deadline",
-    "printResultsFinal": "Final results"
+    "deadlineTitle": "Deadline",
+    "deadlineFinal": "Final results",
+    "printResultsDeadline": "With deadline",
+    "printResultsFinal": "Without deadline"
   },
   "no": {
     "breadcrumb1Label": "Stevner",
@@ -37,8 +39,10 @@
     "results": "Resultater",
     "eventsRemoveOneConfirmation": "Dette vil fjerne %{eventTitle} permanent. Fortsette?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} ble fjernet fra databasen",
+    "deadlineTitle": "Klagefrist",
+    "deadlineFinal": "Endelige resultater",
     "printResultsDeadline": "Med klagefrist",
-    "printResultsFinal": "Endelige resultater"
+    "printResultsFinal": "Uten klagefrist"
   }
 }
 </i18n>
@@ -85,7 +89,7 @@
           class="hidden print:block text-base leading-none ml-8 print:text-sm"
         >
           <div class="mb-px pb-px text-sm opacity-75 print:text-xs">
-            {{ $t("printResultsDeadline") }}
+            {{ $t("deadlineTitle") }}
           </div>
 
           <div v-if="printMode === 'resultsDeadline'">
@@ -93,7 +97,7 @@
           </div>
 
           <div v-if="printMode === 'resultsFinal'">
-            {{ $t("printResultsFinal") }}
+            {{ $t("deadlineFinal") }}
           </div>
         </div>
 

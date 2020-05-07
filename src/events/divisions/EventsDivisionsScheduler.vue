@@ -56,6 +56,7 @@
 .cell,
 .time {
   min-height: 5rem;
+  break-before: page;
 }
 
 .top-left-corner {

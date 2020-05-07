@@ -46,9 +46,10 @@ const schema: RxJsonSchema = {
       type: "number",
       index: true
     },
-    note: {
-      type: "string",
-      default: ""
+    measurement: {
+      type: "number",
+      default: 0,
+      index: true
     },
     weaponId: {
       type: "string",
