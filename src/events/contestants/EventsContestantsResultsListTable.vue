@@ -52,6 +52,9 @@
   .results-hits {
     display: block !important;
   }
+  html .results-table .result-club {
+    margin-left: 0 !important;
+  }
 }
 </style>
 
@@ -136,7 +139,7 @@
             :colour="item.colour"
             :value="item.number"
           />
-          <div class="ml-2 hidden print:inline-block">
+          <div class="ml-2 hidden print:ml-0 print:inline-block result-club">
             {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
           </div>
         </div>

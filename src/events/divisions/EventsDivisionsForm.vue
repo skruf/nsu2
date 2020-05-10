@@ -99,11 +99,11 @@
       required
     />
 
-    <!-- <v-switch
+    <v-switch
       v-model="value.autoAssign"
       :label="$t('eventsDivisionsFormAutoAssignLabel')"
       data-testid="eventsDivisionsFormAutoAssignSwitch"
-    /> -->
+    />
   </v-form>
 </template>
 
