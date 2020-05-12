@@ -69,7 +69,7 @@
       sort-by="startsAt"
       sort-desc
       data-testid="eventsListTable"
-      class="clickable"
+      class="clickable no-print-first-td no-print-last-td"
       @click:row="click"
     >
       <template v-slot:item.title="{ item }">

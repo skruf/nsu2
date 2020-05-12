@@ -186,7 +186,7 @@
         <v-btn
           icon
           data-testid="eventsPrintButton"
-          @click="print"
+          @click="$print"
         >
           <v-icon>print</v-icon>
         </v-btn>
@@ -398,14 +398,12 @@ export default Vue.extend({
 
     printDivisionSchedule(): void {
       this.printMode = "divisionSchedule"
-      this.print()
+      this.$print()
     },
 
     printDivisionStickers(): void {
       this.printMode = "divisionStickers"
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     },
 
     printResultsDeadline(): void {
@@ -414,16 +412,12 @@ export default Vue.extend({
         .add("1", "hour")
         .format("HH:MM")
 
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     },
 
     printResultsFinal(): void {
       this.printMode = "resultsFinal"
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     }
   }
 })

@@ -19,8 +19,6 @@ const createWindow = async () => {
     defaultHeight: 1000
   })
 
-  // console.log(`${__dirname}/preload.js`)
-
   win = new BrowserWindow({
     height: state.height,
     width: state.width,
@@ -166,11 +164,16 @@ ipcMain.on("APP_STARTED", () => {
 })
 
 ipcMain.on("PRINT_WINDOW", (event, fileName) => {
-  const options = { landscape: true }
+  const options = {
+    landscape: true,
+    margins: { top: 0, bottom: 0, left: 0, right: 0 }
+  }
+
   win.webContents.printToPDF(options, (error, data) => {
     if(error) throw error
     const documents = app.getPath("documents")
     const options = { defaultPath: `${documents}/${fileName}.pdf` }
+
     dialog.showSaveDialog(win, options, (path) => {
       if(!path) return
       fs.writeFile(path, data, (error) => {

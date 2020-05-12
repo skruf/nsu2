@@ -1,8 +1,10 @@
-import config from "../app.config"
+// import config from "../app.config"
 
 export default (): void => {
-  if(config.runtime === "web") {
-    window.print()
-  } else {
-  }
+  setTimeout(window.print)
+  // if(config.runtime === "web") {
+  //   window.print()
+  // } else {
+  //   window.ipc.send("PRINT_WINDOW", "test")
+  // }
 }

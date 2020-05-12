@@ -66,7 +66,7 @@
       <v-btn
         icon
         data-testid="rangesViewPrintButton"
-        @click="print"
+        @click="$print"
       >
         <v-icon>print</v-icon>
       </v-btn>
