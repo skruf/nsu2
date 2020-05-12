@@ -1,6 +1,6 @@
 {
   "name": "nsu-stevnebehandler",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Thomas Laaver <tholav@gmail.com>",
   "description": "Resultat- og stevne- behandler",
   "private": true,
