@@ -56,6 +56,7 @@
 .cell,
 .time {
   min-height: 5rem;
+  break-before: page;
 }
 
 .top-left-corner {
@@ -172,6 +173,10 @@
   .cell {
     @apply border-border border-r border-b border-solid;
   }
+  .top-left-corner,
+  .time {
+    @apply border-l;
+  }
   .time:last-child,
   .cell:last-child {
     border-radius: 0;
@@ -201,8 +206,12 @@
   .add-cell .v-icon {
     display: none;
   }
-  .time span {
+  .time span,
+  .lane span {
     opacity: 1 !important;
+  }
+  .cell > * {
+    font-size: 12px;
   }
 }
 </style>
@@ -213,7 +222,7 @@
 }
 
 .unassigned-search-filter .v-input__slot {
-  @apply px-4 py-1;
+  @apply px-4 pt-1 pb-2;
 }
 
 .unassigned-search-filter .v-label {

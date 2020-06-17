@@ -30,6 +30,10 @@
 </i18n>
 
 <style>
+.hits-column {
+  @apply mx-auto w-full;
+  max-width: 24rem !important;
+}
 .results-table td:not(.table-group-header):nth-child(3),
 .results-table th:not(.table-group-header):nth-child(3) {
   display: none;
@@ -47,6 +51,9 @@
   }
   .results-hits {
     display: block !important;
+  }
+  html .results-table .result-club {
+    margin-left: 0 !important;
   }
 }
 </style>
@@ -117,7 +124,11 @@
     >
       <template v-slot:item.rank="{ item }">
         <div class="font-bold text-black">
-          {{ item.rank }}
+          {{
+            item.hits.length &lt; 10
+              ? item.hits.length === 0 ? "DNS" : "DNF"
+              : item.rank
+          }}
         </div>
       </template>
 
@@ -128,7 +139,7 @@
             :colour="item.colour"
             :value="item.number"
           />
-          <div class="ml-2 hidden print:inline-block">
+          <div class="ml-2 hidden print:ml-0 print:inline-block result-club">
             {{ item.clubMember.firstName }} {{ item.clubMember.lastName }}
           </div>
         </div>
@@ -140,7 +151,6 @@
 
       <template v-slot:item.weaponId="{ item }">
         {{ item.weapon.name }}
-        <!-- ({{ item.condition.charAt(0) }}) -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">
@@ -150,7 +160,7 @@
       </template>
 
       <template v-slot:item.hits="{ item }">
-        <div class="mx-auto w-full max-w-sm">
+        <div class="hits-column">
           <v-btn
             v-if="item.hits && item.hits.length"
             text
@@ -191,33 +201,37 @@
         </span>
       </template>
 
-      <template v-slot:item.note="{ item }">
-        <div class="flex justify-end">
-          <div class="hidden print:block">
-            {{ item.note }}
+      <template v-slot:item.measurement="{ item }">
+        <div class="text-center">
+          <div
+            v-if="!!item.measurement"
+            class="hidden print:block"
+          >
+            {{ item.measurement }}<small class="-mb-1">mm</small>
           </div>
 
           <v-btn
             text
             small
             color="primary"
-            class="-mr-3"
-            data-testid="eventsContestantsResultsNotesOpenButton"
-            @click="eventsContestantsResultsNotesOpen(item)"
+            data-testid="eventsContestantsResultsMeasurementOpenButton"
+            @click="eventsContestantsResultsMeasurementOpen(item)"
           >
-            <template v-if="!!item.note">
-              Endre notat
+            <template v-if="!!item.measurement">
+              {{ item.measurement }}<small class="-mb-1">mm</small>
             </template>
 
             <template v-else>
-              Legg til notat
+              <v-icon small>
+                add
+              </v-icon>
             </template>
           </v-btn>
         </div>
       </template>
 
       <template v-slot:header.hits>
-        <div class="mx-auto w-full max-w-sm flex justify-start">
+        <div class="hits-column flex-none flex justify-start">
           <span
             v-for="h in Array.from({ length: 13 }, (_, i) => i + 1)"
             :key="h"
@@ -274,17 +288,18 @@
       </template>
     </v-data-table>
 
-    <events-contestants-note
-      :shown.sync="eventsContestantsResultsNotesShown"
+    <events-contestants-measurement
+      :shown.sync="eventsContestantsResultsMeasurementShown"
     />
   </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue"
 import { mapState, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
-import EventsContestantsNote
-  from "./EventsContestantsNote.vue"
+import EventsContestantsMeasurement
+  from "./EventsContestantsMeasurement.vue"
 import EventsContestantsFilterDivisions
   from "./EventsContestantsFilterDivisions.vue"
 import EventsContestantsFilterWeapons
@@ -292,11 +307,11 @@ import EventsContestantsFilterWeapons
 import EventsDivisionsLabel
   from "../divisions/EventsDivisionsLabel.vue"
 
-export default {
+export default Vue.extend({
   name: "EventsContestantsResultsListTable",
 
   components: {
-    EventsContestantsNote,
+    EventsContestantsMeasurement,
     Avatar,
     EventsContestantsFilterDivisions,
     EventsContestantsFilterWeapons,
@@ -309,7 +324,7 @@ export default {
 
   data() {
     return {
-      eventsContestantsResultsNotesShown: false,
+      eventsContestantsResultsMeasurementShown: false,
       eventsContestantsTableFilter: {
         weaponIds: [],
         clubIds: [],
@@ -351,10 +366,10 @@ export default {
         sortable: false,
         align: "center"
       }, {
-        value: "note",
-        text: "Notat",
+        value: "measurement",
+        text: "Mål",
         sortable: false,
-        align: "right",
+        align: "center",
         width: 80
       }]
     }
@@ -375,28 +390,32 @@ export default {
 
       const sorted = [ ...this.eventsContestantsStateList ]
         .sort((a, b) => {
-          // if(a.total === b.total) {
+          if(a.total > 0 && b.total > 0 && a.total === b.total) {
+            const aHitCount: Record<string, number> = {}
+            a.hits.forEach(({ sum }) => {
+              if(!aHitCount[sum]) aHitCount[sum] = 1
+              else aHitCount[sum] += 1
+            })
 
-          //   const ca: Record<string, number> = {}
-          //   a.hits.forEach(({ sum }) => {
-          //     if(!ca[sum]) ca[sum] = 1
-          //     else ca[sum] += 1
-          //   })
+            const bHitCount: Record<string, number> = {}
+            b.hits.forEach(({ sum }) => {
+              if(!bHitCount[sum]) bHitCount[sum] = 1
+              else bHitCount[sum] += 1
+            })
 
-          //   const cb: Record<string, number> = {}
-          //   b.hits.forEach(({ sum }) => {
-          //     if(!cb[sum]) cb[sum] = 1
-          //     else cb[sum] += 1
-          //   })
+            const aBiggestHit = Math.max(...Object.keys(aHitCount).map(Number))
+            const bBiggestHit = Math.max(...Object.keys(bHitCount).map(Number))
 
-          //   console.log(`${a.total} - ${b.total}`)
+            if(bBiggestHit === aBiggestHit) {
+              const measurementDelta = b.measurement - a.measurement
 
-          //   console.log(ca)
-          //   console.log(cb)
-          //   console.log("-----------")
+              return measurementDelta === 0
+                ? bHitCount[bBiggestHit] - aHitCount[aBiggestHit]
+                : measurementDelta
+            }
 
-          //   // console.log("Qweqwe")
-          // }
+            return bBiggestHit - aBiggestHit
+          }
 
           return b.total - a.total
         })
@@ -440,8 +459,8 @@ export default {
       this.$emit("eventsContestantsResultsInputDialogOpen", contestant)
     },
 
-    eventsContestantsResultsNotesOpen(contestant): void {
-      this.eventsContestantsResultsNotesShown = true
+    eventsContestantsResultsMeasurementOpen(contestant): void {
+      this.eventsContestantsResultsMeasurementShown = true
       this.eventsContestantsMutationsSelect(contestant)
     },
 
@@ -467,5 +486,5 @@ export default {
         : true
     }
   }
-}
+})
 </script>

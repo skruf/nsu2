@@ -83,7 +83,6 @@ export default Vue.extend({
     value: {
       deep: true,
       handler(data): void {
-        data.calibre = parseInt(data.calibre)
         this.$emit("input", data)
       }
     }

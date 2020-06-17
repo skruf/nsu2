@@ -1,12 +1,12 @@
 {
-  "name": "Stevnebehandler",
-  "version": "1.1.0",
+  "name": "nsu-stevnebehandler",
+  "version": "2.0.1",
   "author": "Thomas Laaver <tholav@gmail.com>",
   "description": "Resultat- og stevne- behandler",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "github:skruf/nsu"
+    "url": "github:skruf/nsu2"
   },
   "main": "main.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "web:test:e2e": "vue-cli-service test:e2e",
     "web:pack:staging": "yarn run build:staging",
     "web:pack:prod": "yarn run build:prod",
-    "app:dev": "concurrently 'vue-cli-service serve' 'electron .'",
+    "app:dev": "concurrently 'vue-cli-service serve' 'NODE_ENV=development electron .'",
     "app:pack:staging": "yarn run build:staging && yarn run app:pack",
     "app:pack:prod": "yarn run build:prod && yarn run app:pack",
     "app:deploy:linux": "yarn run build:prod && yarn run app:publish -- --linux",

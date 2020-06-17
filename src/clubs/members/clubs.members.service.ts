@@ -15,7 +15,6 @@ const populate = async (doc: ClubsMembersDocument): Promise<ClubsMembersProperti
   return member
 }
 
-// Filter<ClubsMembersProperties>
 const list = async (filter: ClubsMembersProperties): Promise<{
   items: ClubsMembersProperties[],
   count: number

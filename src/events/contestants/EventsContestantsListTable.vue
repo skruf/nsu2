@@ -113,7 +113,9 @@
       :show-group-by="false"
       :group-by="eventsContestantsTableGroupBy"
       :items-per-page="100"
-      sort-by="time"
+      :sort-by="[ 'divisionId', 'time', 'stand' ]"
+      :sort-desc="[ false, false, false ]"
+      multi-sort
       data-testid="eventsContestantsListTable"
       class="no-print-first-td no-print-last-td"
     >
@@ -133,7 +135,6 @@
 
       <template v-slot:item.weaponId="{ item }">
         {{ item.weapon.name }}
-        <!-- ({{ item.condition.charAt(0) }}) -->
       </template>
 
       <template v-slot:item.divisionId="{ item }">

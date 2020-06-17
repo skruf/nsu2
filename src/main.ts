@@ -17,7 +17,7 @@ import config from "./app.config"
 Vue.config.productionTip = false
 
 Vue.prototype.openExternalUrl = openExternalUrlUtil
-Vue.prototype.print = printUtil
+Vue.prototype.$print = printUtil
 
 Vue.use(Dayjs)
 Vue.use(Toasted)

@@ -1,12 +1,12 @@
 <i18n>
 {
   "en": {
-    "title": "Add a note",
-    "placeholder": "Enter a note"
+    "title": "Set measurement",
+    "placeholder": "Enter a number (mm)"
   },
   "no": {
-    "title": "Legg til notat",
-    "placeholder": "Skriv inn et notat"
+    "title": "Sett mål",
+    "placeholder": "Skriv inn ett tall (mm)"
   }
 }
 </i18n>
@@ -20,9 +20,9 @@
     <template v-slot:actions>
       <v-btn
         text
-        data-testid="eventsContestantsResultsNotesSubmitEditButton"
+        data-testid="eventsContestantsResultsMeasurementSubmitEditButton"
         :loading="eventsContestantsEditOneIsLoading"
-        @click="submit(note)"
+        @click="submit(measurement)"
       >
         {{ $t("save") }}
       </v-btn>
@@ -30,11 +30,13 @@
 
     <v-text-field
       v-if="hasContestant"
-      v-model="note"
+      v-model="measurement"
       :placeholder="this.$t('placeholder')"
+      :min="0"
       hide-details
-      data-testid="eventsContestantsResultsNotesEditInput"
+      data-testid="eventsContestantsResultsMeasurementEditInput"
       class="-mt-6 pt-0"
+      type="number"
       autofocus
     />
   </action-dialog>
@@ -46,7 +48,7 @@ import { mapActions, mapState } from "vuex"
 import ActionDialog from "@/components/ActionDialog.vue"
 
 export default Vue.extend({
-  name: "EventsContestantsNotes",
+  name: "EventsContestantsMeasurements",
 
   components: {
     ActionDialog
@@ -59,7 +61,7 @@ export default Vue.extend({
   data() {
     return {
       visible: this.shown,
-      note: ""
+      measurement: 0
     }
   },
 
@@ -78,7 +80,7 @@ export default Vue.extend({
       this.$emit("update:shown", visible)
     },
     shown(visible): void {
-      this.note = this.eventsContestantsStateSelected.note
+      this.measurement = this.eventsContestantsStateSelected.measurement
       this.visible = visible
     }
   },
@@ -87,10 +89,10 @@ export default Vue.extend({
     ...mapActions("events/contestants", {
       eventsContestantsActionsEditOne: "editOne"
     }),
-    async submit(note: string): Promise<void> {
+    async submit(measurement: string): Promise<void> {
       await this.eventsContestantsActionsEditOne({
         ...this.eventsContestantsStateSelected,
-        note
+        measurement: parseInt(measurement) || 0
       })
       this.close()
     },

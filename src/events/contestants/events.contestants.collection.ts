@@ -23,7 +23,8 @@ const schema: RxJsonSchema = {
     "clubMemberId",
     "divisionId",
     "time",
-    "stand"
+    "stand",
+    "measurement"
   ],
   properties: {
     id: {
@@ -54,9 +55,9 @@ const schema: RxJsonSchema = {
     total: {
       type: "number"
     },
-    note: {
-      type: "string",
-      default: ""
+    measurement: {
+      type: "number",
+      default: 0
     },
     weaponId: {
       type: "string",
@@ -115,7 +116,7 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
   const contestantsNextNumber = await db.events_contestants
     .find({
       selector: { eventId: data.eventId },
-      sort: [{ number: "asc" }],
+      sort: [{ number: "desc" }],
       limit: 1
     })
     .exec()

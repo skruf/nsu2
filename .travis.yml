@@ -1,9 +1,9 @@
 matrix:
   include:
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11.4
       language: node_js
-      node_js: "10"
+      node_js: "12"
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -20,7 +20,7 @@ matrix:
       language: generic
 
 cache:
-  npm: true
+  yarn: true
   directories:
     - node_modules
     - $HOME/.cache/electron
@@ -35,19 +35,19 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "npm install --link-duplicates --pure-lockfile && npm run publish:win"
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn run app:deploy:win"
     elif [ "$TRAVIS_OS_NAME" == "windows" ]; then
-      npm install;
-      npm run publish:win;
+      yarn;
+      yarn run app:deploy:win;
     else
-      security create-keychain -p $MAC_KEYCHAIN_PASSWORD build.keychain;
-      security default-keychain -s build.keychain;
-      security unlock-keychain -p $MAC_KEYCHAIN_PASSWORD build.keychain;
-      echo $MAC_DEVELOPER_CERT | base64 --decode - > keystore.p12;
-      security import keystore.p12 -k build.keychain -P $MAC_KEYCHAIN_PASSWORD -T /usr/bin/codesign;
-      security set-key-partition-list -S apple-tool:,apple: -s -k $MAC_KEYCHAIN_PASSWORD build.keychain;
-      npm install;
-      npm run publish:mac;
+      # security create-keychain -p $MAC_KEYCHAIN_PASSWORD build.keychain;
+      # security default-keychain -s build.keychain;
+      # security unlock-keychain -p $MAC_KEYCHAIN_PASSWORD build.keychain;
+      # echo $MAC_DEVELOPER_CERT | base64 --decode - > keystore.p12;
+      # security import keystore.p12 -k build.keychain -P $MAC_KEYCHAIN_PASSWORD -T /usr/bin/codesign;
+      # security set-key-partition-list -S apple-tool:,apple: -s -k $MAC_KEYCHAIN_PASSWORD build.keychain;
+      yarn;
+      yarn run app:deploy:mac;
     fi
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine

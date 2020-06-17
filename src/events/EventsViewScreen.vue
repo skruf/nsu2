@@ -17,8 +17,10 @@
     "results": "Results",
     "eventsRemoveOneConfirmation": "This will remove %{eventTitle} permanently. Continue?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} was removed from the database",
-    "printResultsDeadline": "With a deadline",
-    "printResultsFinal": "Final results"
+    "deadlineTitle": "Deadline",
+    "deadlineFinal": "Final results",
+    "printResultsDeadline": "With deadline",
+    "printResultsFinal": "Without deadline"
   },
   "no": {
     "breadcrumb1Label": "Stevner",
@@ -37,8 +39,10 @@
     "results": "Resultater",
     "eventsRemoveOneConfirmation": "Dette vil fjerne %{eventTitle} permanent. Fortsette?",
     "eventsActionsRemoveOneSuccess": "%{eventTitle} ble fjernet fra databasen",
+    "deadlineTitle": "Klagefrist",
+    "deadlineFinal": "Endelige resultater",
     "printResultsDeadline": "Med klagefrist",
-    "printResultsFinal": "Endelige resultater"
+    "printResultsFinal": "Uten klagefrist"
   }
 }
 </i18n>
@@ -85,7 +89,7 @@
           class="hidden print:block text-base leading-none ml-8 print:text-sm"
         >
           <div class="mb-px pb-px text-sm opacity-75 print:text-xs">
-            {{ $t("printResultsDeadline") }}
+            {{ $t("deadlineTitle") }}
           </div>
 
           <div v-if="printMode === 'resultsDeadline'">
@@ -93,7 +97,7 @@
           </div>
 
           <div v-if="printMode === 'resultsFinal'">
-            {{ $t("printResultsFinal") }}
+            {{ $t("deadlineFinal") }}
           </div>
         </div>
 
@@ -182,7 +186,7 @@
         <v-btn
           icon
           data-testid="eventsPrintButton"
-          @click="print"
+          @click="$print"
         >
           <v-icon>print</v-icon>
         </v-btn>
@@ -394,16 +398,12 @@ export default Vue.extend({
 
     printDivisionSchedule(): void {
       this.printMode = "divisionSchedule"
-      // this.$nextTick(() => {
-      this.print()
-      // })
+      this.$print()
     },
 
     printDivisionStickers(): void {
       this.printMode = "divisionStickers"
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     },
 
     printResultsDeadline(): void {
@@ -412,16 +412,12 @@ export default Vue.extend({
         .add("1", "hour")
         .format("HH:MM")
 
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     },
 
     printResultsFinal(): void {
       this.printMode = "resultsFinal"
-      this.$nextTick(() => {
-        this.print()
-      })
+      this.$print()
     }
   }
 })

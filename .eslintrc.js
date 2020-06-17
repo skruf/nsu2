@@ -47,7 +47,6 @@ module.exports = {
     "quotes": [ 0 ],
     "space-before-function-paren": 0,
     "keyword-spacing": 0,
-    "no-console": 0,
     "padded-blocks": 0,
     "no-unused-vars": "warn",
     "no-trailing-spaces": "warn",
@@ -56,6 +55,9 @@ module.exports = {
     "array-bracket-spacing": 0,
     "comma-dangle": 0,
     "@typescript-eslint/member-delimiter-style": 0,
-    "camelcase": 0
+    "camelcase": 0,
+    "vue/no-parsing-error": [2, {
+      "invalid-first-character-of-tag-name": false
+    }]
   }
 }

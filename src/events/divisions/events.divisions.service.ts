@@ -22,11 +22,16 @@ const autoAssign = async (data: EventsDivisionsProperties): Promise<void> => {
     return doc
   }
 
+  // check time of day, not across the entire event
+  // @TODO: assigns wrong stands..
+
   const assignedContestants = await findMany<EventsContestantsDocument>(
     db.events_contestants,
     {
       eventId: data.eventId,
-      divisionId: data.id
+      divisionId: data.id,
+      // day: data.day,
+      time: data.startsAt
     }
   )
 

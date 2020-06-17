@@ -14,10 +14,9 @@
     hide-details
     clearable
     append-icon="expand_more"
+    class="table-filter-select"
   >
-    <!-- deletable-chips -->
     <template v-slot:selection="{ item, index }">
-      <!-- close -->
       <v-chip
         v-if="index === 0"
         small

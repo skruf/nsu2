@@ -5,5 +5,5 @@ export default {
   distance: 0,
   standsCount: 0,
   eventId: "",
-  autoAssign: true
+  autoAssign: false
 }

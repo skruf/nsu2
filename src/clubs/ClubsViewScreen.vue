@@ -77,7 +77,7 @@
       <v-btn
         icon
         data-testid="eventsListPrintButton"
-        @click="print"
+        @click="$print"
       >
         <v-icon>print</v-icon>
       </v-btn>

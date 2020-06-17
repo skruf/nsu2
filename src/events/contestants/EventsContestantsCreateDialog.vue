@@ -332,7 +332,7 @@ export default Vue.extend({
         clubMemberId: this.selectedClubsMemberId,
         eventId: this.event.id,
         weaponId,
-        calibre: parseInt(calibre)
+        calibre: calibre
       }))
 
       try {

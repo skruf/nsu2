@@ -15,7 +15,7 @@ export declare interface EventsContestantsProperties {
   condition: string
   hits: { hit: number, sum: number }[]
   total: number
-  note: string
+  measurement: number
   weaponId: string
   eventId: string
   divisionId: string
