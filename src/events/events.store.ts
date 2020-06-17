@@ -5,7 +5,7 @@ const state = {}
 const mutations = {}
 
 const actions = {
-  list: async ({ commit, state }, filter = {}): Promise<void> => {
+  list: async ({ commit, state }, filter: any = {}): Promise<void> => {
     commit("SET_LIST_LOADING", true)
     const results = await eventsService.list(filter)
     commit("SET_LIST", results.items)

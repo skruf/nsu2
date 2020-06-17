@@ -1,16 +1,18 @@
 // import { queryHelperUtil } from "@/utils"
 import _cloneDeep from "lodash.clonedeep"
 
-interface Options {
-  list?: Function,
-  select?: Function,
-  create?: Function,
-  createMany?: Function,
-  removeOne?: Function,
-  removeMany?: Function,
-  editOne?: Function,
-  editMany?: Function
-}
+// interface Options {
+//   list?: Function,
+//   select?: Function,
+//   create?: Function,
+//   createMany?: Function,
+//   removeOne?: Function,
+//   removeMany?: Function,
+//   editOne?: Function,
+//   editMany?: Function
+// }
+
+type Options = any
 
 interface Model {
   id: string
@@ -53,19 +55,19 @@ interface Mutations {
 }
 
 interface StateContext {
-  commit: Function,
+  commit: any,
   state?: State
 }
 
 interface Actions {
   list?: (ctx: StateContext, filter?: any) => Promise<any[]>
   select?: (ctx: StateContext, filter?: any) => Promise<any>
-  create?: (ctx: StateContext, item: object) => Promise<any>
-  createMany?: (ctx: StateContext, items: object[]) => Promise<any[]>
-  removeOne?: (ctx: StateContext, item: object) => Promise<boolean>
-  removeMany?: (ctx: StateContext, items: object[]) => Promise<boolean>
-  editOne?: (ctx: StateContext, item: object) => Promise<any>
-  editMany?: (ctx: StateContext, items: object[]) => Promise<any>
+  create?: (ctx: StateContext, item: Record<string, unknown>) => Promise<any>
+  createMany?: (ctx: StateContext, items: Record<string, unknown>[]) => Promise<any[]>
+  removeOne?: (ctx: StateContext, item: Record<string, unknown>) => Promise<boolean>
+  removeMany?: (ctx: StateContext, items: Record<string, unknown>[]) => Promise<boolean>
+  editOne?: (ctx: StateContext, item: Record<string, unknown>) => Promise<any>
+  editMany?: (ctx: StateContext, items: Record<string, unknown>[]) => Promise<any>
 }
 
 const defaultOptions = {}

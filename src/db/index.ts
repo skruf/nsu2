@@ -1,6 +1,8 @@
-import RxDB, { RxDatabase, RxCollectionCreator } from "rxdb"
-import RxDBSchemaCheckModule from "rxdb/plugins/schema-check"
-import RxDBErrorMessagesModule from "rxdb/plugins/error-messages"
+import {
+  createRxDatabase,
+  addRxPlugin,
+  RxCollectionCreator
+} from "rxdb"
 import router from "@/router"
 import config from "@/app.config"
 import rangesCollection from "@/ranges/ranges.collection"
@@ -18,6 +20,11 @@ import eventsDivisionsCollection
 import eventsContestantsCollection
   from "@/events/contestants/events.contestants.collection"
 
+import { Database } from "./db.types"
+
+import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder"
+addRxPlugin(RxDBQueryBuilderPlugin)
+
 export const collections = [
   rangesCollection,
   clubsCollection,
@@ -29,26 +36,25 @@ export const collections = [
   eventsContestantsCollection
 ]
 
-export type Database = RxDatabase | null
-
-RxDB.plugin(RxDBErrorMessagesModule)
-RxDB.plugin(RxDBSchemaCheckModule)
+if(config.env !== "production") {
+  addRxPlugin(require("rxdb/plugins/dev-mode").RxDBDevModePlugin)
+}
 
 let adapter: string
 
 if(config.env !== "production" || process.env.VUE_APP_SEED) {
   adapter = "memory"
-  RxDB.plugin(require("pouchdb-adapter-memory"))
+  addRxPlugin(require("pouchdb-adapter-memory"))
 } else {
   adapter = "idb"
-  RxDB.plugin(require("pouchdb-adapter-idb"))
+  addRxPlugin(require("pouchdb-adapter-idb"))
 }
 
 interface CollectionConfig {
   collection: RxCollectionCreator,
   middlewares?: {
     [key: string]: {
-      handle: Function,
+      handle: (data: any) => Promise<void>,
       parallel: boolean
     }
   }
@@ -61,11 +67,16 @@ const configureCollection = async (
   if(!db) return
 
   const timestamp = { type: "string", format: "date-time" }
-  config.collection.schema.properties.updatedAt = timestamp
-  config.collection.schema.properties.createdAt = {
-    ...timestamp,
-    index: true
+
+  if(!config.collection.schema.indexes) {
+    config.collection.schema.indexes = []
   }
+
+  config.collection.schema.indexes.push("createdAt")
+  config.collection.schema.indexes.push("updatedAt")
+
+  config.collection.schema.properties.createdAt = timestamp
+  config.collection.schema.properties.updatedAt = timestamp
 
   const collection = await db.collection(config.collection)
 
@@ -81,12 +92,12 @@ export const init = async (): Promise<Database> => {
   if(db !== null) return db
 
   try {
-    db = await RxDB.create<Database>({
+    db = await createRxDatabase<Database>({
       name: "nsu",
       adapter: adapter,
       password: "nsu2020nsu2020nsu2020",
       multiInstance: false,
-      queryChangeDetection: true
+      eventReduce: true
     })
 
     await Promise.all(collections.map(

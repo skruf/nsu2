@@ -173,7 +173,7 @@ export default Vue.extend({
       this.setHit(this.currentHit, this.currentSum)
     },
 
-    getHit(hit): object {
+    getHit(hit) {
       const i = this.hits.findIndex((h) => h.hit === hit)
       return this.hits[i]
     },

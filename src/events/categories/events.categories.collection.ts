@@ -7,14 +7,16 @@ const schema: RxJsonSchema = {
   description: "Events categories",
   version: 0,
   type: "object",
+  indexes: [
+    "name"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     name: {
-      type: "string",
-      index: true
+      type: "string"
     }
   },
   required: [
@@ -24,7 +26,7 @@ const schema: RxJsonSchema = {
 
 const preRemove = async (data: EventsCategoriesProperties): Promise<void> => {
   await db.events_contestants
-    .find({ categoryId: data.id })
+    .find({ selector: { categoryId: data.id } })
     .update({ $set: { categoryId: undefined } })
 }
 

@@ -2,6 +2,7 @@ import {
   insert, findMany, findOne,
   destroyOne, destroyMany, updateOne
 } from "@/db/queries"
+import { db } from "@/db"
 import { filterInputUtil } from "@/utils"
 import eventsStub from "./events.stub"
 import { EventsDocument, EventsProperties } from "./events.types"
@@ -17,12 +18,12 @@ const populate = async (doc: EventsDocument): Promise<EventsProperties> => {
   return event
 }
 
-const list = async (filter: EventsProperties | {}): Promise<{
+const list = async (filter: EventsProperties): Promise<{
   items: EventsProperties[],
   count: number
 }> => {
-  const { items, count } = await findMany<EventsDocument>("events", filter)
-  const populated = await Promise.all(items.map((doc) => populate(doc)))
+  const { items, count } = await findMany<EventsDocument>(db.events, filter)
+  const populated = await Promise.all(items.map(populate))
   return {
     items: populated,
     count
@@ -30,7 +31,7 @@ const list = async (filter: EventsProperties | {}): Promise<{
 }
 
 const select = async (filter: EventsProperties): Promise<EventsProperties> => {
-  const doc = await findOne<EventsDocument>("events", filter, false)
+  const doc = await findOne<EventsDocument>(db.events, filter, false)
   if(!doc) return null
   const event = await populate(doc)
   return event
@@ -38,26 +39,26 @@ const select = async (filter: EventsProperties): Promise<EventsProperties> => {
 
 const create = async (item: EventsProperties): Promise<EventsProperties> => {
   const data = filterInputUtil<EventsProperties, any>(item, eventsStub)
-  const doc = await insert<EventsDocument>("events", data, false)
+  const doc = await insert<EventsDocument>(db.events, data, false)
   const event = await populate(doc)
   return event
 }
 
 const removeOne = async (event: { id: string }): Promise<true> => {
-  await destroyOne<EventsProperties>("events", { id: event.id })
+  await destroyOne<EventsProperties>(db.events, { id: event.id })
   return true
 }
 
 const removeMany = async (items: { id: string }[]): Promise<true> => {
   const filter = { id: { $in: items.map(({ id }) => id) } }
-  await destroyMany<any>("events", filter)
+  await destroyMany<any>(db.events, filter)
   return true
 }
 
 const editOne = async (item: EventsProperties): Promise<EventsProperties> => {
   const filter = { id: item.id }
   const data = filterInputUtil<EventsProperties, any>(item, eventsStub)
-  const doc = await updateOne<EventsDocument>("events", filter, data, false)
+  const doc = await updateOne<EventsDocument>(db.events, filter, data, false)
   const result = await populate(doc)
   return result
 }

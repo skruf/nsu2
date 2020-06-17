@@ -7,18 +7,21 @@ const schema: RxJsonSchema<ClubsSchema> = {
   description: "Clubs",
   version: 0,
   type: "object",
+  indexes: [
+    "name",
+    "shortName",
+    "zipCode"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     name: {
-      type: "string",
-      index: true
+      type: "string"
     },
     shortName: {
-      type: "string",
-      index: true
+      type: "string"
     },
     leaderFullName: {
       type: "string"
@@ -33,8 +36,7 @@ const schema: RxJsonSchema<ClubsSchema> = {
       type: "string"
     },
     zipCode: {
-      type: "string",
-      index: true
+      type: "string"
     },
     area: {
       type: "string"
@@ -60,11 +62,11 @@ const schema: RxJsonSchema<ClubsSchema> = {
 
 const preRemove = async (data: ClubsProperties): Promise<void> => {
   await db.events
-    .find({ organizerId: data.id })
+    .find({ selector: { organizerId: data.id } })
     .update({ $set: { organizerId: undefined } })
 
   await db.clubs_members
-    .find({ clubId: data.id })
+    .find({ selector: { clubId: data.id } })
     .update({ $set: { clubId: undefined } })
 }
 

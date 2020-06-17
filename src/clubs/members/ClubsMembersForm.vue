@@ -122,7 +122,7 @@ export default Vue.extend({
   name: "ClubsMembersForm",
 
   props: {
-    value: { type: Object, default: (): object => clubsMembersStub },
+    value: { type: Object, default: () => clubsMembersStub },
     club: { type: Object, required: false, default: (): null => null }
   },
 

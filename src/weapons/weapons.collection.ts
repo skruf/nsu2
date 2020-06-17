@@ -1,49 +1,47 @@
 import { RxJsonSchema } from "rxdb"
 import { WeaponsProperties } from "./weapons.types"
 import { destroyMany } from "@/db/queries"
+import { db } from "@/db"
 
 const schema: RxJsonSchema = {
   title: "Weapons schema",
   description: "Weapons",
   version: 0,
   type: "object",
+  indexes: [
+    "number",
+    "name",
+    "category",
+    "distance"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     number: {
-      type: "string",
-      index: true
+      type: "string"
     },
     name: {
-      type: "string",
-      index: true
+      type: "string"
     },
     category: {
-      type: "string",
-      index: true
+      type: "string"
     },
-    // condition: {
-    //   type: "string",
-    //   index: true
-    // },
     distance: {
-      type: "number",
-      index: true
+      type: "number"
     }
   },
   required: [
     "number",
     "name",
     "category",
-    // "condition",
     "distance"
   ]
 }
 
 const preRemove = async (data: WeaponsProperties): Promise<void> => {
-  await destroyMany("events_contestants", {
+  await destroyMany(db.events_contestants, {
     weaponId: data.id
   })
 }

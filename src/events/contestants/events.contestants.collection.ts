@@ -14,18 +14,27 @@ const schema: RxJsonSchema = {
   description: "Events contestants",
   version: 0,
   type: "object",
+  indexes: [
+    "number",
+    "calibre",
+    "total",
+    "weaponId",
+    "eventId",
+    "clubMemberId",
+    "divisionId",
+    "time",
+    "stand"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     number: {
-      type: "number",
-      index: true
+      type: "number"
     },
     calibre: {
-      type: "string",
-      index: true
+      type: "string"
     },
     hits: {
       type: "array",
@@ -43,8 +52,7 @@ const schema: RxJsonSchema = {
       }
     },
     total: {
-      type: "number",
-      index: true
+      type: "number"
     },
     note: {
       type: "string",
@@ -52,31 +60,25 @@ const schema: RxJsonSchema = {
     },
     weaponId: {
       type: "string",
-      ref: "weapons",
-      index: true
+      ref: "weapons"
     },
     eventId: {
       type: "string",
-      ref: "events",
-      index: true
+      ref: "events"
     },
     clubMemberId: {
       type: "string",
-      ref: "clubs_members",
-      index: true
+      ref: "clubs_members"
     },
     divisionId: {
       type: "string",
-      ref: "events_divisions",
-      index: true
+      ref: "events_divisions"
     },
     time: {
-      type: "string",
-      index: true
+      type: "string"
     },
     stand: {
-      type: "number",
-      index: true
+      type: "number"
     },
     colour: {
       type: "string"
@@ -98,8 +100,10 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
   if(data.number) return
 
   const contestant = await db.events_contestants.findOne({
-    eventId: data.eventId,
-    clubMemberId: data.clubMemberId
+    selector: {
+      eventId: data.eventId,
+      clubMemberId: data.clubMemberId
+    }
   }).exec()
 
   if(contestant) {
@@ -109,9 +113,11 @@ const assignNumber = async (data: EventsContestantsProperties): Promise<void> =>
   }
 
   const contestantsNextNumber = await db.events_contestants
-    .find({ eventId: data.eventId })
-    .sort({ number: -1 })
-    .limit(1)
+    .find({
+      selector: { eventId: data.eventId },
+      sort: [{ number: "asc" }],
+      limit: 1
+    })
     .exec()
 
   if(!contestantsNextNumber.length) {
@@ -214,11 +220,11 @@ const assignTimeAndStandAndUpdateDivision = async (
 
   if(data.divisionId) {
     division = await db.events_divisions
-      .findOne({ id: data.divisionId })
+      .findOne({ selector: { id: data.divisionId } })
       .exec()
 
     contestants = await db.events_contestants
-      .find({ divisionId: data.divisionId })
+      .find({ selector: { divisionId: data.divisionId } })
       .exec()
   }
 

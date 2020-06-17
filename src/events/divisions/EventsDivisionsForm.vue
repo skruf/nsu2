@@ -121,7 +121,7 @@ export default Vue.extend({
   },
 
   props: {
-    value: { type: Object, default: (): object => eventsDivisionsStub }
+    value: { type: Object, default: () => eventsDivisionsStub }
   },
 
   computed: {

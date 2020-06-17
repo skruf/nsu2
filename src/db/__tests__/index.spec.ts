@@ -1,4 +1,4 @@
-import RxDB from "rxdb"
+import { isRxDatabase, checkAdapter, isRxCollection } from "rxdb"
 import { init, collections } from "@/db"
 
 let db = null
@@ -17,15 +17,15 @@ describe("database", () => {
   afterAll(() => cleanup())
 
   it("should init and get db", async () => {
-    expect(RxDB.isRxDatabase(db)).toEqual(true)
-    const hasMemoryAdapter = await RxDB.checkAdapter("memory")
+    expect(isRxDatabase(db)).toEqual(true)
+    const hasMemoryAdapter = await checkAdapter("memory")
     expect(hasMemoryAdapter).toEqual(true)
   })
 
   it("should be able to configure all collections", async () => {
     const invalid = collections.filter((config) => {
       const collection = db[config.collection.name]
-      return !RxDB.isRxCollection(collection)
+      return !isRxCollection(collection)
     })
     expect(invalid).toHaveLength(0)
   })

@@ -754,7 +754,7 @@ export default Vue.extend({
         ]
     },
 
-    schedule(): object {
+    schedule() {
       if(!this.eventsDivisionsStateSelected) return
       return this.getScheduleByDivisionId(
         this.eventsDivisionsStateSelected.id

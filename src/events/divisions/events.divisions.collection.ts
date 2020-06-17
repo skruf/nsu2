@@ -8,6 +8,11 @@ const schema: RxJsonSchema = {
   description: "Events divisions",
   version: 0,
   type: "object",
+  indexes: [
+    "day",
+    "startsAt",
+    "endsAt"
+  ],
   properties: {
     id: {
       type: "string",
@@ -15,16 +20,13 @@ const schema: RxJsonSchema = {
     },
     day: {
       type: "string",
-      format: "date",
-      index: true
+      format: "date"
     },
     startsAt: {
-      type: "string",
-      index: true
+      type: "string"
     },
     endsAt: {
-      type: "string",
-      index: true
+      type: "string"
     },
     distance: {
       type: "number"
@@ -52,7 +54,7 @@ const preRemove = async (
   data: EventsDivisionsProperties
 ): Promise<void> => {
   await db.events_contestants
-    .find({ divisionId: data.id })
+    .find({ selector: { divisionId: data.id } })
     .update({
       $set: {
         divisionId: undefined,

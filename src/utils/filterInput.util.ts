@@ -1,4 +1,4 @@
-const filter = <T, U>(item: T | any, stub: U | {}): U | any => {
+const filter = <T, U>(item: T | any, stub: U): U | any => {
   const data = {}
 
   for(const key in item) {

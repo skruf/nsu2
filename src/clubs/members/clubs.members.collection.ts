@@ -1,20 +1,23 @@
 import { RxJsonSchema } from "rxdb"
 import { ClubsMembersProperties } from "./clubs.members.types"
 import { destroyMany } from '@/db/queries'
+import { db } from "@/db"
 
 const schema: RxJsonSchema = {
   title: "Clubs members schema",
   description: "Clubs members",
   version: 0,
   type: "object",
+  indexes: [
+    "firstName"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     firstName: {
-      type: "string",
-      index: true
+      type: "string"
     },
     lastName: {
       type: "string"
@@ -43,7 +46,7 @@ const schema: RxJsonSchema = {
 }
 
 const preRemove = async (data: ClubsMembersProperties): Promise<void> => {
-  await destroyMany("events_contestants", {
+  await destroyMany(db.events_contestants, {
     clubMemberId: data.id
   })
 }

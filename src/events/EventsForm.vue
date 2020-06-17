@@ -239,7 +239,7 @@ export default Vue.extend({
   },
 
   props: {
-    value: { type: Object, default: (): object => eventsStub }
+    value: { type: Object, default: () => eventsStub }
   },
 
   data: () => ({

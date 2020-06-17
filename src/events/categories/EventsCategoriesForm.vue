@@ -34,7 +34,7 @@ export default Vue.extend({
   name: "EventsCategoriesForm",
 
   props: {
-    value: { type: Object, default: (): object => eventsCategoriesStub }
+    value: { type: Object, default: () => eventsCategoriesStub }
   },
 
   methods: {

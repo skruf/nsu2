@@ -1,9 +1,5 @@
-import { RxQuery, RxQueryOptions } from "rxdb"
+import { RxQuery, RxQueryOptions, MangoQuery } from "rxdb"
 import { db } from "@/db"
-
-type QueryFilter = {
-  [k in string]: RxQueryOptions<any> | any
-}
 
 type QueryOptions = {
   sort?: {
@@ -16,7 +12,7 @@ type QueryOptions = {
 }
 
 export default (
-  collection: string, filter: QueryFilter, options?: QueryOptions
+  collection: string, filter: MangoQuery<any>, options?: QueryOptions
 ): RxQuery<any, any> => {
   const query = db[collection].find(filter)
 

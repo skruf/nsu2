@@ -107,7 +107,7 @@ export default Vue.extend({
   name: "WeaponsForm",
 
   props: {
-    value: { type: Object, default: (): object => weaponsStub }
+    value: { type: Object, default: () => weaponsStub }
   },
 
   computed: mapState("weapons", {

@@ -1,7 +1,8 @@
 import {
   insert, findMany, destroyOne,
-  destroyMany, updateOne, Filter
+  destroyMany, updateOne
 } from "@/db/queries"
+import { db } from "@/db"
 import { filterInputUtil } from "@/utils"
 import clubsMembersStub from "./clubs.members.stub"
 import { ClubsMembersProperties, ClubsMembersDocument }
@@ -15,12 +16,12 @@ const populate = async (doc: ClubsMembersDocument): Promise<ClubsMembersProperti
 }
 
 // Filter<ClubsMembersProperties>
-const list = async (filter: any | {}): Promise<{
+const list = async (filter: ClubsMembersProperties): Promise<{
   items: ClubsMembersProperties[],
   count: number
 }> => {
-  const { items, count } = await findMany<ClubsMembersDocument>("clubs_members", filter)
-  const populated = await Promise.all(items.map((doc) => populate(doc)))
+  const { items, count } = await findMany<ClubsMembersDocument>(db.clubs_members, filter)
+  const populated = await Promise.all(items.map(populate))
   return {
     items: populated,
     count
@@ -34,21 +35,21 @@ const create = async (item: ClubsMembersProperties): Promise<
     item, clubsMembersStub
   )
   const result = await insert<ClubsMembersDocument>(
-    "clubs_members", data, true
+    db.clubs_members, data, true
   )
   return result
 }
 
 const removeOne = async (clubMember: { id: string }): Promise<true> => {
   await destroyOne<ClubsMembersProperties>(
-    "clubs_members", { id: clubMember.id }
+    db.clubs_members, { id: clubMember.id }
   )
   return true
 }
 
 const removeMany = async (items: { id: string }[]): Promise<true> => {
   const filter = { id: { $in: items.map(({ id }) => id) } }
-  await destroyMany<any>("clubs_members", filter)
+  await destroyMany<any>(db.clubs_members, filter)
   return true
 }
 
@@ -60,7 +61,7 @@ const editOne = async (item: ClubsMembersProperties): Promise<
     item, clubsMembersStub
   )
   const result = await updateOne<ClubsMembersDocument>(
-    "clubs_members", filter, data, true
+    db.clubs_members, filter, data, true
   )
   return result
 }

@@ -1,41 +1,44 @@
-import { RxQueryOptions } from "rxdb"
-import { db } from "@/db"
+import { RxCollection, MangoQuerySelector } from "rxdb"
 import {
   getIdUtil,
   getTimestampUtil,
   promiseSequenceUtil
 } from "@/utils"
 
-export declare type Collection = (
-  "events" |
-  "events_categories" |
-  "events_contestants" |
-  "events_divisions" |
-  "clubs" |
-  "clubs_members" |
-  "weapons" |
-  "ranges"
-)
+// export declare type Collection = (
+//   "events" |
+//   "events_categories" |
+//   "events_contestants" |
+//   "events_divisions" |
+//   "clubs" |
+//   "clubs_members" |
+//   "weapons" |
+//   "ranges"
+// )
 
-export type Filter<T> = RxQueryOptions<T> | { [P in keyof T]?: T[P] }
+// export type Filter<T> = RxQueryOptions<T> | { [P in keyof T]?: T[P] }
 
 export const count = async <T>(
-  collection: Collection,
-  filter: Filter<T> = {}
+  collection: RxCollection,
+  filter: MangoQuerySelector<T> = {}
 ): Promise<number> => {
-  const { length } = await db[collection].find(filter).exec()
+  const { length } = await collection.find({
+    selector: filter
+  }).exec()
   return length
 }
 
 export const findMany = async <T>(
-  collection: Collection,
-  filter: Filter<T> = {},
+  collection: RxCollection,
+  filter: MangoQuerySelector<T> = {},
   json = false
 ): Promise<{
   items: T[],
   count: number
 }> => {
-  const docs = await db[collection].find(filter).exec()
+  const docs = await collection.find({
+    selector: filter
+  }).exec()
   const amount = await count<T>(collection)
   return {
     items: json ? docs.map((doc) => doc.toJSON()) : docs,
@@ -44,22 +47,24 @@ export const findMany = async <T>(
 }
 
 export const findOne = async <T>(
-  collection: Collection,
-  filter: Filter<T>,
+  collection: RxCollection,
+  filter: MangoQuerySelector<T>,
   json = false
 ): Promise<T | null> => {
-  const doc = await db[collection].findOne(filter).exec()
+  const doc = await collection.findOne({
+    selector: filter
+  }).exec()
   if(!doc) return null
   return json ? doc.toJSON() : doc
 }
 
 export const insert = async <T>(
-  collection: Collection,
+  collection: RxCollection,
   data: T,
   json = false
 ): Promise<T> => {
   const timestamp = getTimestampUtil()
-  const doc = await db[collection].insert({
+  const doc = await collection.insert({
     ...data,
     id: getIdUtil(),
     createdAt: timestamp,
@@ -69,29 +74,33 @@ export const insert = async <T>(
 }
 
 export const insertMany = async <T>(
-  collection: Collection,
+  collection: RxCollection,
   items: T[],
   json = false
 ): Promise<T[]> => {
   const docs = await promiseSequenceUtil(
-    items.map((item) => (): Promise<T> => insert(collection, item, json))
+    items.map(
+      (item) => (): Promise<T> => insert(collection, item, json)
+    )
   )
   return docs
 }
 
 export const destroyOne = async <T>(
-  collection: Collection,
-  filter: Filter<T>
+  collection: RxCollection,
+  filter: MangoQuerySelector<T>
 ): Promise<boolean | null> => {
-  const doc = await db[collection].findOne(filter).exec()
+  const doc = await collection.findOne({
+    selector: filter
+  }).exec()
   if(!doc) return null
   const result = await doc.remove()
   return result
 }
 
 export const destroyMany = async <T>(
-  collection: Collection,
-  filter: Filter<T>
+  collection: RxCollection,
+  filter: MangoQuerySelector<T>
 ): Promise<boolean[]> => {
   const docs = await findMany<T>(collection, filter, false)
   const result = await Promise.all(
@@ -101,12 +110,14 @@ export const destroyMany = async <T>(
 }
 
 export const updateOne = async <T>(
-  collection: Collection,
-  filter: Filter<T>,
+  collection: RxCollection,
+  filter: MangoQuerySelector<T>,
   item: T,
   json = false
 ): Promise<T> => {
-  const doc = await db[collection].findOne(filter).exec()
+  const doc = await collection.findOne({
+    selector: filter
+  }).exec()
   if(!doc) return null
   await doc.atomicUpdate((old: T) => ({
     ...old,
@@ -119,7 +130,7 @@ export const updateOne = async <T>(
 }
 
 export const updateMany = async <T>(
-  collection: Collection,
+  collection: RxCollection,
   items: T[],
   filterKey = "id",
   json = false

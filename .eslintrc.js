@@ -44,7 +44,7 @@ module.exports = {
     "vue/no-unused-components": "warn",
     "arrow-parens": 0,
     "generator-star-spacing": 0,
-    "quotes": [0],
+    "quotes": [ 0 ],
     "space-before-function-paren": 0,
     "keyword-spacing": 0,
     "no-console": 0,
@@ -55,6 +55,7 @@ module.exports = {
     "@typescript-eslint/no-var-requires": 0,
     "array-bracket-spacing": 0,
     "comma-dangle": 0,
-    "@typescript-eslint/member-delimiter-style": 0
+    "@typescript-eslint/member-delimiter-style": 0,
+    "camelcase": 0
   }
 }

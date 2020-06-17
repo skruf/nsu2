@@ -2,6 +2,7 @@ import {
   insert, findMany, findOne,
   destroyOne, destroyMany, updateOne, count
 } from "@/db/queries"
+import { db } from "@/db"
 import { filterInputUtil } from "@/utils"
 import { calcTime, calcStand } from "@/utils/division.utils"
 import _uniqBy from "lodash.uniqby"
@@ -22,7 +23,7 @@ const autoAssign = async (data: EventsDivisionsProperties): Promise<void> => {
   }
 
   const assignedContestants = await findMany<EventsContestantsDocument>(
-    "events_contestants",
+    db.events_contestants,
     {
       eventId: data.eventId,
       divisionId: data.id
@@ -30,7 +31,7 @@ const autoAssign = async (data: EventsDivisionsProperties): Promise<void> => {
   )
 
   const unAssignedContestants = await findMany<any>(
-    "events_contestants",
+    db.events_contestants,
     {
       eventId: data.eventId,
       divisionId: { $exists: false }
@@ -86,18 +87,18 @@ const autoAssign = async (data: EventsDivisionsProperties): Promise<void> => {
 const populate = async (
   division: EventsDivisionsProperties
 ): Promise<EventsDivisionsProperties> => {
-  division.contestantsCount = await count("events_contestants", {
+  division.contestantsCount = await count(db.events_contestants, {
     divisionId: division.id
   })
   return division
 }
 
-const list = async (filter: EventsDivisionsProperties | {}): Promise<{
+const list = async (filter: EventsDivisionsProperties): Promise<{
   items: EventsDivisionsProperties[],
   count: number
 }> => {
   const { items, count } = await findMany<EventsDivisionsProperties>(
-    "events_divisions", filter, true
+    db.events_divisions, filter, true
   )
   const populated = await Promise.all(items.map(populate))
   return {
@@ -110,7 +111,7 @@ const select = async (filter: EventsDivisionsProperties): Promise<
   EventsDivisionsProperties
 > => {
   const data = await findOne<EventsDivisionsProperties>(
-    "events_divisions", filter, true
+    db.events_divisions, filter, true
   )
   const division = await populate(data)
   return division
@@ -120,20 +121,20 @@ const create = async (item: EventsDivisionsProperties): Promise<
   EventsDivisionsProperties
 > => {
   const input = filterInputUtil<EventsDivisionsProperties, any>(item, eventsDivisionsStub)
-  const data = await insert<EventsDivisionsDocument>("events_divisions", input, true)
+  const data = await insert<EventsDivisionsDocument>(db.events_divisions, input, true)
   if(data.autoAssign) await autoAssign(data)
   const division = await populate(data)
   return division
 }
 
 const removeOne = async (item: { id: string }): Promise<true> => {
-  await destroyOne<EventsDivisionsProperties>("events_divisions", { id: item.id })
+  await destroyOne<EventsDivisionsProperties>(db.events_divisions, { id: item.id })
   return true
 }
 
 const removeMany = async (filters: { id: string }[]): Promise<true> => {
   const filter = { id: { $in: filters.map(({ id }) => id) } }
-  await destroyMany<any>("events_divisions", filter)
+  await destroyMany<any>(db.events_divisions, filter)
   return true
 }
 
@@ -145,7 +146,7 @@ const editOne = async (item: EventsDivisionsProperties): Promise<
     item, eventsDivisionsStub
   )
   const data = await updateOne<EventsDivisionsDocument>(
-    "events_divisions", filter, input, true
+    db.events_divisions, filter, input, true
   )
   // if(data.autoAssign) await autoAssign(data)
   const division = await populate(data)

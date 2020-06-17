@@ -124,7 +124,7 @@ export default Vue.extend({
   name: "RangesForm",
 
   props: {
-    value: { type: Object, default: (): object => rangesStub }
+    value: { type: Object, default: () => rangesStub }
   },
 
   computed: mapState("ranges", {

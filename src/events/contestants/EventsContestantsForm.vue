@@ -65,7 +65,7 @@ export default Vue.extend({
   name: "EventsContestantsForm",
 
   props: {
-    value: { type: Object, default: (): object => eventsContestantsStub }
+    value: { type: Object, default: () => eventsContestantsStub }
   },
 
   computed: {

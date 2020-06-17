@@ -11,26 +11,29 @@ const schema: RxJsonSchema = {
   description: "Ranges",
   version: 0,
   type: "object",
+  indexes: [
+    "name",
+    "streetAddress",
+    "area",
+    "country",
+    "type"
+  ],
   properties: {
     id: {
       type: "string",
       primary: true
     },
     name: {
-      type: "string",
-      index: true
+      type: "string"
     },
     streetAddress: {
-      type: "string",
-      index: true
+      type: "string"
     },
     area: {
-      type: "string",
-      index: true
+      type: "string"
     },
     country: {
-      type: "string",
-      index: true
+      type: "string"
     },
     lat: {
       type: "string"
@@ -39,8 +42,7 @@ const schema: RxJsonSchema = {
       type: "string"
     },
     type: {
-      type: "string",
-      index: true
+      type: "string"
     }
   },
   required: [
@@ -60,11 +62,11 @@ const statics: RangesStatics = {
 
 const preRemove = async (data: RangesProperties): Promise<void> => {
   await db.clubs
-    .find({ rangeId: data.id })
+    .find({ selector: { rangeId: data.id } })
     .update({ $set: { rangeId: undefined } })
 
   await db.events
-    .find({ rangeId: data.id })
+    .find({ selector: { rangeId: data.id } })
     .update({ $set: { rangeId: undefined } })
 }
 
