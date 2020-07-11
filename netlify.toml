@@ -1,0 +1,6 @@
+[build]
+  publish = "bundle"
+  command = "yarn run web:pack:prod"
+
+[context.beta]
+  command = "yarn run web:pack:staging"
