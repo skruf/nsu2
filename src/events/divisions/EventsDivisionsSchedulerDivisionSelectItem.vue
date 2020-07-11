@@ -40,7 +40,7 @@
     <div class="flex-1">
       {{ division.contestantsCount }}
       <div class="text-muted">
-        Deltakere
+        Starter
       </div>
     </div>
 

@@ -306,6 +306,8 @@ import EventsContestantsFilterWeapons
   from "./EventsContestantsFilterWeapons.vue"
 import EventsDivisionsLabel
   from "../divisions/EventsDivisionsLabel.vue"
+import { sortResults }
+  from "./events.contestants.utils"
 
 export default Vue.extend({
   name: "EventsContestantsResultsListTable",
@@ -387,46 +389,9 @@ export default Vue.extend({
 
     results() {
       const groupedResults = []
-
-      const sorted = [ ...this.eventsContestantsStateList ]
-        .sort((a, b) => {
-          if(a.total > 0 && b.total > 0 && a.total === b.total) {
-            const aHitCount: Record<string, number> = {}
-            a.hits.forEach(({ sum }) => {
-              if(!aHitCount[sum]) aHitCount[sum] = 1
-              else aHitCount[sum] += 1
-            })
-
-            const bHitCount: Record<string, number> = {}
-            b.hits.forEach(({ sum }) => {
-              if(!bHitCount[sum]) bHitCount[sum] = 1
-              else bHitCount[sum] += 1
-            })
-
-            const aBiggestHit = Math.max(...Object.keys(aHitCount).map(Number))
-            const bBiggestHit = Math.max(...Object.keys(bHitCount).map(Number))
-
-            if(bBiggestHit === aBiggestHit) {
-              const measurementDelta = b.measurement - a.measurement
-
-              return measurementDelta === 0
-                ? bHitCount[bBiggestHit] - aHitCount[aBiggestHit]
-                : measurementDelta
-            }
-
-            return bBiggestHit - aBiggestHit
-          }
-
-          return b.total - a.total
-        })
-
-      // .reduce((acc, curr, index, arr) => {
-      //   const counts: Record<string, number> = {}
-      //   curr.hits.forEach(({ sum }) => {
-      //     if(!counts[sum]) counts[sum] = 1
-      //     else counts[sum] += 1
-      //   })
-      // }, [])
+      const sorted = sortResults([
+        ...this.eventsContestantsStateList
+      ])
 
       if(this.eventsContestantsResultsTableGroupBy === []) return sorted
 

@@ -58,7 +58,7 @@
       flat
     >
       <v-toolbar-title class="screen-title">
-        <div class="flex flex-col print:mb-2">
+        <div class="flex flex-col print:mb-4">
           <div class="flex items-center">
             <template v-if="eventsStateSelected.approbated">
               <v-icon class="mr-2">
@@ -77,43 +77,45 @@
 
           <router-link
             v-if="eventsStateSelected.range"
-            class="text-base leading-none opacity-75 ml-8 self-start"
+            class="text-base leading-none opacity-75 ml-8 self-start print:self-center print:ml-0"
             :to="`/ranges/${eventsStateSelected.range.id}`"
           >
             {{ eventsStateSelected.range.name }}, {{ eventsStateSelected.range.area }}
           </router-link>
         </div>
 
-        <div
-          v-if="activeTab === 2"
-          class="hidden print:block text-base leading-none ml-8 print:text-sm"
+        <data-grid
+          :key="printMode + activeTab + eventsStateSelectedIsLoading"
+          :loading="eventsStateSelectedIsLoading"
         >
-          <div class="mb-px pb-px text-sm opacity-75 print:text-xs">
-            {{ $t("deadlineTitle") }}
-          </div>
+          <template
+            v-if="activeTab === 2"
+            :slot="$t('deadlineTitle')"
+          >
+            <div v-if="printMode === 'resultsDeadline'">
+              kl. {{ deadline }}
+            </div>
 
-          <div v-if="printMode === 'resultsDeadline'">
-            kl. {{ deadline }}
-          </div>
+            <div v-if="printMode === 'resultsFinal'">
+              {{ $t("deadlineFinal") }}
+            </div>
+          </template>
 
-          <div v-if="printMode === 'resultsFinal'">
-            {{ $t("deadlineFinal") }}
-          </div>
-        </div>
-
-        <data-grid v-if="!eventsStateSelectedIsLoading">
           <template slot="Start">
             {{ eventsStateSelected.startsAt | date }}
           </template>
+
           <template slot="Slutt">
             {{ eventsStateSelected.endsAt | date }}
           </template>
+
           <template
             v-if="eventsStateSelected.category"
             slot="Kategori"
           >
             {{ eventsStateSelected.category.name }}
           </template>
+
           <template
             v-if="eventsStateSelected.club"
             slot="Arrangør"

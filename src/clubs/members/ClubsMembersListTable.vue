@@ -70,6 +70,7 @@
       :show-select="true"
       :items-per-page="100"
       data-testid="clubsMembersListTable"
+      class="no-print-first-td no-print-last-td"
     >
       <template v-slot:item.actions="{ item }">
         <v-menu>

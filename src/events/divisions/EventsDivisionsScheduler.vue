@@ -136,7 +136,8 @@
 
 .contestant-sticker-container {
   @apply w-full bg-white items-center justify-center flex-wrap;
-  margin-top: -84px;
+  /* margin-top: -84px; */
+  margin-top: -117px;
   display: none;
 }
 .contestant-sticker-cell {

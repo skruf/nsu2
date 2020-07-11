@@ -56,8 +56,7 @@ const schema: RxJsonSchema = {
       type: "number"
     },
     measurement: {
-      type: "number",
-      default: 0
+      type: "number"
     },
     weaponId: {
       type: "string",

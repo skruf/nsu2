@@ -70,4 +70,16 @@
   "standsCount": 3,
   "eventId": "2",
   "autoAssign": true
+},
+
+
+{
+  "id" : "9",
+  "day": "2020-05-16",
+  "startsAt": "10:00",
+  "endsAt": "15:00",
+  "distance": 100,
+  "standsCount": 8,
+  "eventId": "3",
+  "autoAssign": false
 }]

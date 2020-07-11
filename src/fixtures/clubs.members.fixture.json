@@ -266,4 +266,335 @@
   "country": "Norge",
   "phoneNumber": "",
   "clubId": "10"
+},
+{
+  "id" : "31",
+  "firstName": "Oddvar",
+  "lastName": "Deberitz",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "32",
+  "firstName": "Per",
+  "lastName": "Ljøgodt",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "33",
+  "firstName": "Erlend",
+  "lastName": "Svendby",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "12"
+},
+{
+  "id" : "34",
+  "firstName": "Terje",
+  "lastName": "Bustad",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "12"
+},
+{
+  "id" : "35",
+  "firstName": "Henning",
+  "lastName": "Langnes",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "36",
+  "firstName": "Torgeir",
+  "lastName": "Eikeland",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "14"
+},
+{
+  "id" : "37",
+  "firstName": "Sondre",
+  "lastName": "Nordhagen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "38",
+  "firstName": "Atle",
+  "lastName": "Bergersen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "15"
+},
+{
+  "id" : "39",
+  "firstName": "Dagfinn",
+  "lastName": "Torp",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "40",
+  "firstName": "Arne",
+  "lastName": "Riis",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "15"
+},
+{
+  "id" : "41",
+  "firstName": "Wemunn",
+  "lastName": "Aabø",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "42",
+  "firstName": "Tom",
+  "lastName": "Fredriksen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "43",
+  "firstName": "Nikolay",
+  "lastName": "Mustaparta",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "12"
+},
+{
+  "id" : "44",
+  "firstName": "Andreas",
+  "lastName": "Knudsen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "45",
+  "firstName": "Tor",
+  "lastName": "Holmboe",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "46",
+  "firstName": "Kjell",
+  "lastName": "Bergersen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "15"
+},
+{
+  "id" : "47",
+  "firstName": "Eldar",
+  "lastName": "Gulli",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "48",
+  "firstName": "Tom Ove",
+  "lastName": "Låver",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "17"
+},
+{
+  "id" : "49",
+  "firstName": "Frode",
+  "lastName": "Høybråten",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "50",
+  "firstName": "Jan Cato",
+  "lastName": "Berget",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "51",
+  "firstName": "Rune",
+  "lastName": "Stensrud",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "52",
+  "firstName": "Johnny",
+  "lastName": "Tyseng",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+
+{
+  "id" : "53",
+  "firstName": "Turid",
+  "lastName": "Blickstrøm",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "54",
+  "firstName": "Mats",
+  "lastName": "Blickstrøm",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "55",
+  "firstName": "Kim",
+  "lastName": "Tyseng",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "16"
+},
+{
+  "id" : "56",
+  "firstName": "Elin-Irene",
+  "lastName": "Nordhagen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "57",
+  "firstName": "Torfinn",
+  "lastName": "Helberg",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "58",
+  "firstName": "Tom",
+  "lastName": "Fredriksen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "59",
+  "firstName": "Sigurd N.",
+  "lastName": "Sundby",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "60",
+  "firstName": "Richard",
+  "lastName": "Berge",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "19"
+},
+{
+  "id" : "61",
+  "firstName": "Ragnar",
+  "lastName": "Hollen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "11"
+},
+{
+  "id" : "62",
+  "firstName": "Birger",
+  "lastName": "Myrvold",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "13"
+},
+{
+  "id" : "63",
+  "firstName": "Willy",
+  "lastName": "Morthen",
+  "emailAddress": "",
+  "streetAddress": "",
+  "country": "",
+  "phoneNumber": "",
+  "clubId": "18"
 }]

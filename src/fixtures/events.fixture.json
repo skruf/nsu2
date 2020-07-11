@@ -16,4 +16,22 @@
   "rangeId": "2",
   "organizerId": "2",
   "categoryId": "2"
+}, {
+  "id" : "3",
+  "title": "Distriktmesterskap 50 meter Østlandet",
+  "startsAt": "2020-05-13",
+  "endsAt": "2020-05-13",
+  "approbated": true,
+  "rangeId": "12",
+  "organizerId": "2",
+  "categoryId": "6"
+}, {
+  "id" : "4",
+  "title": "Distriktmesterskap 100 meter Østlandet",
+  "startsAt": "2020-05-16",
+  "endsAt": "2020-05-16",
+  "approbated": true,
+  "rangeId": "12",
+  "organizerId": "2",
+  "categoryId": "6"
 }]

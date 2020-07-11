@@ -87,4 +87,11 @@
   "area": "Tolga",
   "country": "Norge",
   "type": "Utebane"
+}, {
+  "id" : "12",
+  "name": "Korsfløyta",
+  "streetAddress": "",
+  "area": "Innlandet, Østlandet",
+  "country": "Norge",
+  "type": "Utebane"
 }]

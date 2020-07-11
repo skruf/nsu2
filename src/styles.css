@@ -348,8 +348,15 @@ html .container {
   .table-controls,
   .tab-container,
   .print\:hidden,
-  .v-menu__content {
+  .v-menu__content,
+  .v-data-table-header__sort-badge,
+  .v-data-table-header__icon {
     display: none !important;
+  }
+
+  .theme--light.v-data-table .v-data-table-header th.sortable:hover,
+  .theme--light.v-data-table .v-data-table-header th.sortable.active {
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .v-toolbar__content {
@@ -392,7 +399,11 @@ html .container {
     justify-content: center;
   }
 
-  .v-content {
+  /* .v-data-table {
+    word-break: break-all;
+  } */
+
+  .v-main {
     padding-left: 0 !important;
   }
 
@@ -409,8 +420,8 @@ html .container {
   }
 
   .screen-title {
-    @apply text-black text-2xl;
-    /* pb-3 text-center text-2xl flex-col; */
+    /* @apply text-black text-2xl; */
+    @apply text-black text-2xl pb-3 text-center flex-col;
   }
 
   .v-application a {
