@@ -54,6 +54,7 @@ export default {
 
   created(): void {
     if(config.env === "web") {
+      // eslint-disable-next-line no-console
       console.error(this.error)
     } else {
       require("electron-log").error(this.error)

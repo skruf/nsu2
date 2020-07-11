@@ -105,7 +105,6 @@ export default Vue.extend({
           }))
           this.close()
         } catch(e) {
-          console.error(e.message)
           this.$error(e.message)
         }
       })

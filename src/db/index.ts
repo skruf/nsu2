@@ -54,7 +54,7 @@ interface CollectionConfig {
   collection: RxCollectionCreator,
   middlewares?: {
     [key: string]: {
-      handle: (data: any) => Promise<void>,
+      handle: (data) => Promise<void>,
       parallel: boolean
     }
   }
@@ -62,7 +62,7 @@ interface CollectionConfig {
 
 const configureCollection = async (
   db: Database,
-  config: any // CollectionConfig
+  config // CollectionConfig
 ): Promise<void> => {
   if(!db) return
 
@@ -104,6 +104,7 @@ export const init = async (): Promise<Database> => {
       (config) => configureCollection(db, config))
     )
   } catch(e) {
+    // eslint-disable-next-line no-console
     console.error(e)
     router.push({
       name: "ErrorScreen",

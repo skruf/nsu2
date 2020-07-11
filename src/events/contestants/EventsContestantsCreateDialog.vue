@@ -344,7 +344,6 @@ export default Vue.extend({
         this.weaponsForm = [{ ...eventsContestantsStub }]
       } catch(e) {
         this.$error(e.message)
-        console.error(e)
       }
     },
 

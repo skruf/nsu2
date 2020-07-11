@@ -295,7 +295,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { mapState, mapMutations } from "vuex"
 import Avatar from "@/components/Avatar.vue"
 import EventsContestantsMeasurement
@@ -309,7 +308,7 @@ import EventsDivisionsLabel
 import { sortResults }
   from "./events.contestants.utils"
 
-export default Vue.extend({
+export default {
   name: "EventsContestantsResultsListTable",
 
   components: {
@@ -451,5 +450,5 @@ export default Vue.extend({
         : true
     }
   }
-})
+}
 </script>

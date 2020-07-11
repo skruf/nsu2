@@ -365,7 +365,6 @@ export default Vue.extend({
 
     setCategory(category): void {
       this.value.categoryId = category.id
-      console.log(this.value)
     }
   }
 })
