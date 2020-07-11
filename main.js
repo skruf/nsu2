@@ -6,7 +6,7 @@ const path = require("path")
 const url = require("url")
 const fs = require("fs")
 
-const debug = true
+const debug = false
 const IS_DEV = process.env.NODE_ENV === "development"
 if(IS_DEV) require("electron-reload")(__dirname)
 log.catchErrors()

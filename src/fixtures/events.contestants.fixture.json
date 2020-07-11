@@ -818,7 +818,7 @@
   "id" : "51",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "31",
   "total": 88,
   "hits": [
@@ -841,7 +841,7 @@
   "id" : "52",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "37",
   "total": 87,
   "hits": [
@@ -864,7 +864,7 @@
   "id" : "53",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "45",
   "total": 81,
   "hits": [
@@ -887,7 +887,7 @@
   "id" : "54",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "31",
   "total": 68,
   "hits": [
@@ -910,7 +910,7 @@
   "id" : "55",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "48",
   "total": 68,
   "hits": [
@@ -933,7 +933,7 @@
   "id" : "56",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "49",
   "total": 66,
   "hits": [
@@ -956,7 +956,7 @@
   "id" : "57",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "41",
   "total": 62,
   "hits": [
@@ -979,7 +979,7 @@
   "id" : "58",
   "eventId": "3",
   "calibre": "0",
-  "weaponId": "11",
+  "weaponId": "40",
   "clubMemberId": "34",
   "total": 18,
   "hits": [
