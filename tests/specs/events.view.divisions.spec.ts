@@ -8,8 +8,9 @@ const event = eventsFixture[1]
 
 describe("events.view.divisions", () => {
   beforeEach(() => {
-    cy.visit(`/events/${event.id}`)
     cy.startup()
+    cy.seed("events", [ event ])
+    cy.visit(`/events/${event.id}`)
     cy.getById("eventsViewScreenTabsDivisionsTab")
       .click()
   })

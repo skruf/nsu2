@@ -49,7 +49,7 @@
       v-model="value.firstName"
       :label="$t('firstNameLabel')"
       :rules="[(v) => !!v || $t('firstNameError')]"
-      data-testid="firstNameInput"
+      data-testid="clubsMembersFormFirstNameInput"
       class="mb-3"
       outlined
       required
@@ -59,7 +59,7 @@
       v-model="value.lastName"
       :label="$t('lastNameLabel')"
       :rules="[(v) => !!v || $t('lastNameError')]"
-      data-testid="lastNameInput"
+      data-testid="clubsMembersFormLastNameInput"
       class="mb-3"
       outlined
       required
@@ -94,7 +94,7 @@
       v-model="value.country"
       :items="clubsMembersStateCountries"
       :label="$t('countryLabel')"
-      data-testid="CountrySelect"
+      data-testid="countrySelect"
       class="mb-3"
       outlined
     />

@@ -110,7 +110,7 @@ describe("events.view.contestants", () => {
     }
 
     const contestant = {
-      condition: "Orginal",
+      // condition: "Orginal",
       calibre: "9999"
     }
 
@@ -144,7 +144,6 @@ describe("events.view.contestants", () => {
     cy.pickFromSelect("weaponsFormDistanceInput", weapon.distance)
     cy.getById("weaponsCreateDialogSubmitButton")
       .click()
-    cy.pickFromSelect("eventsContestantsCreateDialogWeaponsFormConditionSelect", contestant.condition)
     cy.getById("eventsContestantsCreateDialogWeaponsFormCalibreInput")
       .type(contestant.calibre)
     cy.getById("submitContestantButton")

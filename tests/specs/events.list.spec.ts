@@ -46,7 +46,7 @@ describe("events.list", () => {
     cy.seed("ranges", [ range ])
     cy.seed("events_categories", [ category ])
     cy.seed("events", eventsFixture)
-    cy.visit("/#/events")
+    cy.visit("/events")
   })
 
   it("Search", () => {

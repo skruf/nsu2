@@ -1,10 +1,11 @@
-// import { eventsCategoriesFixture } from "../../../src/fixtures"
+import { eventsCategoriesFixture } from "../../src/fixtures"
 // const category = eventsCategoriesFixture[0]
 
 describe("events.categories.list", () => {
   beforeEach(() => {
-    cy.visit("/events/categories")
     cy.startup()
+    cy.seed("events_categories", eventsCategoriesFixture)
+    cy.visit("/events/categories")
   })
 
   it("Create category", () => {

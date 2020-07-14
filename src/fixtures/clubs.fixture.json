@@ -110,12 +110,7 @@
   "area": "Stavern",
   "country": "Norge",
   "rangeId": "10"
-},
-
-
-
-
-{
+}, {
   "id" : "11",
   "name": "N&S",
   "shortName": "N&S",
@@ -126,8 +121,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "12",
   "name": "ESS",
   "shortName": "ESS",
@@ -138,8 +132,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "13",
   "name": "KBT",
   "shortName": "KBT",
@@ -150,8 +143,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "14",
   "name": "GSL",
   "shortName": "GSL",
@@ -162,8 +154,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "15",
   "name": "EFP",
   "shortName": "EFP",
@@ -174,8 +165,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "16",
   "name": "SCS",
   "shortName": "SCS",
@@ -186,8 +176,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "17",
   "name": "CSS",
   "shortName": "CSS",
@@ -198,8 +187,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "18",
   "name": "HPK",
   "shortName": "HPK",
@@ -210,8 +198,7 @@
   "area": "xxxx",
   "country": "",
   "rangeId": ""
-},
-{
+}, {
   "id" : "19",
   "name": "ASK",
   "shortName": "ASK",

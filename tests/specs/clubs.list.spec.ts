@@ -10,8 +10,16 @@ const inputClubsForm = (club) => {
     cy.getById("clubsFormShortNameInput")
       .type(club.shortName)
   }
+  if(club.zipCode) {
+    cy.getById("clubsFormZipCodeInput")
+      .type(club.zipCode)
+  }
+  if(club.area) {
+    cy.getById("clubsFormAreaInput")
+      .type(club.area)
+  }
   if(club.leader) {
-    cy.getById("clubsFormLeaderInput")
+    cy.getById("clubsFormLeaderFullNameInput")
       .type(club.leader)
   }
   if(club.emailAddress) {
@@ -22,13 +30,9 @@ const inputClubsForm = (club) => {
     cy.getById("clubsFormPhoneNumberInput")
       .type(club.phoneNumber)
   }
-  if(club.address) {
-    cy.getById("clubsFormAddressInput")
+  if(club.streetAddress) {
+    cy.getById("clubsFormStreetAddressInput")
       .type(club.address)
-  }
-  if(club.area) {
-    cy.getById("clubsFormAreaInput")
-      .type(club.area)
   }
   if(club.country) {
     cy.pickFromSelect("clubsFormCountrySelect", club.country)
@@ -43,7 +47,7 @@ describe("clubs.list", () => {
   before(() => {
     cy.startup()
     cy.seed("clubs", clubsFixture)
-    cy.visit("/#/clubs")
+    cy.visit("/clubs")
   })
 
   it("Search", () => {
@@ -55,11 +59,23 @@ describe("clubs.list", () => {
     )
   })
 
+  it("Delete club", () => {
+    cy.getById("clubsListTableRowDropdown")
+      .first()
+      .click()
+    cy.getById("clubsListTableRowDropdownRemoveOne")
+      .first()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
+  })
+
   it("Create club", () => {
     const club = {
       name: "Test klubb",
       shortName: "TKB",
-      area: "0258, Oslo",
+      zipCode: "0258",
+      area: "Oslo",
       country: "Norge"
     }
     cy.getById("clubsCreateDialogOpenButton")
@@ -74,17 +90,6 @@ describe("clubs.list", () => {
       .contains(club.name)
     cy.getById("clubsListTable")
       .contains(club.area)
-  })
-
-  it("Delete club", () => {
-    cy.getById("clubsListTableRowDropdown")
-      .first()
-      .click()
-    cy.getById("clubsListTableRowDropdownRemoveOne")
-      .first()
-      .click()
-    cy.getById("confirmAgree")
-      .click()
   })
 
   it("Edit club", () => {

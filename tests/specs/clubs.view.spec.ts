@@ -4,16 +4,16 @@ import {
 } from "../../src/fixtures"
 
 const inputClubsMembersForm = (member) => {
-  cy.getById("clubsMembersFormFirstNameInput")
+  cy.getById("firstNameInput")
     .clear()
     .type(member.firstName)
-  cy.getById("clubsMembersFormLastNameInput")
+  cy.getById("lastNameInput")
     .clear()
     .type(member.lastName)
-  cy.getById("clubsMembersFormEmailAddressInput")
+  cy.getById("emailAddressInput")
     .clear()
     .type(member.emailAddress)
-  cy.pickFromSelect("clubsMembersFormCountrySelect", member.country)
+  cy.pickFromSelect("countrySelect", member.country)
 }
 
 const club = clubsFixture[0]
@@ -23,7 +23,7 @@ describe("clubs.view", () => {
     cy.startup()
     cy.seed("clubs", [ club ])
     cy.seed("clubs_members", clubsMembersFixture)
-    cy.visit(`/#/clubs/${club.id}`)
+    cy.visit(`/clubs/${club.id}`)
   })
 
   it("Details", () => {
@@ -42,6 +42,17 @@ describe("clubs.view", () => {
       "clubsMembersSearchFilterInput",
       "clubsMembersListTable"
     )
+  })
+
+  it("Delete club member", () => {
+    cy.getById("clubsMembersListTableRowDropdown")
+      .last()
+      .click()
+    cy.getById("clubsMembersListTableRowDropdownRemoveOne")
+      .first()
+      .click()
+    cy.getById("confirmAgree")
+      .click()
   })
 
   it("Create club member", () => {
@@ -64,17 +75,6 @@ describe("clubs.view", () => {
       .contains(member.lastName)
     cy.getById("clubsMembersListTable")
       .contains(member.emailAddress)
-  })
-
-  it("Delete club member", () => {
-    cy.getById("clubsMembersListTableRowDropdown")
-      .last()
-      .click()
-    cy.getById("clubsMembersListTableRowDropdownRemoveOne")
-      .first()
-      .click()
-    cy.getById("confirmAgree")
-      .click()
   })
 
   it("Edit club member", () => {
