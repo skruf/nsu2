@@ -67,18 +67,20 @@
           {{ $t("languageHeading") }}
         </h2>
 
-        <v-select
-          v-model="currentLocale"
-          :items="languages"
-          :placeholder="$t('languagePlaceholder')"
-          class="max-w-md mb-0"
-          data-testid="settingsLanguageSelect"
-          item-text="label"
-          item-value="locale"
-          hide-details
-          outlined
-          required
-        />
+        <div class="max-w-2xl w-full">
+          <v-select
+            v-model="currentLocale"
+            :items="languages"
+            :placeholder="$t('languagePlaceholder')"
+            class="mb-0"
+            data-testid="settingsLanguageSelect"
+            item-text="label"
+            item-value="locale"
+            hide-details
+            outlined
+            required
+          />
+        </div>
       </div>
 
       <div class="p-6 flex">
@@ -86,8 +88,8 @@
           {{ $t("resetHeading") }}
         </h2>
 
-        <div class="p-6 border-2 border-solid border-red-500 text-red-500">
-          <p class="mb-6 max-w-2xl">
+        <div class="p-6 border-2 border-solid border-red-500 text-red-500 max-w-2xl">
+          <p class="mb-6">
             {{ $t("resetWarning") }}
           </p>
 
@@ -121,18 +123,17 @@ export default Vue.extend({
   },
 
   data: () => ({
+    currentLocale: "no",
     languages: [
       { label: "English", locale: "en" },
       { label: "Norwegian", locale: "no" }
     ],
-    currentLocale: "no",
     appVersion: packageJson.version,
     config: {}
   }),
 
   watch: {
     currentLocale: {
-      immediate: true,
       handler(v): void {
         i18n.locale = v
         this.$vuetify.lang.current = v
@@ -143,8 +144,7 @@ export default Vue.extend({
 
   created() {
     this.config = config
-    if(localStorage.currentLocale === undefined) return
-    this.currentLocale = localStorage.currentLocale
+    this.currentLocale = localStorage.currentLocale || "no"
   },
 
   methods: {
