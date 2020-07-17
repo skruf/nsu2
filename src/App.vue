@@ -1,5 +1,21 @@
-<style lang="stylus" scoped>
-</style>
+<i18n>
+{
+  "en": {
+    "updateChecking": "Looking for updates...",
+    "updateAvailable": "A new update is available!",
+    "updateNotAvailable": "You have the newest version",
+    "updateError": "An error occurred when updating",
+    "updateDownloaded": "An update was downloaded. Installation will start in 5 seconds"
+  },
+  "no": {
+    "updateChecking": "Ser etter oppdateringer...",
+    "updateAvailable": "En ny oppdatering er tilgjengelig!",
+    "updateNotAvailable": "Du har den nyeste versjonen",
+    "updateError": "En feil oppstod under oppdateringen",
+    "updateDownloaded": "En oppdatering ble lastet ned. Installasjonen vil starte om 5 sekunder"
+  }
+}
+</i18n>
 
 <template>
   <v-app>
@@ -13,7 +29,7 @@
 <script lang="ts">
 import Vue from "vue"
 import AppSidebar from "@/components/AppSidebar.vue"
-// import config from "@/app.config"
+import config from "@/app.config"
 
 export default Vue.extend({
   name: "Nsu",
@@ -23,35 +39,27 @@ export default Vue.extend({
   },
 
   created() {
-    // if(config.runtime === "web") return
-
-    // console.log(window.ipc)
-
-    // window.ipc.send("APP_STARTED")
-    // window.ipc.on("SET_UPDATE_STATUS", (e, status) => {
-    //   let title = "Oppdatering"
-    //   let message
-
-    //   switch(status.type) {
-    //     case "UPDATE_CHECKING":
-    //       message = "Ser etter oppdateringer"
-    //       break
-    //     case "UPDATE_AVAILABLE":
-    //       message = "En ny oppdatering er tilgjengelig!"
-    //       break
-    //     case "UPDATE_NOT_AVAILABLE":
-    //       message = "Du har den nyeste versjonen"
-    //       break
-    //     case "UPDATE_ERROR":
-    //       message = "En feil oppstod under oppdatering"
-    //       break
-    //     case "UPDATE_DOWNLOADED":
-    //       message = "En oppdatering ble lastet ned. Installerer og restarter om 5 sekunder."
-    //       break
-    //   }
-
-    //   this.$notify.info({ title, message })
-    // })
+    if(config.runtime === "web" || !window.ipc) return
+    window.ipc.send("APP_STARTED")
+    window.ipc.on("SET_UPDATE_STATUS", (e, status) => {
+      switch(status.type) {
+        case "UPDATE_CHECKING":
+          this.$info(this.$t("updateChecking"))
+          break
+        case "UPDATE_AVAILABLE":
+          this.$info(this.$t("updateAvailable"))
+          break
+        case "UPDATE_NOT_AVAILABLE":
+          this.$info(this.$t("updateNotAvailable"))
+          break
+        case "UPDATE_ERROR":
+          this.$error(this.$t("updateError"))
+          break
+        case "UPDATE_DOWNLOADED":
+          this.$success(this.$t("updateDownloaded"))
+          break
+      }
+    })
   }
 })
 </script>

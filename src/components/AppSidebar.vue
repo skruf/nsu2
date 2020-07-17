@@ -67,7 +67,7 @@
 
 <template>
   <v-navigation-drawer
-    :mini-variant.sync="isOpen"
+    :mini-variant="isOpen"
     app
     dark
     permanent
@@ -85,15 +85,13 @@
 
     <v-list nav>
       <v-list-item
-        v-for="item in items"
-        :key="item.title"
-        :to="item.to"
-        :exact="item.exact || false"
+        to="/events"
+        :exact="false"
         link
       >
         <v-list-item-icon>
           <v-img
-            :src="item.icon"
+            :src="require('@/assets/icons/events.svg')"
             aspect-ratio="1"
             class="opacity-75"
             max-width="22px"
@@ -102,7 +100,112 @@
 
         <v-list-item-content>
           <v-list-item-title>
-            {{ item.title }}
+            {{ $t("events") }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        to="/clubs"
+        :exact="false"
+        link
+      >
+        <v-list-item-icon>
+          <v-img
+            :src="require('@/assets/icons/clubs.svg')"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t("clubs") }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        to="/weapons"
+        :exact="false"
+        link
+      >
+        <v-list-item-icon>
+          <v-img
+            :src="require('@/assets/icons/weapons.svg')"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t("weapons") }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        to="/ranges"
+        :exact="false"
+        link
+      >
+        <v-list-item-icon>
+          <v-img
+            :src="require('@/assets/icons/ranges.svg')"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t("ranges") }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- <v-list-item
+        to="/records"
+        :exact="false"
+        link
+      >
+        <v-list-item-icon>
+          <v-img
+            :src="require('@/assets/icons/records.svg')"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t("records") }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item> -->
+
+      <v-list-item
+        to="/settings"
+        :exact="false"
+        link
+      >
+        <v-list-item-icon>
+          <v-img
+            :src="require('@/assets/icons/settings.svg')"
+            aspect-ratio="1"
+            class="opacity-75"
+            max-width="22px"
+          />
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t("settings") }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -131,19 +234,9 @@ import Vue from "vue"
 export default Vue.extend({
   name: "AppSidebar",
 
-  data() {
-    return {
-      isOpen: false,
-      items: [
-        { title: this.$t("events"), icon: require("@/assets/icons/events.svg"), to: "/events" },
-        { title: this.$t("clubs"), icon: require("@/assets/icons/clubs.svg"), to: "/clubs" },
-        { title: this.$t("weapons"), icon: require("@/assets/icons/weapons.svg"), to: "/weapons" },
-        { title: this.$t("ranges"), icon: require("@/assets/icons/ranges.svg"), to: "/ranges" },
-        // { title: this.$t("records"), icon: require("@/assets/icons/records.svg"), to: "/records" },
-        { title: this.$t("settings"), icon: require("@/assets/icons/settings.svg"), to: "/settings" }
-      ]
-    }
-  },
+  data: () => ({
+    isOpen: false
+  }),
 
   watch: {
     isOpen(): void {

@@ -5,10 +5,8 @@ import no from "./no.json"
 
 Vue.use(VueI18n)
 
-const locale = window.localStorage.getItem("currentLocale") || "no"
-
 export const i18n = new VueI18n({
-  locale: locale,
+  locale: localStorage.currentLocale || "no",
   fallbackLocale: "no",
   messages: { en, no },
   silentFallbackWarn: true,

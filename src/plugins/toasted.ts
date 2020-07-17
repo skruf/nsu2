@@ -7,19 +7,21 @@ export default (Vue) => {
 
   Vue.mixin({
     methods: {
-
       $success(msg: string): void {
         this.$toasted.success(msg, {
           icon: "check_circle_outline"
         })
       },
-
       $error(msg = "Oops, noe gikk galt!"): void {
         this.$toasted.error(msg, {
           icon: "error_outline"
         })
+      },
+      $info(msg: string): void {
+        this.$toasted.info(msg, {
+          icon: "info_outline"
+        })
       }
-
     }
   })
 }
