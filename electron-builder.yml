@@ -10,6 +10,10 @@ files:
   - sentry.js
   - preload.js
   - bundle/**/*
+linux:
+  icon: "./icons/icon.png"
+  target:
+    target: AppImage
 mac:
   icon: "./icons/icon.icns"
 dmg:

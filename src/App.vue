@@ -54,6 +54,7 @@ export default Vue.extend({
           break
         case "UPDATE_ERROR":
           this.$error(this.$t("updateError"))
+          this.$error(status.message)
           break
         case "UPDATE_DOWNLOADED":
           this.$success(this.$t("updateDownloaded"))
