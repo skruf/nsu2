@@ -109,7 +109,7 @@
 }, {
   "id" : "23",
   "number": "997",
-  "name": "12,17*44 Remington - Orginal",
+  "name": "12,17*44 Remington",
   "category": "Langvåpen",
   "distance": 50
 }, {
@@ -278,6 +278,12 @@
   "id" : "58",
   "number": "991",
   "name": "Perkusjons muskett - Replika",
+  "category": "Langvåpen",
+  "distance": 50
+}, {
+  "id" : "59",
+  "number": "59",
+  "name": "18 Lødig Landmark",
   "category": "Langvåpen",
   "distance": 50
 }]

@@ -1183,8 +1183,6 @@
   ]
 },
 
-
-
 {
   "id" : "67",
   "eventId": "3",
@@ -1485,53 +1483,116 @@
   "eventId": "3",
   "calibre": "0",
   "weaponId": "28",
-  "clubMemberId": "32",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "39",
+  "total": 87,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 8 }
+  ]
 },
 {
   "id" : "82",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "28",
-  "clubMemberId": "34",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "61",
+  "total": 84,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 6 }
+  ]
 },
 {
   "id" : "83",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "28",
-  "clubMemberId": "60",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "34",
+  "total": 77,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 3 }
+  ]
 },
 {
   "id" : "84",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "28",
-  "clubMemberId": "39",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "32",
+  "total": 73,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
 {
   "id" : "85",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "28",
-  "clubMemberId": "61",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "60",
+  "total": 56,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 5 },
+    { "hit": 6, "sum": 4 },
+    { "hit": 7, "sum": 4 },
+    { "hit": 8, "sum": 4 },
+    { "hit": 9, "sum": 3 },
+    { "hit": 10, "sum": 2 },
+    { "hit": 11, "sum": 2 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 1 }
+  ]
 },
-
-
-
-
-
-
-
 
 {
   "id" : "86",
@@ -1925,8 +1986,22 @@
   "calibre": "0",
   "weaponId": "47",
   "clubMemberId": "31",
-  "total": 0,
-  "hits": []
+  "total": 91,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 9 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 7 }
+  ]
 },
 {
   "id" : "104",
@@ -1934,33 +2009,69 @@
   "calibre": "0",
   "weaponId": "47",
   "clubMemberId": "63",
-  "total": 0,
-  "hits": []
+  "total": 88,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 6 }
+  ]
 },
 {
   "id" : "105",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "47",
-  "clubMemberId": "41",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "37",
+  "total": 83,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
 {
   "id" : "106",
   "eventId": "3",
   "calibre": "0",
   "weaponId": "47",
-  "clubMemberId": "37",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "41",
+  "total": 51,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 7 },
+    { "hit": 3, "sum": 7 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 6 },
+    { "hit": 6, "sum": 5 },
+    { "hit": 7, "sum": 4 },
+    { "hit": 8, "sum": 3 },
+    { "hit": 9, "sum": 2 },
+    { "hit": 10, "sum": 2 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
-
-
-
-
-
-
 
 {
   "id" : "107",
@@ -1983,6 +2094,29 @@
     { "hit": 11, "sum": 8 },
     { "hit": 12, "sum": 6 },
     { "hit": 13, "sum": 5 }
+  ]
+},
+{
+  "id" : "1352235",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "24",
+  "clubMemberId": "35",
+  "total": 90,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 7 }
   ]
 },
 {
@@ -2009,6 +2143,29 @@
   ]
 },
 {
+  "id" : "108441",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "24",
+  "clubMemberId": "36",
+  "total": 80,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
   "id" : "109",
   "eventId": "4",
   "calibre": "0",
@@ -2029,6 +2186,29 @@
     { "hit": 11, "sum": 5 },
     { "hit": 12, "sum": 4 },
     { "hit": 13, "sum": 3 }
+  ]
+},
+{
+  "id" : "10319",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "24",
+  "clubMemberId": "37",
+  "total": 60,
+  "hits": [
+    { "hit": 1, "sum": 1 },
+    { "hit": 2, "sum": 5 },
+    { "hit": 3, "sum": 6 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 5 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 0 }
   ]
 },
 {
@@ -2054,44 +2234,6 @@
     { "hit": 13, "sum": 0 }
   ]
 },
-{
-  "id" : "111",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "24",
-  "clubMemberId": "35",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "112",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "24",
-  "clubMemberId": "36",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "113",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "24",
-  "clubMemberId": "37",
-  "total": 0,
-  "hits": []
-},
-
-
-
-
-
-
-
-
-
-
-
 
 {
   "id" : "114",
@@ -2280,24 +2422,28 @@
   ]
 },
 {
-  "id" : "122",
+  "id" : "1224141",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "43",
   "clubMemberId": "43",
-  "total": 0,
-  "hits": []
+  "total": 79,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
 },
-
-
-
-
-
-
-
-
-
-
 
 {
   "id" : "123",
@@ -2378,26 +2524,35 @@
   "hits": []
 },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{
+  "id" : "4143127",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "41",
+  "clubMemberId": "31",
+  "total": 73,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 8 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 7 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 3 },
+    { "hit": 13, "sum": 2 }
+  ]
+},
 {
   "id" : "127",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "41",
-  "clubMemberId": "44",
+  "clubMemberId": "45",
   "total": 67,
   "hits": [
     { "hit": 1, "sum": 10 },
@@ -2420,7 +2575,7 @@
   "eventId": "4",
   "calibre": "0",
   "weaponId": "41",
-  "clubMemberId": "44",
+  "clubMemberId": "37",
   "total": 61,
   "hits": [
     { "hit": 1, "sum": 5 },
@@ -2443,34 +2598,47 @@
   "eventId": "4",
   "calibre": "0",
   "weaponId": "41",
-  "clubMemberId": "44",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "40",
+  "total": 59,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 5 },
+    { "hit": 6, "sum": 5 },
+    { "hit": 7, "sum": 4 },
+    { "hit": 8, "sum": 4 },
+    { "hit": 9, "sum": 4 },
+    { "hit": 10, "sum": 4 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 3 },
+    { "hit": 13, "sum": 3 }
+  ]
 },
 {
   "id" : "130",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "41",
-  "clubMemberId": "44",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "41",
+  "total": 57,
+  "hits": [
+    { "hit": 1, "sum": 3 },
+    { "hit": 2, "sum": 6 },
+    { "hit": 3, "sum": 6 },
+    { "hit": 4, "sum": 5 },
+    { "hit": 5, "sum": 2 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 4 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
-{
-  "id" : "131",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "41",
-  "clubMemberId": "44",
-  "total": 0,
-  "hits": []
-},
-
-
-
-
-
-
 
 {
   "id" : "132",
@@ -2496,6 +2664,29 @@
   ]
 },
 {
+  "id" : "133434342",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "22",
+  "clubMemberId": "44",
+  "total": 92,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 3 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
   "id" : "133",
   "eventId": "4",
   "calibre": "0",
@@ -2516,6 +2707,52 @@
     { "hit": 11, "sum": 7 },
     { "hit": 12, "sum": 7 },
     { "hit": 13, "sum": 5 }
+  ]
+},
+{
+  "id" : "1337654",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "22",
+  "clubMemberId": "39",
+  "total": 90,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 8 }
+  ]
+},
+{
+  "id" : "133243513",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "22",
+  "clubMemberId": "41",
+  "total": 88,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 6 }
   ]
 },
 {
@@ -2546,48 +2783,95 @@
   "eventId": "4",
   "calibre": "0",
   "weaponId": "22",
-  "clubMemberId": "39",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "36",
+  "total": 82,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
 },
 {
   "id" : "136",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "22",
-  "clubMemberId": "43",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "34",
+  "total": 78,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
 {
   "id" : "137",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "22",
-  "clubMemberId": "34",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "33",
+  "total": 78,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
 },
 {
   "id" : "138",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "22",
-  "clubMemberId": "41",
-  "total": 0,
-  "hits": []
+  "clubMemberId": "43",
+  "total": 33,
+  "hits": [
+    { "hit": 1, "sum": 7 },
+    { "hit": 2, "sum": 7 },
+    { "hit": 3, "sum": 4 },
+    { "hit": 4, "sum": 4 },
+    { "hit": 5, "sum": 4 },
+    { "hit": 6, "sum": 3 },
+    { "hit": 7, "sum": 2 },
+    { "hit": 8, "sum": 2 },
+    { "hit": 9, "sum": 0 },
+    { "hit": 10, "sum": 0 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
 },
 {
   "id" : "139",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "22",
-  "clubMemberId": "44",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "140",
   "eventId": "4",
   "calibre": "0",
   "weaponId": "22",
@@ -2595,36 +2879,30 @@
   "total": 0,
   "hits": []
 },
+
 {
-  "id" : "141",
+  "id" : "143414444399",
   "eventId": "4",
   "calibre": "0",
-  "weaponId": "22",
-  "clubMemberId": "36",
-  "total": 0,
-  "hits": []
+  "weaponId": "50",
+  "clubMemberId": "31",
+  "total": 90,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 7 }
+  ]
 },
-{
-  "id" : "142",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "22",
-  "clubMemberId": "33",
-  "total": 0,
-  "hits": []
-},
-
-
-
-
-
-
-
-
-
-
-
-
 {
   "id" : "143",
   "eventId": "4",
@@ -2649,6 +2927,75 @@
   ]
 },
 {
+  "id" : "1476544",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "50",
+  "clubMemberId": "37",
+  "total": 86,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
+},
+{
+  "id" : "141254",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "50",
+  "clubMemberId": "35",
+  "total": 83,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 1 }
+  ]
+},
+{
+  "id" : "11245244",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "50",
+  "clubMemberId": "36",
+  "total": 75,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 8 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 5 }
+  ]
+},
+{
   "id" : "144",
   "eventId": "4",
   "calibre": "0",
@@ -2669,6 +3016,29 @@
     { "hit": 11, "sum": 5 },
     { "hit": 12, "sum": 4 },
     { "hit": 13, "sum": 3 }
+  ]
+},
+{
+  "id" : "1567745",
+  "eventId": "4",
+  "calibre": "0",
+  "weaponId": "50",
+  "clubMemberId": "34",
+  "total": 59,
+  "hits": [
+    { "hit": 1, "sum": 5 },
+    { "hit": 2, "sum": 6 },
+    { "hit": 3, "sum": 5 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 6 },
+    { "hit": 6, "sum": 5 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 4 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
   ]
 },
 {
@@ -2717,49 +3087,777 @@
     { "hit": 13, "sum": 0 }
   ]
 },
+
 {
-  "id" : "147",
-  "eventId": "4",
+  "id" : "152",
+  "eventId": "3",
   "calibre": "0",
-  "weaponId": "50",
-  "clubMemberId": "34",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "148",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "50",
-  "clubMemberId": "35",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "149",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "50",
+  "weaponId": "49",
   "clubMemberId": "31",
-  "total": 0,
-  "hits": []
+  "total": 88,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 8 }
+  ]
 },
 {
-  "id" : "150",
-  "eventId": "4",
+  "id" : "153",
+  "eventId": "3",
   "calibre": "0",
-  "weaponId": "50",
-  "clubMemberId": "36",
-  "total": 0,
-  "hits": []
-},
-{
-  "id" : "151",
-  "eventId": "4",
-  "calibre": "0",
-  "weaponId": "50",
+  "weaponId": "49",
   "clubMemberId": "37",
+  "total": 88,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 4 }
+  ]
+},
+{
+  "id" : "154",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "32",
+  "total": 85,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
+},
+{
+  "id" : "155",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "39",
+  "total": 85,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 4 }
+  ]
+},
+{
+  "id" : "156",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "61",
+  "total": 82,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 5 }
+  ]
+},
+{
+  "id" : "157",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "54",
+  "total": 80,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "158",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "53",
+  "total": 80,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 4 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "159",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "51",
+  "total": 64,
+  "hits": [
+    { "hit": 1, "sum": 8 },
+    { "hit": 2, "sum": 7 },
+    { "hit": 3, "sum": 7 },
+    { "hit": 4, "sum": 7 },
+    { "hit": 5, "sum": 6 },
+    { "hit": 6, "sum": 6 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 4 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 3 }
+  ]
+},
+{
+  "id" : "160",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "59",
+  "total": 31,
+  "hits": [
+    { "hit": 1, "sum": 8 },
+    { "hit": 2, "sum": 7 },
+    { "hit": 3, "sum": 6 },
+    { "hit": 4, "sum": 4 },
+    { "hit": 5, "sum": 4 },
+    { "hit": 6, "sum": 1 },
+    { "hit": 7, "sum": 1 },
+    { "hit": 8, "sum": 0 },
+    { "hit": 9, "sum": 0 },
+    { "hit": 10, "sum": 0 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "161",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "38",
   "total": 0,
   "hits": []
+},
+{
+  "id" : "162",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "49",
+  "clubMemberId": "46",
+  "total": 0,
+  "hits": []
+},
+
+{
+  "id" : "163",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "59",
+  "clubMemberId": "34",
+  "total": 83,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 5 }
+  ]
+},
+{
+  "id" : "164",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "59",
+  "clubMemberId": "63",
+  "total": 75,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 4 },
+    { "hit": 12, "sum": 1 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "165",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "59",
+  "clubMemberId": "33",
+  "total": 72,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 5 },
+    { "hit": 9, "sum": 5 },
+    { "hit": 10, "sum": 4 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 2 }
+  ]
+},
+{
+  "id" : "166",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "59",
+  "clubMemberId": "60",
+  "total": 72,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 6 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 5 },
+    { "hit": 10, "sum": 5 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "167",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "59",
+  "clubMemberId": "32",
+  "total": 61,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 8 },
+    { "hit": 3, "sum": 7 },
+    { "hit": 4, "sum": 7 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 5 },
+    { "hit": 7, "sum": 5 },
+    { "hit": 8, "sum": 5 },
+    { "hit": 9, "sum": 4 },
+    { "hit": 10, "sum": 4 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 3 },
+    { "hit": 13, "sum": 2 }
+  ]
+},
+
+{
+  "id" : "168",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "41",
+  "total": 94,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 10 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 9 },
+    { "hit": 11, "sum": 9 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 8 }
+  ]
+},
+{
+  "id" : "169",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "51",
+  "total": 93,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 9 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 8 },
+    { "hit": 13, "sum": 8 }
+  ]
+},
+{
+  "id" : "170",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "34",
+  "total": 89,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "171",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "33",
+  "total": 83,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "172",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "56",
+  "total": 76,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 3 }
+  ]
+},
+{
+  "id" : "173",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "59",
+  "total": 49,
+  "hits": [
+    { "hit": 1, "sum": 7 },
+    { "hit": 2, "sum": 6 },
+    { "hit": 3, "sum": 6 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 6 },
+    { "hit": 6, "sum": 4 },
+    { "hit": 7, "sum": 4 },
+    { "hit": 8, "sum": 4 },
+    { "hit": 9, "sum": 3 },
+    { "hit": 10, "sum": 3 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 3 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "174",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "43",
+  "total": 0,
+  "hits": []
+},
+{
+  "id" : "175",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "38",
+  "total": 0,
+  "hits": []
+},
+{
+  "id" : "176",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "57",
+  "clubMemberId": "46",
+  "total": 0,
+  "hits": []
+},
+
+{
+  "id" : "177",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "45",
+  "clubMemberId": "31",
+  "total": 89,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 7 }
+  ]
+},
+{
+  "id" : "178",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "45",
+  "clubMemberId": "37",
+  "total": 61,
+  "hits": [
+    { "hit": 1, "sum": 8 },
+    { "hit": 2, "sum": 8 },
+    { "hit": 3, "sum": 8 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 7 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 5 },
+    { "hit": 8, "sum": 5 },
+    { "hit": 9, "sum": 5 },
+    { "hit": 10, "sum": 0 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "179",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "45",
+  "clubMemberId": "41",
+  "total": 52,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 7 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 6 },
+    { "hit": 6, "sum": 6 },
+    { "hit": 7, "sum": 5 },
+    { "hit": 8, "sum": 2 },
+    { "hit": 9, "sum": 2 },
+    { "hit": 10, "sum": 0 },
+    { "hit": 11, "sum": 0 },
+    { "hit": 12, "sum": 0 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "180",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "45",
+  "clubMemberId": "63",
+  "total": 0,
+  "hits": []
+},
+
+{
+  "id" : "181",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "39",
+  "total": 93,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 10 },
+    { "hit": 5, "sum": 10 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 6 }
+  ]
+},
+{
+  "id" : "182",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "31",
+  "total": 90,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 9 },
+    { "hit": 10, "sum": 8 },
+    { "hit": 11, "sum": 8 },
+    { "hit": 12, "sum": 7 },
+    { "hit": 13, "sum": 7 }
+  ]
+},
+{
+  "id" : "183",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "37",
+  "total": 88,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 10 },
+    { "hit": 3, "sum": 10 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 8 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 1 }
+  ]
+},
+{
+  "id" : "184",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "34",
+  "total": 87,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 9 },
+    { "hit": 7, "sum": 9 },
+    { "hit": 8, "sum": 9 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 7 },
+    { "hit": 11, "sum": 7 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 5 }
+  ]
+},
+{
+  "id" : "185",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "33",
+  "total": 81,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 9 },
+    { "hit": 5, "sum": 9 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 7 },
+    { "hit": 9, "sum": 7 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 6 },
+    { "hit": 12, "sum": 6 },
+    { "hit": 13, "sum": 4 }
+  ]
+},
+{
+  "id" : "186",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "32",
+  "total": 80,
+  "hits": [
+    { "hit": 1, "sum": 10 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 8 },
+    { "hit": 7, "sum": 8 },
+    { "hit": 8, "sum": 8 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 5 },
+    { "hit": 13, "sum": 2 }
+  ]
+},
+{
+  "id" : "187",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "61",
+  "total": 75,
+  "hits": [
+    { "hit": 1, "sum": 9 },
+    { "hit": 2, "sum": 9 },
+    { "hit": 3, "sum": 9 },
+    { "hit": 4, "sum": 8 },
+    { "hit": 5, "sum": 8 },
+    { "hit": 6, "sum": 7 },
+    { "hit": 7, "sum": 7 },
+    { "hit": 8, "sum": 6 },
+    { "hit": 9, "sum": 6 },
+    { "hit": 10, "sum": 6 },
+    { "hit": 11, "sum": 5 },
+    { "hit": 12, "sum": 4 },
+    { "hit": 13, "sum": 0 }
+  ]
+},
+{
+  "id" : "188",
+  "eventId": "3",
+  "calibre": "0",
+  "weaponId": "23",
+  "clubMemberId": "60",
+  "total": 49,
+  "hits": [
+    { "hit": 1, "sum": 7 },
+    { "hit": 2, "sum": 6 },
+    { "hit": 3, "sum": 6 },
+    { "hit": 4, "sum": 6 },
+    { "hit": 5, "sum": 5 },
+    { "hit": 6, "sum": 4 },
+    { "hit": 7, "sum": 4 },
+    { "hit": 8, "sum": 4 },
+    { "hit": 9, "sum": 4 },
+    { "hit": 10, "sum": 3 },
+    { "hit": 11, "sum": 3 },
+    { "hit": 12, "sum": 2 },
+    { "hit": 13, "sum": 0 }
+  ]
 }
+
 ]
