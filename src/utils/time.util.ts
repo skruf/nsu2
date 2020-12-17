@@ -12,7 +12,8 @@ export const formatTime = (minutes: number): string => {
 }
 
 export const toMinutes = (
-  hours: number, minutes: number
+  hours: number,
+  minutes: number
 ): number => (
   (hours * 60) + minutes
 )
@@ -31,7 +32,10 @@ export const parseTime = (
   }
 }
 
-export const stringifyTime = (hours: number, minutes: number): string => {
+export const stringifyTime = (
+  hours: number,
+  minutes: number
+): string => {
   const hh = hours < 10 ? `0${hours}` : hours
   const mm = minutes < 10 ? `0${minutes}` : minutes
   return `${hh}:${mm}`

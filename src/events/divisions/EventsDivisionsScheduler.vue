@@ -130,7 +130,7 @@
 }
 
 .remove-contestant-overlay {
-  @apply absolute z-10 inset-0 w-full h-full p-5 flex flex-col items-center justify-center text-white text-lg p-5;
+  @apply absolute z-10 inset-0 w-full h-full p-5 flex flex-col items-center justify-center text-white text-lg;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -212,7 +212,8 @@
     opacity: 1 !important;
   }
   .cell > * {
-    font-size: 12px;
+    font-size: 11px;
+    /* font-size: 12px; */
   }
 }
 </style>
@@ -332,6 +333,52 @@
         </template>
       </template>
     </div>
+
+    <!-- <div
+      v-if="hasDivision && hasSchedule"
+      class="absolute inset-0 w-full h-screen z-50 bg-white"
+      style="margin-top:-114px;"
+    >
+      <template v-for="time of times">
+        <div
+          :key="time"
+          class="flex border-b border-border border-solid p-5"
+        >
+          <div class="w-56">
+            <div>{{ eventsDivisionsStateSelected.day }}</div>
+            <div>{{ time }}</div>
+          </div>
+
+          <div>
+            <div
+              v-for="stand of stands"
+              :key="stand"
+            >
+              <div
+                v-if="schedule[time] && schedule[time][stand]"
+                :key="`${time}-${stand}`"
+                class="flex"
+              >
+                {{ stand }}.
+                {{ schedule[time][stand].number }}
+
+                <div class="mx-1">
+                  <events-contestants-name-label
+                    :contestant="schedule[time][stand]"
+                  />
+                  ,
+                </div>
+
+                <events-contestants-weapon-label
+                  :contestant="schedule[time][stand]"
+                  :show-calibre="false"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div> -->
 
     <div class="container schedule-container flex">
       <div class="p-5">
@@ -654,6 +701,7 @@ export default Vue.extend({
       unAssignedSearchFilter: "",
       dragContestantId: null,
       dragType: "",
+      // isPrinting: true,
       isPrinting: false,
       mql: null
     }
@@ -677,12 +725,17 @@ export default Vue.extend({
       eventsContestantsStateEditManyIsLoading: "editManyIsLoading"
     }),
     ...mapGetters("events/contestants", {
+      getAssigned: "assigned",
       getTimesByDivisionId: "timesByDivisionId",
       getStandsByDivisionId: "standsByDivisionId",
       getScheduleByDivisionId: "scheduleByDivisionId",
       getUnAssignedByWeaponDistance: "unAssignedByWeaponDistance",
       getUnAssigned: "unAssigned"
     }),
+
+    assignedGroupedAndSorted(): any {
+      return ""
+    },
 
     isDragging(): boolean {
       return this.dragType !== ""

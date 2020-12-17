@@ -10,9 +10,20 @@ export default Vue.extend({
   render(createElement, context: any) {
     const contestant = context.props.contestant
     const { weapon, calibre } = contestant
-    // (${condition.charAt(0)})
-    let s = `${weapon.name}`
-    if(context.props.showCalibre) s = `${s} ${calibre}`
+
+    const n = weapon.name
+
+    const q = n.split(" - ")
+    const short = q[0]
+    const or = q[1].charAt(0)
+
+    const s = `${short} ${or}`
+
+    console.log(q)
+
+    // let s = `${weapon.name}`
+    // if(context.props.showCalibre) s = `${s} ${short}`
+    // if(context.props.showCalibre) s = `${s} ${calibre}`
     return context._v(s)
   }
 })
