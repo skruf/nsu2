@@ -90,7 +90,7 @@ app.on("ready", () => {
 
   if(!IS_DEV) {
     require("./sentry")
-    autoUpdater.checkForUpdates()
+    // autoUpdater.checkForUpdates()
   }
 })
 

@@ -475,20 +475,20 @@
                 @click="eventsContestantsEditDialogOpen(schedule[time][stand])"
               >
                 <avatar
-                  class="mx-0 absolute left-0 top-0 print:static"
+                  class="pointer-events-none mx-0 absolute left-0 top-0 print:static"
                   style="border-radius:0;"
                   size="small"
                   :colour="schedule[time][stand].colour"
                   :value="schedule[time][stand].number"
                 />
 
-                <div>
+                <div class="pointer-events-none">
                   <events-contestants-name-label
                     :contestant="schedule[time][stand]"
                   />
                 </div>
 
-                <div class="text-muted">
+                <div class="pointer-events-none text-muted">
                   <events-contestants-weapon-label
                     :contestant="schedule[time][stand]"
                   />
@@ -501,13 +501,17 @@
                 class="cell add-cell"
                 :data-time="time"
                 :data-stand="stand"
+                :draggable="false"
                 data-testid="addContestantCell"
                 @dragenter="addDragOverClass"
                 @dragleave="removeDragOverClass"
                 @dragover="dragOver"
                 @drop="dropAddOrUpdate"
               >
-                <v-icon small>
+                <v-icon
+                  small
+                  class="pointer-events-none"
+                >
                   add
                 </v-icon>
               </div>
@@ -848,22 +852,13 @@ export default Vue.extend({
       })
     },
 
-    getCell(e): HTMLElement {
-      if(!e) return
-      return e.path.find((elem) => (
-        elem.className &&
-        elem.className !== "" &&
-        elem.className.includes("cell"))
-      )
-    },
-
     addDragOverClass(e: DragEvent): void {
-      const cell: HTMLElement = this.getCell(e)
+      const cell = e.target as HTMLElement
       if(cell) cell.classList.add("dragover")
     },
 
     removeDragOverClass(e: DragEvent): void {
-      const cell: HTMLElement = this.getCell(e)
+      const cell = e.target as HTMLElement
       cell.classList.remove("dragover")
     },
 
@@ -896,7 +891,7 @@ export default Vue.extend({
     },
 
     dropAddOrUpdate(e: DragEvent): void {
-      const cell = this.getCell(e)
+      const cell = e.target as HTMLElement
       if(!cell) return
       const toTime = cell.dataset.time
       const toStand = cell.dataset.stand
@@ -911,16 +906,15 @@ export default Vue.extend({
     },
 
     dropSwap(e: DragEvent): void {
-      const cell = this.getCell(e)
+      const cell = e.target as HTMLElement
       if(!cell) return
       const toTime = cell.dataset.time
       const toStand = cell.dataset.stand
       const contestants = []
 
       if(this.dragType === "unAssigned") {
-        const dragContestant = this.eventsContestantsStateList.find(
-          (c) => this.dragContestantId === c.id
-        )
+        const dragContestant = this.eventsContestantsStateList
+          .find((c) => this.dragContestantId === c.id)
         contestants.push({
           ...dragContestant,
           time: toTime,

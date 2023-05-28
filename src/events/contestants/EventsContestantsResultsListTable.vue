@@ -125,7 +125,7 @@
       <template v-slot:item.rank="{ item }">
         <div class="font-bold text-black">
           {{
-            item.hits.length &lt; 10
+            item.hits.length < 10
               ? item.hits.length === 0 ? "DNS" : "DNF"
               : item.rank
           }}
@@ -383,7 +383,7 @@ export default {
     }),
 
     isntGrouped(): boolean {
-      return !!this.eventsContestantsResultsTableGroupBy
+      return this.eventsContestantsResultsTableGroupBy === null
     },
 
     results() {
@@ -392,7 +392,12 @@ export default {
         ...this.eventsContestantsStateList
       ])
 
-      if(this.eventsContestantsResultsTableGroupBy === []) return sorted
+      if(this.isntGrouped) {
+        return sorted.map((contestant, index) => {
+          contestant.rank = index + 1
+          return contestant
+        })
+      }
 
       const grouped = sorted.reduce((groups, contestant) => {
         const groupBy = contestant[this.eventsContestantsResultsTableGroupBy]
@@ -402,12 +407,16 @@ export default {
       }, {})
 
       for(const group in grouped) {
-        grouped[group].forEach((contestant, i) => {
+        let rank = 0
+        for(const contestant of grouped[group]) {
+          rank += 1
           groupedResults.push({
             ...contestant,
-            rank: contestant.total > 0 ? i + 1 : 0
+            rank: contestant.total > 0
+              ? rank
+              : 0
           })
-        })
+        }
       }
 
       return groupedResults

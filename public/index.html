@@ -17,13 +17,11 @@
         height: 100vh;
         display: flex;
         justify-content: center;
-        align-content: center;
         align-items: center;
         background: rgba(255, 255, 255, 0.5);
         z-index: 9;
       }
       .spinner-container .spinner {
-        margin-top: -10vh;
         height: 150px;
         width: 150px;
         border: 2px solid #181f4810;
@@ -34,7 +32,10 @@
       }
       .spinner-container p {
         position: absolute;
-        margin-top: -4.9vh;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
         text-transform: uppercase;
         color: rgba(0, 0, 0, 0.5);
         font-weight: 500;

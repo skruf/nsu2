@@ -22,7 +22,7 @@ Vue.prototype.$print = printUtil
 Vue.use(Dayjs)
 Vue.use(Toasted)
 
-;(async (): Promise<void> => {
+;(async () => {
   const db = await init()
 
   if(config.seed) {

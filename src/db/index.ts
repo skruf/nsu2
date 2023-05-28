@@ -43,9 +43,9 @@ export const collections = [
   eventsContestantsCollection
 ]
 
-if(config.env !== "production") {
-  addRxPlugin(require("rxdb/plugins/dev-mode").RxDBDevModePlugin)
-}
+// if(config.env !== "production") {
+//   addRxPlugin(require("rxdb/plugins/dev-mode").RxDBDevModePlugin)
+// }
 
 let adapter: string
 

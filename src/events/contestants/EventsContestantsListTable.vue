@@ -369,7 +369,7 @@ export default {
     }),
 
     isntGrouped(): boolean {
-      return this.eventsContestantsTableGroupBy === []
+      return this.eventsContestantsTableGroupBy === null
     }
   },
 

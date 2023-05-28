@@ -137,12 +137,12 @@ const sortContestantByTime = (contestants) => (
     .sort(collator.compare)
 )
 
-const getFirstTime = (contestants) => (
-  sortContestantByTime(contestants)[0]
-)
-const getLastTime = (contestants) => (
-  sortContestantByTime(contestants)[contestants.length - 1]
-)
+const getFirstTime = (contestants) => {
+  return sortContestantByTime(contestants)[0]
+}
+const getLastTime = (contestants) => {
+  return sortContestantByTime(contestants)[contestants.length - 1]
+}
 
 const assignTime = (contestants, division) => {
   if(!contestants.length) return division.startsAt
@@ -157,7 +157,7 @@ const assignStand = (contestants, division) => {
 
 const updateDivision = async (contestants, division, data, doc): Promise<void> => {
   if(!contestants || !division) return
-  const withoutSelf = contestants.filter(({ id }) => id !== data.id)
+  const withoutSelf = contestants.filter((c) => !!c.time && c.id !== data.id)
   if(!withoutSelf.length) return
 
   const updateDivisionStartsAt = async (time?: string): Promise<void> => {
