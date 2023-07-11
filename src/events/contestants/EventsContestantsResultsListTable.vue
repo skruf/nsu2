@@ -117,7 +117,7 @@
       :sort-desc="true"
       :must-sort="true"
       :group-desc="true"
-      :items-per-page="100"
+      :items-per-page="-1"
       sort-by="total"
       data-testid="eventsContestantsResultsListTable"
       class="results-table"

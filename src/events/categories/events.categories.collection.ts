@@ -5,7 +5,7 @@ import { EventsCategoriesProperties } from "./events.categories.types"
 const schema: RxJsonSchema = {
   title: "Events categories schema",
   description: "Events categories",
-  version: 0,
+  version: 1,
   type: "object",
   indexes: [
     "name"
@@ -33,7 +33,10 @@ const preRemove = async (data: EventsCategoriesProperties): Promise<void> => {
 export default {
   collection: {
     name: "events_categories",
-    schema: schema
+    schema: schema,
+    migrationStrategies: {
+      1: (doc) => doc
+    }
   },
   middlewares: {
     preRemove: {

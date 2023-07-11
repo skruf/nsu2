@@ -9,7 +9,7 @@ export declare interface RangesStatics {
 const schema: RxJsonSchema = {
   title: "Ranges schema",
   description: "Ranges",
-  version: 0,
+  version: 1,
   type: "object",
   indexes: [
     "name",
@@ -74,7 +74,10 @@ export default {
   collection: {
     name: "ranges",
     schema: schema,
-    statics: statics
+    statics: statics,
+    migrationStrategies: {
+      1: (doc) => doc
+    }
   },
   middlewares: {
     preRemove: {

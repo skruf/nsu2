@@ -12,7 +12,7 @@ export declare interface EventsContestantsStatics {
 const schema: RxJsonSchema = {
   title: "Events contestants schema",
   description: "Events contestants",
-  version: 0,
+  version: 1,
   type: "object",
   indexes: [
     "number",
@@ -250,7 +250,10 @@ const assignTimeAndStandAndUpdateDivision = async (
 export default {
   collection: {
     name: "events_contestants",
-    schema: schema
+    schema: schema,
+    migrationStrategies: {
+      1: (doc) => doc
+    }
   },
   middlewares: {
     preInsert: {

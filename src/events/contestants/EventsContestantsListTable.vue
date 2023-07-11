@@ -112,7 +112,7 @@
       :show-select="true"
       :show-group-by="false"
       :group-by="eventsContestantsTableGroupBy"
-      :items-per-page="100"
+      :items-per-page="-1"
       :sort-by="[ 'divisionId', 'time', 'stand' ]"
       :sort-desc="[ false, false, false ]"
       multi-sort

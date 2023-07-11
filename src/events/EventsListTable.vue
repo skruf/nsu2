@@ -65,6 +65,7 @@
       :loading="loading"
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
+      :items-per-page="-1"
       :show-select="true"
       sort-by="startsAt"
       sort-desc

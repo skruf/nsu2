@@ -68,7 +68,7 @@
       :loading-text="$t('loading')"
       :no-data-text="$t('tablePlaceholderText')"
       :show-select="true"
-      :items-per-page="100"
+      :items-per-page="-1"
       data-testid="clubsMembersListTable"
       class="no-print-first-td no-print-last-td"
     >

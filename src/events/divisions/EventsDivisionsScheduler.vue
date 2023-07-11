@@ -209,6 +209,9 @@
   .time-labels {
     padding-top: 42px;
   }
+  .time-labels {
+    @apply h-auto;
+  }
   .add-cell .v-icon {
     display: none;
   }
@@ -450,7 +453,7 @@
 
         <div
           ref="grid"
-          class="grid flex-1"
+          class="grid flex-1 auto-rows-fr"
         >
           <div class="lane-labels">
             <div

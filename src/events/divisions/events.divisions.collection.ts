@@ -6,7 +6,7 @@ import { EventsDivisionsProperties }
 const schema: RxJsonSchema = {
   title: "Events divisions schema",
   description: "Events divisions",
-  version: 0,
+  version: 1,
   type: "object",
   indexes: [
     "day",
@@ -67,7 +67,10 @@ const preRemove = async (
 export default {
   collection: {
     name: "events_divisions",
-    schema: schema
+    schema: schema,
+    migrationStrategies: {
+      1: (doc) => doc
+    }
   },
   middlewares: {
     preRemove: {

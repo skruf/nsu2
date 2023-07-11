@@ -26,11 +26,13 @@ import { RxDBValidatePlugin } from "rxdb/plugins/validate"
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder"
 import { RxDBUpdatePlugin } from "rxdb/plugins/update"
 import { RxDBEncryptionPlugin } from "rxdb/plugins/encryption"
+import { RxDBMigrationPlugin } from "rxdb/plugins/migration"
 
 addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
 addRxPlugin(RxDBUpdatePlugin)
 addRxPlugin(RxDBEncryptionPlugin)
+addRxPlugin(RxDBMigrationPlugin)
 
 export const collections = [
   rangesCollection,

@@ -5,7 +5,7 @@ import { db } from "@/db"
 const schema: RxJsonSchema<ClubsSchema> = {
   title: "Clubs schema",
   description: "Clubs",
-  version: 0,
+  version: 1,
   type: "object",
   indexes: [
     "name",
@@ -73,7 +73,10 @@ const preRemove = async (data: ClubsProperties): Promise<void> => {
 export default {
   collection: {
     name: "clubs",
-    schema: schema
+    schema: schema,
+    migrationStrategies: {
+      1: (doc) => doc
+    }
   },
   middlewares: {
     preRemove: {
