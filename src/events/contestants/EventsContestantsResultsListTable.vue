@@ -387,24 +387,33 @@ export default {
     },
 
     results() {
-      const groupedResults = []
-      const sorted = sortResults([
-        ...this.eventsContestantsStateList
-      ])
+      const all = [ ...this.eventsContestantsStateList ]
+      const ranked = []
+      const unranked = []
 
-      let rank = 0
+      for(const c of all) {
+        c.hits.length < 10
+          ? unranked.push(c)
+          : ranked.push(c)
+      }
+
+      const sorted = sortResults(ranked)
 
       if(this.isntGrouped) {
-        const out = []
-        for(const contestant of sorted) {
-          if(contestant.total) {
-            rank += 1
-            contestant.rank = rank
+        let rank = 0
+        for(const c of ranked) {
+          if(c.hits.length < 10) {
+            c.rank = null
           } else {
-            contestant.rank = null
+            rank += 1
+            c.rank = rank
           }
-          out.push(contestant)
         }
+
+        return [
+          ...ranked,
+          ...unranked
+        ]
       }
 
       const grouped = sorted.reduce((groups, contestant) => {
@@ -416,18 +425,20 @@ export default {
 
       for(const group in grouped) {
         let rank = 0
-        for(const contestant of grouped[group]) {
-          if(contestant.total) {
-            rank += 1
-            contestant.rank = rank
+        for(const c of grouped[group]) {
+          if(c.hits.length < 10) {
+            c.rank = null
           } else {
-            contestant.rank = null
+            rank += 1
+            c.rank = rank
           }
-          groupedResults.push(contestant)
         }
       }
 
-      return groupedResults
+      return [
+        ...ranked,
+        ...unranked
+      ]
     }
   },
 
