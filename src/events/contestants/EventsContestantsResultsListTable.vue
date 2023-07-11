@@ -392,13 +392,19 @@ export default {
         ...this.eventsContestantsStateList
       ])
 
+      let rank = 0
+
       if(this.isntGrouped) {
-        return sorted.map((contestant, index) => {
-          contestant.rank = contestant.total
-            ? index + 1
-            : null
-          return contestant
-        })
+        const out = []
+        for(const contestant of sorted) {
+          if(contestant.total) {
+            rank += 1
+            contestant.rank = rank
+          } else {
+            contestant.rank = null
+          }
+          out.push(contestant)
+        }
       }
 
       const grouped = sorted.reduce((groups, contestant) => {
@@ -411,13 +417,13 @@ export default {
       for(const group in grouped) {
         let rank = 0
         for(const contestant of grouped[group]) {
-          if(contestant.total) rank += 1
-          groupedResults.push({
-            ...contestant,
-            rank: contestant.total
-              ? rank
-              : null
-          })
+          if(contestant.total) {
+            rank += 1
+            contestant.rank = rank
+          } else {
+            contestant.rank = null
+          }
+          groupedResults.push(contestant)
         }
       }
 

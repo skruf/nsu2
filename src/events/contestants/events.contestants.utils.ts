@@ -77,7 +77,7 @@ function sort(a, b) {
     return a.measurement
   }
 
-  const measured = b.measurement - a.measurement
+  const measured = a.measurement - b.measurement
   if(measured !== 0) return measured
 
   return compareHighestCountOfNumbers(a, b)
