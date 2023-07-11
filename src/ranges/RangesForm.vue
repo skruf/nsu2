@@ -127,6 +127,15 @@ export default Vue.extend({
     value: { type: Object, default: () => rangesStub }
   },
 
+  watch: {
+    value: {
+      deep: true,
+      handler(data): void {
+        this.$emit("input", data)
+      }
+    }
+  },
+
   computed: mapState("ranges", {
     rangesStateCountries: "countries",
     rangesStateTypes: "types"

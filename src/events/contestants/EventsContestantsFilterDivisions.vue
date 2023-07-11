@@ -19,6 +19,7 @@
 <script lang="ts">
 import _uniqueBy from "lodash.uniqby"
 import Vue from "vue"
+import { sortCollator } from "@/utils"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 
@@ -45,9 +46,13 @@ export default Vue.extend({
 
   computed: {
     divisions(): any {
-      return _uniqueById(
-        this.contestants.map(({ division }) => division)
-      )
+      return _uniqueById(this.contestants.map(({ division }) => division))
+        .sort((a, b) => {
+          if(!a?.startsAt || !b?.startsAt) return -1
+          const _a = a.day ? `${a.day} ${a.startsAt}` : a.startsAt
+          const _b = b.day ? `${b.day} ${b.startsAt}` : b.startsAt
+          return sortCollator.compare(_a, _b)
+        })
     }
   },
 

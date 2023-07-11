@@ -21,7 +21,7 @@
     "phoneNumberPlaceholder": "Enter a Phone Number",
     "streetAddressLabel": "Address",
     "streetAddressPlaceholder": "Enter an address",
-    "countryLabel": "Country",
+    "countryLabel": "Country (*)",
     "countryPlaceholder": "Select a country",
     "countryError": "Country is a required field",
     "websiteUrlLabel": "Website URL",
@@ -30,16 +30,16 @@
     "rangeIdPlaceholder": "Select a shooting range"
   },
   "no": {
-    "nameLabel": "Navn",
+    "nameLabel": "Navn (*)",
     "namePlaceholder": "Navn",
     "nameError": "Navn er et påkrevet felt",
-    "shortNameLabel": "Kortnavn",
+    "shortNameLabel": "Kortnavn (*)",
     "shortNamePlaceholder": "Skriv inn ett kortnavn",
     "shortNameError": "Kortnavn er et påkrevet felt",
     "zipCodeLabel": "Postnummer (*)",
     "zipCodePlaceholder": "Skriv inn et postnummer",
     "zipCodeError": "Postnummer er et påkrevet felt",
-    "areaLabel": "Område",
+    "areaLabel": "Område (*)",
     "areaPlaceholder": "Skriv inn et område",
     "areaError": "Område er et påkrevet felt",
     "leaderFullNameLabel": "Leder",
@@ -50,7 +50,7 @@
     "phoneNumberPlaceholder": "Skriv inn ett telefonnummer",
     "streetAddressLabel": "Adresse",
     "streetAddressPlaceholder": "Skriv inn en adresse",
-    "countryLabel": "Land",
+    "countryLabel": "Land (*)",
     "countryPlaceholder": "Velg et land",
     "countryError": "Land er et påkrevet felt",
     "websiteUrlLabel": "Webside URL",
@@ -200,6 +200,16 @@ export default Vue.extend({
       rangesStateListIsLoading: "listIsLoading",
       rangesStateList: "list"
     })
+  },
+
+  watch: {
+    value: {
+      deep: true,
+      immediate: true,
+      handler(data): void {
+        this.$emit("input", data)
+      }
+    }
   },
 
   created() {

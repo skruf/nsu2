@@ -1,11 +1,11 @@
 <i18n>
 {
   "en": {
-    "dialogTitle": "Edit weapon",
+    "dialogTitle": "Edit class",
     "weaponsActionsEditOneSuccess": "%{weaponsName} was successfully updated in the database"
   },
   "no": {
-    "dialogTitle": "Rediger våpen",
+    "dialogTitle": "Rediger klasse",
     "weaponsActionsEditOneSuccess": "%{weaponsName} ble redigert i databasen"
   }
 }

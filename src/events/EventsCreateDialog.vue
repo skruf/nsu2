@@ -97,6 +97,7 @@ export default Vue.extend({
 
     clear(): void {
       this.$refs.eventsForm.resetFields()
+      this.form = { ...eventsStub }
     },
 
     close(): void {

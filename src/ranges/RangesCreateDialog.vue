@@ -97,6 +97,7 @@ export default Vue.extend({
 
     clear(): void {
       this.$refs.rangesForm.resetFields()
+      this.form = { ...rangesStub }
     },
 
     close(): void {

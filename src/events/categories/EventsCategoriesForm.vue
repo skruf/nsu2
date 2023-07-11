@@ -37,6 +37,15 @@ export default Vue.extend({
     value: { type: Object, default: () => eventsCategoriesStub }
   },
 
+  watch: {
+    value: {
+      deep: true,
+      handler(data): void {
+        this.$emit("input", data)
+      }
+    }
+  },
+
   methods: {
     submit(cb): void {
       this.$refs.localForm.validate()

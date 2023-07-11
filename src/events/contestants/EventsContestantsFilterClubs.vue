@@ -19,6 +19,7 @@
 <script lang="ts">
 import _uniqueBy from "lodash.uniqby"
 import Vue from "vue"
+import { sortCollator } from "@/utils"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 
@@ -49,6 +50,9 @@ export default Vue.extend({
     },
     clubs(): any {
       return _uniqueById(this.clubsMembers.map(({ club }) => club))
+        .sort((a, b) => {
+          return sortCollator.compare(a.name, b.name)
+        })
     }
   },
 

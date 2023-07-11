@@ -4,7 +4,7 @@
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Contestant",
     "columnLabelClubName": "Club",
-    "columnLabelWeapon": "Weapon",
+    "columnLabelWeapon": "Class",
     "columnLabelCalibre": "Calibre",
     "columnLabelLane": "Lane",
     "tablePlaceholderText": "No participants yet.",
@@ -17,7 +17,7 @@
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Deltaker",
     "columnLabelClubName": "Klubb",
-    "columnLabelWeapon": "Våpen",
+    "columnLabelWeapon": "Klasse",
     "columnLabelCalibre": "Kaliber",
     "columnLabelLane": "Stand",
     "tablePlaceholderText": "Ingen deltakere enda",
@@ -282,7 +282,7 @@
             colspan="100%"
             data-testid="eventsContestantsResultsTableGroupByWeaponTd"
           >
-            Våpen: {{ c.weapon.name }}
+            Klasse: {{ c.weapon.name }}
           </td>
         </template>
       </template>
@@ -394,7 +394,9 @@ export default {
 
       if(this.isntGrouped) {
         return sorted.map((contestant, index) => {
-          contestant.rank = index + 1
+          contestant.rank = contestant.total
+            ? index + 1
+            : null
           return contestant
         })
       }
@@ -409,12 +411,12 @@ export default {
       for(const group in grouped) {
         let rank = 0
         for(const contestant of grouped[group]) {
-          rank += 1
+          if(contestant.total) rank += 1
           groupedResults.push({
             ...contestant,
-            rank: contestant.total > 0
+            rank: contestant.total
               ? rank
-              : 0
+              : null
           })
         }
       }

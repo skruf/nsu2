@@ -45,7 +45,7 @@
     "history": "History",
     "categories": "Categories",
     "clubs": "Clubs",
-    "weapons": "Weapons",
+    "weapons": "Classes",
     "ranges": "Ranges",
     "records": "Records",
     "settings": "Settings"
@@ -57,7 +57,7 @@
     "history": "Avsluttet",
     "categories": "Kategorier",
     "clubs": "Klubber",
-    "weapons": "Våpen",
+    "weapons": "Klasse",
     "ranges": "Skyttebaner",
     "records": "Rekorder",
     "settings": "Innstillinger"

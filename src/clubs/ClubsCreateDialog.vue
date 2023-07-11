@@ -41,6 +41,7 @@ import Vue from "vue"
 import { mapActions, mapState } from "vuex"
 import ActionDialog from "@/components/ActionDialog.vue"
 import ClubsForm from "./ClubsForm.vue"
+import clubsStub from "./clubs.stub"
 
 export default Vue.extend({
   name: "ClubsCreateDialog",
@@ -57,7 +58,7 @@ export default Vue.extend({
   data: function() {
     return {
       visible: this.shown,
-      form: {}
+      form: { ...clubsStub }
     }
   },
 
@@ -96,6 +97,7 @@ export default Vue.extend({
 
     clear(): void {
       this.$refs.clubsForm.resetFields()
+      this.form = { ...clubsStub }
     },
 
     close(): void {

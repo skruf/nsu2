@@ -4,7 +4,7 @@ import {
 } from "@/db/queries"
 import { db } from "@/db"
 import weaponsStub from "./weapons.stub"
-import { filterInputUtil } from "@/utils"
+import { filterInputUtil, sortCollator } from "@/utils"
 import { WeaponsProperties, WeaponsDocument } from "./weapons.types"
 
 const list = async (filter: WeaponsDocument): Promise<{
@@ -12,7 +12,12 @@ const list = async (filter: WeaponsDocument): Promise<{
   count: number
 }> => {
   const result = await findMany<WeaponsDocument>(db.weapons, filter, true)
-  return result
+  return {
+    count: result.count,
+    items: result.items.sort((a, b) => {
+      return sortCollator.compare(a.name, b.name)
+    })
+  }
 }
 
 const select = (filter: WeaponsDocument): Promise<WeaponsProperties> => (

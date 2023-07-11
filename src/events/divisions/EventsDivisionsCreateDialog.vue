@@ -104,6 +104,7 @@ export default Vue.extend({
 
     clear(): void {
       this.$refs.eventsDivisionsForm.resetFields()
+      this.form = { ...eventsDivisionsStub }
     },
 
     close(): void {

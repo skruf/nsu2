@@ -10,7 +10,7 @@
     hide-details
     dense
     class="flex-1"
-    label="Vis våpen"
+    label="Vis klasse"
   >
     {{ weaponName(item) }}
   </table-filter-select>
@@ -19,6 +19,7 @@
 <script lang="ts">
 import _uniqueBy from "lodash.uniqby"
 import Vue from "vue"
+import { sortCollator } from "@/utils"
 import TableFilterSelect
   from "@/components/TableFilterSelect.vue"
 
@@ -46,6 +47,9 @@ export default Vue.extend({
   computed: {
     weapons(): any {
       return _uniqueById(this.contestants.map(({ weapon }) => weapon))
+        .sort((a, b) => {
+          return sortCollator.compare(a.name, b.name)
+        })
     }
   },
 

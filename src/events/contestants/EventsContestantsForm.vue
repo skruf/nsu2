@@ -1,15 +1,15 @@
 <i18n>
 {
   "en": {
-    "eventsContestantsFormWeaponIdLabel": "Weapon (*)",
-    "eventsContestantsFormWeaponIdError": "Weapon is a required field",
+    "eventsContestantsFormWeaponIdLabel": "Class (*)",
+    "eventsContestantsFormWeaponIdError": "Class is a required field",
     "eventsContestantsFormCalibreLabel": "Calibre (*)",
     "eventsContestantsFormCalibreError": "Calibre is a required field",
     "eventsContestantsFormDivisionIdLabel": "Division"
   },
   "no": {
-    "eventsContestantsFormWeaponIdLabel": "Våpen (*)",
-    "eventsContestantsFormWeaponIdError": "Våpen er et påkrevd felt",
+    "eventsContestantsFormWeaponIdLabel": "Klasse (*)",
+    "eventsContestantsFormWeaponIdError": "Klasse er et påkrevd felt",
     "eventsContestantsFormCalibreLabel": "Kaliber (*)",
     "eventsContestantsFormCalibreError": "Kaliber er et påkrevd felt",
     "eventsContestantsFormDivisionIdLabel": "Standplassliste"

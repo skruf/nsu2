@@ -3,7 +3,7 @@ import {
   destroyMany, updateOne, count
 } from "@/db/queries"
 import { db } from "@/db"
-import { filterInputUtil } from "@/utils"
+import { filterInputUtil, sortCollator } from "@/utils"
 import { ClubsDocument, ClubsProperties } from "./clubs.types"
 import { ClubsMembersDocument } from "./members/clubs.members.types"
 import clubsStub from "./clubs.stub"
@@ -36,8 +36,10 @@ const list = async (filter: ClubsDocument): Promise<{
   const { items, count } = await findMany<ClubsDocument>(db.clubs, filter)
   const populated = await Promise.all(items.map(populate))
   return {
-    items: populated,
-    count
+    count: count,
+    items: populated.sort((a, b) => {
+      return sortCollator.compare(a.name, b.name)
+    })
   }
 }
 

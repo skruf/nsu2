@@ -1,24 +1,24 @@
 <i18n>
 {
   "en": {
-    "breadcrumbWeaponLabel": "Weapons",
+    "breadcrumbWeaponLabel": "Classes",
     "breadcrumbAllLabel": "All",
-    "screenTitle": "Weapons",
-    "weaponsCreateDialogOpenButton": "Create weapon",
+    "screenTitle": "Classes",
+    "weaponsCreateDialogOpenButton": "Create class",
     "weaponsRemoveOneConfirmation": "This will remove %{weaponsName} and participants who used this weapon permanently. Continue?",
     "weaponsActionsRemoveOneSuccess": "%{weaponsName} was removed from the database",
-    "weaponsRemoveManyConfirmation": "This will remove %{weaponsCount} weapons and participants who used these weapons permanently. Continue?",
-    "weaponsActionsRemoveManySuccess": "%{weaponsCount} weapons has been removed from the database"
+    "weaponsRemoveManyConfirmation": "This will remove %{weaponsCount} classes and participants who used these classes permanently. Continue?",
+    "weaponsActionsRemoveManySuccess": "%{weaponsCount} classes has been removed from the database"
   },
   "no": {
-    "breadcrumbWeaponLabel": "Våpen",
+    "breadcrumbWeaponLabel": "Klasse",
     "breadcrumbAllLabel": "Alle",
-    "screenTitle": "Våpen",
-    "weaponsCreateDialogOpenButton": "Opprett våpen",
+    "screenTitle": "Klasse",
+    "weaponsCreateDialogOpenButton": "Opprett klasse",
     "weaponsRemoveOneConfirmation": "Dette vil fjerne %{weaponsName} og deltakere som brukte denne klassen permanent. Fortsette?",
     "weaponsActionsRemoveOneSuccess": "%{weaponsName} ble fjernet fra databasen",
-    "weaponsRemoveManyConfirmation": "Dette vil fjerne %{weaponsCount} våpen og deltakere som brukte denne klassen permanent. Fortsette?",
-    "weaponsActionsRemoveManySuccess": "%{weaponsCount} våpen ble fjernet fra databasen"
+    "weaponsRemoveManyConfirmation": "Dette vil fjerne %{weaponsCount} klasse og deltakere som brukte denne klassen permanent. Fortsette?",
+    "weaponsActionsRemoveManySuccess": "%{weaponsCount} klasse ble fjernet fra databasen"
   }
 }
 </i18n>

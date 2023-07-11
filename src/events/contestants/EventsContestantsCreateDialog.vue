@@ -2,10 +2,10 @@
 {
   "en": {
     "title": "Add participations",
-    "formItem1Placeholder": "Choose a weapon (*)",
+    "formItem1Placeholder": "Choose a class (*)",
     "formItem2Label": "Calibre (*)",
     "formItem2Placeholder": "Enter a calibre",
-    "formItemWeaponIdError": "Choose a weapon",
+    "formItemWeaponIdError": "Choose a class",
     "formItemCalibreError": "Enter a calibre",
     "selectMemberLabel": "Choose a member (*)",
     "selectMemberError": "Choose a member to continue",
@@ -13,10 +13,10 @@
   },
   "no": {
     "title": "Legg til deltakelser",
-    "formItem1Placeholder": "Velg et våpen (*)",
+    "formItem1Placeholder": "Velg en klasse (*)",
     "formItem2Label": "Kaliber (*)",
     "formItem2Placeholder": "Skriv inn et kaliber",
-    "formItemWeaponIdError": "Velg et våpen",
+    "formItemWeaponIdError": "Velg en klasse",
     "formItemCalibreError": "Skriv inn kaliber",
     "selectMemberLabel": "Velg et medlem (*)",
     "selectMemberError": "Velg et medlem for å fortsette",

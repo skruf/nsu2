@@ -1,11 +1,11 @@
 <i18n>
 {
   "en": {
-    "dialogTitle": "Create weapon",
+    "dialogTitle": "Create class",
     "weaponsActionsCreateSuccess": "%{weaponsName} was successfully added to the database"
   },
   "no": {
-    "dialogTitle": "Opprett våpen",
+    "dialogTitle": "Opprett klasse",
     "weaponsActionsCreateSuccess": "%{weaponsName} ble lagt til i databasen"
   }
 }
@@ -98,6 +98,7 @@ export default Vue.extend({
 
     clear(): void {
       this.$refs.weaponsForm.resetFields()
+      this.form = { ...weaponsStub }
     },
 
     close(): void {

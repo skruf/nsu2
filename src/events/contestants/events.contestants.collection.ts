@@ -53,7 +53,8 @@ const schema: RxJsonSchema = {
       }
     },
     total: {
-      type: "number"
+      type: "number",
+      default: 0
     },
     measurement: {
       type: "number"

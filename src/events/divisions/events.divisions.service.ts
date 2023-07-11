@@ -3,7 +3,7 @@ import {
   destroyOne, destroyMany, updateOne, count
 } from "@/db/queries"
 import { db } from "@/db"
-import { filterInputUtil } from "@/utils"
+import { filterInputUtil, sortCollator } from "@/utils"
 import { calcTime, calcStand } from "@/utils/division.utils"
 import _uniqBy from "lodash.uniqby"
 import eventsDivisionsStub from "./events.divisions.stub"
@@ -107,8 +107,13 @@ const list = async (filter: EventsDivisionsProperties): Promise<{
   )
   const populated = await Promise.all(items.map(populate))
   return {
-    items: populated,
-    count
+    count,
+    items: populated.sort((a, b) => {
+      if(!a?.startsAt || !b?.startsAt) return -1
+      const _a = a.day ? `${a.day} ${a.startsAt}` : a.startsAt
+      const _b = b.day ? `${b.day} ${b.startsAt}` : b.startsAt
+      return sortCollator.compare(_a, _b)
+    })
   }
 }
 

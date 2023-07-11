@@ -130,14 +130,14 @@
 }
 
 .remove-contestant-overlay {
-  @apply absolute z-10 inset-0 w-full h-full p-5 flex flex-col items-center justify-center text-white text-lg p-5;
+  @apply absolute z-10 inset-0 w-full h-full p-5 flex flex-col items-center justify-center text-white text-lg;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
 .contestant-sticker-container {
-  @apply w-full bg-white items-center justify-center flex-wrap;
+  @apply w-full bg-white items-center justify-center flex-wrap border-t border-solid border-border;
   /* margin-top: -84px; */
-  margin-top: -117px;
+  /* margin-top: -117px; */
   display: none;
 }
 .contestant-sticker-cell {
@@ -149,6 +149,10 @@
 .contestant-sticker-cell:nth-child(3n) {
   @apply border-r-0;
 }
+.contestant-sticker-cell:nth-last-child(-n+3) {
+  @apply border-b-0;
+}
+
 .contestant-sticker-cell-wrapper {
   @apply max-w-xs w-full mx-auto flex flex-col justify-center;
 }
@@ -191,6 +195,7 @@
   .print-mode-divisionSchedule .schedule-container {
     @apply absolute inset-x-0 top-0 w-full z-10 m-0 rounded-none border-0 border-t;
   }
+
   .grid {
     @apply ml-0;
   }
@@ -237,6 +242,9 @@
   .schedule-container .v-text-field--outlined .v-input__append-inner,
   .schedule-container .v-input .v-label {
     display: none;
+  }
+  .print-mode-divisionSchedule .v-window {
+    overflow: initial;
   }
 }
 </style>
@@ -318,7 +326,7 @@
 
               <div class="contestant-sticker-cell-container">
                 <div class="contestant-sticker-cell-key">
-                  Våpen:
+                  Klasse:
                 </div>
                 <div>
                   <events-contestants-weapon-label
@@ -570,7 +578,7 @@
       </div>
 
       <div class="px-5 pb-3 text-sm">
-        Viser <strong>{{ unAssigned.length }}</strong> tilgjengelige deltakere som skyter med våpen på <strong>{{ eventsDivisionsStateSelected.distance }} meter</strong>. Det er totalt <strong>{{ getUnAssigned.length }}</strong> tilgjengelige deltakere på stevnet.
+        Viser <strong>{{ unAssigned.length }}</strong> tilgjengelige deltakere som skyter med klasser på <strong>{{ eventsDivisionsStateSelected.distance }} meter</strong>. Det er totalt <strong>{{ getUnAssigned.length }}</strong> tilgjengelige deltakere på stevnet.
       </div>
 
       <v-text-field
@@ -734,19 +742,18 @@ export default Vue.extend({
         return acc
       }, [])
 
+      if(this.isPrinting) return timeline
+
       let newLastHour: string | number = lastHour + 1
       if(newLastHour < 10) newLastHour = `0${newLastHour}`
 
       let newFirstHour: string | number = firstHour - 1
       if(newFirstHour < 10) newFirstHour = `0${newFirstHour}`
 
-      return this.isPrinting
-        ? timeline
-        : [
-          `${newFirstHour}:00`,
-          ...timeline,
-          `${newLastHour}:00`
-        ]
+      if(newFirstHour !== "0-1") timeline.unshift(`${newFirstHour}:00`)
+      if(newLastHour !== 24) timeline.push(`${newLastHour}:00`)
+
+      return timeline
     },
 
     stands() {

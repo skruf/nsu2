@@ -106,7 +106,7 @@ export default Vue.extend({
     },
 
     clear(): void {
-      // this.$refs.clubsMembersForm.resetFields()
+      this.$refs.clubsMembersForm.resetFields()
       this.form = { ...clubsMembersStub }
     },
 

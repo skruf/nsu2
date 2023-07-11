@@ -1,21 +1,21 @@
 <i18n>
 {
   "en": {
-    "searchFormPlaceholder": "Search for weapons",
+    "searchFormPlaceholder": "Search for classes",
     "weaponsListTableColumnNumberLabel": "Number",
     "weaponsListTableColumnNameLabel": "Name",
     "weaponsListTableColumnCategoryLabel": "Category",
     "weaponsListTableColumnConditionLabel": "Condition",
     "weaponsListTableColumnDistanceLabel": "Distance",
     "removeSelected": "Remove selected",
-    "editWeapon": "Edit weapon",
-    "removeWeapon": "Remove weapon",
-    "tablePlaceholderText": "No weapons yet.",
+    "editWeapon": "Edit class",
+    "removeWeapon": "Remove class",
+    "tablePlaceholderText": "No classes yet.",
     "tablePlaceholderButton": "Create new?",
-    "weaponsCreateDialogOpen": "Create weapon"
+    "weaponsCreateDialogOpen": "Create class"
   },
   "no": {
-    "searchFormPlaceholder": "Søk etter våpen",
+    "searchFormPlaceholder": "Søk etter klasse",
     "weaponsListTableColumnNumberLabel": "Nummer",
     "weaponsListTableColumnNameLabel": "Navn",
     "weaponsListTableColumnCategoryLabel": "Kategori",
@@ -24,9 +24,9 @@
     "removeSelected": "Slett valgte",
     "editWeapon": "Rediger klasse",
     "removeWeapon": "Slett klasse",
-    "tablePlaceholderText": "Ingen våpen enda.",
+    "tablePlaceholderText": "Ingen klasse enda.",
     "tablePlaceholderButton": "Opprett ny?",
-    "weaponsCreateDialogOpen": "Opprett våpen"
+    "weaponsCreateDialogOpen": "Opprett klasse"
   }
 }
 </i18n>

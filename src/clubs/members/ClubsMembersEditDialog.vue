@@ -97,15 +97,10 @@ export default Vue.extend({
             fullName
           }))
           this.close()
-          this.clear()
         } catch(e) {
           this.$error(e.message)
         }
       })
-    },
-
-    clear(): void {
-      this.$refs.clubsMembersForm.resetFields()
     },
 
     close(): void {

@@ -4,7 +4,7 @@
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Contestant",
     "columnLabelClub": "Club",
-    "columnLabelWeapon": "Weapon",
+    "columnLabelWeapon": "Class",
     "columnLabelCalibre": "Calibre",
     "columnLabelDivision": "Division",
     "columnLabelStand": "Lane",
@@ -19,7 +19,7 @@
     "columnLabelNumber": "Nr",
     "columnLabelClubMember": "Deltaker",
     "columnLabelClub": "Klubb",
-    "columnLabelWeapon": "Våpen",
+    "columnLabelWeapon": "Klasse",
     "columnLabelCalibre": "Kaliber",
     "columnLabelDivision": "Standplassliste",
     "columnLabelStand": "Bane",
@@ -191,7 +191,7 @@
             colspan="100%"
             data-testid="eventsContestantsTableGroupByWeaponTd"
           >
-            Våpen: {{ c.weapon.name }}
+            Klasse: {{ c.weapon.name }}
           </td>
         </template>
       </template>

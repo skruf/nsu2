@@ -13,3 +13,5 @@ export { default as promiseSequenceUtil } from "./promiseSequence.util"
 // export { default as mockQueriesTestUtil } from "./mockQueries.test.util"
 // export { default as mountTestUtil } from "./mount.test.util"
 // export { default as mockServiceTestUtil } from "./mockService.test.util"
+
+export const sortCollator = new Intl.Collator("no-nb", { usage: "sort" })
