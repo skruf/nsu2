@@ -12,7 +12,7 @@ export declare interface EventsContestantsStatics {
 const schema: RxJsonSchema = {
   title: "Events contestants schema",
   description: "Events contestants",
-  version: 1,
+  version: 3,
   type: "object",
   indexes: [
     "number",
@@ -47,14 +47,13 @@ const schema: RxJsonSchema = {
             type: "number"
           },
           sum: {
-            type: "number"
+            type: [ "number", "null" ]
           }
         }
       }
     },
     total: {
-      type: "number",
-      default: 0
+      type: "number"
     },
     measurement: {
       type: "number"
@@ -252,7 +251,14 @@ export default {
     name: "events_contestants",
     schema: schema,
     migrationStrategies: {
-      1: (doc) => doc
+      1: (doc) => doc,
+      2: (doc) => doc,
+      3: (doc) => {
+        for(const hit of doc.hits) {
+          if(hit.sum === undefined) hit.sum = null
+        }
+        return doc
+      }
     }
   },
   middlewares: {

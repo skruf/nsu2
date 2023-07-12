@@ -122,13 +122,9 @@
       data-testid="eventsContestantsResultsListTable"
       class="results-table"
     >
-      <template v-slot:item.rank="{ item }">
+      <template v-slot:item.status="{ item, index }">
         <div class="font-bold text-black">
-          {{
-            item.hits.length < 10
-              ? item.hits.length === 0 ? "DNS" : "DNF"
-              : item.rank
-          }}
+          {{ item.status || index + 1 }}
         </div>
       </template>
 
@@ -176,7 +172,7 @@
                 :key="h.hit"
                 class="hit"
               >
-                {{ h.sum }}
+                {{ h.sum ?? "×" }}
               </span>
             </div>
           </v-btn>
@@ -308,6 +304,16 @@ import EventsDivisionsLabel
 import { sortResults }
   from "./events.contestants.utils"
 
+function addStatuses(results) {
+  for(const c of results) {
+    const hits = c.hits.filter((hit) => Number.isInteger(hit.sum))
+    if(hits.length >= 10) continue
+    c.status = hits.length === 0
+      ? "DNS"
+      : "DNF"
+  }
+}
+
 export default {
   name: "EventsContestantsResultsListTable",
 
@@ -335,7 +341,7 @@ export default {
       eventsContestantsResultsTableGroupBy: "weaponId",
       eventsContestantsResultsSelection: [],
       eventsContestantsResultsHeaders: [{
-        value: "rank",
+        value: "status",
         text: "Plass",
         sortable: false
       }, {
@@ -388,57 +394,32 @@ export default {
 
     results() {
       const all = [ ...this.eventsContestantsStateList ]
-      const ranked = []
-      const unranked = []
-
-      for(const c of all) {
-        c.hits.length < 10
-          ? unranked.push(c)
-          : ranked.push(c)
-      }
-
-      const sorted = sortResults(ranked)
 
       if(this.isntGrouped) {
-        let rank = 0
-        for(const c of ranked) {
-          if(c.hits.length < 10) {
-            c.rank = null
-          } else {
-            rank += 1
-            c.rank = rank
-          }
-        }
-
-        return [
-          ...ranked,
-          ...unranked
-        ]
+        const sorted = sortResults(all)
+        addStatuses(sorted)
+        return sorted
       }
 
-      const grouped = sorted.reduce((groups, contestant) => {
-        const groupBy = contestant[this.eventsContestantsResultsTableGroupBy]
+      const grouped = all.reduce((groups, c) => {
+        const groupBy = c[this.eventsContestantsResultsTableGroupBy]
         if(!groups[groupBy]) groups[groupBy] = []
-        groups[groupBy].push(contestant)
+        groups[groupBy].push(c)
         return groups
       }, {})
 
+      const groupSorted = []
+
       for(const group in grouped) {
-        let rank = 0
-        for(const c of grouped[group]) {
-          if(c.hits.length < 10) {
-            c.rank = null
-          } else {
-            rank += 1
-            c.rank = rank
-          }
+        const items = grouped[group]
+        if(items) {
+          const sorted = sortResults(items)
+          addStatuses(sorted)
+          groupSorted.push(...sorted)
         }
       }
 
-      return [
-        ...ranked,
-        ...unranked
-      ]
+      return groupSorted
     }
   },
 
@@ -472,9 +453,9 @@ export default {
 
     divisionFilter(_, __, { divisionId }): boolean {
       return this.eventsContestantsTableFilter.divisionIds.length
-        ? this.eventsContestantsTableFilter.divisionIds.includes(
-          divisionId || "Ikke tildelt"
-        )
+        ? this.eventsContestantsTableFilter
+          .divisionIds
+          .includes(divisionId || "Ikke tildelt")
         : true
     }
   }

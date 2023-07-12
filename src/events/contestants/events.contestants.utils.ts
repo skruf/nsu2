@@ -59,6 +59,13 @@ function compareHighestCountOfNumbers(a: number[], b: number[]) {
 }
 
 function sort(a, b) {
+  const aLength = Math.max(a.hits.length, 10)
+  const bLength = Math.max(b.hits.length, 10)
+
+  if(aLength > bLength) return -1
+  if(aLength < bLength) return 1
+  if(aLength === bLength && aLength < 10) return 0
+
   if(!isTotalEqual(a, b)) return b.total - a.total
 
   const aHits = getHits(sortHits([ ...a.hits ]))
@@ -80,7 +87,7 @@ function sort(a, b) {
   const measured = a.measurement - b.measurement
   if(measured !== 0) return measured
 
-  return compareHighestCountOfNumbers(a, b)
+  return compareHighestCountOfNumbers(a.hits, b.hits)
 }
 
 export function sortResults(results: any[]): any[] {

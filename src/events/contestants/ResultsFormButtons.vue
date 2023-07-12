@@ -57,6 +57,19 @@ button::after {
           </label>
 
           <button
+            ref="button"
+            v-ripple
+            :class="{ 'active': isSet(hit, null) }"
+            :data-testid="`ResultsFormButtonsSumButton${hit}-null`"
+            type="button"
+            class="btn relative w-full h-full hit py-2 bg-transparent mx-0"
+            style="max-width:none;min-width:0;"
+            @click="setHit(hit, null)"
+          >
+            ×
+          </button>
+
+          <button
             v-for="sum in _range(11)"
             :key="sum"
             ref="button"
@@ -82,7 +95,7 @@ import _cloneDeep from "lodash.clonedeep"
 import _range from "lodash.range"
 
 const generateHits = () => _range(1, 14)
-  .map((i) => ({ hit: i, sum: 0 }))
+  .map((i) => ({ hit: i, sum: null }))
 
 export default Vue.extend({
   name: "ResultsFormButtons",
@@ -101,13 +114,21 @@ export default Vue.extend({
 
   computed: {
     total(): number {
-      return [ ...this.hits ]
-        .sort((a, b) => {
-          if(a.sum < b.sum) return -1
-          if(a.sum > b.sum) return 1
-          return 0
-        })
-        .slice(3)
+      let hits = this.hits.filter((hit) => {
+        return Number.isInteger(hit.sum)
+      })
+
+      if(hits.length < 10) return undefined
+
+      hits = hits.sort((a, b) => {
+        if(a.sum < b.sum) return -1
+        if(a.sum > b.sum) return 1
+        return 0
+      })
+
+      if(hits.length > 10) hits = hits.slice(3)
+
+      return hits
         .reduce((acc, c) => acc + c.sum, 0)
     }
   },

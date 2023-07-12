@@ -3,7 +3,6 @@ import {
   addRxPlugin,
   RxCollectionCreator
 } from "rxdb"
-import router from "@/router"
 import config from "@/app.config"
 import rangesCollection from "@/ranges/ranges.collection"
 import clubsCollection from "@/clubs/clubs.collection"
@@ -115,10 +114,6 @@ export const init = async (): Promise<Database> => {
   } catch(e) {
     // eslint-disable-next-line no-console
     console.error(e)
-    router.push({
-      name: "ErrorScreen",
-      params: { error: e.message }
-    })
   }
 
   return db
