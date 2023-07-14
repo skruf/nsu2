@@ -34,21 +34,7 @@
   @apply mx-auto w-full;
   max-width: 24rem !important;
 }
-.results-table td:not(.table-group-header):nth-child(3),
-.results-table th:not(.table-group-header):nth-child(3) {
-  display: none;
-}
 @media print {
-  .results-table td:not(.table-group-header):nth-child(3),
-  .results-table th:not(.table-group-header):nth-child(3) {
-    display: table-cell;
-  }
-  .results-table.is-grouped td:not(.table-group-header):nth-child(4),
-  .results-table.is-grouped th:not(.table-group-header):nth-child(4),
-  .results-table.not-grouped td:not(.table-group-header):nth-child(5),
-  .results-table.not-grouped th:not(.table-group-header):nth-child(5) {
-    display: none;
-  }
   .results-hits {
     display: block !important;
   }
@@ -149,11 +135,11 @@
         {{ item.weapon.name }}
       </template>
 
-      <template v-slot:item.divisionId="{ item }">
+      <!-- <template v-slot:item.divisionId="{ item }">
         <events-divisions-label
           :division="item.division"
         />
-      </template>
+      </template> -->
 
       <template v-slot:item.hits="{ item }">
         <div class="hits-column">
@@ -358,12 +344,14 @@ export default {
         text: this.$t("columnLabelWeapon"),
         filter: this.weaponFilter,
         sortable: false
-      }, {
-        value: "divisionId",
-        text: "Standplassliste",
-        filter: this.divisionFilter,
-        sortable: false
-      }, {
+      },
+      // {
+      //   value: "divisionId",
+      //   text: "Standplassliste",
+      //   filter: this.divisionFilter,
+      //   sortable: false
+      // },
+      {
         value: "hits",
         text: "Treff",
         sortable: false
